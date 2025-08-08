@@ -41,7 +41,7 @@ def show_instructions():
         st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis greater than or equal to.\u201D Enter Search Term {The first Holding Number in the range}. Tap Add New.")
         st.markdown("5. Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis less than or equal to.\u201D Enter Search Term {The last Holding Number in the range}. Tap Add New.")
         st.image("images/image3.jpg") # C
-        st.markdown("8.  the red top bar, tap \u201CColumns\".  Change Possible Columns to \u201CHoldings Barcode\".  Tap ➡️. Do the same for \u201CCall Number\u201D, \u201CAuthor\u2019s name\u201D, \u201CPublication Date\u201D, \u201CCopyright\u201D, \u201CSeries Volume\u201D, \u201CSeries Title\u201D, and \u201CTitle\".  If you tap on \u201CSelected Columns\u201D, you should see all 7 fields.  Tap \u201CGenerate Report\".")
+        st.markdown("8.  the red top bar, tap \u201CColumns\".  Change Possible Columns to \u201CHoldings Barcode\".  Tap ➡️. Do the same for \u201CCall Number\u201D, \u201CAuthor's name\u201D, \u201CPublication Date\u201D, \u201CCopyright\u201D, \u201CSeries Volume\u201D, \u201CSeries Title\u201D, and \u201CTitle\".  If you tap on \u201CSelected Columns\u201D, you should see all 7 fields.  Tap \u201CGenerate Report\".")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
         st.markdown("9. Tap \u201CExport Report as CSV\".")
@@ -150,19 +150,16 @@ if uploaded_file and st.session_state.processed_df is None:
         progress_text = st.empty()
         
         with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = []
-            for i, row in df.iterrows():
-                title = row.get('Title', '').strip()
-                author = row.get("Author's Name", '').strip()
-                event = threading.Event()
-                futures.append(executor.submit(get_book_metadata, title, author, loc_cache, event))
+            futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
             
-            processed_data = []
+            processed_data = [None] * len(df)
             errors = []
-            for i, future in enumerate(as_completed(futures)):
+            for future in as_completed(futures):
+                i = futures[future]
                 lc_meta = future.result()
                 row = df.iloc[i]
                 title = row.get('Title', '').strip()
+                
                 entry = {
                     'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
                     'Title': title,
@@ -170,7 +167,7 @@ if uploaded_file and st.session_state.processed_df is None:
                     'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
                     'Series Title': row.get('Series Title', '').strip(),
                     'Series Volume': row.get('Series Volume', '').strip(),
-                    'Call Number': clean_call_number(row.get('Call Number', '').strip()),
+                    'Call Number': row.get('Call Number', '').strip(),
                 }
                 use_loc = False
                 if lc_meta and not lc_meta.get('error'):
@@ -191,7 +188,7 @@ if uploaded_file and st.session_state.processed_df is None:
 
                 entry['Call Number'] = clean_call_number(entry['Call Number'])
                 entry['✅ Use LoC'] = use_loc
-                processed_data.append(entry)
+                processed_data[i] = entry
                 progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
                 progress_bar.progress((i + 1) / len(df))
 
