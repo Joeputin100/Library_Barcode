@@ -192,6 +192,11 @@ if uploaded_file and st.session_state.processed_df is None:
             with st.expander("View Errors"):
                 for error in errors: st.write(error)
 
+    except Exception as e:
+        st.error(f"An error occurred during data processing: {e}")
+        st.exception(e)
+        st.session_state.processed_df = None
+
 if st.session_state.get('processed_df') is not None:
     st.subheader("Review and Edit Label Data")
     st.info(f"{SUGGESTION_FLAG} indicates data from the Library of Congress. Uncheck the box to revert to original.")
