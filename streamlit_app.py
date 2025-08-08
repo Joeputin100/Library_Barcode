@@ -45,50 +45,211 @@ if uploaded_file is not None:
         # Note: 'inventory_number' will be derived from 'Line Number' or 'Holdings Barcode'
         # 'publication_year' will be derived from 'Copyright' or 'Publication Date'
         
+        import re
+import requests
+from lxml import etree
+
+def extract_oldest_year(copyright_str, pub_date_str):
+    years = []
+    # Regex to find 4-digit numbers starting with 17, 18, 19, or 20
+    year_pattern = re.compile(r'\b(1[7-9]\d{2}|20\d{2})\b')
+
+    if copyright_str:
+        found_years = year_pattern.findall(str(copyright_str))
+        years.extend([int(y) for y in found_years])
+
+    if pub_date_str:
+        found_years = year_pattern.findall(str(pub_date_str))
+        years.extend([int(y) for y in found_years])
+
+    if years:
+        return str(min(years))
+    return ''
+
+def get_book_metadata(title, author):
+    """
+    Queries the Library of Congress API for MODS data to extract classification (FIC or DDC), 
+    series name, volume number, and additional metadata for a book.
+
+    Args:
+        title (str): The book title (e.g., "Death's End").
+        author (str): The author's name (e.g., "Cixin Liu").
+
+    Returns:
+        dict: Contains:
+            - classification: "FIC" (fiction) or DDC number (non-fiction), or "No DDC found".
+            - series_name: Series title or "No series found".
+            - volume_number: Volume number or "No volume found".
+            - publication_year: Publication year or "No year found".
+            - isbn: ISBN or "No ISBN found".
+            - error: Error message if query fails, else None.
+    """
+    # Format query parameters
+    title = title.replace(" ", "+").strip()
+    author = author.replace(" ", "+").strip()
+    url = (
+        f"http://z3950.loc.gov:7090/voyager?operation=searchRetrieve&version=1.1"
+        f"&query=bath.title=\"{title}\" + AND + bath.personalName=\"{author}\""
+        f"&recordSchema=mods&maximumRecords=10"
+    )
+
+    try:
+        # Send request to LC API
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raise exception for HTTP errors
+        xml = response.content
+
+        # Parse XML response
+        root = etree.fromstring(xml)
+        namespaces = {
+            "mods": "http://www.loc.gov/mods/v3",
+            "zs": "http://www.loc.gov/zing/srw/"
+        }
+
+        # Initialize result with default values
+        best_result = {
+            "classification": "No DDC found",
+            "series_name": "No series found",
+            "volume_number": "No volume found",
+            "publication_year": "No year found",
+            "isbn": "No ISBN found",
+            "error": None
+        }
+
+        # Track best record based on data completeness
+        best_score = 0  # Score based on fields present (DDC, series, volume)
+
+        # Iterate through records
+        for record in root.findall(".//zs:record/zs:recordData/mods:mods", namespaces):
+            result = best_result.copy()
+            score = 0
+
+            # Extract DDC and determine fiction/non-fiction
+            ddc = record.find(".//mods:classification[@authority='ddc']", namespaces)
+            ddc_number = ddc.text if ddc is not None else None
+            if ddc_number:
+                score += 2  # Higher weight for DDC
+
+            is_fiction = False
+            genre = record.find(".//mods:genre", namespaces)
+            subjects = record.findall(".//mods:subject/mods:topic", namespaces)
+            if genre is not None and any(term in genre.text.lower() for term in ["novel", "fiction"]):
+                is_fiction = True
+            elif any("fiction" in topic.text.lower() for topic in subjects):
+                is_fiction = True
+            elif ddc_number and (ddc_number.startswith("8") or ddc_number.startswith("89")) and ".5" in ddc_number:
+                is_fiction = True  # 800s or 895 (e.g., Chinese fiction) with .5x indicates fiction
+
+            result["classification"] = "FIC" if is_fiction else ddc_number or "No DDC found"
+
+            # Extract series name
+            series = record.find(".//mods:titleInfo[@type='series']/mods:title", namespaces)
+            if series is not None:
+                result["series_name"] = series.text
+                score += 1
+
+            # Extract volume number
+            volume = record.find(".//mods:titleInfo[@type='series']/mods:partNumber", namespaces)
+            if volume is None:
+                volume = record.find(".//mods:part/mods:detail[@type='volume']/mods:number", namespaces)
+            if volume is not None:
+                result["volume_number"] = volume.text
+                score += 1
+
+            # Extract publication year
+            year = record.find(".//mods:originInfo/mods:dateIssued", namespaces)
+            if year is not None:
+                result["publication_year"] = year.text
+                score += 1
+
+            # Extract ISBN
+            isbn = record.find(".//mods:identifier[@type='isbn']", namespaces)
+            if isbn is not None:
+                result["isbn"] = isbn.text
+                score += 1
+
+            # Update best result if this record has more data
+            if score > best_score:
+                best_score = score
+                best_result = result
+
+        return best_result
+
+    except requests.RequestException as e:
+        return {
+            "classification": "No DDC found",
+            "series_name": "No series found",
+            "volume_number": "No volume found",
+            "publication_year": "No year found",
+            "isbn": "No ISBN found",
+            "error": f"Error querying API: {str(e)}"
+        }
+    except etree.XMLSyntaxError:
+        return {
+            "classification": "No DDC found",
+            "series_name": "No series found",
+            "volume_number": "No volume found",
+            "publication_year": "No year found",
+            "isbn": "No ISBN found",
+            "error": "Error parsing XML response"
+        }
+    except Exception as e:
+        return {
+            "classification": "No DDC found",
+            "series_name": "No series found",
+            "volume_number": "No volume found",
+            "publication_year": "No year found",
+            "isbn": "No ISBN found",
+            "error": f"Unexpected error: {str(e)}"
+        }
+
         # Create a list to hold processed book data for the label generator
         processed_book_data = []
         
         for index, row in st.session_state.edited_df.iterrows():
             book_entry = {}
             
-            # Inventory Number (from 'Line Number' or 'Holdings Barcode')
-            if 'Line Number' in row and pd.notna(row['Line Number']):
-                book_entry['inventory_number'] = str(row['Line Number']).strip()
-            elif 'Holdings Barcode' in row and pd.notna(row['Holdings Barcode']):
-                book_entry['inventory_number'] = str(row['Holdings Barcode']).strip()
+            # Problem 1: Inventory Number (prioritize 'Holdings Barcode')
+            if 'Holdings Barcode' in row and pd.notna(row['Holdings Barcode']):
+                book_entry['Holdings Barcode'] = str(row['Holdings Barcode']).strip()
+            elif 'Line Number' in row and pd.notna(row['Line Number']):
+                book_entry['Holdings Barcode'] = str(row['Line Number']).strip()
             else:
-                book_entry['inventory_number'] = '' # Handle missing inventory number
+                book_entry['Holdings Barcode'] = '' # Handle missing inventory number
 
-            # Title
-            book_entry['title'] = str(row.get('Title', '')).strip()
+            # Problem 3: Ensure no 'nan' strings, use empty strings for nulls
+            # All assignments below use .get() with default '' and .strip() which handles this.
 
-            # Authors
-            book_entry['authors'] = str(row.get('Author\'s Name', '')).strip()
+            # Problem 5: Rename local script field names to match Atriuum field names
+            book_entry['Title'] = str(row.get('Title', '')).strip()
+            book_entry['Author\'s Name'] = str(row.get('Author\'s Name', '')).strip()
 
-            # Publication Year (from 'Copyright' or 'Publication Date')
-            pub_year = ''
-            if 'Copyright' in row and pd.notna(row['Copyright']):
-                try:
-                    pub_year = str(int(float(row['Copyright']))) # Handle cases like '2005.0'
-                except ValueError:
-                    pub_year = str(row['Copyright']).strip()
-            elif 'Publication Date' in row and pd.notna(row['Publication Date']):
-                # Attempt to extract year from date string (e.g., '1/1/2005')
-                date_str = str(row['Publication Date']).strip()
-                if len(date_str) >= 4 and date_str[-4:].isdigit():
-                    pub_year = date_str[-4:]
+            # Problem 2: Publication Year (oldest valid year from Copyright or Publication Date)
+            copyright_val = row.get('Copyright', '')
+            pub_date_val = row.get('Publication Date', '')
+            book_entry['Publication Year'] = extract_oldest_year(copyright_val, pub_date_val)
+
+            book_entry['Series Title'] = str(row.get('Series Title', '')).strip()
+            book_entry['Series Volume'] = str(row.get('Series Volume', '')).strip()
+            book_entry['Call Number'] = str(row.get('Call Number', '')).strip()
+
+            # New Feature: Suggested values for blank fields using LC API
+            # Only query if Title and Author are available and relevant fields are blank
+            if book_entry['Title'] and book_entry['Author\'s Name'] and \
+               (not book_entry['Series Title'] or not book_entry['Series Volume'] or not book_entry['Call Number']):
+                
+                st.write(f"Querying LC API for: {book_entry['Title']} by {book_entry['Author\'s Name']}") # Debugging
+                lc_metadata = get_book_metadata(book_entry['Title'], book_entry['Author\'s Name'])
+                
+                if lc_metadata['error']:
+                    st.warning(f"LC API Error for '{book_entry['Title']}': {lc_metadata['error']}")
                 else:
-                    pub_year = date_str
-            book_entry['publication_year'] = pub_year
-
-            # Series Name
-            book_entry['series_name'] = str(row.get('Series Title', '')).strip()
-
-            # Series Number (Volume)
-            book_entry['series_number'] = str(row.get('Series Volume', '')).strip()
-
-            # Dewey Number (Call Number)
-            book_entry['dewey_number'] = str(row.get('Call Number', '')).strip()
+                    if not book_entry['Series Title'] and lc_metadata['series_name'] != "No series found":
+                        book_entry['Suggested Series Title'] = lc_metadata['series_name']
+                    if not book_entry['Series Volume'] and lc_metadata['volume_number'] != "No volume found":
+                        book_entry['Suggested Series Volume'] = lc_metadata['volume_number']
+                    if not book_entry['Call Number'] and lc_metadata['classification'] != "No DDC found":
+                        book_entry['Suggested Call Number'] = lc_metadata['classification']
             
             processed_book_data.append(book_entry)
 
@@ -97,6 +258,7 @@ if uploaded_file is not None:
         # --- Editable Data Table ---
         st.subheader("Review and Edit Data")
         st.info("You can edit the cells directly in the table below. Changes will only affect the generated labels, not your original CSV file.")
+        st.info("Suggested values from the Library of Congress API are provided in separate columns. You can copy them into the main fields if desired.")
 
         # Convert processed_book_data back to DataFrame for editing
         editable_df = pd.DataFrame(st.session_state.processed_book_data)
@@ -116,21 +278,35 @@ if uploaded_file is not None:
             
             # Generate change log
             st.session_state.change_log = []
-            for col in st.session_state.original_df.columns:
-                if col in st.session_state.edited_df.columns: # Ensure column exists in edited_df
-                    diff = st.session_state.original_df[col] != st.session_state.edited_df[col]
-                    changed_rows = st.session_state.edited_df[diff]
+            # Iterate over all columns, including newly added suggested ones
+            for col in st.session_state.original_df.columns.union(st.session_state.edited_df.columns):
+                # Skip suggested columns for change tracking as they are not original data
+                if col.startswith('Suggested '):
+                    continue
+
+                # Check if column exists in both original and edited (it might be a new column in edited_df)
+                if col in st.session_state.original_df.columns and col in st.session_state.edited_df.columns:
+                    # Compare only rows that exist in both (handle row additions/deletions separately if needed)
+                    common_indices = st.session_state.original_df.index.intersection(st.session_state.edited_df.index)
                     
-                    for idx, row in changed_rows.iterrows():
+                    # Use .loc for consistent indexing and comparison
+                    original_series = st.session_state.original_df.loc[common_indices, col]
+                    edited_series = st.session_state.edited_df.loc[common_indices, col]
+
+                    # Compare and find differences, handling potential NaN/empty string differences
+                    diff = (original_series.fillna('') != edited_series.fillna(''))
+                    changed_rows_indices = common_indices[diff]
+                    
+                    for idx in changed_rows_indices:
                         original_val = st.session_state.original_df.loc[idx, col]
-                        edited_val = row[col]
+                        edited_val = st.session_state.edited_df.loc[idx, col]
                         
                         # Get inventory number for context
                         inventory_num = st.session_state.original_df.loc[idx, 'Line Number'] if 'Line Number' in st.session_state.original_df.columns else \
                                         st.session_state.original_df.loc[idx, 'Holdings Barcode'] if 'Holdings Barcode' in st.session_state.original_df.columns else 'N/A'
                         
                         st.session_state.change_log.append(
-                            f"For inventory number **{inventory_num}**, user changed **{col}** from `{original_val}` to `{edited_val}`."
+                            f"For inventory number **{inventory_num}**, user changed **{col}** from \`{original_val}\` to \`{edited_val}\`."
                         )
             
             # Update processed_book_data with edited values for label generation

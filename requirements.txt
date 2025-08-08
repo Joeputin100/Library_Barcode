@@ -3,3 +3,5 @@ pandas
 python-barcode
 qrcode
 reportlab
+requests
+lxml
