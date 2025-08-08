@@ -28,7 +28,7 @@ uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type=["csv"])
 
 if uploaded_file is not None:
     try:
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str)
         st.session_state.original_df = df.copy() # Store original for change tracking
         st.session_state.edited_df = df.copy() # Initialize edited_df
         st.session_state.changes_made = False
