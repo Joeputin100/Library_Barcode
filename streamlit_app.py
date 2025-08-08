@@ -59,7 +59,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\.\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
