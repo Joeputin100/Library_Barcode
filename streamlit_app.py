@@ -96,7 +96,7 @@ if uploaded_file is not None:
             entry = {
                 'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
                 'Title': row.get('Title', '').strip(),
-                'Author's Name': row.get('Author's Name', '').strip(),
+                "Author's Name": row.get("Author's Name", '').strip(),
                 'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
                 'Series Title': row.get('Series Title', '').strip(),
                 'Series Volume': row.get('Series Volume', '').strip(),
@@ -107,8 +107,8 @@ if uploaded_file is not None:
             }
             
             # Get suggestions if key fields are missing
-            if entry['Title'] and entry['Author's Name'] and (not entry['Series Title'] or not entry['Series Volume'] or not entry['Call Number']):
-                lc_meta = get_book_metadata(entry['Title'], entry['Author's Name'])
+            if entry['Title'] and entry["Author's Name"] and (not entry['Series Title'] or not entry['Series Volume'] or not entry['Call Number']):
+                lc_meta = get_book_metadata(entry['Title'], entry["Author's Name"])
                 if not lc_meta['error']:
                     if not entry['Series Title'] and lc_meta['series_name'] != "No series found":
                         entry['Suggested Series Title'] = lc_meta['series_name']
