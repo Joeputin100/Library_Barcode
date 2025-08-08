@@ -127,7 +127,7 @@ if uploaded_file is not None:
                         
                         st.session_state.change_log.append(
                             f"For inventory number **{inventory_num}**, user changed **{col}** from "
-                            f"`{original_val}`" to "`{edited_val}`"."
+                            f`{original_val}` to `{edited_val}`.
                         )
             
             # Update processed_book_data with edited values for label generation
