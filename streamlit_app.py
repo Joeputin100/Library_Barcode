@@ -32,15 +32,6 @@ def save_cache(cache):
 
 # --- Instruction Display Function ---
 def show_instructions():
-    # Custom CSS to change expander background color
-    st.markdown(r"""
-    <style>
-    .st-expander, .st-expander:hover {
-        background-color: #FFC0CB !important; /* Pink */
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
     with st.expander("How to Generate the CSV File from Atriuum on Android"):
         st.markdown("""1. Open Atriuum, login to your library, and tap on "Reports".""")
         st.image("images/image4.jpg") # D
