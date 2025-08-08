@@ -145,6 +145,7 @@ if uploaded_file and st.session_state.processed_df is None:
         df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
         st.success("CSV file read successfully!")
         st.write("**Debug: CSV Columns:**", df.columns.tolist()) # DEBUG LINE
+        st.write("**Debug: First 5 Rows of Call Numbers:**", df['Call Number'].head().tolist()) # DEBUG LINE
         loc_cache = load_cache()
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
