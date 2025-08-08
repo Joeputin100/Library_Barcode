@@ -189,6 +189,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 entry['Call Number'] = clean_call_number(entry['Call Number'])
                 entry['✅ Use LoC'] = use_loc
                 processed_data[i] = entry
+                st.text(f"Debug - Row {i+1} Call Number: {entry['Call Number']}") # DEBUG LINE
                 progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
                 progress_bar.progress((i + 1) / len(df))
 
