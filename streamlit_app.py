@@ -42,7 +42,7 @@ def show_instructions():
         st.markdown("8.  the red top bar, tap \"Columns\".  Change Possible Columns to \"Holdings Barcode\".  Tap ➡️. Do the same for \"Call Number\", \"Author’s name\", \"Publication Date\", \"Copyright\", \"Series Volume\", \"Series Title\", and \"Title\".  If you tap on \"Selected Columns\", you should see all 7 fields.  Tap \"Generate Report\"")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
-        st.markdown("9. Tap \"Export Report as CSV\"")
+        st.markdown("9. Tap \"Export Report as CSV\".")
         st.image("images/image7.jpg") # G
         st.markdown("10. Tap \"Download Exported Report\".  Save as a file name with a .CSV extension.")
         st.markdown("11. Locate the file in your device's 'Download' folder.")
@@ -57,7 +57,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\\d+(\\.\\d+)?)\\s', cleaned)
+    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -66,7 +66,7 @@ def extract_oldest_year(*date_strings):
     years = []
     for s in date_strings:
         if s and isinstance(s, str):
-            found_years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', s)
+            found_years = re.findall(r'(1[7-9]\d{2}|20\d{2})', s)
             if found_years:
                 years.extend([int(y) for y in found_years])
     return str(min(years)) if years else ""
@@ -103,7 +103,7 @@ def get_book_metadata(title, author, cache):
                 if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
                 pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
                 if pub_year_node is not None and pub_year_node.text:
-                    years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', pub_year_node.text)
+                    years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
                 cache[cache_key] = metadata
             return metadata # Success
@@ -159,7 +159,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
                 'Series Title': row.get('Series Title', '').strip(),
                 'Series Volume': row.get('Series Volume', '').strip(),
-                'Call Number': clean_call_number(row.get('Call Number', '').strip()),
+                'Call Number': row.get('Call Number', '').strip(),
             }
             use_loc = False
             if title and author:
@@ -179,7 +179,9 @@ if uploaded_file and st.session_state.processed_df is None:
                     if not entry['Publication Year'] and lc_meta['publication_year']:
                         entry['Publication Year'] = f"{SUGGESTION_FLAG}{lc_meta['publication_year']}"
                         use_loc = True
+            
             entry['Call Number'] = clean_call_number(entry['Call Number'])
+
             entry['✅ Use LoC'] = use_loc
             processed_data.append(entry)
             progress_bar.progress((i + 1) / total_rows)
