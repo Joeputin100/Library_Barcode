@@ -107,13 +107,13 @@ def create_label(c, x, y, book_data, label_type):
     book_data: dictionary containing book information
     label_type: 1, 2, 3, or 4
     """
-    title = book_data.get('title', '')
-    authors = book_data.get('authors', '')
-    publication_year = book_data.get('publication_year', '')
-    series_name = book_data.get('series_name', '')
-    series_number = book_data.get('series_number', '')
-    dewey_number = book_data.get('dewey_number', '')
-    inventory_number = pad_inventory_number(book_data.get('inventory_number', ''))
+    title = book_data.get('Title', '')
+    authors = book_data.get("Author's Name", '')
+    publication_year = book_data.get('Publication Year', '')
+    series_name = book_data.get('Series Title', '')
+    series_number = book_data.get('Series Volume', '')
+    dewey_number = book_data.get('Call Number', '')
+    inventory_number = pad_inventory_number(book_data.get('Holdings Barcode', ''))
 
     # Truncate title and series_name for Label 1 if they are too long
     if label_type == 1 or label_type == 2:
@@ -433,5 +433,3 @@ def read_book_data_from_csv(filepath):
             row['inventory_number'] = row['inventory_number'] if row['inventory_number'] else None
             book_data.append(row)
     return book_data
-
-

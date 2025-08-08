@@ -33,19 +33,19 @@ def save_cache(cache):
 # --- Instruction Display Function ---
 def show_instructions():
     with st.expander("How to Generate the CSV File from Atriuum on Android"):
-        st.markdown("""1. Open Atriuum, login to your library, and tap on \"Reports\".""")
+        st.markdown("1. Open Atriuum, login to your library, and tap on \"Reports\".")
         st.image("images/image4.jpg") # D
-        st.markdown("""2. Select 'Shelf List' from the report options.""")
-        st.markdown("""3. Configure the report as follows: On the left side of the window, Change Data type to \u201cHoldings Barcode.\u201d Change Qualifier to \u201cis greater than or equal to.\u201d Enter Search Term {The first Holding Number in the range}. Tap Add New.""")
-        st.markdown("""5. Change Data type to \u201cHoldings Barcode.\u201d Change Qualifier to \u201cis less than or equal to.\u201d Enter Search Term {The last Holding Number in the range}. Tap Add New.""")
+        st.markdown("2. Select 'Shelf List' from the report options.")
+        st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \u201cHoldings Barcode.\u201d Change Qualifier to \u201cis greater than or equal to.\u201d Enter Search Term {The first Holding Number in the range}. Tap Add New.")
+        st.markdown("5. Change Data type to \u201cHoldings Barcode.\u201d Change Qualifier to \u201cis less than or equal to.\u201d Enter Search Term {The last Holding Number in the range}. Tap Add New.")
         st.image("images/image3.jpg") # C
-        st.markdown("""8.  the red top bar, tap \u201cColumns\u201d.  Change Possible Columns to \u201cHoldings Barcode\".  Tap ➡️. Do the same for \u201cCall Number\u201d, \u201cAuthor\u2019s name\u201d, \u201cPublication Date\u201d, \u201cCopyright\u201d, \u201cSeries Volume\u201d, \u201cSeries Title\u201d, and \u201cTitle\".  If you tap on \u201cSelected Columns\u201d, you should see all 7 fields.  Tap \u201cGenerate Report\u201d.""")
+        st.markdown("8.  the red top bar, tap \u201cColumns\".  Change Possible Columns to \u201cHoldings Barcode\".  Tap ➡️. Do the same for \u201cCall Number\u201d, \u201cAuthor\u2019s name\u201d, \u201cPublication Date\u201d, \u201cCopyright\u201d, \u201cSeries Volume\u201d, \u201cSeries Title\u201d, and \u201cTitle\".  If you tap on \u201cSelected Columns\u201d, you should see all 7 fields.  Tap \u201cGenerate Report\".")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
-        st.markdown("""9. Tap \u201cExport Report as CSV\u201d.""")
+        st.markdown("9. Tap \u201cExport Report as CSV\".")
         st.image("images/image7.jpg") # G
-        st.markdown("""10. Tap \u201cDownload Exported Report\u201d.  Save as a file name with a .CSV extension.""")
-        st.markdown("""11. Locate the file in your device's 'Download' folder.""")
+        st.markdown("10. Tap \u201cDownload Exported Report\u201d.  Save as a file name with a .CSV extension.")
+        st.markdown("11. Locate the file in your device's 'Download' folder.")
 
 # --- Helper Functions ---
 def clean_call_number(call_num_str):
@@ -57,7 +57,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
+    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -160,7 +160,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
                 'Series Title': row.get('Series Title', '').strip(),
                 'Series Volume': row.get('Series Volume', '').strip(),
-                'Call Number': row.get('Call Number', '').strip(),
+                'Call Number': clean_call_number(row.get('Call Number', '').strip()),
             }
             use_loc = False
             if title and author:
