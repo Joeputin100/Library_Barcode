@@ -33,33 +33,19 @@ def save_cache(cache):
 # --- Instruction Display Function ---
 def show_instructions():
     with st.expander("How to Generate the CSV File from Atriuum on Android"):
-        st.markdown("""
-        1.  **Open Atriuum and go to the 'Reports' section.**
-        """)
+        st.markdown("**A.** Open Atriuum and go to the 'Reports' section.")
         st.image("images/image1.jpg")
-        st.markdown("""
-        2.  **Select 'Shelf List' from the report options.**
-        """)
+        st.markdown("**B.** Select 'Shelf List' from the report options.")
         st.image("images/image2.jpg")
-        st.markdown("""
-        3.  **Configure the report as follows:**
-            *   Set 'Format' to **CSV**.
-            *   Set 'Sort by' to **Call Number**.
-            *   Ensure the necessary fields are included.
-        """)
+        st.markdown("**C.** Configure the report as follows:")
         st.image("images/image3.jpg")
+        st.markdown("**D.** ...continued")
         st.image("images/image4.jpg")
-        st.markdown("""
-        4.  **Run the report.**
-        """)
+        st.markdown("**E.** Run the report.")
         st.image("images/image5.jpg")
-        st.markdown("""
-        5.  **Download the generated CSV file.**
-        """)
+        st.markdown("**F.** Download the generated CSV file.")
         st.image("images/image6.jpg")
-        st.markdown("""
-        6.  **Locate the file in your device's 'Download' folder.** You can then upload it here.
-        """)
+        st.markdown("**G.** Locate the file in your device's 'Download' folder.")
         st.image("images/image7.jpg")
 
 # --- Helper Functions ---
@@ -72,7 +58,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -87,10 +73,8 @@ def extract_oldest_year(*date_strings):
     return str(min(years)) if years else ""
 
 def get_book_metadata(title, author, cache):
-    # Sanitize inputs for the API query and cache key
     safe_title = re.sub(r'[^a-zA-Z0-9\\s]', '', title)
-    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author) # Keep commas for author names
-    
+    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
         return cache[cache_key]
@@ -99,32 +83,42 @@ def get_book_metadata(title, author, cache):
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
-    try:
-        time.sleep(1)
-        response = requests.get(base_url, params=params, timeout=30)
-        response.raise_for_status()
-        root = etree.fromstring(response.content)
-        ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
-        error_message = root.find('.//diag:message', ns_diag)
-        if error_message is not None:
-            metadata['error'] = f"API Error: {error_message.text}"
-        else:
-            ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
-            classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
-            if classification_node is not None: metadata['classification'] = classification_node.text.strip()
-            series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
-            if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
-            volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
-            if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
-            pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
-            if pub_year_node is not None and pub_year_node.text:
-                years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
-                if years: metadata['publication_year'] = str(min([int(y) for y in years]))
-            cache[cache_key] = metadata
-    except requests.exceptions.RequestException as e:
-        metadata['error'] = f"API request failed: {e}"
-    except Exception as e:
-        metadata['error'] = f"An unexpected error occurred: {e}"
+    
+    retry_delays = [5, 30, 60]
+    for i, delay in enumerate(retry_delays + [0]): # Add 0 for the initial attempt
+        if i > 0:
+            st.warning(f"API call failed. Retrying in {delay} seconds...")
+            time.sleep(delay)
+        try:
+            response = requests.get(base_url, params=params, timeout=30)
+            response.raise_for_status()
+            root = etree.fromstring(response.content)
+            ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
+            error_message = root.find('.//diag:message', ns_diag)
+            if error_message is not None:
+                metadata['error'] = f"API Error: {error_message.text}"
+            else:
+                ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
+                classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
+                if classification_node is not None: metadata['classification'] = classification_node.text.strip()
+                series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
+                if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
+                volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
+                if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
+                pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
+                if pub_year_node is not None and pub_year_node.text:
+                    years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
+                    if years: metadata['publication_year'] = str(min([int(y) for y in years]))
+                cache[cache_key] = metadata
+                return metadata # Success
+        except requests.exceptions.RequestException as e:
+            if i < len(retry_delays):
+                continue # Go to next retry
+            metadata['error'] = f"API request failed after multiple retries: {e}"
+        except Exception as e:
+            metadata['error'] = f"An unexpected error occurred: {e}"
+            break # Don't retry on unexpected errors
+
     return metadata
 
 # --- UI & Logic ---
@@ -244,4 +238,4 @@ if st.session_state.get('processed_df') is not None:
             st.success("PDF generated!")
             st.download_button("Download Labels PDF", pdf_bytes, "book_labels.pdf", "application/pdf")
             st.subheader("Printing Instructions for Avery 5160")
-            st.markdown("1. Open in Adobe Acrobat Reader.\n2. Go to `File > Print`.\n3. Under **Page Sizing & Handling**, select **\"Actual Size\"**.\n4. Print. **DO NOT** use \"Fit\" or \"Shrink\".")
+            st.markdown("1. Open in Adobe Acrobat Reader.\n2. Go to `File > Print`.\n3. Under **Page Sizing & Handling**, select **\"Actual Size\"**.\n4. Print. **DO NOT** use \"Fit\" or \"Shrink\"..)
