@@ -41,7 +41,7 @@ def show_instructions():
         st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis greater than or equal to.\u201D Enter Search Term {The first Holding Number in the range}. Tap Add New.")
         st.markdown("5. Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis less than or equal to.\u201D Enter Search Term {The last Holding Number in the range}. Tap Add New.")
         st.image("images/image3.jpg") # C
-        st.markdown("8.  the red top bar, tap \u201CColumns\u201D.  Change Possible Columns to \u201CHoldings Barcode\".  Tap ➡️. Do the same for \u201CCall Number\u201D, \u201CAuthor\u2019s name\u201D, \u201CPublication Date\u201D, \u201CCopyright\u201D, \u201CSeries Volume\u201D, \u201CSeries Title\u201D, and \u201CTitle\".  If you tap on \u201CSelected Columns\u201D, you should see all 7 fields.  Tap \u201CGenerate Report\".")
+        st.markdown("8.  the red top bar, tap \u201CColumns\".  Change Possible Columns to \u201CHoldings Barcode\".  Tap ➡️. Do the same for \u201CCall Number\u201D, \u201CAuthor\u2019s name\u201D, \u201CPublication Date\u201D, \u201CCopyright\u201D, \u201CSeries Volume\u201D, \u201CSeries Title\u201D, and \u201CTitle\".  If you tap on \u201CSelected Columns\u201D, you should see all 7 fields.  Tap \u201CGenerate Report\".")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
         st.markdown("9. Tap \u201CExport Report as CSV\".")
@@ -59,7 +59,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\\d+(\\.\\d+)?)\\', cleaned)
+    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -68,7 +68,7 @@ def extract_oldest_year(*date_strings):
     years = []
     for s in date_strings:
         if s and isinstance(s, str):
-            found_years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', s)
+            found_years = re.findall(r'(1[7-9]\d{2}|20\d{2})', s)
             if found_years:
                 years.extend([int(y) for y in found_years])
     return str(min(years)) if years else ""
@@ -105,7 +105,7 @@ def get_book_metadata(title, author, cache, event):
                 if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
                 pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
                 if pub_year_node is not None and pub_year_node.text:
-                    years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', pub_year_node.text)
+                    years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
                 cache[cache_key] = metadata
             event.set() # Signal completion
