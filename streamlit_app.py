@@ -59,7 +59,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\\.\\d+)?)\\', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -162,13 +162,13 @@ if uploaded_file and st.session_state.processed_df is None:
                 title = row.get('Title', '').strip()
                 
                 entry = {
-                    'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
-                    'Title': title,
-                    "Author's Name": row.get("Author's Name", '').strip(),
+                    'Holdings Barcode': row['Holdings Barcode'],
+                    'Title': row['Title'],
+                    "Author's Name": row["Author's Name"],
                     'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
-                    'Series Title': row.get('Series Title', '').strip(),
-                    'Series Volume': row.get('Series Volume', '').strip(),
-                    'Call Number': row.get('Call Number', '').strip(),
+                    'Series Title': row['Series Title'],
+                    'Series Volume': row['Series Volume'],
+                    'Call Number': row['Call Number'],
                 }
                 use_loc = False
                 if lc_meta and not lc_meta.get('error'):
