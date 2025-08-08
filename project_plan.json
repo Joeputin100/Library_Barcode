@@ -1,0 +1,50 @@
+{
+    "project_name": "Book Label Generator",
+    "output_format": "PDF",
+    "printing_environment": "Acrobat Reader on Windows 10",
+    "label_type": "Avery 5160 (2.625" x 1")",
+    "labels_per_book": 4,
+    "inventory_number_format": "6 digits, padded with leading zeros",
+    "barcode_symbology": "Code 128",
+    "qr_code_content": "Inventory Number Only",
+    "development_environment": "Termux on Android",
+    "plan": [
+        {
+            "phase": "Library Selection",
+            "details": [
+                "Barcode/QR Code: python-barcode (for Code 128), qrcode (for QR codes)",
+                "PDF Generation: reportlab"
+            ]
+        },
+        {
+            "phase": "Data Structure Definition",
+            "details": "Define a Python dictionary or class for book data (title, authors, publication year, series name, series number, Dewey number, inventory number)."
+        },
+        {
+            "phase": "Label Layout and Content Generation",
+            "details": [
+                "Label 1 (Full Info): Title, authors, publication year, series name (if present), series number (if present), Dewey number, inventory number (text). Standard text, fit all fields.",
+                "Label 2 (QR Code Focus): Title, author, series name (if present), series number (if present), inventory number (text), inventory number (QR code - half label).",
+                "Label 3 (Spine Label): Dewey number, first 3 letters of author's name, publication year, inventory number. Each field on a new line, all text horizontally centered.",
+                "Label 4 (Barcode Focus): Title, author, series name (if present), series number (if present), inventory number (text), inventory number (barcode - 75% of label)."
+            ]
+        },
+        {
+            "phase": "Core Script Development (label_generator.py)",
+            "details": [
+                "Function: generate_barcode(inventory_num) -> Code 128 barcode image.",
+                "Function: generate_qrcode(inventory_num) -> QR code image.",
+                "Function: create_label(book_data, label_type) -> Render content for a single label (types 1-4), including padding inventory numbers.",
+                "Function: generate_pdf_sheet(list_of_book_data) -> Arrange 30 labels (Avery 5160 layout) onto a PDF page, generating 4 labels per book.",
+                "Main execution block: Load dummy data, call generate_pdf_sheet, save PDF."
+            ]
+        },
+        {
+            "phase": "Testing Strategy",
+            "details": [
+                "Visually inspect generated PDF for correct layout, content, and centering.",
+                "Scan barcodes and QR codes with a reader app to verify readability."
+            ]
+        }
+    ]
+}

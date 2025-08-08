@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Label Generator</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #controls { margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; }
+        #settings { margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9; }
+        .setting-group { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 5px; background-color: #fff; }
+        .setting-group h3 { margin-top: 0; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="number"] { width: 80px; padding: 5px; margin-bottom: 10px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        iframe { width: 100%; height: 800px; border: 1px solid #ccc; }
+    </style>
+    
+    <!-- JsBarcode -->
+    <script>
+/*! JsBarcode v3.11.5 | (c) Johan Lindell | MIT license */ !function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=15)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});e.default=function t(e,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.data=e,this.text=n.text||e,this.options=n}},function(t,e,n){"use strict";var r;function o(t,e,n){return e in t?Object.defineProperty(t,e,{value:n,enumerable:!0,configurable:!0,writable:!0}):t[e]=n,t}Object.defineProperty(e,"__esModule",{value:!0});var i=e.SET_A=0,a=e.SET_B=1,u=e.SET_C=2,f=(e.SHIFT=98,e.START_A=103),c=e.START_B=104,s=e.START_C=105;e.MODULO=103,e.STOP=106,e.FNC1=207,e.SET_BY_CODE=(o(r={},f,i),o(r,c,a),o(r,s,u),r),e.SWAP={101:i,100:a,99:u},e.A_START_CHAR=String.fromCharCode(208),e.B_START_CHAR=String.fromCharCode(209),e.C_START_CHAR=String.fromCharCode(210),e.A_CHARS="[\0-_È-Ï]",e.B_CHARS="[ -È-Ï]",e.C_CHARS="(Ï*[0-9]{2}Ï*)",e.BARS=[11011001100,11001101100,11001100110,10010011e3,10010001100,10001001100,10011001e3,10011000100,10001100100,11001001e3,11001000100,11000100100,10110011100,10011011100,10011001110,10111001100,10011101100,10011100110,11001110010,11001011100,11001001110,11011100100,11001110100,11101101110,11101001100,11100101100,11100100110,11101100100,11100110100,11100110010,11011011e3,11011000110,11000110110,10100011e3,10001011e3,10001000110,10110001e3,10001101e3,10001100010,11010001e3,11000101e3,11000100010,10110111e3,10110001110,10001101110,10111011e3,10111000110,10001110110,11101110110,11010001110,11000101110,11011101e3,11011100010,11011101110,11101011e3,11101000110,11100010110,11101101e3,11101100010,11100011010,11101111010,11001000010,11110001010,1010011e4,10100001100,1001011e4,10010000110,10000101100,10000100110,1011001e4,10110000100,1001101e4,10011000010,10000110100,10000110010,11000010010,1100101e4,11110111010,11000010100,10001111010,10100111100,10010111100,10010011110,10111100100,10011110100,10011110010,11110100100,11110010100,11110010010,11011011110,11011110110,11110110110,10101111e3,10100011110,10001011110,10111101e3,10111100010,11110101e3,11110100010,10111011110,10111101110,11101011110,11110101110,11010000100,1101001e4,11010011100,1100011101011]},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});e.SIDE_BIN="101",e.MIDDLE_BIN="01010",e.BINARIES={L:["0001101","0011001","0010011","0111101","0100011","0110001","0101111","0111011","0110111","0001011"],G:["0100111","0110011","0011011","0100001","0011101","0111001","0000101","0010001","0001001","0010111"],R:["1110010","1100110","1101100","1000010","1011100","1001110","1010000","1000100","1001000","1110100"],O:["0001101","0011001","0010011","0111101","0100011","0110001","0101111","0111011","0110111","0001011"],E:["0100111","0110011","0011011","0100001","0011101","0111001","0000101","0010001","0001001","0010111"]},e.EAN2_STRUCTURE=["LL","LG","GL","GG"],e.EAN5_STRUCTURE=["GGLLL","GLGLL","GLLGL","GLLLG","LGGLL","LLGGL","LLLGG","LGLGL","LGLLG","LLGLG"],e.EAN13_STRUCTURE=["LLLLLL","LLGLGG","LLGGLG","LLGGGL","LGLLGG","LGGLLG","LGGGLL","LGLGLG","LGLGGL","LGGLGL"]},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=n(2);e.default=function(t,e,n){var o=t.split("").map((function(t,n){return r.BINARIES[e[n]]})).map((function(e,n){return e?e[t[n]]:""}));if(n){var i=t.length-1;o=o.map((function(t,e){return e=200){i=t.shift()-105;var a=u.SWAP[i];void 0!==a?o=e.next(t,n+1,a):(r!==u.SET_A&&r!==u.SET_B||i!==u.SHIFT||(t[0]=r===u.SET_A?t[0]>95?t[0]-96:t[0]:t[0]<32?t[0]+96:t[0]),o=e.next(t,n+1,r))}else i=e.correctIndex(t,r),o=e.next(t,n+1,r);var f=i*n;return{result:e.getBar(i)+o.result,checksum:f+o.checksum}}}]),e}(a.default);e.default=f},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.mod10=function(t){for(var e=0,n=0;n10*n.width?10*n.width:n.fontSize,r.guardHeight=n.height+r.fontSize/2+n.textMargin,r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,t),r(e,[{key:"encode",value:function(){return this.options.flat?this.encodeFlat():this.encodeGuarded()}},{key:"leftText",value:function(t,e){return this.text.substr(t,e)}},{key:"leftEncode",value:function(t,e){return(0,i.default)(t,e)}},{key:"rightText",value:function(t,e){return this.text.substr(t,e)}},{key:"rightEncode",value:function(t,e){return(0,i.default)(t,e)}},{key:"encodeGuarded",value:function(){var t={fontSize:this.fontSize},e={height:this.guardHeight};return[{data:o.SIDE_BIN,options:e},{data:this.leftEncode(),text:this.leftText(),options:t},{data:o.MIDDLE_BIN,options:e},{data:this.rightEncode(),text:this.rightText(),options:t},{data:o.SIDE_BIN,options:e}]}},{key:"encodeFlat",value:function(){return{data:[o.SIDE_BIN,this.leftEncode(),o.MIDDLE_BIN,this.rightEncode(),o.SIDE_BIN].join(""),text:this.text}}}]),e}(a(n(0)).default);e.default=u},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n10*n.width?r.fontSize=10*n.width:r.fontSize=n.fontSize,r.guardHeight=n.height+r.fontSize/2+n.textMargin,r}return function(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:!1,writable:!0,configurable:!0}}),e&&(Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e)}(e,t),r(e,[{key:"valid",value:function(){return-1!==this.data.search(/^[0-9]{12}$/)&&this.data[11]==u(this.data)}},{key:"encode",value:function(){return this.options.flat?this.flatEncoding():this.guardedEncoding()}},{key:"flatEncoding",value:function(){var t="";return t+="101",t+=(0,o.default)(this.data.substr(0,6),"LLLLLL"),t+="01010",t+=(0,o.default)(this.data.substr(6,6),"RRRRRR"),{data:t+="101",text:this.text}}},{key:"guardedEncoding",value:function(){var t=[];return this.displayValue&&t.push({data:"00000000",text:this.text.substr(0,1),options:{textAlign:"left",fontSize:this.fontSize}}),t.push({data:"101"+(0,o.default)(this.data[0],"L"),options:{height:this.guardHeight}}),t.push({data:(0,o.default)(this.data.substr(1,5),"LLLLL"),text:this.text.substr(1,5),options:{fontSize:this.fontSize}}),t.push({data:"01010",options:{height:this.guardHeight}}),t.push({data:(0,o.default)(this.data.substr(6,5),"RRRRR"),text:this.text.substr(6,5),options:{fontSize:this.fontSize}}),t.push({data:(0,o.default)(this.data[11],"R")+"101",options:{height:this.guardHeight}}),this.displayValue&&t.push({data:"00000000",text:this.text.substr(11,1),options:{textAlign:"right",fontSize:this.fontSize}}),t}}]),e}(i(n(0)).default);function u(t){var e,n=0;for(e=1;e<11;e+=2)n+=parseInt(t[e]);for(e=0;e<11;e+=2)n+=3*parseInt(t[e]);return(10-n%10)%10}e.default=a},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,o=function(){function t(t,e){for(var n=0;n0?e.fontSize+e.textMargin:0)+e.marginTop+e.marginBottom}function u(t,e,n){if(n.displayValue&&ee&&(e=t[n].height);return e},e.getEncodingHeight=a,e.getBarcodePadding=u,e.calculateEncodingAttributes=function(t,e,n){for(var r=0;r=i(t);return e+String.fromCharCode(r?206:205)+u(t,r)}e.default=function(t){var e=void 0;if(a(t).length>=2)e=r.C_START_CHAR+f(t);else{var n=o(t)>i(t);e=(n?r.A_START_CHAR:r.B_START_CHAR)+u(t,n)}return e.replace(/[\xCD\xCE]([^])[\xCD\xCE]/,(function(t,e){return String.fromCharCode(203)+e}))}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,o=function(){function t(t,e){for(var n=0;n0?(n=0,o.textAlign="left"):"right"==t.textAlign?(n=e.width-1,o.textAlign="right"):(n=e.width/2,o.textAlign="center"),o.fillText(e.text,n,r))}},{key:"moveCanvasDrawing",value:function(t){this.canvas.getContext("2d").translate(t.width,0)}},{key:"restoreCanvas",value:function(){this.canvas.getContext("2d").restore()}}]),t}();e.default=f},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r,o=function(){function t(t,e){for(var n=0;n0&&(this.drawRect(a-e.width*i,r,e.width*i,e.height,t),i=0);i>0&&this.drawRect(a-e.width*(i-1),r,e.width*i,e.height,t)}},{key:"drawSVGText",value:function(t,e,n){var r,o,i=this.document.createElementNS(f,"text");e.displayValue&&(i.setAttribute("style","font:"+e.fontOptions+" "+e.fontSize+"px "+e.font),o="top"==e.textPosition?e.fontSize-e.textMargin:e.height+e.textMargin+e.fontSize,"left"==e.textAlign||n.barcodePadding>0?(r=0,i.setAttribute("text-anchor","start")):"right"==e.textAlign?(r=n.width-1,i.setAttribute("text-anchor","end")):(r=n.width/2,i.setAttribute("text-anchor","middle")),i.setAttribute("x",r),i.setAttribute("y",o),i.appendChild(this.document.createTextNode(n.text)),t.appendChild(i))}},{key:"setSvgAttributes",value:function(t,e){var n=this.svg;n.setAttribute("width",t+"px"),n.setAttribute("height",e+"px"),n.setAttribute("x","0px"),n.setAttribute("y","0px"),n.setAttribute("viewBox","0 0 "+t+" "+e),n.setAttribute("xmlns",f),n.setAttribute("version","1.1"),n.setAttribute("style","transform: translate(0,0)")}},{key:"createGroup",value:function(t,e,n){var r=this.document.createElementNS(f,"g");return r.setAttribute("transform","translate("+t+", "+e+")"),n.appendChild(r),r}},{key:"setGroupOptions",value:function(t,e){t.setAttribute("style","fill:"+e.lineColor+";")}},{key:"drawRect",value:function(t,e,n,r,o){var i=this.document.createElementNS(f,"rect");return i.setAttribute("x",t),i.setAttribute("y",e),i.setAttribute("width",n),i.setAttribute("height",r),o.appendChild(i),i}}]),t}();e.default=c},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=function(){function t(t,e){for(var n=0;n
+</script>
+    <!-- qrcode.js -->
+    <script>
+var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this.parsedData=[];for(var b=[],d=0,e=this.data.length;e>d;d++){var f=this.data.charCodeAt(d);f>65536?(b[0]=240|(1835008&f)>>>18,b[1]=128|(258048&f)>>>12,b[2]=128|(4032&f)>>>6,b[3]=128|63&f):f>2048?(b[0]=224|(61440&f)>>>12,b[1]=128|(4032&f)>>>6,b[2]=128|63&f):b[0]=f,this.parsedData=this.parsedData.concat(b)}this.parsedData.length!=this.data.length&&(this.parsedData.unshift(191),this.parsedData.unshift(187),this.parsedData.unshift(239))}function b(a,b){this.typeNumber=a,this.errorCorrectLevel=b,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}function i(a,b){if(void 0==a.length)throw new Error(a.length+"/"+b);for(var c=0;c=f;f++){var h=0;switch(b){case d.L:h=l[f][0];break;case d.M:h=l[f][1];break;case d.Q:h=l[f][2];break;case d.H:h=l[f][3]}if(h>=e)break;c++}if(c>l.length)throw new Error("Too long data");return c}function s(a){var b=encodeURI(a).toString().replace(/\%[0-9a-fA-F]{2}/g,"a");return b.length+(b.length!=a?3:0)}a.prototype={getLength:function(){return this.parsedData.length},write:function(a){for(var b=0,c=this.parsedData.length;c>b;b++)a.put(this.parsedData[b],8)}},b.prototype={addData:function(b){var c=new a(b);this.dataList.push(c),this.dataCache=null},isDark:function(a,b){if(0>a||this.moduleCount<=a||0>b||this.moduleCount<=b)throw new Error(a+","+b);return this.modules[a][b]},getModuleCount:function(){return this.moduleCount},make:function(){this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(a,c){this.moduleCount=4*this.typeNumber+17,this.modules=new Array(this.moduleCount);for(var d=0;d=7&&this.setupTypeNumber(a),null==this.dataCache&&(this.dataCache=b.createData(this.typeNumber,this.errorCorrectLevel,this.dataList)),this.mapData(this.dataCache,c)},setupPositionProbePattern:function(a,b){for(var c=-1;7>=c;c++)if(!(-1>=a+c||this.moduleCount<=a+c))for(var d=-1;7>=d;d++)-1>=b+d||this.moduleCount<=b+d||(this.modules[a+c][b+d]=c>=0&&6>=c&&(0==d||6==d)||d>=0&&6>=d&&(0==c||6==c)||c>=2&&4>=c&&d>=2&&4>=d?!0:!1)},getBestMaskPattern:function(){for(var a=0,b=0,c=0;8>c;c++){this.makeImpl(!0,c);var d=f.getLostPoint(this);(0==c||a>d)&&(a=d,b=c)}return b},createMovieClip:function(a,b,c){var d=a.createEmptyMovieClip(b,c),e=1;this.make();for(var f=0;f=g;g++)for(var h=-2;2>=h;h++)this.modules[d+g][e+h]=-2==g||2==g||-2==h||2==h||0==g&&0==h?!0:!1}},setupTypeNumber:function(a){for(var b=f.getBCHTypeNumber(this.typeNumber),c=0;18>c;c++){var d=!a&&1==(1&b>>c);6>e?this.modules[e][8]=g:8>e?this.modules[e+1][8]=g:this.modules[this.moduleCount-15+e][8]=g}for(var e=0;15>e;e++){var g=!a&&1==(1&d>>e);8>e?this.modules[8][this.moduleCount-e-1]=g:9>e?this.modules[8][15-e-1+1]=g:this.modules[8][15-e-1]=g}this.modules[this.moduleCount-8][8]=!a},mapData:function(a,b){for(var c=-1,d=this.moduleCount-1,e=7,g=0,h=this.moduleCount-1;h>0;h-=2)for(6==h&&h--;;){for(var i=0;2>i;i++)if(null==this.modules[d][h-i]){var j=!1;g>>e));var k=f.getMask(b,d,h-i);k&&(j=!j),this.modules[d][h-i]=j,e--,-1==e&&(g++,e=7)}if(d+=c,0>d||this.moduleCount<=d){d-=c,c=-c;break}}}},b.PAD0=236,b.PAD1=17,b.createData=function(a,c,d){for(var e=j.getRSBlocks(a,c),g=new k,h=0;h8*l)throw new Error("code length overflow. ("+g.getLengthInBits()+">"+8*l+")");for(g.getLengthInBits()+4<=8*l&&g.put(0,4);0!=g.getLengthInBits()%8;)g.putBit(!1);for(;;){if(g.getLengthInBits()>=8*l)break;if(g.put(b.PAD0,8),g.getLengthInBits()>=8*l)break;g.put(b.PAD1,8)}return b.createBytes(g,e)},b.createBytes=function(a,b){for(var c=0,d=0,e=0,g=new Array(b.length),h=new Array(b.length),j=0;j=0?p.get(q):0}}for(var r=0,m=0;mm;m++)for(var j=0;jm;m++)for(var j=0;j=0;)b^=f.G15<=0;)b^=f.G18<>>=1;return b},getPatternPosition:function(a){return f.PATTERN_POSITION_TABLE[a-1]},getMask:function(a,b,c){switch(a){case e.PATTERN000:return 0==(b+c)%2;case e.PATTERN001:return 0==b%2;case e.PATTERN010:return 0==c%3;case e.PATTERN011:return 0==(b+c)%3;case e.PATTERN100:return 0==(Math.floor(b/2)+Math.floor(c/3))%2;case e.PATTERN101:return 0==b*c%2+b*c%3;case e.PATTERN110:return 0==(b*c%2+b*c%3)%2;case e.PATTERN111:return 0==(b*c%3+(b+c)%2)%2;default:throw new Error("bad maskPattern:"+a)}},getErrorCorrectPolynomial:function(a){for(var b=new i([1],0),c=0;a>c;c++)b=b.multiply(new i([1,g.gexp(c)],0));return b},getLengthInBits:function(a,b){if(b>=1&&10>b)switch(a){case c.MODE_NUMBER:return 10;case c.MODE_ALPHA_NUM:return 9;case c.MODE_8BIT_BYTE:return 8;case c.MODE_KANJI:return 8;default:throw new Error("mode:"+a)}else if(27>b)switch(a){case c.MODE_NUMBER:return 12;case c.MODE_ALPHA_NUM:return 11;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 10;default:throw new Error("mode:"+a)}else{if(!(41>b))throw new Error("type:"+b);switch(a){case c.MODE_NUMBER:return 14;case c.MODE_ALPHA_NUM:return 13;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 12;default:throw new Error("mode:"+a)}}},getLostPoint:function(a){for(var b=a.getModuleCount(),c=0,d=0;b>d;d++)for(var e=0;b>e;e++){for(var f=0,g=a.isDark(d,e),h=-1;1>=h;h++)if(!(0>d+h||d+h>=b))for(var i=-1;1>=i;i++)0>e+i||e+i>=b||(0!=h||0!=i)&&g==a.isDark(d+h,e+i)&&f++;f>5&&(c+=3+f-5)}for(var d=0;b-1>d;d++)for(var e=0;b-1>e;e++){var j=0;a.isDark(d,e)&&j++,a.isDark(d+1,e)&&j++,a.isDark(d,e+1)&&j++,a.isDark(d+1,e+1)&&j++,(0==j||4==j)&&(c+=3)}for(var d=0;b>d;d++)for(var e=0;b-6>e;e++)a.isDark(d,e)&&!a.isDark(d,e+1)&&a.isDark(d,e+2)&&a.isDark(d,e+3)&&a.isDark(d,e+4)&&!a.isDark(d,e+5)&&a.isDark(d,e+6)&&(c+=40);for(var e=0;b>e;e++)for(var d=0;b-6>d;d++)a.isDark(d,e)&&!a.isDark(d+1,e)&&a.isDark(d+2,e)&&a.isDark(d+3,e)&&a.isDark(d+4,e)&&!a.isDark(d+5,e)&&a.isDark(d+6,e)&&(c+=40);for(var k=0,e=0;b>e;e++)for(var d=0;b>d;d++)a.isDark(d,e)&&k++;var l=Math.abs(100*k/b/b-50)/5;return c+=10*l}},g={glog:function(a){if(1>a)throw new Error("glog("+a+")");return g.LOG_TABLE[a]},gexp:function(a){for(;0>a;)a+=255;for(;a>=256;)a-=255;return g.EXP_TABLE[a]},EXP_TABLE:new Array(256),LOG_TABLE:new Array(256)},h=0;8>h;h++)g.EXP_TABLE[h]=1<h;h++)g.EXP_TABLE[h]=g.EXP_TABLE[h-4]^g.EXP_TABLE[h-5]^g.EXP_TABLE[h-6]^g.EXP_TABLE[h-8];for(var h=0;255>h;h++)g.LOG_TABLE[g.EXP_TABLE[h]]=h;i.prototype={get:function(a){return this.num[a]},getLength:function(){return this.num.length},multiply:function(a){for(var b=new Array(this.getLength()+a.getLength()-1),c=0;cf;f++)for(var g=c[3*f+0],h=c[3*f+1],i=c[3*f+2],k=0;g>k;k++)e.push(new j(h,i));return e},j.getRsBlockTable=function(a,b){switch(b){case d.L:return j.RS_BLOCK_TABLE[4*(a-1)+0];case d.M:return j.RS_BLOCK_TABLE[4*(a-1)+1];case d.Q:return j.RS_BLOCK_TABLE[4*(a-1)+2];case d.H:return j.RS_BLOCK_TABLE[4*(a-1)+3];default:return void 0}},k.prototype={get:function(a){var b=Math.floor(a/8);return 1==(1&this.buffer[b]>>>7-a%8)},put:function(a,b){for(var c=0;b>c;c++)this.putBit(1==(1&a>>>b-c-1))},getLengthInBits:function(){return this.length},putBit:function(a){var b=Math.floor(this.length/8);this.buffer.length<=b&&this.buffer.push(0),a&&(this.buffer[b]|=128>>>this.length%8),this.length++}};var l=[[17,14,11,7],[32,26,20,14],[53,42,32,24],[78,62,46,34],[106,84,60,44],[134,106,74,58],[154,122,86,64],[192,152,108,84],[230,180,130,98],[271,213,151,119],[321,251,177,137],[367,287,203,155],[425,331,241,177],[458,362,258,194],[520,412,292,220],[586,450,322,250],[644,504,364,280],[718,560,394,310],[792,624,442,338],[858,666,482,382],[929,711,509,403],[1003,779,565,439],[1091,857,611,461],[1171,911,661,511],[1273,997,715,535],[1367,1059,751,593],[1465,1125,805,625],[1528,1190,868,658],[1628,1264,908,698],[1732,1370,982,742],[1840,1452,1030,790],[1952,1538,1112,842],[2068,1628,1168,898],[2188,1722,1228,958],[2303,1809,1283,983],[2431,1911,1351,1051],[2563,1989,1423,1093],[2699,2099,1499,1139],[2809,2213,1579,1219],[2953,2331,1663,1273]],o=function(){var a=function(a,b){this._el=a,this._htOption=b};return a.prototype.draw=function(a){function g(a,b){var c=document.createElementNS("http://www.w3.org/2000/svg",a);for(var d in b)b.hasOwnProperty(d)&&c.setAttribute(d,b[d]);return c}var b=this._htOption,c=this._el,d=a.getModuleCount();Math.floor(b.width/d),Math.floor(b.height/d),this.clear();var h=g("svg",{viewBox:"0 0 "+String(d)+" "+String(d),width:"100%",height:"100%",fill:b.colorLight});h.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:xlink","http://www.w3.org/1999/xlink"),c.appendChild(h),h.appendChild(g("rect",{fill:b.colorDark,width:"1",height:"1",id:"template"}));for(var i=0;d>i;i++)for(var j=0;d>j;j++)if(a.isDark(i,j)){var k=g("use",{x:String(i),y:String(j)});k.setAttributeNS("http://www.w3.org/1999/xlink","href","#template"),h.appendChild(k)}},a.prototype.clear=function(){for(;this._el.hasChildNodes();)this._el.removeChild(this._el.lastChild)},a}(),p="svg"===document.documentElement.tagName.toLowerCase(),q=p?o:m()?function(){function a(){this._elImage.src=this._elCanvas.toDataURL("image/png"),this._elImage.style.display="block",this._elCanvas.style.display="none"}function d(a,b){var c=this;if(c._fFail=b,c._fSuccess=a,null===c._bSupportDataURI){var d=document.createElement("img"),e=function(){c._bSupportDataURI=!1,c._fFail&&_fFail.call(c)},f=function(){c._bSupportDataURI=!0,c._fSuccess&&c._fSuccess.call(c)};return d.onabort=e,d.onerror=e,d.onload=f,d.src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",void 0}c._bSupportDataURI===!0&&c._fSuccess?c._fSuccess.call(c):c._bSupportDataURI===!1&&c._fFail&&c._fFail.call(c)}if(this._android&&this._android<=2.1){var b=1/window.devicePixelRatio,c=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(a,d,e,f,g,h,i,j){if("nodeName"in a&&/img/i.test(a.nodeName))for(var l=arguments.length-1;l>=1;l--)arguments[l]=arguments[l]*b;else"undefined"==typeof j&&(arguments[1]*=b,arguments[2]*=b,arguments[3]*=b,arguments[4]*=b);c.apply(this,arguments)}var e=function(a,b){this._bIsPainted=!1,this._android=n(),this._htOption=b,this._elCanvas=document.createElement("canvas"),this._elCanvas.width=b.width,this._elCanvas.height=b.height,a.appendChild(this._elCanvas),this._el=a,this._oContext=this._elCanvas.getContext("2d"),this._bIsPainted=!1,this._elImage=document.createElement("img"),this._elImage.style.display="none",this._el.appendChild(this._elImage),this._bSupportDataURI=null};return e.prototype.draw=function(a){var b=this._elImage,c=this._oContext,d=this._htOption,e=a.getModuleCount(),f=d.width/e,g=d.height/e,h=Math.round(f),i=Math.round(g);b.style.display="none",this.clear();for(var j=0;e>j;j++)for(var k=0;e>k;k++){var l=a.isDark(j,k),m=k*f,n=j*g;c.strokeStyle=l?d.colorDark:d.colorLight,c.lineWidth=1,c.fillStyle=l?d.colorDark:d.colorLight,c.fillRect(m,n,f,g),c.strokeRect(Math.floor(m)+.5,Math.floor(n)+.5,h,i),c.strokeRect(Math.ceil(m)-.5,Math.ceil(n)-.5,h,i)}this._bIsPainted=!0},e.prototype.makeImage=function(){this._bIsPainted&&d.call(this,a)},e.prototype.isPainted=function(){return this._bIsPainted},e.prototype.clear=function(){this._oContext.clearRect(0,0,this._elCanvas.width,this._elCanvas.height),this._bIsPainted=!1},e.prototype.round=function(a){return a?Math.floor(1e3*a)/1e3:a},e}():function(){var a=function(a,b){this._el=a,this._htOption=b};return a.prototype.draw=function(a){for(var b=this._htOption,c=this._el,d=a.getModuleCount(),e=Math.floor(b.width/d),f=Math.floor(b.height/d),g=['
+
+'],h=0;d>h;h++){g.push("");for(var i=0;d>i;i++)g.push('');g.push("")}g.push("
+
+"),c.innerHTML=g.join("");var j=c.childNodes[0],k=(b.width-j.offsetWidth)/2,l=(b.height-j.offsetHeight)/2;k>0&&l>0&&(j.style.margin=l+"px "+k+"px")},a.prototype.clear=function(){this._el.innerHTML=""},a}();QRCode=function(a,b){if(this._htOption={width:256,height:256,typeNumber:4,colorDark:"#000000",colorLight:"#ffffff",correctLevel:d.H},"string"==typeof b&&(b={text:b}),b)for(var c in b)this._htOption[c]=b[c];"string"==typeof a&&(a=document.getElementById(a)),this._android=n(),this._el=a,this._oQRCode=null,this._oDrawing=new q(this._el,this._htOption),this._htOption.text&&this.makeCode(this._htOption.text)},QRCode.prototype.makeCode=function(a){this._oQRCode=new b(r(a,this._htOption.correctLevel),this._htOption.correctLevel),this._oQRCode.addData(a),this._oQRCode.make(),this._el.title=a,this._oDrawing.draw(this._oQRCode),this.makeImage()},QRCode.prototype.makeImage=function(){"function"==typeof this._oDrawing.makeImage&&(!this._android||this._android>=3)&&this._oDrawing.makeImage()},QRCode.prototype.clear=function(){this._oDrawing.clear()},QRCode.CorrectLevel=d}();
+</script>
+</head>
+<body>
+    <h1>Book Label Generator</h1>
+
+    <div id="controls">
+        <label for="csvFile">Upload books.csv:</label>
+        <input type="file" id="csvFile" accept="text/csv">
+        <button id="generateBtn">Generate Labels</button>
+    </div>
+
+    <div id="settings">
+        <h2>Label Settings (Adjust in pixels)</h2>
+        <p>These settings allow fine-tuning the position of elements on each label type. Positive values move elements right/down, negative values move left/up.</p>
+
+        <div class="setting-group">
+            <h3>Label Type 1</h3>
+            <label>Title/Author/Year X Offset: <input type="number" id="label1_text_x_offset" value="0"></label>
+            <label>Title/Author/Year Y Offset: <input type="number" id="label1_text_y_offset" value="0"></label>
+            <label>Inventory/Dewey X Offset: <input type="number" id="label1_inv_dewey_x_offset" value="0"></label>
+            <label>Inventory/Dewey Y Offset: <input type="number" id="label1_inv_dewey_y_offset" value="0"></label>
+        </div>
+
+        <div class="setting-group">
+            <h3>Label Type 2</h3>
+            <label>QR Code X Offset: <input type="number" id="label2_qr_x_offset" value="0"></label>
+            <label>QR Code Y Offset: <input type="number" id="label2_qr_y_offset" value="0"></label>
+            <label>Text X Offset: <input type="number" id="label2_text_x_offset" value="0"></label>
+            <label>Text Y Offset: <input type="number" id="label2_text_y_offset" value="0"></label>
+        </div>
+
+        <div class="setting-group">
+            <h3>Label Type 3 (Spine Label)</h3>
+            <label>Text X Offset: <input type="number" id="label3_text_x_offset" value="0"></label>
+            <label>Text Y Offset: <input type="number" id="label3_text_y_offset" value="0"></label>
+            <label>Big 'B' X Offset: <input type="number" id="label3_b_x_offset" value="0"></label>
+            <label>Big 'B' Y Offset: <input type="number" id="label3_b_y_offset" value="0"></label>
+        </div>
+
+        <div class="setting-group">
+            <h3>Label Type 4</h3>
+            <label>Barcode X Offset: <input type="number" id="label4_barcode_x_offset" value="0"></label>
+            <label>Barcode Y Offset: <input type="number" id="label4_barcode_y_offset" value="0"></label>
+            <label>Top Text X Offset: <input type="number" id="label4_top_text_x_offset" value="0"></label>
+            <label>Top Text Y Offset: <input type="number" id="label4_top_text_y_offset" value="0"></label>
+            <label>Left Text X Offset: <input type="number" id="label4_left_text_x_offset" value="0"></label>
+            <label>Left Text Y Offset: <input type="number" id="label4_left_text_y_offset" value="0"></label>
+        </div>
+    </div>
+
+    <h2>Generated Labels</h2>
+    <iframe id="pdfViewer"></iframe>
+
+    <!-- PapaParse for CSV parsing -->
+    <script src="papaparse.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOM fully loaded and parsed");
+            console.log("PapaParse is defined:", typeof PapaParse !== 'undefined');
+
+            // Avery 5160 label dimensions (approximate, for layout)
+            const INCH_PX = 96; // Assuming 96 DPI for screen, adjust as needed for print accuracy
+            const LABEL_WIDTH_IN = 2.625;
+            const LABEL_HEIGHT_IN = 1.0;
+            const LABEL_WIDTH_PX = LABEL_WIDTH_IN * INCH_PX;
+            const LABEL_HEIGHT_PX = LABEL_HEIGHT_IN * INCH_PX;
+
+            const LABELS_PER_SHEET_WIDTH = 3;
+            const LABELS_PER_SHEET_HEIGHT = 10;
+
+            // Margins for Avery 5160 (in inches, will be converted to px)
+            const LEFT_MARGIN_IN = 0.1875;
+            const TOP_MARGIN_IN = 0.5;
+            const HORIZONTAL_SPACING_IN = 0.125;
+            const VERTICAL_SPACING_IN = 0.0;
+
+            // Debugging grid spacing (for visual reference, not drawn by default)
+            const GRID_SPACING_IN = 0.1;
+
+            // Settings object to store adjustable values
+            const settings = {
+                label1: {
+                    text_x_offset: 0, text_y_offset: 0,
+                    inv_dewey_x_offset: 0, inv_dewey_y_offset: 0,
+                },
+                label2: {
+                    qr_x_offset: 0, qr_y_offset: 0,
+                    text_x_offset: 0, text_y_offset: 0,
+                },
+                label3: {
+                    text_x_offset: 0, text_y_offset: 0,
+                    b_x_offset: 0, b_y_offset: 0,
+                },
+                label4: {
+                    barcode_x_offset: 0, barcode_y_offset: 0,
+                    top_text_x_offset: 0, top_text_y_offset: 0,
+                    left_text_x_offset: 0, left_text_y_offset: 0,
+                }
+            };
+
+            // Function to load settings from UI
+            function loadSettings() {
+                for (const labelType in settings) {
+                    for (const settingName in settings[labelType]) {
+                        const inputElement = document.getElementById(`${labelType}_${settingName}`);
+                        if (inputElement) {
+                            settings[labelType][settingName] = parseFloat(inputElement.value) || 0;
+                        }
+                    }
+                }
+            }
+
+            // Attach event listeners to update settings on input change
+            document.querySelectorAll('#settings input[type="number"]').forEach(input => {
+                input.addEventListener('change', loadSettings);
+                input.addEventListener('input', loadSettings); // Also update on input for sliders
+            });
+
+            // Initial load of settings
+            loadSettings();
+
+            function padInventoryNumber(inventoryNum) {
+                return String(inventoryNum).padStart(6, '0');
+            }
+
+            async function generateBarcodeImage(inventoryNum) {
+                const paddedNum = padInventoryNumber(inventoryNum);
+                const canvas = document.createElement('canvas');
+                // JsBarcode renders to a canvas or SVG
+                JsBarcode(canvas, paddedNum, {
+                    format: "CODE128",
+                    displayValue: false, // We'll draw text separately if needed
+                    height: 50, // Arbitrary height, will be scaled by jsPDF
+                    width: 2, // Narrow bars for better scaling
+                    margin: 0,
+                });
+                return canvas.toDataURL('image/png');
+            }
+
+            async function generateQrCodeImage(inventoryNum) {
+                const paddedNum = padInventoryNumber(inventoryNum);
+                const canvas = document.createElement('canvas');
+                new QRCode(canvas, {
+                    text: paddedNum,
+                    width: 128,
+                    height: 128,
+                    colorDark : "#000000",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.L
+                });
+                return canvas.toDataURL('image/png');
+            }
+
+            // Helper to draw text and return a canvas with the text rendered
+            function renderTextToCanvas(text, maxWidthPx, maxHeightPx, initialFontSize, minFontSize, alignment = 'left', fontStyle = 'normal') {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = maxWidthPx;
+                canvas.height = maxHeightPx;
+
+                ctx.font = `${initialFontSize}px Courier`;
+                ctx.textAlign = alignment;
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = 'black';
+
+                let currentFontSize = initialFontSize;
+                let lines = [];
+                let textHeight = 0;
+
+                // Simple word wrap and dynamic font sizing
+                while (currentFontSize >= minFontSize) {
+                    ctx.font = `${currentFontSize}px Courier`;
+                    lines = [];
+                    textHeight = 0;
+                    const words = text.split(' ');
+                    let currentLine = words[0] || '';
+
+                    for (let i = 1; i < words.length; i++) {
+                        const word = words[i];
+                        const testLine = currentLine + ' ' + word;
+                        if (ctx.measureText(testLine).width < maxWidthPx) {
+                            currentLine = testLine;
+                        } else {
+                            lines.push(currentLine);
+                            currentLine = word;
+                        }
+                    }
+                    lines.push(currentLine);
+
+                    textHeight = lines.length * currentFontSize * 1.2; // Approx line height with spacing
+
+                    if (textHeight <= maxHeightPx) {
+                        break;
+                    }
+                    currentFontSize -= 0.5;
+                }
+
+                // Draw the text on the canvas
+                let currentY = 0;
+                for (const line of lines) {
+                    let textX = 0;
+                    if (alignment === 'center') {
+                        textX = maxWidthPx / 2;
+                    } else if (alignment === 'right') {
+                        textX = maxWidthPx;
+                    }
+                    ctx.fillText(line, textX, currentY);
+                    currentY += currentFontSize * 1.2;
+                }
+                return canvas.toDataURL('image/png');
+            }
+
+            async function createLabelHtml(bookData, labelType) {
+                const title = bookData.title || '';
+                const authors = bookData.authors || '';
+                const publicationYear = bookData.publication_year || '';
+                const seriesName = bookData.series_name || '';
+                const seriesNumber = bookData.series_number || '';
+                const deweyNumber = bookData.dewey_number || '';
+                const inventoryNumber = padInventoryNumber(bookData.inventory_number || '');
+
+                const currentSettings = settings[`label${labelType}`];
+
+                let contentHtml = '';
+
+                if (labelType === 1) {
+                    let textLines = [
+                        `${title} - ${authors} - ${publicationYear}`,
+                    ];
+                    if (seriesName) {
+                        textLines.push(`${seriesName} ${seriesNumber ? seriesNumber : ''}`);
+                    }
+                    textLines.push(`${inventoryNumber} - ${deweyNumber}`);
+
+                    const maxTextWidthPx = LABEL_WIDTH_PX - 10;
+                    const maxTextHeightPx = LABEL_HEIGHT_PX - 10;
+
+                    // Render each line to a canvas for precise sizing and then embed as image
+                    let currentYOffset = 0;
+                    for (let i = 0; i < textLines.length; i++) {
+                        const lineText = textLines[i];
+                        const isLastLine = (i === textLines.length - 1);
+                        const initialFontSize = isLastLine ? 14 : 12;
+                        const minFontSize = 5;
+
+                        const textCanvasDataUrl = renderTextToCanvas(lineText, maxTextWidthPx, initialFontSize * 1.5, initialFontSize, minFontSize, 'left', isLastLine ? 'bold' : 'normal');
+                        // Approximate height of the rendered text for positioning subsequent lines
+                        const lineHeight = initialFontSize * 1.2;
+
+                        contentHtml += `<img src="${textCanvasDataUrl}" class="label-text" style="left: ${5 + currentSettings.text_x_offset}px; top: ${5 + currentYOffset + currentSettings.text_y_offset}px; width: ${maxTextWidthPx}px; height: ${lineHeight}px;">`;
+                        currentYOffset += lineHeight;
+                    }
+
+                } else if (labelType === 2) {
+                    const qrCodeSizePx = LABEL_HEIGHT_PX - (GRID_SPACING_IN * INCH_PX);
+                    const qrImage = await generateQrCodeImage(inventoryNumber);
+                    contentHtml += `<img src="${qrImage}" class="label-image" style="right: ${currentSettings.qr_x_offset}px; top: ${currentSettings.qr_y_offset}px; width: ${qrCodeSizePx}px; height: ${qrCodeSizePx}px;">`;
+
+                    const textLines = [
+                        title,
+                        authors.split(',')[0] || '',
+                    ];
+                    if (seriesName) {
+                        textLines.push(`${seriesName} #${seriesNumber ? seriesNumber : ''}`);
+                    }
+                    textLines.push(inventoryNumber);
+
+                    const maxTextWidthPx = LABEL_WIDTH_PX - qrCodeSizePx - 10;
+                    const maxTextHeightPx = LABEL_HEIGHT_PX - 10;
+
+                    let currentYOffset = 0;
+                    for (let i = 0; i < textLines.length; i++) {
+                        const lineText = textLines[i];
+                        const initialFontSize = 10;
+                        const minFontSize = 5;
+
+                        const textCanvasDataUrl = renderTextToCanvas(lineText, maxTextWidthPx, initialFontSize * 1.5, initialFontSize, minFontSize, 'left', 'normal');
+                        const lineHeight = initialFontSize * 1.2;
+
+                        contentHtml += `<img src="${textCanvasDataUrl}" class="label-text" style="left: ${5 + currentSettings.text_x_offset}px; top: ${5 + currentYOffset + currentSettings.text_y_offset}px; width: ${maxTextWidthPx}px; height: ${lineHeight}px;">`;
+                        currentYOffset += lineHeight;
+                    }
+
+                } else if (labelType === 3) {
+                    const lines = [
+                        deweyNumber,
+                        (authors ? authors.substring(0, 3).toUpperCase() : ''),
+                        String(publicationYear),
+                        inventoryNumber
+                    ];
+
+                    const lineHeightPx = 12;
+                    const totalTextHeightPx = lines.length * lineHeightPx;
+                    let startYPx = (LABEL_HEIGHT_PX - totalTextHeightPx) / 2 + totalTextHeightPx - (lineHeightPx * 0.8) + currentSettings.text_y_offset;
+
+                    for (let i = 0; i < lines.length; i++) {
+                        const lineText = lines[i];
+                        const textCanvasDataUrl = renderTextToCanvas(lineText, LABEL_WIDTH_PX - 10, lineHeightPx * 1.5, 10, 5, 'center', 'bold');
+                        contentHtml += `<img src="${textCanvasDataUrl}" class="label-text" style="left: ${5 + currentSettings.text_x_offset}px; top: ${startYPx - (i * lineHeightPx) + currentSettings.text_y_offset}px; width: ${LABEL_WIDTH_PX - 10}px; height: ${lineHeightPx}px;">`;
+                    }
+
+                    // Add giant 'B'
+                    contentHtml += `<div class="label-type-3-b" style="right: ${currentSettings.b_x_offset}px; bottom: ${currentSettings.b_y_offset}px;">B</div>`;
+
+                } else if (labelType === 4) {
+                    const barcodeHeightPx = 7 * (GRID_SPACING_IN * INCH_PX);
+                    const barcodeImage = await generateBarcodeImage(inventoryNumber);
+                    const tempImg = new Image();
+                    tempImg.src = barcodeImage;
+                    await new Promise(resolve => tempImg.onload = resolve);
+                    const barcodeAspectRatio = tempImg.width / tempImg.height;
+                    const barcodeWidthPx = barcodeHeightPx * barcodeAspectRatio;
+
+                    contentHtml += `<img src="${barcodeImage}" class="label-image" style="right: ${currentSettings.barcode_x_offset}px; top: ${currentSettings.barcode_y_offset}px; width: ${barcodeWidthPx}px; height: ${barcodeHeightPx}px;">`;
+
+                    // Text above barcode (Title, Author)
+                    const textAboveBarcodeLines = [
+                        `${title} by ${authors.split(',')[0] || ''}`,
+                    ];
+                    const maxTextAboveWidthPx = LABEL_WIDTH_PX - 10;
+                    const maxTextAboveHeightPx = LABEL_HEIGHT_PX - barcodeHeightPx - 5;
+
+                    let currentYAboveOffset = 0;
+                    for (const line of textAboveBarcodeLines) {
+                        const textCanvasDataUrl = renderTextToCanvas(line, maxTextAboveWidthPx, maxTextAboveHeightPx, 10, 5, 'center');
+                        const lineHeight = 12; // Approximate
+                        contentHtml += `<img src="${textCanvasDataUrl}" class="label-text" style="left: ${5 + currentSettings.top_text_x_offset}px; top: ${5 + currentYAboveOffset + currentSettings.top_text_y_offset}px; width: ${maxTextAboveWidthPx}px; height: ${lineHeight}px;">`;
+                        currentYAboveOffset += lineHeight;
+                    }
+
+                    // Text to the left of barcode (Series)
+                    const textLeftBarcodeLines = [];
+                    if (seriesName) {
+                        textLeftBarcodeLines.push(`Vol. ${seriesNumber ? seriesNumber : ''}`);
+                    }
+
+                    const maxTextLeftWidthPx = barcodeWidthPx; // This will be the height after rotation
+                    const maxTextLeftHeightPx = LABEL_WIDTH_PX - barcodeWidthPx - 10; // This will be the width after rotation
+
+                    if (textLeftBarcodeLines.length > 0) {
+                        const textCanvasDataUrl = renderTextToCanvas(textLeftBarcodeLines.join(' '), maxTextLeftWidthPx, maxTextLeftHeightPx, 10, 5, 'left');
+                        contentHtml += `<img src="${textCanvasDataUrl}" class="label-image" style="
+                            left: ${5 + currentSettings.left_text_x_offset}px;
+                            top: ${LABEL_HEIGHT_PX - barcodeHeightPx - 5 + currentSettings.left_text_y_offset}px;
+                            width: ${maxTextLeftHeightPx}px;
+                            height: ${maxTextLeftWidthPx}px;
+                            transform-origin: top left;
+                            transform: rotate(-90deg) translateX(-100%);
+                        ">`;
+                    }
+                }
+
+                return `<div class="label"><div class="label-content">${contentHtml}</div></div>`;
+            }
+
+            async function generateHtmlLabels(bookDataList) {
+                const labelsContainer = document.getElementById('labelsContainer');
+                labelsContainer.innerHTML = ''; // Clear previous labels
+
+                let labelHtml = '';
+                let labelCount = 0;
+                for (const bookData of bookDataList) {
+                    for (let labelType = 1; labelType <= 4; labelType++) {
+                        labelHtml += await createLabelHtml(bookData, labelType);
+                        labelCount++;
+                    }
+                }
+                labelsContainer.innerHTML = labelHtml;
+                console.log(`Generated ${labelCount} labels.`);
+            }
+
+            // Function to read book data from CSV
+            function readBookDataFromCsv(file) {
+                return new Promise((resolve, reject) => {
+                    PapaParse.parse(file, {
+                        header: true,
+                        dynamicTyping: true,
+                        complete: function(results) {
+                            if (results.errors.length) {
+                                reject(results.errors);
+                            } else {
+                                resolve(results.data);
+                            }
+                        },
+                        error: function(err) {
+                            reject(err);
+                        }
+                    });
+                });
+            }
+
+            document.getElementById('generateBtn').addEventListener('click', async () => {
+                const csvFile = document.getElementById('csvFile').files[0];
+                if (!csvFile) {
+                    alert('Please upload a CSV file.');
+                    return;
+                }
+
+                try {
+                    loadSettings(); // Ensure latest settings are loaded
+                    const bookData = await readBookDataFromCsv(csvFile);
+                    await generateHtmlLabels(bookData);
+                } catch (error) {
+                    console.error('Error generating labels:', error);
+                    alert('Error generating labels. Check console for details.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
