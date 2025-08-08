@@ -192,6 +192,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 entry['Call Number'] = clean_call_number(entry['Call Number'])
                 entry['✅ Use LoC'] = use_loc
                 processed_data.append(entry)
+                progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
                 progress_bar.progress((i + 1) / len(df))
 
         save_cache(loc_cache)
