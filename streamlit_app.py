@@ -42,4 +42,4 @@ def show_instructions():
     """, unsafe_allow_html=True)
 
     with st.expander("How to Generate the CSV File from Atriuum on Android"):
-        st.markdown("1. Open Atriuum, login to your library, and tap on \"Reports\".
+        st.markdown("""1. Open Atriuum, login to your library, and tap on "Reports".""")
