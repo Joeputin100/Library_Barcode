@@ -41,7 +41,7 @@ def show_instructions():
         st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \"Holdings Barcode.\" Change Qualifier to \"is greater than or equal to.\" Enter Search Term {The first Holding Number in the range}. Tap Add New.")
         st.markdown("5. Change Data type to \"Holdings Barcode.\" Change Qualifier to \"is less than or equal to.\" Enter Search Term {The last Holding Number in the range}. Tap Add New.")
         st.image("images/image3.jpg") # C
-        st.markdown("8.  the red top bar, tap \"Columns\".  Change Possible Columns to \"Holdings Barcode\".  Tap ➡️. Do the same for \"Call Number\", \"Author’s Name\", \"Publication Date\", \"Copyright\", \"Series Volume\", \"Series Title\", and \"Title\".  If you tap on \"Selected Columns\", you should see all 7 fields.  Tap \"Generate Report\")
+        st.markdown("""8.  the red top bar, tap “Columns”.  Change Possible Columns to “Holdings Barcode”.  Tap ➡️. Do the same for “Call Number”, “Author’s name”, “Publication Date”, “Copyright”, “Series Volume”, “Series Title”, and “Title”.  If you tap on “Selected Columns”, you should see all 7 fields.  Tap “Generate Report”.""")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
         st.markdown("9. Tap \"Export Report as CSV\")
