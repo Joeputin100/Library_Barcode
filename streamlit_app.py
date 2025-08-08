@@ -72,7 +72,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -87,11 +87,16 @@ def extract_oldest_year(*date_strings):
     return str(min(years)) if years else ""
 
 def get_book_metadata(title, author, cache):
-    cache_key = f"{title}|{author}".lower()
+    # Sanitize inputs for the API query and cache key
+    safe_title = re.sub(r'[^a-zA-Z0-9\\s]', '', title)
+    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author) # Keep commas for author names
+    
+    cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
         return cache[cache_key]
+
     base_url = "http://lx2.loc.gov:210/LCDB"
-    query = f'bath.title="{title}" and bath.author="{author}"'
+    query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
     try:
