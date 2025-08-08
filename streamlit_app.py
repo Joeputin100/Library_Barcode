@@ -83,7 +83,7 @@ def get_book_metadata(title, author, cache, event):
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number": "", 'publication_year": "", 'error': None}
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
