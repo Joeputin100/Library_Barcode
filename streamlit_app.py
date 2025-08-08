@@ -162,6 +162,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 row = df.iloc[i]
                 title = row.get('Title', '').strip()
                 
+                st.write(f"**Debug: LoC Metadata for Row {i+1}:**", lc_meta) # DEBUG LINE
                 entry = {
                     'Holdings Barcode': row['Holdings Barcode'],
                     'Title': row['Title'],
