@@ -57,9 +57,9 @@ def clean_call_number(call_num_str):
     cleaned = cleaned.replace('/', '')
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\.\d+', cleaned):
+    if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -144,6 +144,7 @@ if uploaded_file and st.session_state.processed_df is None:
     try:
         df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
         st.success("CSV file read successfully!")
+        st.write("**Debug: CSV Columns:**", df.columns.tolist()) # DEBUG LINE
         loc_cache = load_cache()
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
@@ -189,7 +190,6 @@ if uploaded_file and st.session_state.processed_df is None:
                 entry['Call Number'] = clean_call_number(entry['Call Number'])
                 entry['✅ Use LoC'] = use_loc
                 processed_data[i] = entry
-                st.text(f"Debug - Row {i+1} Call Number: {entry['Call Number']}") # DEBUG LINE
                 progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
                 progress_bar.progress((i + 1) / len(df))
 
