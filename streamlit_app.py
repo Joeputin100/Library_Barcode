@@ -126,8 +126,7 @@ if uploaded_file is not None:
                                         st.session_state.original_df.loc[idx, 'Holdings Barcode'] if 'Holdings Barcode' in st.session_state.original_df.columns else 'N/A'
                         
                         st.session_state.change_log.append(
-                            f"For inventory number **{inventory_num}**, user changed **{col}** from "
-                            f`{original_val}` to `{edited_val}`.
+                            f"For inventory number **{inventory_num}**, user changed **{col}** from `{original_val}` to `{edited_val}`."
                         )
             
             # Update processed_book_data with edited values for label generation
