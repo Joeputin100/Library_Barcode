@@ -57,7 +57,7 @@ def clean_call_number(call_num_str):
     cleaned = cleaned.replace('/', '')
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d+', cleaned):
+    if re.match(r'^8\\d{2}\.\d+', cleaned):
         return "FIC"
     match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
     if match:
@@ -83,7 +83,7 @@ def get_book_metadata(title, author, cache, event):
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None} 
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
