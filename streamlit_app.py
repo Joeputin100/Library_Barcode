@@ -183,6 +183,7 @@ if uploaded_file and st.session_state.processed_df is None:
             entry['✅ Use LoC'] = use_loc
             processed_data.append(entry)
             progress_bar.progress((i + 1) / total_rows)
+        time.sleep(2) # Add a final delay to ensure the last API call completes
         save_cache(loc_cache)
         progress_text.text("Processing complete!")
         st.session_state.processed_df = pd.DataFrame(processed_data)
