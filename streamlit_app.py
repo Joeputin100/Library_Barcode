@@ -7,6 +7,8 @@ from lxml import etree
 import time
 import json
 import os
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # --- Page Configuration ---
 st.set_page_config(
@@ -39,10 +41,10 @@ def show_instructions():
         st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \"Holdings Barcode.\" Change Qualifier to \"is greater than or equal to.\" Enter Search Term {The first Holding Number in the range}. Tap Add New.")
         st.markdown("5. Change Data type to \"Holdings Barcode.\" Change Qualifier to \"is less than or equal to.\" Enter Search Term {The last Holding Number in the range}. Tap Add New.")
         st.image("images/image3.jpg") # C
-        st.markdown("8.  the red top bar, tap \"Columns\".  Change Possible Columns to \"Holdings Barcode\".  Tap ➡️. Do the same for \"Call Number\", \"Author’s name\", \"Publication Date\", \"Copyright\", \"Series Volume\", \"Series Title\", and \"Title\".  If you tap on \"Selected Columns\", you should see all 7 fields.  Tap \"Generate Report\"")
+        st.markdown("8.  the red top bar, tap \"Columns\".  Change Possible Columns to \"Holdings Barcode\".  Tap ➡️. Do the same for \"Call Number\", \"Author’s Name\", \"Publication Date\", \"Copyright\", \"Series Volume\", \"Series Title\", and \"Title\".  If you tap on \"Selected Columns\", you should see all 7 fields.  Tap \"Generate Report\")
         st.image("images/image5.jpg") # E
         st.image("images/image1.jpg") # A
-        st.markdown("9. Tap \"Export Report as CSV\".")
+        st.markdown("9. Tap \"Export Report as CSV\")
         st.image("images/image7.jpg") # G
         st.markdown("10. Tap \"Download Exported Report\".  Save as a file name with a .CSV extension.")
         st.markdown("11. Locate the file in your device's 'Download' folder.")
@@ -57,7 +59,7 @@ def clean_call_number(call_num_str):
         return "FIC"
     if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -71,7 +73,7 @@ def extract_oldest_year(*date_strings):
                 years.extend([int(y) for y in found_years])
     return str(min(years)) if years else ""
 
-def get_book_metadata(title, author, cache):
+def get_book_metadata(title, author, cache, event):
     safe_title = re.sub(r'[^a-zA-Z0-9\\s]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
@@ -106,6 +108,7 @@ def get_book_metadata(title, author, cache):
                     years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
                 cache[cache_key] = metadata
+            event.set() # Signal completion
             return metadata # Success
         except requests.exceptions.RequestException as e:
             if i < len(retry_delays):
@@ -116,7 +119,7 @@ def get_book_metadata(title, author, cache):
         except Exception as e:
             metadata['error'] = f"An unexpected error occurred: {e}"
             break
-
+    event.set() # Signal completion even on failure
     return metadata
 
 # --- UI & Logic ---
@@ -145,28 +148,32 @@ if uploaded_file and st.session_state.processed_df is None:
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
         progress_text = st.empty()
-        processed_data = []
-        errors = []
-        total_rows = len(df)
-        for i, row in df.iterrows():
-            title = row.get('Title', '').strip()
-            author = row.get("Author's Name", '').strip()
-            progress_text.text(f"Processing {i+1}/{total_rows}: {title[:40]}...")
-            entry = {
-                'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
-                'Title': title,
-                "Author's Name": author,
-                'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
-                'Series Title': row.get('Series Title', '').strip(),
-                'Series Volume': row.get('Series Volume', '').strip(),
-                'Call Number': row.get('Call Number', '').strip(),
-            }
-            use_loc = False
-            if title and author:
-                lc_meta = get_book_metadata(title, author, loc_cache)
-                if lc_meta['error']:
-                    errors.append(f"Row {i+2}: '{title}' - {lc_meta['error']}")
-                else:
+        
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = []
+            for i, row in df.iterrows():
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+                event = threading.Event()
+                futures.append(executor.submit(get_book_metadata, title, author, loc_cache, event))
+            
+            processed_data = []
+            errors = []
+            for i, future in enumerate(as_completed(futures)):
+                lc_meta = future.result()
+                row = df.iloc[i]
+                title = row.get('Title', '').strip()
+                entry = {
+                    'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
+                    'Title': title,
+                    "Author's Name": row.get("Author's Name", '').strip(),
+                    'Publication Year': extract_oldest_year(row.get('Copyright', ''), row.get('Publication Date', '')),
+                    'Series Title': row.get('Series Title', '').strip(),
+                    'Series Volume': row.get('Series Volume', '').strip(),
+                    'Call Number': clean_call_number(row.get('Call Number', '').strip()),
+                }
+                use_loc = False
+                if lc_meta and not lc_meta.get('error'):
                     if not entry['Series Title'] and lc_meta['series_name']:
                         entry['Series Title'] = f"{SUGGESTION_FLAG}{lc_meta['series_name']}"
                         use_loc = True
@@ -179,13 +186,14 @@ if uploaded_file and st.session_state.processed_df is None:
                     if not entry['Publication Year'] and lc_meta['publication_year']:
                         entry['Publication Year'] = f"{SUGGESTION_FLAG}{lc_meta['publication_year']}"
                         use_loc = True
-            
-            entry['Call Number'] = clean_call_number(entry['Call Number'])
+                elif lc_meta and lc_meta.get('error'):
+                    errors.append(f"Row {i+2}: '{title}' - {lc_meta['error']}")
 
-            entry['✅ Use LoC'] = use_loc
-            processed_data.append(entry)
-            progress_bar.progress((i + 1) / total_rows)
-        time.sleep(2) # Add a final delay to ensure the last API call completes
+                entry['Call Number'] = clean_call_number(entry['Call Number'])
+                entry['✅ Use LoC'] = use_loc
+                processed_data.append(entry)
+                progress_bar.progress((i + 1) / len(df))
+
         save_cache(loc_cache)
         progress_text.text("Processing complete!")
         st.session_state.processed_df = pd.DataFrame(processed_data)
