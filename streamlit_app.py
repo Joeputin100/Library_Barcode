@@ -3,9 +3,13 @@ import pandas as pd
 import io
 from label_generator import generate_pdf_sheet # Assuming label_generator.py is in the same directory
 
+import random
+
 st.set_page_config(layout="wide", page_title="Barcode & QR Code Label Generator")
 
-st.title("📚 Barcode & QR Code Label Generator")
+emojis = ["📚", "📖", "🔖", "✨", "🚀", "💡", "🎉"]
+random_emoji = random.choice(emojis)
+st.title(f"{random_emoji} Barcode & QR Code Label Generator")
 
 st.markdown(
     """
