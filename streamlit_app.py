@@ -34,7 +34,7 @@ def get_book_metadata(title, author):
         "maximumRecords": "1", "recordSchema": "marcxml"
     }
     metadata = {
-        'classification': "", 'series_name': "", 'volume_number": "",
+        'classification': "", 'series_name': "", 'volume_number': "",
         'publication_year': "", 'error': None
     }
     try:
