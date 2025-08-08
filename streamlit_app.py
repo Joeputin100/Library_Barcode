@@ -30,30 +30,51 @@ def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
 
+# --- Instruction Display Function ---
+def show_instructions():
+    with st.expander("How to Generate the CSV File from Atriuum on Android"):
+        st.markdown("""
+        1.  **Open Atriuum and go to the 'Reports' section.**
+        """)
+        st.image("images/image1.jpg")
+        st.markdown("""
+        2.  **Select 'Shelf List' from the report options.**
+        """)
+        st.image("images/image2.jpg")
+        st.markdown("""
+        3.  **Configure the report as follows:**
+            *   Set 'Format' to **CSV**.
+            *   Set 'Sort by' to **Call Number**.
+            *   Ensure the necessary fields are included.
+        """)
+        st.image("images/image3.jpg")
+        st.image("images/image4.jpg")
+        st.markdown("""
+        4.  **Run the report.**
+        """)
+        st.image("images/image5.jpg")
+        st.markdown("""
+        5.  **Download the generated CSV file.**
+        """)
+        st.image("images/image6.jpg")
+        st.markdown("""
+        6.  **Locate the file in your device's 'Download' folder.** You can then upload it here.
+        """)
+        st.image("images/image7.jpg")
+
 # --- Helper Functions ---
 def clean_call_number(call_num_str):
     if not isinstance(call_num_str, str):
         return ""
-    
-    # 1. Strip whitespace and suggestion flag
     cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
-    
-    # 2. Remove slashes
     cleaned = cleaned.replace('/', '')
-    
-    # 3. Check for "FIC" variations
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-        
-    # 4. Check for fiction Dewey Decimal (e.g., 813.54)
-    if re.match(r'^8\d{2}\.\d+', cleaned):
+    if re.match(r'^8\\d{2}\\.\\d+', cleaned):
         return "FIC"
-        
-    # 5. Extract leading number from mixed strings (e.g., "153.98 WEI 2016")
-    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
+    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
     if match:
         return match.group(1)
-        
     return cleaned
 
 def extract_oldest_year(*date_strings):
@@ -69,25 +90,21 @@ def get_book_metadata(title, author, cache):
     cache_key = f"{title}|{author}".lower()
     if cache_key in cache:
         return cache[cache_key]
-
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{title}" and bath.author="{author}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
-    
     try:
-        time.sleep(1) # Rate limit
+        time.sleep(1)
         response = requests.get(base_url, params=params, timeout=30)
         response.raise_for_status()
         root = etree.fromstring(response.content)
-        
         ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
         error_message = root.find('.//diag:message', ns_diag)
         if error_message is not None:
             metadata['error'] = f"API Error: {error_message.text}"
         else:
             ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
-            # ... (XML parsing logic remains the same)
             classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
             if classification_node is not None: metadata['classification'] = classification_node.text.strip()
             series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
@@ -98,14 +115,11 @@ def get_book_metadata(title, author, cache):
             if pub_year_node is not None and pub_year_node.text:
                 years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                 if years: metadata['publication_year'] = str(min([int(y) for y in years]))
-            
-            cache[cache_key] = metadata # Save to cache on success
-            
+            cache[cache_key] = metadata
     except requests.exceptions.RequestException as e:
         metadata['error'] = f"API request failed: {e}"
     except Exception as e:
         metadata['error'] = f"An unexpected error occurred: {e}"
-        
     return metadata
 
 # --- UI & Logic ---
@@ -116,6 +130,8 @@ if st.button("Clear Cache & Start Over"):
     if os.path.exists(CACHE_FILE):
         os.remove(CACHE_FILE)
     st.rerun()
+
+show_instructions()
 
 st.write("Upload your Atriuum CSV export, review the data, and generate printable labels.")
 
@@ -128,23 +144,17 @@ if uploaded_file and st.session_state.processed_df is None:
     try:
         df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
         st.success("CSV file read successfully!")
-        
         loc_cache = load_cache()
-        
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
         progress_text = st.empty()
-        
         processed_data = []
         errors = []
         total_rows = len(df)
-
         for i, row in df.iterrows():
             title = row.get('Title', '').strip()
             author = row.get("Author's Name", '').strip()
             progress_text.text(f"Processing {i+1}/{total_rows}: {title[:40]}...")
-            
-            # Initial data from CSV
             entry = {
                 'Holdings Barcode': row.get('Holdings Barcode', row.get('Line Number', '')).strip(),
                 'Title': title,
@@ -154,14 +164,12 @@ if uploaded_file and st.session_state.processed_df is None:
                 'Series Volume': row.get('Series Volume', '').strip(),
                 'Call Number': row.get('Call Number', '').strip(),
             }
-            
             use_loc = False
             if title and author:
                 lc_meta = get_book_metadata(title, author, loc_cache)
                 if lc_meta['error']:
                     errors.append(f"Row {i+2}: '{title}' - {lc_meta['error']}")
                 else:
-                    # Apply suggestions and mark with flag
                     if not entry['Series Title'] and lc_meta['series_name']:
                         entry['Series Title'] = f"{SUGGESTION_FLAG}{lc_meta['series_name']}"
                         use_loc = True
@@ -174,24 +182,18 @@ if uploaded_file and st.session_state.processed_df is None:
                     if not entry['Publication Year'] and lc_meta['publication_year']:
                         entry['Publication Year'] = f"{SUGGESTION_FLAG}{lc_meta['publication_year']}"
                         use_loc = True
-            
-            # Clean the call number after potential suggestion
             entry['Call Number'] = clean_call_number(entry['Call Number'])
-            
             entry['✅ Use LoC'] = use_loc
             processed_data.append(entry)
             progress_bar.progress((i + 1) / total_rows)
-        
         save_cache(loc_cache)
         progress_text.text("Processing complete!")
         st.session_state.processed_df = pd.DataFrame(processed_data)
-        st.session_state.original_df = st.session_state.processed_df.copy() # Save for reverting
-
+        st.session_state.original_df = st.session_state.processed_df.copy()
         if errors:
             st.warning("Some suggestions could not be fetched:")
             with st.expander("View Errors"):
                 for error in errors: st.write(error)
-
     except Exception as e:
         st.error(f"An error occurred during data processing: {e}")
         st.exception(e)
@@ -200,22 +202,15 @@ if uploaded_file and st.session_state.processed_df is None:
 if st.session_state.get('processed_df') is not None:
     st.subheader("Review and Edit Label Data")
     st.info(f"{SUGGESTION_FLAG} indicates data from the Library of Congress. Uncheck the box to revert to original.")
-    
-    # Create a copy for editing to avoid modifying session state directly in loop
     df_to_edit = st.session_state.processed_df.copy()
-
-    # Revert logic based on checkbox
     for i, row in df_to_edit.iterrows():
         if not row['✅ Use LoC']:
             original_row = st.session_state.original_df.loc[i]
             for col in ['Publication Year', 'Series Title', 'Series Volume', 'Call Number']:
-                 if col in df_to_edit.columns and col in original_row:
+                if col in df_to_edit.columns and col in original_row:
                     df_to_edit.at[i, col] = original_row[col]
-                    # Re-clean call number after reverting
                     if col == 'Call Number':
-                         df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col])
-
-
+                        df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col])
     edited_df = st.data_editor(
         df_to_edit,
         key="data_editor",
@@ -225,18 +220,13 @@ if st.session_state.get('processed_df') is not None:
             "Title": st.column_config.TextColumn(width="large"),
         }
     )
-    
-    # Update session state after editing is complete
     st.session_state.processed_df = edited_df
-
     st.subheader("Spine Label Identifier")
     spine_label_id = st.radio("Select ID for spine label:", ('A', 'B', 'C', 'D'), index=1, key="spine_id_radio", horizontal=True)
-    
     st.subheader("Generate Labels")
     if st.button("Generate PDF Labels"):
         pdf_data = edited_df.to_dict(orient='records')
         for item in pdf_data:
-            # Final cleaning before PDF generation
             item['Call Number'] = clean_call_number(item.get('Call Number', ''))
             if '✅ Use LoC' in item:
                 del item['✅ Use LoC']
@@ -244,7 +234,6 @@ if st.session_state.get('processed_df') is not None:
                 if isinstance(value, str) and value.startswith(SUGGESTION_FLAG):
                     item[key] = value.lstrip(SUGGESTION_FLAG)
             item['spine_label_id'] = spine_label_id
-
         with st.spinner("Generating PDF..."):
             pdf_bytes = generate_pdf_sheet(pdf_data)
             st.success("PDF generated!")
