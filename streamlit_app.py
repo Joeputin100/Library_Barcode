@@ -4,6 +4,8 @@ import io
 from label_generator import generate_pdf_sheet # Assuming label_generator.py is in the same directory
 
 import random
+import requests
+from lxml import etree
 
 st.set_page_config(layout="wide", page_title="Barcode & QR Code Label Generator")
 
@@ -45,164 +47,17 @@ if uploaded_file is not None:
         # Note: 'inventory_number' will be derived from 'Line Number' or 'Holdings Barcode'
         # 'publication_year' will be derived from 'Copyright' or 'Publication Date'
         
-        import re
-import requests
-from lxml import etree
-
-def extract_oldest_year(copyright_str, pub_date_str):
-    years = []
-    # Regex to find 4-digit numbers starting with 17, 18, 19, or 20
-    year_pattern = re.compile(r'\b(1[7-9]\d{2}|20\d{2})\b')
-
-    if copyright_str:
-        found_years = year_pattern.findall(str(copyright_str))
-        years.extend([int(y) for y in found_years])
-
-    if pub_date_str:
-        found_years = year_pattern.findall(str(pub_date_str))
-        years.extend([int(y) for y in found_years])
-
-    if years:
-        return str(min(years))
-    return ''
-
-def get_book_metadata(title, author):
-    """
-    Queries the Library of Congress API for MODS data to extract classification (FIC or DDC), 
-    series name, volume number, and additional metadata for a book.
-
-    Args:
-        title (str): The book title (e.g., "Death's End").
-        author (str): The author's name (e.g., "Cixin Liu").
-
-    Returns:
-        dict: Contains:
-            - classification: "FIC" (fiction) or DDC number (non-fiction), or "No DDC found".
-            - series_name: Series title or "No series found".
-            - volume_number: Volume number or "No volume found".
-            - publication_year: Publication year or "No year found".
-            - isbn: ISBN or "No ISBN found".
-            - error: Error message if query fails, else None.
-    """
-    # Format query parameters
-    title = title.replace(" ", "+").strip()
-    author = author.replace(" ", "+").strip()
-    url = (
-        f"http://z3950.loc.gov:7090/voyager?operation=searchRetrieve&version=1.1"
-        f"&query=bath.title=\"{title}\" + AND + bath.personalName=\"{author}\""
-        f"&recordSchema=mods&maximumRecords=10"
-    )
-
+        if uploaded_file is not None:
     try:
-        # Send request to LC API
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()  # Raise exception for HTTP errors
-        xml = response.content
+        df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str)
+        st.session_state.original_df = df.copy() # Store original for change tracking
+        st.session_state.edited_df = df.copy() # Initialize edited_df
+        st.session_state.changes_made = False
+        st.session_state.change_log = []
 
-        # Parse XML response
-        root = etree.fromstring(xml)
-        namespaces = {
-            "mods": "http://www.loc.gov/mods/v3",
-            "zs": "http://www.loc.gov/zing/srw/"
-        }
+        st.success("CSV uploaded successfully! Now, review and edit your data.")
 
-        # Initialize result with default values
-        best_result = {
-            "classification": "No DDC found",
-            "series_name": "No series found",
-            "volume_number": "No volume found",
-            "publication_year": "No year found",
-            "isbn": "No ISBN found",
-            "error": None
-        }
-
-        # Track best record based on data completeness
-        best_score = 0  # Score based on fields present (DDC, series, volume)
-
-        # Iterate through records
-        for record in root.findall(".//zs:record/zs:recordData/mods:mods", namespaces):
-            result = best_result.copy()
-            score = 0
-
-            # Extract DDC and determine fiction/non-fiction
-            ddc = record.find(".//mods:classification[@authority='ddc']", namespaces)
-            ddc_number = ddc.text if ddc is not None else None
-            if ddc_number:
-                score += 2  # Higher weight for DDC
-
-            is_fiction = False
-            genre = record.find(".//mods:genre", namespaces)
-            subjects = record.findall(".//mods:subject/mods:topic", namespaces)
-            if genre is not None and any(term in genre.text.lower() for term in ["novel", "fiction"]):
-                is_fiction = True
-            elif any("fiction" in topic.text.lower() for topic in subjects):
-                is_fiction = True
-            elif ddc_number and (ddc_number.startswith("8") or ddc_number.startswith("89")) and ".5" in ddc_number:
-                is_fiction = True  # 800s or 895 (e.g., Chinese fiction) with .5x indicates fiction
-
-            result["classification"] = "FIC" if is_fiction else ddc_number or "No DDC found"
-
-            # Extract series name
-            series = record.find(".//mods:titleInfo[@type='series']/mods:title", namespaces)
-            if series is not None:
-                result["series_name"] = series.text
-                score += 1
-
-            # Extract volume number
-            volume = record.find(".//mods:titleInfo[@type='series']/mods:partNumber", namespaces)
-            if volume is None:
-                volume = record.find(".//mods:part/mods:detail[@type='volume']/mods:number", namespaces)
-            if volume is not None:
-                result["volume_number"] = volume.text
-                score += 1
-
-            # Extract publication year
-            year = record.find(".//mods:originInfo/mods:dateIssued", namespaces)
-            if year is not None:
-                result["publication_year"] = year.text
-                score += 1
-
-            # Extract ISBN
-            isbn = record.find(".//mods:identifier[@type='isbn']", namespaces)
-            if isbn is not None:
-                result["isbn"] = isbn.text
-                score += 1
-
-            # Update best result if this record has more data
-            if score > best_score:
-                best_score = score
-                best_result = result
-
-        return best_result
-
-    except requests.RequestException as e:
-        return {
-            "classification": "No DDC found",
-            "series_name": "No series found",
-            "volume_number": "No volume found",
-            "publication_year": "No year found",
-            "isbn": "No ISBN found",
-            "error": f"Error querying API: {str(e)}"
-        }
-    except etree.XMLSyntaxError:
-        return {
-            "classification": "No DDC found",
-            "series_name": "No series found",
-            "volume_number": "No volume found",
-            "publication_year": "No year found",
-            "isbn": "No ISBN found",
-            "error": "Error parsing XML response"
-        }
-    except Exception as e:
-        return {
-            "classification": "No DDC found",
-            "series_name": "No series found",
-            "volume_number": "No volume found",
-            "publication_year": "No year found",
-            "isbn": "No ISBN found",
-            "error": f"Unexpected error: {str(e)}"
-        }
-
+        # --- Hardcoded Field Mapping and Data Preparation ---
         # Create a list to hold processed book data for the label generator
         processed_book_data = []
         
@@ -235,10 +90,10 @@ def get_book_metadata(title, author):
 
             # New Feature: Suggested values for blank fields using LC API
             # Only query if Title and Author are available and relevant fields are blank
-            if book_entry['Title'] and book_entry['Author\'s Name'] and \
+            if book_entry['Title'] and book_entry['Author\'s Name'] and 
                (not book_entry['Series Title'] or not book_entry['Series Volume'] or not book_entry['Call Number']):
                 
-                st.write(f"Querying LC API for: {book_entry['Title']} by {book_entry['Author\'s Name']}") # Debugging
+                # st.write(f"Querying LC API for: {book_entry['Title']} by {book_entry['Author\'s Name']}") # Debugging
                 lc_metadata = get_book_metadata(book_entry['Title'], book_entry['Author\'s Name'])
                 
                 if lc_metadata['error']:
@@ -302,11 +157,11 @@ def get_book_metadata(title, author):
                         edited_val = st.session_state.edited_df.loc[idx, col]
                         
                         # Get inventory number for context
-                        inventory_num = st.session_state.original_df.loc[idx, 'Line Number'] if 'Line Number' in st.session_state.original_df.columns else \
+                        inventory_num = st.session_state.original_df.loc[idx, 'Line Number'] if 'Line Number' in st.session_state.original_df.columns else 
                                         st.session_state.original_df.loc[idx, 'Holdings Barcode'] if 'Holdings Barcode' in st.session_state.original_df.columns else 'N/A'
                         
                         st.session_state.change_log.append(
-                            f"For inventory number **{inventory_num}**, user changed **{col}** from \`{original_val}\` to \`{edited_val}\`."
+                            f"For inventory number **{inventory_num}**, user changed **{col}** from `{original_val}` to `{edited_val}`."
                         )
             
             # Update processed_book_data with edited values for label generation
