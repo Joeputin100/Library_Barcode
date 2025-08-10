@@ -76,7 +76,7 @@ def get_book_metadata(title, author, cache, event):
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     st.write(f"**Debug: API Query:** {query}") # DEBUG LINE
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None} 
+    metadata = {'classification': "", 'series_name': "", 'volume_number": "", 'publication_year": "", 'genres': [], 'error': None} 
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
@@ -146,10 +146,10 @@ if uploaded_file and st.session_state.processed_df is None:
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
         progress_text = st.empty()
-        
+
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
-            
+
             processed_data = [None] * len(df)
             errors = []
             for future in as_completed(futures):
@@ -157,7 +157,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 lc_meta = future.result()
                 row = df.iloc[i]
                 title = row.get('Title', '').strip()
-                
+
                 st.write(f"**Debug: LoC Metadata for Row {i+1}:**", lc_meta) # DEBUG LINE
                 entry = {
                     'Holdings Barcode': row['Holdings Barcode'],
