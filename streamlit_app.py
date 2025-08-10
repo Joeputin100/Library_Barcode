@@ -1,6 +1,6 @@
+
 import streamlit as st
 import pandas as pd
-from label_generator import generate_pdf_sheet
 import re
 import requests
 from lxml import etree
@@ -247,4 +247,6 @@ if st.session_state.get('processed_df') is not None:
             st.success("PDF generated!")
             st.download_button("Download Labels PDF", pdf_bytes, "book_labels.pdf", "application/pdf")
             st.subheader("Printing Instructions for Avery 5160")
-            st.markdown("1. Open in Adobe Acrobat Reader.\n2. Go to `File > Print`.\n3. Under **Page Sizing & Handling**, select **\"Actual Size\"**.\n4. Print. **DO NOT** use \"Fit\" or \"Shrink\".")
+            st.markdown("1. Open in Adobe Acrobat Reader.\n2. Go to `File > Print`.
+3. Under **Page Sizing & Handling**, select **"Actual Size"**.
+4. Print. **DO NOT** use "Fit" or "Shrink".")
