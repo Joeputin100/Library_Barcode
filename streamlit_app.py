@@ -61,7 +61,7 @@ def clean_call_number(call_num_str, genres):
 def get_book_metadata(title, author, cache):
     # Sanitize title and author for API query
     # Allow alphanumeric, spaces, and common punctuation like . : '
-    safe_title = re.sub(r'[^a-zA-Z0-9\s\.:']', '', title)
+    safe_title = re.sub(r'[^a-zA-Z0-9\s\.:\']', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
 
     # Debugging statements using st.write (assuming 'st' is Streamlit)
