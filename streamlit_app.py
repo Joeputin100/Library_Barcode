@@ -50,16 +50,20 @@ def show_instructions():
         st.markdown("11. Locate the file in your device's 'Download' folder.")
 
 # --- Helper Functions ---
-def clean_call_number(call_num_str):
+def clean_call_number(call_num_str, genres):
     if not isinstance(call_num_str, str):
         return ""
     cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
     cleaned = cleaned.replace('/', '')
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d+', cleaned):
+    if re.match(r'^8\\d{2}\.5\\d*$', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)\\', cleaned)
+    # Check for fiction genres
+    fiction_genres = ["fiction", "novel", "stories"]
+    if any(genre.lower() in fiction_genres for genre in genres):
+        return "FIC"
+    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -74,17 +78,20 @@ def extract_oldest_year(*date_strings):
     return str(min(years)) if years else ""
 
 def get_book_metadata(title, author, cache, event):
-    safe_title = re.sub(r'[^a-zA-Z0-9\\s]', '', title)
+    st.write(f"**Debug: Entering get_book_metadata for:** {title}") # NEW DEBUG LINE
+    safe_title = re.sub(r'[^a-zA-Z0-9\\s\\.]', '', title) # Allow periods
     safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
+    st.write(f"**Debug: Cache Key:** {cache_key}") # NEW DEBUG LINE
     if cache_key in cache:
         return cache[cache_key]
 
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+    st.write(f"**Debug: API Query:** {query}") # DEBUG LINE
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None} 
-    
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None}
+
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
         try:
@@ -107,6 +114,9 @@ def get_book_metadata(title, author, cache, event):
                 if pub_year_node is not None and pub_year_node.text:
                     years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
+                genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
+                if genre_nodes:
+                    metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
                 cache[cache_key] = metadata
             event.set() # Signal completion
             return metadata # Success
@@ -150,10 +160,10 @@ if uploaded_file and st.session_state.processed_df is None:
         st.write("Processing rows and fetching suggestions...")
         progress_bar = st.progress(0)
         progress_text = st.empty()
-        
+
         with ThreadPoolExecutor(max_workers=5) as executor:
             futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
-            
+
             processed_data = [None] * len(df)
             errors = []
             for future in as_completed(futures):
@@ -161,7 +171,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 lc_meta = future.result()
                 row = df.iloc[i]
                 title = row.get('Title', '').strip()
-                
+
                 st.write(f"**Debug: LoC Metadata for Row {i+1}:**", lc_meta) # DEBUG LINE
                 entry = {
                     'Holdings Barcode': row['Holdings Barcode'],
@@ -189,7 +199,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 elif lc_meta and lc_meta.get('error'):
                     errors.append(f"Row {i+2}: '{title}' - {lc_meta['error']}")
 
-                entry['Call Number'] = clean_call_number(entry['Call Number'])
+                entry['Call Number'] = clean_call_number(entry['Call Number'], lc_meta.get('genres', []))
                 entry['✅ Use LoC'] = use_loc
                 processed_data[i] = entry
                 progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
@@ -219,7 +229,7 @@ if st.session_state.get('processed_df') is not None:
                 if col in df_to_edit.columns and col in original_row:
                     df_to_edit.at[i, col] = original_row[col]
                     if col == 'Call Number':
-                        df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col])
+                        df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col], [])
     edited_df = st.data_editor(
         df_to_edit,
         key="data_editor",
@@ -238,7 +248,7 @@ if st.session_state.get('processed_df') is not None:
     if st.button("Generate PDF Labels"):
         pdf_data = edited_df.to_dict(orient='records')
         for item in pdf_data:
-            item['Call Number'] = clean_call_number(item.get('Call Number', ''))
+            item['Call Number'] = clean_call_number(item.get('Call Number', ''), [])
             if '✅ Use LoC' in item:
                 del item['✅ Use LoC']
             for key, value in item.items():
