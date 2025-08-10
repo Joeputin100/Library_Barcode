@@ -54,7 +54,7 @@ def get_book_metadata(title, author, cache):
     try:
         response = requests.get(base_url, params=params, timeout=30, headers=headers)
         response.raise_for_status()
-        metadata['raw_response'] = response.content
+        metadata['raw_response'] = response.content.decode('utf-8')
         root = etree.fromstring(response.content)
         ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
         error_message = root.find('.//diag:message', ns_diag)
