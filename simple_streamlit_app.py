@@ -64,7 +64,9 @@ def get_book_metadata(title, author, cache, event):
         try:
             response = requests.get(base_url, params=params, timeout=30, headers=headers)
             response.raise_for_status()
-            root = etree.fromstring(response.content)
+            st.write(f"**API Query:** {query}")
+    st.write(f"**Raw API Response:** {response.content}")
+    root = etree.fromstring(response.content)
             ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
             error_message = root.find('.//diag:message', ns_diag)
             if error_message is not None:
