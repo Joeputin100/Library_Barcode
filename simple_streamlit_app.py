@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import re
@@ -35,13 +34,13 @@ def clean_call_number(call_num_str, genres):
         return "FIC"
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\ .5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
     if any(genre.lower() in fiction_genres for genre in genres):
         return "FIC"
-    match = re.match(r'^(\\d+(\\.\\d+)?)', cleaned)
+    match = re.match(r'^(\\d+(\\ .\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -65,8 +64,8 @@ def get_book_metadata(title, author, cache, event):
             response = requests.get(base_url, params=params, timeout=30, headers=headers)
             response.raise_for_status()
             st.write(f"**API Query:** {query}")
-    st.write(f"**Raw API Response:** {response.content}")
-    root = etree.fromstring(response.content)
+            st.write(f"**Raw API Response:** {response.content}")
+            root = etree.fromstring(response.content)
             ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
             error_message = root.find('.//diag:message', ns_diag)
             if error_message is not None:
@@ -81,7 +80,7 @@ def get_book_metadata(title, author, cache, event):
                 if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
                 pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
                 if pub_year_node is not None and pub_year_node.text:
-                    years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', pub_year_node.text)
+                    years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
                 genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
                 if genre_nodes:
