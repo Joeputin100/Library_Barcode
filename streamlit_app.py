@@ -47,7 +47,7 @@ def clean_call_number(call_num_str, genres):
         return "FIC"
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.\\5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -59,14 +59,12 @@ def clean_call_number(call_num_str, genres):
     return cleaned
 
 def get_book_metadata(title, author, cache):
-    safe_title = re.sub(r'[^'a-zA-Z0-9\\s\\.\\:]', '', title)
-    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
-    cache_key = f"{safe_title}|{safe_author}".lower()
+    cache_key = f"{title}|{author}".lower()
     if cache_key in cache:
         return cache[cache_key]
 
     base_url = "http://lx2.loc.gov:210/LCDB"
-    query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+    query = f'bath.title="{title}" and bath.author="{author}"'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None, 'query': query, 'raw_response': ''} 
