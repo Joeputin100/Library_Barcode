@@ -60,7 +60,7 @@ def clean_call_number(call_num_str, genres):
 
 def get_book_metadata(title, author, cache):
     safe_title = re.sub(r'[^'a-zA-Z0-9\\s\\.\\:]', '', title)
-    safe_author = re.sub(r'[^'a-zA-Z0-9\\s,]', '', author)
+    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
         return cache[cache_key]
@@ -90,7 +90,7 @@ def get_book_metadata(title, author, cache):
             if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
             pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
             if pub_year_node is not None and pub_year_node.text:
-                years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
+                years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', pub_year_node.text)
                 if years: metadata['publication_year'] = str(min([int(y) for y in years]))
             genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
             if genre_nodes:
