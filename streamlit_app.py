@@ -75,13 +75,14 @@ def get_book_metadata(title, author, cache, event):
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     st.write(f"**Debug: API Query:** {query}") # DEBUG LINE
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None} 
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
         try:
-            response = requests.get(base_url, params=params, timeout=30)
+            response = requests.get(base_url, params=params, timeout=30, headers=headers)
             response.raise_for_status()
             root = etree.fromstring(response.content)
             ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
