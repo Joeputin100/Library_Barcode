@@ -59,25 +59,72 @@ def clean_call_number(call_num_str, genres):
     return cleaned
 
 def get_book_metadata(title, author, cache):
-    cache_key = f"{title}|{author}".lower()
+    # Sanitize title and author for API query
+    # Allow alphanumeric, spaces, and common punctuation like . : '
+    safe_title = re.sub(r'[^a-zA-Z0-9\s\.:']', '', title)
+    safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
+
+    # Debugging statements using st.write (assuming 'st' is Streamlit)
+    # If not using Streamlit, these should be removed or adapted.
+    try:
+        # Attempt to import streamlit, if it fails, these lines will be commented out.
+        import streamlit as st
+        st.write(f"**Debug: Original Title:** {title}")
+        st.write(f"**Debug: Sanitized Title:** {safe_title}")
+        st.write(f"**Debug: Original Author:** {author}")
+        st.write(f"**Debug: Sanitized Author:** {safe_author}")
+    except ImportError:
+        # If streamlit is not available, print to stdout instead.
+        print(f"**Debug: Original Title:** {title}")
+        print(f"**Debug: Sanitized Title:** {safe_title}")
+        print(f"**Debug: Original Author:** {author}")
+        print(f"**Debug: Sanitized Author:** {safe_author}")
+
+    cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
+        try:
+            import streamlit as st
+            st.write(f"**Debug: Cache Hit for:** {cache_key}")
+        except ImportError:
+            print(f"**Debug: Cache Hit for:** {cache_key}")
         return cache[cache_key]
+    try:
+        import streamlit as st
+        st.write(f"**Debug: Cache Miss for:** {cache_key}")
+    except ImportError:
+        print(f"**Debug: Cache Miss for:** {cache_key}")
 
     base_url = "http://lx2.loc.gov:210/LCDB"
-    query = f'bath.title="{title}" and bath.author="{author}"'
+    query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
     metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None, 'query': query, 'raw_response': ''} 
     
     try:
+        import streamlit as st
+        st.write(f"**Debug: API Query:** {query}")
+    except ImportError:
+        print(f"**Debug: API Query:** {query}")
+
+    try:
         response = requests.get(base_url, params=params, timeout=30, headers=headers)
         response.raise_for_status()
         metadata['raw_response'] = response.content.decode('utf-8')
+        try:
+            import streamlit as st
+            st.write(f"**Debug: Raw API Response (first 500 chars):** {metadata['raw_response'][:500]}")
+        except ImportError:
+            print(f"**Debug: Raw API Response (first 500 chars):** {metadata['raw_response'][:500]}")
         root = etree.fromstring(response.content)
         ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
         error_message = root.find('.//diag:message', ns_diag)
         if error_message is not None:
             metadata['error'] = f"API Error: {error_message.text}"
+            try:
+                import streamlit as st
+                st.error(f"**Debug: API Error Message:** {error_message.text}")
+            except ImportError:
+                print(f"**Debug: API Error Message:** {error_message.text}")
         else:
             ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
             classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
@@ -91,15 +138,37 @@ def get_book_metadata(title, author, cache):
                 years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                 if years: metadata['publication_year'] = str(min([int(y) for y in years]))
             genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
-            if genre_nodes:
-                metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
-            cache[cache_key] = metadata
-        return metadata
+            metadata['genres'] = [node.text.strip() for node in genre_nodes if node.text]
+            try:
+                import streamlit as st
+                st.write(f"**Debug: Extracted Metadata:** {metadata}")
+            except ImportError:
+                print(f"**Debug: Extracted Metadata:** {metadata}")
     except requests.exceptions.RequestException as e:
         metadata['error'] = f"API request failed: {e}"
+        try:
+            import streamlit as st
+            st.error(f"**Debug: Request Exception:** {e}")
+        except ImportError:
+            print(f"**Debug: Request Exception:** {e}")
+    except etree.XMLSyntaxError as e:
+        metadata['error'] = f"XML parsing error: {e}"
+        try:
+            import streamlit as st
+            st.error(f"**Debug: XML Parsing Error:** {e}")
+        except ImportError:
+            print(f"**Debug: XML Parsing Error:** {e}")
     except Exception as e:
         metadata['error'] = f"An unexpected error occurred: {e}"
-    return metadata
+        try:
+            import streamlit as st
+            st.error(f"**Debug: Unexpected Error:** {e}")
+        except ImportError:
+            print(f"**Debug: Unexpected Error:** {e}")
+    finally:
+        cache[cache_key] = metadata
+        return metadata
+
 
 def main():
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
