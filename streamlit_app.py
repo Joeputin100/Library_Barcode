@@ -33,33 +33,23 @@ def save_cache(cache):
         json.dump(cache, f, indent=4)
 
 # --- Instruction Display Function ---
-def show_instructions():
-    with st.expander("How to Generate the CSV File from Atriuum on Android"):
-        st.markdown("1. Open Atriuum, login to your library, and tap on \"Reports\"")
-        st.image("images/image4.jpg") # D
-        st.markdown("2. Select 'Shelf List' from the report options.")
-        st.markdown("3. Configure the report as follows: On the left side of the window, Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis greater than or equal to.\u201D Enter Search Term {The first Holding Number in the range}. Tap Add New.")
-        st.markdown("5. Change Data type to \u201CHoldings Barcode.\u201D Change Qualifier to \u201Cis less than or equal to.\u201D Enter Search Term {The last Holding Number in the range}. Tap Add New.")
-        st.image("images/image3.jpg") # C
-        st.markdown("8.  the red top bar, tap \u201CColumns\".  Change Possible Columns to \u201CHoldings Barcode\".  Tap ➡️. Do the same for \u201CCall Number\u201D, \u201CAuthor's name\u201D, \u201CPublication Date\u201D, \u201CCopyright\u201D, \u201CSeries Volume\u201D, \u201CSeries Title\u201D, and \u201CTitle\".  If you tap on \u201CSelected Columns\u201D, you should see all 7 fields.  Tap \u201CGenerate Report\".")
-        st.image("images/image5.jpg") # E
-        st.image("images/image1.jpg") # A
-        st.markdown("9. Tap \u201CExport Report as CSV\".")
-        st.image("images/image7.jpg") # G
-        st.markdown("10. Tap \u201CDownload Exported Report\".  Save as a file name with a .CSV extension.")
-        st.markdown("11. Locate the file in your device's 'Download' folder.")
+
 
 # --- Helper Functions ---
-def clean_call_number(call_num_str):
+def clean_call_number(call_num_str, genres):
     if not isinstance(call_num_str, str):
         return ""
     cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
     cleaned = cleaned.replace('/', '')
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d+', cleaned):
+    if re.match(r'^8\\d{2}\.5\\d*$', cleaned):
         return "FIC"
-    match = re.match(r'^(\d+(\\.\\d+)?)\\', cleaned)
+    # Check for fiction genres
+    fiction_genres = ["fiction", "novel", "stories"]
+    if any(genre.lower() in fiction_genres for genre in genres):
+        return "FIC"
+    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -74,16 +64,19 @@ def extract_oldest_year(*date_strings):
     return str(min(years)) if years else ""
 
 def get_book_metadata(title, author, cache, event):
-    safe_title = re.sub(r'[^a-zA-Z0-9\\s]', '', title)
+    st.write(f"**Debug: Entering get_book_metadata for:** {title}") # NEW DEBUG LINE
+    safe_title = re.sub(r'[^a-zA-Z0-9\\s\\.]', '', title) # Allow periods
     safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
+    st.write(f"**Debug: Cache Key:** {cache_key}") # NEW DEBUG LINE
     if cache_key in cache:
         return cache[cache_key]
 
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+    st.write(f"**Debug: API Query:** {query}") # DEBUG LINE
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None} 
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None} 
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
@@ -107,6 +100,9 @@ def get_book_metadata(title, author, cache, event):
                 if pub_year_node is not None and pub_year_node.text:
                     years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                     if years: metadata['publication_year'] = str(min([int(y) for y in years]))
+                genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
+                if genre_nodes:
+                    metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
                 cache[cache_key] = metadata
             event.set() # Signal completion
             return metadata # Success
@@ -131,7 +127,7 @@ if st.button("Clear Cache & Start Over"):
         os.remove(CACHE_FILE)
     st.rerun()
 
-show_instructions()
+
 
 st.write("Upload your Atriuum CSV export, review the data, and generate printable labels.")
 
@@ -189,7 +185,7 @@ if uploaded_file and st.session_state.processed_df is None:
                 elif lc_meta and lc_meta.get('error'):
                     errors.append(f"Row {i+2}: '{title}' - {lc_meta['error']}")
 
-                entry['Call Number'] = clean_call_number(entry['Call Number'])
+                entry['Call Number'] = clean_call_number(entry['Call Number'], lc_meta.get('genres', []))
                 entry['✅ Use LoC'] = use_loc
                 processed_data[i] = entry
                 progress_text.text(f"Processing {i+1}/{len(df)}: {title[:40]}...")
@@ -219,7 +215,7 @@ if st.session_state.get('processed_df') is not None:
                 if col in df_to_edit.columns and col in original_row:
                     df_to_edit.at[i, col] = original_row[col]
                     if col == 'Call Number':
-                        df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col])
+                        df_to_edit.at[i, col] = clean_call_number(df_to_edit.at[i, col], [])
     edited_df = st.data_editor(
         df_to_edit,
         key="data_editor",
@@ -238,7 +234,7 @@ if st.session_state.get('processed_df') is not None:
     if st.button("Generate PDF Labels"):
         pdf_data = edited_df.to_dict(orient='records')
         for item in pdf_data:
-            item['Call Number'] = clean_call_number(item.get('Call Number', ''))
+            item['Call Number'] = clean_call_number(item.get('Call Number', ''), [])
             if '✅ Use LoC' in item:
                 del item['✅ Use LoC']
             for key, value in item.items():
