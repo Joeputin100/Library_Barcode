@@ -17,7 +17,7 @@ st.header("Features")
 st.markdown(r'''
 - [x] CSV file uploading
 - [x] Library of Congress API integration
-- [x] Data cleaning and processing
+- [ ] Data cleaning and processing
 - [ ] Editable data table
 - [ ] PDF label generation
 ''')
@@ -53,7 +53,7 @@ def clean_call_number(call_num_str, genres):
     fiction_genres = ["fiction", "novel", "stories"]
     if any(genre.lower() in fiction_genres for genre in genres):
         return "FIC"
-    match = re.match(r'^(\d+(\\ .\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\\ .\\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -121,19 +121,7 @@ def main():
             for i, future in enumerate(as_completed(futures)):
                 row_index = futures[future]
                 lc_meta = future.result()
-                row = df.iloc[row_index]
-                title = row.get('Title', '').strip()
-                author = row.get("Author's Name", '').strip()
-                
-                api_call_number = lc_meta.get('classification', '')
-                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []))
-                
-                results.append({
-                    'Title': title,
-                    'Author': author,
-                    'API Call Number': api_call_number,
-                    'Cleaned Call Number': cleaned_call_number
-                })
+                results.append(lc_meta)
                 progress_bar.progress((i + 1) / len(df))
 
         save_cache(loc_cache)
