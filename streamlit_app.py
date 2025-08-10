@@ -16,8 +16,8 @@ st.title("LOC API Processor")
 st.header("Features")
 st.markdown(r'''
 - [x] CSV file uploading
-- [ ] Library of Congress API integration
-- [ ] Data cleaning and processing
+- [x] Library of Congress API integration
+- [x] Data cleaning and processing
 - [ ] Editable data table
 - [ ] PDF label generation
 ''')
@@ -38,9 +38,29 @@ def save_cache(cache):
         json.dump(cache, f, indent=4)
 
 # --- Helper Functions ---
+def clean_call_number(call_num_str, genres):
+    if not isinstance(call_num_str, str):
+        return ""
+    cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
+    cleaned = cleaned.replace('/', '')
+    if cleaned.upper().startswith("[FIC]"):
+        return "FIC"
+    if cleaned.upper().startswith("FIC"):
+        return "FIC"
+    if re.match(r'^8\\d{2}\\ .5\\d*$', cleaned):
+        return "FIC"
+    # Check for fiction genres
+    fiction_genres = ["fiction", "novel", "stories"]
+    if any(genre.lower() in fiction_genres for genre in genres):
+        return "FIC"
+    match = re.match(r'^(\d+(\\ .\d+)?)', cleaned)
+    if match:
+        return match.group(1)
+    return cleaned
+
 def get_book_metadata(title, author, cache):
-    safe_title = re.sub(r'[^a-zA-Z0-9\s\.\:]', '', title)
-    safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
+    safe_title = re.sub(r'[^a-zA-Z0-9\\s\\.\\:]', '', title)
+    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
         return cache[cache_key]
@@ -105,7 +125,15 @@ def main():
                 title = row.get('Title', '').strip()
                 author = row.get("Author's Name", '').strip()
                 
-                results.append(lc_meta)
+                api_call_number = lc_meta.get('classification', '')
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []))
+                
+                results.append({
+                    'Title': title,
+                    'Author': author,
+                    'API Call Number': api_call_number,
+                    'Cleaned Call Number': cleaned_call_number
+                })
                 progress_bar.progress((i + 1) / len(df))
 
         save_cache(loc_cache)
