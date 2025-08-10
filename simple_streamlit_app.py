@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import re
@@ -41,14 +40,14 @@ def clean_call_number(call_num_str, genres):
     fiction_genres = ["fiction", "novel", "stories"]
     if any(genre.lower() in fiction_genres for genre in genres):
         return "FIC"
-    match = re.match(r'^(\\d+(\\ .\\d+)?)', cleaned)
+    match = re.match(r'^(\d+(\ .\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
 
 def get_book_metadata(title, author, cache, event):
-    safe_title = re.sub(r'[^a-zA-Z0-9\\s\\.\\:]', '', title)
-    safe_author = re.sub(r'[^a-zA-Z0-9\\s,]', '', author)
+    safe_title = re.sub(r'[^a-zA-Z0-9\s\.\:]', '', title)
+    safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
     if cache_key in cache:
         return cache[cache_key]
