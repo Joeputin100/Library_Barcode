@@ -47,7 +47,7 @@ def clean_call_number(call_num_str, genres):
         return "FIC"
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -90,7 +90,7 @@ def get_book_metadata(title, author, cache):
             if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
             pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
             if pub_year_node is not None and pub_year_node.text:
-                years = re.findall(r'(1[7-9]\\d{2}|20\\d{2})', pub_year_node.text)
+                years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                 if years: metadata['publication_year'] = str(min([int(y) for y in years]))
             genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
             if genre_nodes:
