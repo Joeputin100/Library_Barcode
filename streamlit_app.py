@@ -76,7 +76,7 @@ def get_book_metadata(title, author, cache, event):
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     st.write(f"**Debug: API Query:** {query}") # DEBUG LINE
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number": "", 'publication_year": "", 'genres': [], 'error': None} 
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None} 
     
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
