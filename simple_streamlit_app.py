@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import re
@@ -34,7 +35,7 @@ def clean_call_number(call_num_str, genres):
         return "FIC"
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\ .5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\ .\\5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
