@@ -100,8 +100,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
         
         vertexai.init(project=credentials_dict["project_id"], location="us-central1")
-        # Use a more explicit model ID if 'gemini-pro' alone is not working
-        model = GenerativeModel("gemini-pro") # Keep as is, if this fails, we need to investigate further
+        model = GenerativeModel("gemini-2.5-flash") # Changed model to gemini-2.5-flash
         
         prompt = (
             f"What is the primary genre of the book titled '{title}' by '{author}'? "
