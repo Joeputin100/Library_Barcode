@@ -104,8 +104,8 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         
         prompt = (
             f"What is the primary genre of the book titled '{title}' by '{author}'? "
-            "Please provide only the genre name, without any additional text or explanation. "
-            "For example: 'Science Fiction' or 'Historical Fiction'. If you cannot determine, say 'Unknown'."
+            "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
+            "Please provide only the classification, without any additional text or explanation. If you cannot determine, say 'Unknown'."
         )
         
         response = model.generate_content(prompt)
@@ -136,7 +136,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
