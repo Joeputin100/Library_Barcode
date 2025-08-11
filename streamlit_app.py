@@ -22,7 +22,7 @@ from reportlab.lib.units import inch
 st.title("Atriuum Label Generator")
 
 # --- Constants & Cache ---
-SUGGESTION_FLAG = "🐒"
+SUGGESTION_FLAG = "\ud83e\udd84"
 CACHE_FILE = "loc_cache.json"
 
 # --- Caching Functions ---
@@ -197,7 +197,9 @@ def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
                         if genre_nodes:
                             metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
                         
-                        cache[loc_cache_key] = metadata
+                        # Only cache successful LOC lookups
+                        if not metadata['error']:
+                            cache[loc_cache_key] = metadata
                     break # Exit retry loop on success
                 except requests.exceptions.RequestException as e:
                     if i < len(retry_delays):
@@ -252,7 +254,7 @@ def generate_pdf_labels(df):
         # c.rect(x, y, label_width, label_height)
 
         # Extract and clean data for label
-        holding_number = str(row['Holding Number']).replace(SUGGESTION_FLAG, '')
+        holding_barcode = str(row['Holdings Barcode']).replace(SUGGESTION_FLAG, '')
         call_number = str(row['Call Number']).replace(SUGGESTION_FLAG, '')
         title = str(row['Title'])
         author = str(row['Author'])
@@ -263,7 +265,7 @@ def generate_pdf_labels(df):
         c.setFont('Helvetica', 10)
 
         # Draw Holding Number
-        c.drawString(x + 0.1 * inch, y + label_height - 0.2 * inch, holding_number)
+        c.drawString(x + 0.1 * inch, y + label_height - 0.2 * inch, holding_barcode)
 
         # Draw Call Number
         c.drawString(x + 0.1 * inch, y + label_height - 0.35 * inch, call_number)
@@ -289,6 +291,14 @@ def generate_pdf_labels(df):
 
     c.save()
     return buffer.getvalue()
+
+def extract_year(date_string):
+    """Extracts the first 4-digit number from a string, assuming it's a year."""
+    if isinstance(date_string, str):
+        match = re.search(r'\b(1[7-9]\d{2}|20\d{2})\b', date_string)
+        if match:
+            return match.group(1)
+    return ""
 
 def main():
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
@@ -322,11 +332,17 @@ def main():
                 author = row.get("Author's Name", '').strip()
                 
                 # Original Atriuum data
-                original_holding_number = row.get('Holding Number', '').strip()
+                original_holding_barcode = row.get('Holdings Barcode', '').strip()
                 original_call_number = row.get('Call Number', '').strip()
                 original_series_name = row.get('Series Title', '').strip()
-                original_volume_number = row.get('Series Number', '').strip()
-                original_publication_year = row.get('Copyright Year', '').strip()
+                original_series_number = row.get('Series Number', '').strip()
+                original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+
+                # Prioritize original copyright/publication year
+                final_original_year = ""
+                if original_copyright_year: final_original_year = original_copyright_year
+                elif original_publication_date_year: final_original_year = original_publication_date_year
 
                 # Mashed-up data
                 api_call_number = lc_meta.get('classification', '')
@@ -336,27 +352,28 @@ def main():
                 mashed_publication_year = lc_meta.get('publication_year', '').strip()
 
                 # Merge logic
-                final_holding_number = original_holding_number # Holding number is always from original
+                final_holding_barcode = original_holding_barcode # Holding barcode is always from original
                 final_call_number = original_call_number if original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else '')
                 final_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
-                final_volume_number = original_volume_number if original_volume_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
-                final_publication_year = original_publication_year if original_publication_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+                final_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                final_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
 
                 # Combine series name and volume number for display
                 series_info = ""
-                if final_series_name and final_volume_number:
-                    series_info = f"{final_series_name}, Vol. {final_volume_number}"
+                if final_series_name and final_series_number:
+                    series_info = f"{final_series_name}, Vol. {final_series_number}"
                 elif final_series_name:
                     series_info = final_series_name
-                elif final_volume_number:
-                    series_info = f"Vol. {final_volume_number}"
+                elif final_series_number:
+                    series_info = f"Vol. {final_series_number}"
 
                 results.append({
                     'Title': title,
                     'Author': author,
-                    'Holding Number': final_holding_number,
+                    'Holdings Barcode': final_holding_barcode,
                     'Call Number': final_call_number,
                     'Series Info': series_info,
+                    'Series Number': final_series_number,
                     'Copyright Year': final_publication_year
                 })
                 progress_bar.progress((i + 1) / len(df))
