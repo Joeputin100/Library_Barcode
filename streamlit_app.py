@@ -26,7 +26,8 @@ st.markdown(r'''
 - [x] Data cleaning and processing
 - [x] Editable data table for manual classification
 - [ ] PDF label generation
-''')
+'''
+)
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -85,12 +86,12 @@ def get_book_metadata_google_books(title, author, cache):
 
 def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
-    # st.write(f"Falling back to Vertex AI for genre classification for {title}...") # Removed st.write
-    
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
     try:
-        credentials_json = json.dumps(vertex_ai_credentials)
+        # Convert AttrDict to a standard dictionary
+        credentials_dict = dict(vertex_ai_credentials)
+        credentials_json = json.dumps(credentials_dict)
         
         with open(temp_creds_path, "w") as f:
             f.write(credentials_json)
@@ -98,7 +99,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         # Set the environment variable for authentication
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
         
-        vertexai.init(project=vertex_ai_credentials["project_id"], location="us-central1")
+        vertexai.init(project=credentials_dict["project_id"], location="us-central1")
         model = GenerativeModel("gemini-pro")
         
         prompt = (
@@ -112,7 +113,6 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         return response.text.strip()
     
     except Exception as e:
-        # st.error(f"Error calling Vertex AI: {e}") # Removed st.error
         print(f"Error calling Vertex AI for {title}: {e}") # Use print for debugging in threads
         return "Unknown"
     finally:
