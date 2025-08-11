@@ -13,6 +13,7 @@ import logging
 from io import StringIO
 from pymarc import Record
 from pymarc.marcxml import parse_xml_to_array
+from bs4 import BeautifulSoup
 
 # --- Page Title ---
 st.title("LOC API Processor")
@@ -30,22 +31,6 @@ st.markdown(r'''
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
-MANUAL_CLASSIFICATIONS = {
-    "the old man and the sea|hemingway, ernest": "FIC",
-    "are we living in the last days? : the second coming of jesus christ and interpreting the book of revelation|killens, chauncey s.": "236",
-    "slow bullets|reynolds, alastair": "FIC",
-    "nonviolent communication : a language of life|rosenberg, marshall b.": "303.69",
-    "the genius prince's guide to raising a nation out of debt (hey how about treason?), vol. 3|toba, toru": "FIC",
-    "the genius prince's guide to raising a nation out of debt (hey, how about treason?), vol. 4|toba, toru": "FIC",
-    "the genius prince's guide to raising a nation out of debt (hey, how about treason?), vol. 5|toba, toru": "FIC",
-    "the genius prince's guide to raising a nation out of debt (hey, how about treason?), vol. 6|toba, toru": "FIC",
-    "the genius prince's guide to raising a nation out of debt (hey, how about treason?), vol. 7|toba, toru": "FIC",
-    "genius prince's guide to raising a nation out of debt (hey, how about treason?), vol. 8 (light novel)|toba, toru": "FIC",
-    "the power of now : a guide to spiritual enlightenment|tolle, eckhart": "204.4",
-    "trauma-informed approach to library services|tolley, rebecca": "025.5",
-    "the devil's arithmetic|yolen, jane": "FIC",
-    "bonji yagkanatu (paperback)|": "FIC"
-}
 
 # --- Caching Functions ---
 def load_cache():
@@ -76,7 +61,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"][0]
+            item = data["items"].get(0, {})
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -98,6 +83,38 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
+def web_search_classification(title, author):
+    """Performs a web search (Goodreads) to find classification for a book."""
+    search_query = f"{title} {author} goodreads genre"
+    url = f"https://www.google.com/search?q={search_query.replace(' ', '+')}"
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Look for Goodreads link in search results
+        goodreads_link = soup.find('a', href=re.compile(r'goodreads\.com/book/show/'))
+        if goodreads_link:
+            book_url = goodreads_link['href']
+            book_response = requests.get(book_url, headers=headers, timeout=10)
+            book_response.raise_for_status()
+            book_soup = BeautifulSoup(book_response.text, 'html.parser')
+            
+            # Try to find genre information on the Goodreads page
+            genre_tags = book_soup.find_all('a', class_=re.compile(r'Button--tag-inline'))
+            genres = [tag.get_text(strip=True).lower() for tag in genre_tags]
+            
+            if any(keyword in g for keyword in ["fiction", "novel", "stories", "fantasy", "sci-fi", "thriller", "mystery"] for g in genres):
+                return "FIC"
+            elif any(keyword in g for keyword in ["nonfiction", "history", "biography", "science", "self-help"] for g in genres):
+                # This is a very basic non-fiction classification. More specific DDN would require more complex parsing.
+                return "NONFIC"
+    except Exception as e:
+        print(f"Web scraping failed for {title}: {e}")
+    return ""
+
 def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if google_genres is None:
         google_genres = []
@@ -113,7 +130,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d*$', cleaned): # Corrected regex for DDN matching
+    if re.match(r'^8\\d{2}\.5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -124,7 +141,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel"]):
         return "FIC"
         
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned) # Corrected regex for DDN matching
+    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -133,21 +150,6 @@ def get_book_metadata(title, author, cache, event):
     print(f"**Debug: Entering get_book_metadata for:** {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
-    manual_key = f"{safe_title}|{safe_author}".lower()
-
-    if manual_key in MANUAL_CLASSIFICATIONS:
-        print(f"**Debug: Found manual classification for {title}.**")
-        metadata = {
-            'classification': MANUAL_CLASSIFICATIONS[manual_key],
-            'series_name': "", 
-            'volume_number': "", 
-            'publication_year': "", 
-            'genres': [], 
-            'google_genres': [], 
-            'error': None
-        }
-        event.set()
-        return metadata
 
     metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None}
 
@@ -155,7 +157,7 @@ def get_book_metadata(title, author, cache, event):
     metadata.update(google_meta)
 
     if not metadata.get('google_genres'):
-        print(f"**Debug: No genres in Google Books for {title}. Querying LOC.**")
+        print(f"**Debug: No genres in Google Books for {title}. Querying LOC.")
         loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
         if loc_cache_key in cache:
             cached_loc_meta = cache[loc_cache_key]
@@ -204,6 +206,14 @@ def get_book_metadata(title, author, cache, event):
                     metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
                     print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
                     break
+
+    # Fallback to web scraping if no classification found yet
+    if not metadata.get('classification'):
+        print(f"**Debug: No classification for {title}. Attempting web scraping.**")
+        web_classification = web_search_classification(title, author)
+        if web_classification:
+            metadata['classification'] = web_classification
+            metadata['google_genres'].append(web_classification) # Add to google_genres for consistency
 
     event.set()
     return metadata
