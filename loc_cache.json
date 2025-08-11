@@ -1,0 +1,601 @@
+{
+    "bonji yagkanatu paperback|": {
+        "classification": "FIC",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2024",
+        "genres": [
+            "Fiction"
+        ],
+        "error": null,
+        "query": "bath.title=\"Bonji Yagkanatu Paperback\" and bath.author=\"\"",
+        "raw_response": "{\n    \"items\": [\n        {\n            \"volumeInfo\": {\n                \"title\": \"Bonji Yagkanatu\",\n                \"authors\": [\n                    \"Michael Hayes\"\n                ],\n                \"publishedDate\": \"2024-10-04\",\n                \"description\": \"Bonji Yagkanatu is the son of Lay'ming and Ming Song Yagkanatu. His parent and sister Le'ha were killed at the hands of Yakishu, who in turn was killed by Yoshi. after Yakishu's death Bonji was lead to the ONI temple to become a Black Dragon. He befriended a boy named Najib. They were best friends until he discovered that the Guardians of Yumemi has other plans for Bonji. Which could jeopardize his friendship with Najib.\",\n                \"industryIdentifiers\": [\n                    {\n                        \"type\": \"ISBN_13\",\n                        \"identifier\": \"9798889829461\"\n                    }\n                ],\n                \"categories\": [\n                    \"Fiction\"\n                ]\n            }\n        }\n    ]\n}"
+    },
+    "the old man and the sea|hemingway, ernest": {
+        "classification": "",
+        "call_no_050": "PZ3.H3736",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1952",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The old man and the sea\" and bath.author=\"Hemingway, Ernest\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>27</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>00858cam a22002771  4500</leader>\n  <controlfield tag=\"001\">8426349</controlfield>\n  <controlfield tag=\"005\">20250608025314.6</controlfield>\n  <controlfield tag=\"008\">790404t19601952nyu           000 0 eng  </controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">8426349</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">oclcrpl</subfield>\n    <subfield code=\"d\">u</subfield>\n    <subfield code=\"e\">ncip</subfield>\n    <subfield code=\"f\">19</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">LCAP batch update 2025-06-02-04:00: LCAPM-644</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">   60016337 </subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"9\">(DLC)   60016337</subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">(OCoLC)4821236</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DLC</subfield>\n    <subfield code=\"c\">NmLcU</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">PZ3.H3736</subfield>\n    <subfield code=\"b\">Ol3</subfield>\n    <subfield code=\"a\">PS3515.E37</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Hemingway, Ernest,</subfield>\n    <subfield code=\"d\">1899-1961.</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">\n    <subfield code=\"a\">The old man and the sea.</subfield>\n  </datafield>\n  <datafield tag=\"250\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Illustrated ed.</subfield>\n  </datafield>\n  <datafield tag=\"260\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">New York,</subfield>\n    <subfield code=\"b\">Scribner</subfield>\n    <subfield code=\"c\">[1960, c1952]</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">138 p.</subfield>\n    <subfield code=\"b\">illus.</subfield>\n    <subfield code=\"c\">23 cm.</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"985\" ind1=\" \" ind2=\" \">\n    <subfield code=\"e\">OCLC REPLACEMENT</subfield>\n  </datafield>\n  <datafield tag=\"991\" ind1=\" \" ind2=\" \">\n    <subfield code=\"b\">c-GenColl</subfield>\n    <subfield code=\"h\">PZ3.H3736</subfield>\n    <subfield code=\"i\">Ol3</subfield>\n    <subfield code=\"t\">Copy 1</subfield>\n    <subfield code=\"w\">OCLCREP</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:nextRecordPosition>2</zs:nextRecordPosition><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The old man and the sea\" and bath.author=\"Hemingway, Ernest\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the girl from playa blanca|lachtman, ofelia dumas": {
+        "classification": "[Fic]",
+        "call_no_050": "PZ7.L13535",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1995",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The girl from Playa Blanca\" and bath.author=\"Lachtman, Ofelia Dumas\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>01529pam a2200385 a 4500</leader>\n  <controlfield tag=\"001\">1614526</controlfield>\n  <controlfield tag=\"005\">20250607034339.7</controlfield>\n  <controlfield tag=\"008\">950217s1995    txu    j      000 1 eng  </controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1614526</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">orignew</subfield>\n    <subfield code=\"d\">1</subfield>\n    <subfield code=\"e\">ocip</subfield>\n    <subfield code=\"f\">19</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pb04 to la00 02-17-95; lb13 02-21-95; lb08 03-02-95; lb15 03-06-95; cip ver. lb02 10-19-95</subfield>\n    <subfield code=\"u\">xk39 2022-11-29 updated CYAC heading</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">LCAP batch update 2025-06-01-04:00: LCAPM-644, LCAPM-150</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">   95009864 </subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1558851488</subfield>\n    <subfield code=\"q\">clothbound</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1558851496</subfield>\n    <subfield code=\"q\">paper</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9781558851481</subfield>\n    <subfield code=\"q\">(clothbound)</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9781558851498</subfield>\n    <subfield code=\"q\">(paper)</subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"9\">(DLC)   95009864</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DLC</subfield>\n    <subfield code=\"c\">DLC</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"042\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">lcac</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">PZ7.L13535</subfield>\n    <subfield code=\"b\">Gi 1995</subfield>\n  </datafield>\n  <datafield tag=\"082\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">[Fic]</subfield>\n    <subfield code=\"2\">20</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Lachtman, Ofelia Dumas.</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">\n    <subfield code=\"a\">The girl from Playa Blanca /</subfield>\n    <subfield code=\"c\">Ofelia Dumas Lachtman.</subfield>\n  </datafield>\n  <datafield tag=\"260\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Houston, TX :</subfield>\n    <subfield code=\"b\">Pin&#x303;ata Books,</subfield>\n    <subfield code=\"c\">1995.</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">259 p. ;</subfield>\n    <subfield code=\"c\">22 cm.</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"520\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">When Elena and her little brother, Carlos, leave their Mexican seaside village to search for their immigrant father in Los Angeles, they encounter intrigue, crime, mystery, friendship, and love.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Siblings</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Mexicans</subfield>\n    <subfield code=\"z\">United States</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Emigration and immigration</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Mystery and detective stories.</subfield>\n  </datafield>\n  <datafield tag=\"991\" ind1=\" \" ind2=\" \">\n    <subfield code=\"b\">c-GenColl</subfield>\n    <subfield code=\"h\">PZ7.L13535</subfield>\n    <subfield code=\"i\">Gi 1995</subfield>\n    <subfield code=\"t\">Copy 1</subfield>\n    <subfield code=\"w\">BOOKS</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The girl from Playa Blanca\" and bath.author=\"Lachtman, Ofelia Dumas\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "a spectacle of corruption.|liss, david": {
+        "classification": "813/.6",
+        "call_no_050": "PS3562.I7814",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2004",
+        "genres": [
+            "Historical fiction.",
+            "Mystery fiction.",
+            "Jewish fiction.",
+            "Fiction."
+        ],
+        "error": null,
+        "query": "bath.title=\"A spectacle of corruption.\" and bath.author=\"Liss, David\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>02105cam a2200469 a 4500</leader>\n  <controlfield tag=\"001\">13218014</controlfield>\n  <controlfield tag=\"005\">20250606201322.7</controlfield>\n  <controlfield tag=\"008\">030530s2004    nyu           000 0 eng  </controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">13218014</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">orignew</subfield>\n    <subfield code=\"d\">1</subfield>\n    <subfield code=\"e\">ocip</subfield>\n    <subfield code=\"f\">20</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"925\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">acquire</subfield>\n    <subfield code=\"b\">2 shelf copies</subfield>\n    <subfield code=\"x\">policy default</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pc10 2003-05-30 to HLCD</subfield>\n    <subfield code=\"c\">lh38 2003-06-03</subfield>\n    <subfield code=\"d\">lh06 2003-06-05 \"Benjamin Weaver,\" Jewish ex-boxer p.i., also in Conspiracy of paper)</subfield>\n    <subfield code=\"e\">lh44 2003-06-06 to Dewey</subfield>\n    <subfield code=\"a\">aa05 2003-06-09</subfield>\n    <subfield code=\"a\">ps07 2004-03-25 1 copy rec'd., to CIP ver.</subfield>\n    <subfield code=\"f\">lh45 2004-03-31</subfield>\n    <subfield code=\"g\">lh45 2004-03-31 to BCCD</subfield>\n    <subfield code=\"a\">LA35 2005-07-06 copy 2 added</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">LCAP batch update 2025-06-01-04:00: LCAPM-644, LCAPM-893, LCAPM-150</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">  2003054806</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">0375508554</subfield>\n    <subfield code=\"q\">acid-free paper</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9780375508554</subfield>\n    <subfield code=\"q\">(acid-free paper)</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DLC</subfield>\n    <subfield code=\"c\">DLC</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"043\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">e-uk-en</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">PS3562.I7814</subfield>\n    <subfield code=\"b\">S64 2004</subfield>\n  </datafield>\n  <datafield tag=\"082\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">813/.6</subfield>\n    <subfield code=\"2\">21</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Liss, David,</subfield>\n    <subfield code=\"d\">1966-</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"2\">\n    <subfield code=\"a\">A spectacle of corruption :</subfield>\n    <subfield code=\"b\">a novel /</subfield>\n    <subfield code=\"c\">David Liss.</subfield>\n  </datafield>\n  <datafield tag=\"250\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1st ed.</subfield>\n  </datafield>\n  <datafield tag=\"260\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">New York :</subfield>\n    <subfield code=\"b\">Random House,</subfield>\n    <subfield code=\"c\">c2004.</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">ix, 381 p. ;</subfield>\n    <subfield code=\"c\">25 cm.</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Weaver, Benjamin (Fictitious characters)</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Private investigators</subfield>\n    <subfield code=\"z\">England</subfield>\n    <subfield code=\"z\">London</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Jews</subfield>\n    <subfield code=\"z\">England</subfield>\n    <subfield code=\"z\">London</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Boxers (Sports)</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Judicial error</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Elections</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"651\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">London (England)</subfield>\n    <subfield code=\"x\">History</subfield>\n    <subfield code=\"y\">18th century</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Historical fiction.</subfield>\n    <subfield code=\"2\">gsafd</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Mystery fiction.</subfield>\n    <subfield code=\"2\">gsafd</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Jewish fiction.</subfield>\n    <subfield code=\"2\">lcsh</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Fiction.</subfield>\n    <subfield code=\"2\">lcgft</subfield>\n    <subfield code=\"0\">https://id.loc.gov/authorities/genreForms/gf2014026339</subfield>\n  </datafield>\n  <datafield tag=\"856\" ind1=\"4\" ind2=\"2\">\n    <subfield code=\"3\">Contributor biographical information</subfield>\n    <subfield code=\"u\">http://www.loc.gov/catdir/bios/random051/2003054806.html</subfield>\n  </datafield>\n  <datafield tag=\"856\" ind1=\"4\" ind2=\"2\">\n    <subfield code=\"3\">Publisher description</subfield>\n    <subfield code=\"u\">http://www.loc.gov/catdir/description/random051/2003054806.html</subfield>\n  </datafield>\n  <datafield tag=\"856\" ind1=\"4\" ind2=\"1\">\n    <subfield code=\"3\">Sample text</subfield>\n    <subfield code=\"u\">http://www.loc.gov/catdir/samples/random045/2003054806.html</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"A spectacle of corruption.\" and bath.author=\"Liss, David\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "husped|meyer, stephenie": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Husped\" and bath.author=\"Meyer, Stephenie\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Husped\" and bath.author=\"Meyer, Stephenie\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "jack  jill alex cross|patterson, james": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Jack  Jill Alex Cross\" and bath.author=\"Patterson, James\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Jack  Jill Alex Cross\" and bath.author=\"Patterson, James\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "slow bullets|reynolds, alastair": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Slow Bullets\" and bath.author=\"Reynolds, Alastair\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Slow Bullets\" and bath.author=\"Reynolds, Alastair\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "nonviolent communication : a language of life|rosenberg, marshall b": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Nonviolent communication : a language of life\" and bath.author=\"Rosenberg, Marshall B\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Nonviolent communication : a language of life\" and bath.author=\"Rosenberg, Marshall B\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "rhythm of war: book four of the stormlight archive|sanderson, brandon": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Rhythm of War: Book Four of the Stormlight Archive\" and bath.author=\"Sanderson, Brandon\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Rhythm of War: Book Four of the Stormlight Archive\" and bath.author=\"Sanderson, Brandon\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the way of kings: book one of the stormlight archive|sanderson, brandon": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Way of Kings: Book One of the Stormlight Archive\" and bath.author=\"Sanderson, Brandon\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Way of Kings: Book One of the Stormlight Archive\" and bath.author=\"Sanderson, Brandon\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the genius princes guide to raising a nation out of debt hey how about treason vol. 3|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 3\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 3\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the genius princes guide to raising a nation out of debt hey how about treason vol. 4|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 4\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 4\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the genius princes guide to raising a nation out of debt hey how about treason vol. 5|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 5\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 5\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the genius princes guide to raising a nation out of debt hey how about treason vol. 6|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 6\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 6\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the genius princes guide to raising a nation out of debt hey how about treason vol. 7|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 7\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The Genius Princes Guide to Raising a Nation Out of Debt Hey How About Treason Vol. 7\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "genius princes guide to raising a nation out of debt hey how about treason vol. 8 light novel|toba, toru": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"Genius Princes Guide to Raising a Nation Out of Debt Hey How about Treason Vol. 8 light Novel\" and bath.author=\"Toba, Toru\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>0</zs:numberOfRecords><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Genius Princes Guide to Raising a Nation Out of Debt Hey How about Treason Vol. 8 light Novel\" and bath.author=\"Toba, Toru\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "the power of now : a guide to spiritual enlightenment|tolle, eckhart": {
+        "classification": "291.4/4",
+        "call_no_050": "BL624",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1999",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"The power of now : a guide to spiritual enlightenment\" and bath.author=\"Tolle, Eckhart\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>2</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>01466cam a22003854a 4500</leader>\n  <controlfield tag=\"001\">11761560</controlfield>\n  <controlfield tag=\"005\">20250606175915.3</controlfield>\n  <controlfield tag=\"008\">990728s1999    cau      b    000 0 eng  </controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">11761560</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">orignew</subfield>\n    <subfield code=\"d\">1</subfield>\n    <subfield code=\"e\">ocip</subfield>\n    <subfield code=\"f\">19</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"925\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">acquire</subfield>\n    <subfield code=\"b\">2 shelf copies</subfield>\n    <subfield code=\"x\">policy default</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pc06 to sa00 07-28-99; sh17 07-29-99; sh06 08-03-99; sh43 08-06-99; CIP ver. yc06 to BCCD 03-31-00; Copy 2 to BCCD sa55 05-30-01</subfield>\n    <subfield code=\"a\">hh20 2020-05-07 TW Situational 1 copy on order for LOAN</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">LCAP batch update 2025-06-01-04:00: LCAPM-644, LCAPM-150</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">   99042366 </subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1577311523</subfield>\n    <subfield code=\"q\">alk. paper</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9781577311522</subfield>\n    <subfield code=\"q\">(alk. paper)</subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">(DLC)   99042366</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DLC</subfield>\n    <subfield code=\"c\">DLC</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"042\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pcc</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">BL624</subfield>\n    <subfield code=\"b\">.T64 1999</subfield>\n  </datafield>\n  <datafield tag=\"082\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">291.4/4</subfield>\n    <subfield code=\"2\">21</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Tolle, Eckhart,</subfield>\n    <subfield code=\"d\">1948-</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">\n    <subfield code=\"a\">The power of now :</subfield>\n    <subfield code=\"b\">a guide to spiritual enlightenment /</subfield>\n    <subfield code=\"c\">Eckhart Tolle.</subfield>\n  </datafield>\n  <datafield tag=\"246\" ind1=\"3\" ind2=\"0\">\n    <subfield code=\"a\">Now</subfield>\n  </datafield>\n  <datafield tag=\"260\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Novato, Calif. :</subfield>\n    <subfield code=\"b\">New World Library,</subfield>\n    <subfield code=\"c\">1999.</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">xxiii, 193 p. ;</subfield>\n    <subfield code=\"c\">24 cm.</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"500\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Originally published in Canada by Namaste Publishing Inc. in 1997.</subfield>\n  </datafield>\n  <datafield tag=\"504\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Includes bibliographical references (p. 193).</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Spiritual life.</subfield>\n  </datafield>\n  <datafield tag=\"923\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Purchase</subfield>\n    <subfield code=\"d\">20200507</subfield>\n    <subfield code=\"i\">Filed under FY20 Loan</subfield>\n    <subfield code=\"n\">348899</subfield>\n    <subfield code=\"s\">East City Bookshop</subfield>\n  </datafield>\n  <datafield tag=\"984\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">gsl</subfield>\n  </datafield>\n  <datafield tag=\"985\" ind1=\" \" ind2=\" \">\n    <subfield code=\"e\">GAP</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:nextRecordPosition>2</zs:nextRecordPosition><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The power of now : a guide to spiritual enlightenment\" and bath.author=\"Tolle, Eckhart\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "traumainformed approach to library services|tolley, rebecca": {
+        "classification": "027.6/63",
+        "call_no_050": "Z711.92.S6",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": null,
+        "query": "bath.title=\"TraumaInformed Approach to Library Services\" and bath.author=\"Tolley, Rebecca\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>02324cam a2200349 i 4500</leader>\n  <controlfield tag=\"001\">21513669</controlfield>\n  <controlfield tag=\"005\">20250607101620.5</controlfield>\n  <controlfield tag=\"008\">200427s2020    ilua     b    001 0 eng  </controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">21513669</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">orignew</subfield>\n    <subfield code=\"d\">1</subfield>\n    <subfield code=\"e\">ecip</subfield>\n    <subfield code=\"f\">20</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"925\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">acquire</subfield>\n    <subfield code=\"b\">2 shelf copies</subfield>\n    <subfield code=\"x\">policy default</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"b\">xk04 2020-04-27</subfield>\n    <subfield code=\"i\">xk04 2020-04-29 (TW Situational) to review</subfield>\n    <subfield code=\"r\">xk11 2020-04-30 (TW Situational)</subfield>\n    <subfield code=\"a\">xk04 2020-05-01 to Dewey</subfield>\n    <subfield code=\"w\">xb07 2020-05-04 (TW Situational)</subfield>\n    <subfield code=\"a\">xn11 2024-12-05 1 copy rec'd., to CIP ver.</subfield>\n    <subfield code=\"f\">xk02 2025-02-12 to PresSvs (Situational Telework)</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">  2020009880</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9780838919811</subfield>\n    <subfield code=\"q\">(paperback)</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DLC</subfield>\n    <subfield code=\"b\">eng</subfield>\n    <subfield code=\"e\">rda</subfield>\n    <subfield code=\"c\">DLC</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"042\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pcc</subfield>\n  </datafield>\n  <datafield tag=\"043\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">n-us---</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">Z711.92.S6</subfield>\n    <subfield code=\"b\">T65 2020</subfield>\n  </datafield>\n  <datafield tag=\"082\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">027.6/63</subfield>\n    <subfield code=\"2\">23/eng/20250212</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Tolley, Rebecca,</subfield>\n    <subfield code=\"d\">1971-</subfield>\n    <subfield code=\"e\">author.</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"2\">\n    <subfield code=\"a\">A trauma-informed approach to library services /</subfield>\n    <subfield code=\"c\">Rebecca Tolley.</subfield>\n  </datafield>\n  <datafield tag=\"264\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Chicago :</subfield>\n    <subfield code=\"b\">ALA Editions,</subfield>\n    <subfield code=\"c\">[2020]</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">xii, 180 pages :</subfield>\n    <subfield code=\"b\">illustations ;</subfield>\n    <subfield code=\"c\">23 cm</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"504\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Includes bibliographical references (pages 155-162) and index.</subfield>\n  </datafield>\n  <datafield tag=\"505\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">Part I: Adverse childhood experiences and trauma-informed care -- Service with empathy -- Adverse childhood experiences -- The trauma-informed approach to service -- The trauma-informed library environment -- Part II: The six guiding principles of trauma-informed approaches -- Safety -- Trustworthiness and transparency -- Peer support -- Collaboration and mutuality -- Empowerment, voice, and choice -- Cultural, historical, and gender issues -- Part III: Creating a culture of trauma informed care in libraries -- Assessing organizational readiness -- The library as sanctuary -- Becoming a trauma-informed library workforce -- Planning for trauma-informed services -- Appendix: Adverse childhood experiences questionnaire.</subfield>\n  </datafield>\n  <datafield tag=\"520\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">\"This book applies a trauma-informed care framework to library services. This approach can foster empathetic service, positive patron encounters, and a trusting workplace\"--</subfield>\n    <subfield code=\"c\">Provided by publisher.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Libraries and people with social disabilities</subfield>\n    <subfield code=\"z\">United States.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Library outreach programs</subfield>\n    <subfield code=\"z\">United States.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Psychic trauma.</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"TraumaInformed Approach to Library Services\" and bath.author=\"Tolley, Rebecca\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "beneath devils bridge : a novel|white, loreth anne": {
+        "classification": "",
+        "call_no_050": "PR9199.4.W4726",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [
+            "Detective and mystery stories.",
+            "Thrillers (Fiction)",
+            "Novels.",
+            "Fictional Work",
+            "Detective and mystery fiction.",
+            "Fiction.",
+            "Novels.",
+            "Thrillers (Fiction)",
+            "Suspense fiction.",
+            "Romans."
+        ],
+        "error": null,
+        "query": "bath.title=\"Beneath Devils Bridge : a novel\" and bath.author=\"White, Loreth Anne\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>1</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>02994cam a2200625 i 4500</leader>\n  <controlfield tag=\"001\">23176916</controlfield>\n  <controlfield tag=\"005\">20250607122250.2</controlfield>\n  <controlfield tag=\"008\">230608t20212021wau           000 1 eng d</controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">23176916</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">copycat</subfield>\n    <subfield code=\"d\">2</subfield>\n    <subfield code=\"e\">ncip</subfield>\n    <subfield code=\"f\">20</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"925\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">acquire</subfield>\n    <subfield code=\"b\">1 shelf copy</subfield>\n    <subfield code=\"x\">policy default</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"b\">rn09 2023-06-08 z-processor 1 copy to USPRLL</subfield>\n    <subfield code=\"i\">xk33 2023-08-02 (OT) to PresSrvs</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">  2023276573</subfield>\n  </datafield>\n  <datafield tag=\"015\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">GBC175956</subfield>\n    <subfield code=\"2\">bnb</subfield>\n  </datafield>\n  <datafield tag=\"016\" ind1=\"7\" ind2=\" \">\n    <subfield code=\"a\">020194439</subfield>\n    <subfield code=\"2\">Uk</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9781542021296</subfield>\n    <subfield code=\"q\">(pbk.)</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">1542021294</subfield>\n    <subfield code=\"q\">(pbk.)</subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">(OCoLC)1250647554</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">NjBwBT</subfield>\n    <subfield code=\"b\">eng</subfield>\n    <subfield code=\"e\">rda</subfield>\n    <subfield code=\"c\">FSP</subfield>\n    <subfield code=\"d\">VP@</subfield>\n    <subfield code=\"d\">OCLCQ</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">IHI</subfield>\n    <subfield code=\"d\">YDX</subfield>\n    <subfield code=\"d\">BDX</subfield>\n    <subfield code=\"d\">ATNSH</subfield>\n    <subfield code=\"d\">OCLCF</subfield>\n    <subfield code=\"d\">SO$</subfield>\n    <subfield code=\"d\">UKMGB</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">YU6</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">ILC</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">OCL</subfield>\n    <subfield code=\"d\">CNCAR</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">WLM</subfield>\n    <subfield code=\"d\">OCLCO</subfield>\n    <subfield code=\"d\">OCLCQ</subfield>\n    <subfield code=\"d\">MQY</subfield>\n    <subfield code=\"d\">OCL</subfield>\n    <subfield code=\"d\">FHP</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"042\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">lccopycat</subfield>\n  </datafield>\n  <datafield tag=\"043\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">n-cn-bc</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">PR9199.4.W4726</subfield>\n    <subfield code=\"b\">B46 2021</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">White, Loreth Anne,</subfield>\n    <subfield code=\"e\">author.</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"0\">\n    <subfield code=\"a\">Beneath Devil's Bridge :</subfield>\n    <subfield code=\"b\">a novel /</subfield>\n    <subfield code=\"c\">Loreth Anne White.</subfield>\n  </datafield>\n  <datafield tag=\"264\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Seattle :</subfield>\n    <subfield code=\"b\">Montlake,</subfield>\n    <subfield code=\"c\">[2021]</subfield>\n  </datafield>\n  <datafield tag=\"264\" ind1=\" \" ind2=\"4\">\n    <subfield code=\"c\">&#xA9;2021</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">335 pages ;</subfield>\n    <subfield code=\"c\">21 cm</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"520\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">\"True crime podcaster Trinity Scott is chasing breakout success, and her brand-new serial may get her there. Her subject is Clayton Jay Pelley. More than two decades ago, the respected family man and guidance counselor confessed to the brutal murder of teenage student Leena Rai. In a series of exclusive interviews from prison, Clayton discloses to Trinity the truth about what happened that night beneath Devil's Bridge. Clayton says he didn't do it. Trinity is missing a key player in the story: Rachel Walczak, the retired detective who exposed Pelley's twisted urges.\"--</subfield>\n    <subfield code=\"c\">Provided by publisher.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Podcasters</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Prisoners</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Murder</subfield>\n    <subfield code=\"x\">Investigation</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">High school girls</subfield>\n    <subfield code=\"x\">Crimes against</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Secrecy</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">FICTION / Thrillers / Suspense.</subfield>\n    <subfield code=\"2\">bisacsh</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">FICTION / Mystery &amp; Detective / Police Procedural.</subfield>\n    <subfield code=\"2\">bisacsh</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">FICTION / Mystery &amp; Detective / Women Sleuths.</subfield>\n    <subfield code=\"2\">bisacsh</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Murder</subfield>\n    <subfield code=\"x\">Investigation.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01029788</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Podcasters.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01894991</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Prisoners.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01077103</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Secrecy.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01110644</subfield>\n  </datafield>\n  <datafield tag=\"651\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">British Columbia</subfield>\n    <subfield code=\"v\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"651\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">British Columbia.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01205265</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"0\">\n    <subfield code=\"a\">Detective and mystery stories.</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Thrillers (Fiction)</subfield>\n    <subfield code=\"2\">lcgft</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Novels.</subfield>\n    <subfield code=\"2\">lcgft</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"2\">\n    <subfield code=\"a\">Fictional Work</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Detective and mystery fiction.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01726581</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Fiction.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01423787</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Novels.</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01921742</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Thrillers (Fiction)</subfield>\n    <subfield code=\"2\">fast</subfield>\n    <subfield code=\"0\">(OCoLC)fst01726755</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Suspense fiction.</subfield>\n    <subfield code=\"2\">gsafd</subfield>\n  </datafield>\n  <datafield tag=\"655\" ind1=\" \" ind2=\"7\">\n    <subfield code=\"a\">Romans.</subfield>\n    <subfield code=\"2\">rvmgf</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"Beneath Devils Bridge : a novel\" and bath.author=\"White, Loreth Anne\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "in the deep|white, loreth anne": {
+        "classification": "",
+        "call_no_050": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": "API request failed: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+        "query": "bath.title=\"In the Deep\" and bath.author=\"White, Loreth Anne\"",
+        "raw_response": ""
+    },
+    "the devils arithmetic|yolen, jane": {
+        "classification": "",
+        "call_no_050": "MLCS 2006/42235 (*)",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2004",
+        "genres": [],
+        "error": "API request failed: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+        "query": "bath.title=\"The devils arithmetic\" and bath.author=\"Yolen, Jane\"",
+        "raw_response": "<?xml version=\"1.0\"?>\n<zs:searchRetrieveResponse xmlns:zs=\"http://www.loc.gov/zing/srw/\"><zs:version>1.1</zs:version><zs:numberOfRecords>3</zs:numberOfRecords><zs:records><zs:record><zs:recordSchema>marcxml</zs:recordSchema><zs:recordPacking>xml</zs:recordPacking><zs:recordData><record xmlns=\"http://www.loc.gov/MARC21/slim\">\n  <leader>01753cam a22003973a 4500</leader>\n  <controlfield tag=\"001\">13669239</controlfield>\n  <controlfield tag=\"005\">20250606211421.9</controlfield>\n  <controlfield tag=\"008\">040728s2004    nyu    j      000 1 eng d</controlfield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">13669239</subfield>\n  </datafield>\n  <datafield tag=\"906\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">7</subfield>\n    <subfield code=\"b\">cbc</subfield>\n    <subfield code=\"c\">copycat</subfield>\n    <subfield code=\"d\">4</subfield>\n    <subfield code=\"e\">ncip</subfield>\n    <subfield code=\"f\">20</subfield>\n    <subfield code=\"g\">y-gencatlg</subfield>\n  </datafield>\n  <datafield tag=\"925\" ind1=\"0\" ind2=\" \">\n    <subfield code=\"a\">acquire</subfield>\n    <subfield code=\"b\">1 shelf copy</subfield>\n    <subfield code=\"x\">policy default</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">pv19 2004-07-28 Preprocessor to HLCD</subfield>\n    <subfield code=\"a\">lc03 2006-09-02 z-processor (overtime)</subfield>\n    <subfield code=\"a\">lc15 2006-09-20 to Ft. Meade UNASSESSED</subfield>\n  </datafield>\n  <datafield tag=\"955\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">LCAP batch update 2025-06-01-04:00: LCAPM-644</subfield>\n  </datafield>\n  <datafield tag=\"010\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">  2004274255</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">0142401099</subfield>\n  </datafield>\n  <datafield tag=\"020\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">9780142401095</subfield>\n  </datafield>\n  <datafield tag=\"035\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">(OCoLC)55056215</subfield>\n  </datafield>\n  <datafield tag=\"040\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">DOV</subfield>\n    <subfield code=\"c\">DOV</subfield>\n    <subfield code=\"d\">OCLCQ</subfield>\n    <subfield code=\"d\">XY4</subfield>\n    <subfield code=\"d\">BAKER</subfield>\n    <subfield code=\"d\">DLC</subfield>\n  </datafield>\n  <datafield tag=\"050\" ind1=\"0\" ind2=\"0\">\n    <subfield code=\"a\">MLCS 2006/42235 (*)</subfield>\n  </datafield>\n  <datafield tag=\"100\" ind1=\"1\" ind2=\" \">\n    <subfield code=\"a\">Yolen, Jane.</subfield>\n  </datafield>\n  <datafield tag=\"245\" ind1=\"1\" ind2=\"4\">\n    <subfield code=\"a\">The devil's arithmetic /</subfield>\n    <subfield code=\"c\">by Jane Yolen.</subfield>\n  </datafield>\n  <datafield tag=\"250\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Puffin Modern Classics ed.</subfield>\n  </datafield>\n  <datafield tag=\"260\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">New York, N.Y. :</subfield>\n    <subfield code=\"b\">Puffin Books,</subfield>\n    <subfield code=\"c\">2004.</subfield>\n  </datafield>\n  <datafield tag=\"300\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">170 p. ;</subfield>\n    <subfield code=\"c\">18 cm.</subfield>\n  </datafield>\n  <datafield tag=\"336\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">text</subfield>\n    <subfield code=\"b\">txt</subfield>\n    <subfield code=\"2\">rdacontent</subfield>\n  </datafield>\n  <datafield tag=\"337\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">unmediated</subfield>\n    <subfield code=\"b\">n</subfield>\n    <subfield code=\"2\">rdamedia</subfield>\n  </datafield>\n  <datafield tag=\"338\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">volume</subfield>\n    <subfield code=\"b\">nc</subfield>\n    <subfield code=\"2\">rdacarrier</subfield>\n  </datafield>\n  <datafield tag=\"500\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">\"Ages 12 up\"--Jkt.</subfield>\n  </datafield>\n  <datafield tag=\"520\" ind1=\" \" ind2=\" \">\n    <subfield code=\"a\">Hannah resents stories of her Jewish heritage and of the past until, when opening the door during a Passover Seder, she finds herself in Poland during World War II where she experiences the horrors of a concentration camp, and learns why she-- and we--need to remember the past.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Jews</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Concentration camps</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"650\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Time travel</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"651\" ind1=\" \" ind2=\"1\">\n    <subfield code=\"a\">Poland</subfield>\n    <subfield code=\"x\">History</subfield>\n    <subfield code=\"y\">Occupation, 1939-1945</subfield>\n    <subfield code=\"x\">Fiction.</subfield>\n  </datafield>\n  <datafield tag=\"856\" ind1=\"4\" ind2=\"2\">\n    <subfield code=\"3\">Publisher description</subfield>\n    <subfield code=\"u\">http://www.loc.gov/catdir/enhancements/fy0716/2004274255-d.html</subfield>\n  </datafield>\n  <datafield tag=\"856\" ind1=\"4\" ind2=\"2\">\n    <subfield code=\"3\">Contributor biographical information</subfield>\n    <subfield code=\"u\">http://www.loc.gov/catdir/enhancements/fy1505/2004274255-b.html</subfield>\n  </datafield>\n  <datafield tag=\"985\" ind1=\" \" ind2=\" \">\n    <subfield code=\"e\">Reorg *</subfield>\n  </datafield>\n</record></zs:recordData><zs:recordPosition>1</zs:recordPosition></zs:record></zs:records><zs:nextRecordPosition>2</zs:nextRecordPosition><zs:echoedSearchRetrieveRequest><zs:version>1.1</zs:version><zs:query>bath.title=\"The devils arithmetic\" and bath.author=\"Yolen, Jane\"</zs:query><zs:maximumRecords>1</zs:maximumRecords><zs:recordPacking>xml</zs:recordPacking><zs:recordSchema>marcxml</zs:recordSchema></zs:echoedSearchRetrieveRequest></zs:searchRetrieveResponse>\n"
+    },
+    "loc_to your eternity|yoshitoki oima": {
+        "classification": "741.5/952",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [
+            "Action and adventure comics",
+            "Fantasy comics",
+            "Graphic novels",
+            "Comic books, strips, etc",
+            "Comics (Graphic works)",
+            "Comics (Graphic works)",
+            "Fiction"
+        ],
+        "google_genres": [],
+        "error": null
+    },
+    "google_bonji yagkanatu paperback|": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the old man and the sea|hemingway, ernest": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1952",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_are we living in the last days : the second coming of jesus christ and interpreting the book of revelation|killens, chauncey s": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the girl from playa blanca|lachtman, ofelia dumas": {
+        "classification": "[Fic]",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1995",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_a spectacle of corruption.|liss, david": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_husped|meyer, stephenie": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_slow bullets|reynolds, alastair": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_a spectacle of corruption.|liss, david": {
+        "classification": "813/.6",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2004",
+        "genres": [
+            "Historical fiction",
+            "Mystery fiction",
+            "Jewish fiction",
+            "Fiction"
+        ],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_jack  jill alex cross|patterson, james": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_nonviolent communication : a language of life|rosenberg, marshall b": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_slow bullets|reynolds, alastair": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_the genius princes guide to raising a nation out of debt hey how about treason vol. 3|toba, toru": {
+        "google_genres": [],
+        "error": null
+    },
+    "google_the genius princes guide to raising a nation out of debt hey how about treason vol. 4|toba, toru": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_rhythm of war: book four of the stormlight archive|sanderson, brandon": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_the genius princes guide to raising a nation out of debt hey how about treason vol. 5|toba, toru": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the way of kings: book one of the stormlight archive|sanderson, brandon": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the genius princes guide to raising a nation out of debt hey how about treason vol. 4|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the genius princes guide to raising a nation out of debt hey how about treason vol. 3|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_the genius princes guide to raising a nation out of debt hey how about treason vol. 6|toba, toru": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the genius princes guide to raising a nation out of debt hey how about treason vol. 5|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_the genius princes guide to raising a nation out of debt hey how about treason vol. 7|toba, toru": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the genius princes guide to raising a nation out of debt hey how about treason vol. 6|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the genius princes guide to raising a nation out of debt hey how about treason vol. 7|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_genius princes guide to raising a nation out of debt hey how about treason vol. 8 light novel|toba, toru": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the power of now : a guide to spiritual enlightenment|tolle, eckhart": {
+        "classification": "291.4/4",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "1999",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_traumainformed approach to library services|tolley, rebecca": {
+        "classification": "027.6/63",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_in the deep|white, loreth anne": {
+        "google_genres": [],
+        "error": null
+    },
+    "loc_beneath devils bridge : a novel|white, loreth anne": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [
+            "Detective and mystery stories",
+            "Thrillers (Fiction)",
+            "Novels",
+            "Fictional Work",
+            "Detective and mystery fiction",
+            "Fiction",
+            "Novels",
+            "Thrillers (Fiction)",
+            "Suspense fiction",
+            "Romans"
+        ],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_in the deep|white, loreth anne": {
+        "classification": "813.6",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [
+            "Thrillers (Fiction)",
+            "Psychological fiction",
+            "Novels",
+            "Psychological fiction",
+            "Fiction",
+            "Thrillers (Fiction)"
+        ],
+        "google_genres": [],
+        "error": null
+    },
+    "loc_the devils arithmetic|yolen, jane": {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2004",
+        "genres": [],
+        "google_genres": [],
+        "error": null
+    },
+    "google_the old man and the sea|hemingway, ernest": {
+        "google_genres": [],
+        "classification": "",
+        "error": null
+    },
+    "google_are we living in the last days : the second coming of jesus christ and interpreting the book of revelation|killens, chauncey s": {
+        "google_genres": [],
+        "classification": "",
+        "error": null
+    },
+    "google_the girl from playa blanca|lachtman, ofelia dumas": {
+        "google_genres": [
+            "Juvenile Fiction"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_husped|meyer, stephenie": {
+        "google_genres": [
+            "Juvenile Nonfiction"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_jack  jill alex cross|patterson, james": {
+        "google_genres": [
+            "Fiction"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_rhythm of war: book four of the stormlight archive|sanderson, brandon": {
+        "google_genres": [
+            "Fiction"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_the way of kings: book one of the stormlight archive|sanderson, brandon": {
+        "google_genres": [
+            "Fiction"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_nonviolent communication : a language of life|rosenberg, marshall b": {
+        "google_genres": [
+            "Psychology"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_genius princes guide to raising a nation out of debt hey how about treason vol. 8 light novel|toba, toru": {
+        "google_genres": [
+            "Comics & Graphic Novels"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_the power of now : a guide to spiritual enlightenment|tolle, eckhart": {
+        "google_genres": [
+            "Body, Mind & Spirit"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_traumainformed approach to library services|tolley, rebecca": {
+        "google_genres": [
+            "Language Arts & Disciplines"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_the devils arithmetic|yolen, jane": {
+        "google_genres": [
+            "Children's literature"
+        ],
+        "classification": "",
+        "error": null
+    },
+    "google_beneath devils bridge : a novel|white, loreth anne": {
+        "google_genres": [],
+        "classification": "",
+        "error": null
+    }
+}

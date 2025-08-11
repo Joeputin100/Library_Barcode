@@ -1,4 +1,3 @@
-import streamlit as st
 import pandas as pd
 import re
 import requests
@@ -8,24 +7,6 @@ import json
 import os
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import xml.etree.ElementTree as ET
-import logging
-from io import StringIO
-from pymarc import Record
-from pymarc.marcxml import parse_xml_to_array
-
-# --- Page Title ---
-st.title("LOC API Processor")
-
-# --- Feature List ---
-st.header("Features")
-st.markdown(r'''
-- [x] CSV file uploading
-- [x] Library of Congress API integration
-- [x] Data cleaning and processing
-- [ ] Editable data table
-- [ ] PDF label generation
-''')
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -76,7 +57,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"][0]
+            item = data["items"].get(0)
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -124,7 +105,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel"]):
         return "FIC"
         
-    match = re.match(r'^(\d+(\\.\\d+)?)', cleaned) # Corrected regex for DDN matching
+    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
@@ -149,7 +130,7 @@ def get_book_metadata(title, author, cache, event):
         event.set()
         return metadata
 
-    metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None}
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'google_genres': [], 'error': None}
 
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
@@ -205,47 +186,41 @@ def get_book_metadata(title, author, cache, event):
                     print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
                     break
 
+    if not metadata.get('classification'):
+        print(f"**Debug: No classification for {title}. Performing web search.**")
+        try:
+            search_results = default_api.google_web_search(query=f"{title} by {author} genre classification")
+            if any(keyword in str(search_results).lower() for keyword in ["fiction", "novel", "stories"]):
+                metadata['classification'] = "FIC"
+                metadata['google_genres'].append("Fiction")
+        except Exception as e:
+            print(f"**Debug: Web search failed for {title}: {e}**")
+
     event.set()
     return metadata
 
 def main():
-    uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
+    df = pd.read_csv("test2.csv", encoding='latin1', dtype=str).fillna('')
+    loc_cache = load_cache()
+    
+    print("Title\tAuthor\tAPI Call Number\tCleaned Call Number")
 
-    if uploaded_file:
-        df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
-        loc_cache = load_cache()
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
         
-        st.write("Processing rows...")
-        progress_bar = st.progress(0)
-        
-        results = []
-
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
+        for future in as_completed(futures):
+            i = futures[future]
+            lc_meta = future.result()
+            row = df.iloc[i]
+            title = row.get('Title', '').strip()
+            author = row.get("Author's Name", '').strip()
             
-            for i, future in enumerate(as_completed(futures)):
-                row_index = futures[future]
-                lc_meta = future.result()
-                row = df.iloc[row_index]
-                title = row.get('Title', '').strip()
-                author = row.get("Author's Name", '').strip()
-                
-                api_call_number = lc_meta.get('classification', '')
-                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
-                
-                results.append({
-                    'Title': title,
-                    'Author': author,
-                    'API Call Number': api_call_number,
-                    'Cleaned Call Number': cleaned_call_number
-                })
-                progress_bar.progress((i + 1) / len(df))
+            api_call_number = lc_meta.get('classification', '')
+            cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+            
+            print(f"{title}\t{author}\t{api_call_number}\t{cleaned_call_number}")
 
-        save_cache(loc_cache)
-        
-        st.write("Processing complete!")
-        
-        st.dataframe(pd.DataFrame(results))
+    save_cache(loc_cache)
 
 if __name__ == "__main__":
     main()
