@@ -9,6 +9,10 @@ import os
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import xml.etree.ElementTree as ET
+import logging
+from io import StringIO
+from pymarc import Record
+from pymarc.marcxml import parse_xml_to_array
 
 # --- Page Title ---
 st.title("LOC API Processor")
@@ -131,36 +135,120 @@ def is_fiction_ddn(ddn: str) -> bool:
     """
     # Regex pattern for accepted fiction-related DDNs
     fiction_pattern = re.compile(
-        r'^('
-        r'810(\.\d+)?|'  # American literature
-        r'811(\.\d+)?|'  # American poetry
-        r'812(\.\d+)?|'  # American drama
-        r'813(\.\d+)?|'  # American fiction
-        r'822(\.\d+)?|'  # English drama
-        r'823(\.\d+)?|'  # English fiction
-        r'833(\.\d+)?|'  # German fiction
-        r'843(\.\d+)?|'  # French fiction
-        r'853(\.\d+)?|'  # Italian fiction
-        r'862(\.\d+)?|'  # Spanish drama
-        r'863(\.\d+)?|'  # Spanish fiction
-        r'872(\.\d+)?|'  # Latin drama
-        r'873(\.\d+)?|'  # Latin epic poetry and fiction
-        r'883(\.\d+)?'   # Classical Greek epic poetry and fiction
+        r'^(' 
+        r'810(\\.\\d+)?|'  # American literature
+        r'811(\\.\\d+)?|'  # American poetry
+        r'812(\\.\\d+)?|'  # American drama
+        r'813(\\.\\d+)?|'  # American fiction
+        r'822(\\.\\d+)?|'  # English drama
+        r'823(\\.\\d+)?|'  # English fiction
+        r'833(\\.\\d+)?|'  # German fiction
+        r'843(\\.\\d+)?|'  # French fiction
+        r'853(\\.\\d+)?|'  # Italian fiction
+        r'862(\\.\\d+)?|'  # Spanish drama
+        r'863(\\.\\d+)?|'  # Spanish fiction
+        r'872(\\.\\d+)?|'  # Latin drama
+        r'873(\\.\\d+)?|'  # Latin epic poetry and fiction
+        r'883(\\.\\d+)?'   # Classical Greek epic poetry and fiction
         r')$'
     )
     
     return bool(fiction_pattern.match(ddn.strip()))
 
-def clean_call_number(call_num_str, genres, raw_response_xml): # Added raw_response_xml
+# Configure module-level logger
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
+
+def is_fiction(call_number: str) -> bool:
+    """
+    Return True if the LC call number should be classified as fiction,
+    with an explicit exclusion for PE (grammar, usage, spelling).
+    """
+    # Normalize and extract the two-letter prefix
+    prefix_match = re.match(r'^([A-Z]{1,2})', call_number.upper())
+    prefix = prefix_match.group(1) if prefix_match else ''
+
+    # 1. PZ is always fiction
+    if prefix == 'PZ':
+        return True
+
+    # 2. PE is always non-fiction (grammar & spelling refs, dictionaries, etc.)
+    if prefix == 'PE':
+        return False
+
+    # 3. PR, PS, PQ cover English, American, and Romance literatures
+    if prefix in {'PR', 'PS', 'PQ'}:
+        return True
+
+    # 4. All other P-subclasses – defer to your broader non-fiction logic
+    return False
+
+def approximate_dewey_from_050(call_no_050: str) -> str:
+    """
+    Approximate a Dewey Decimal number from an LC 050 call number,
+    or return 'FIC' if the item is likely fiction.
+
+    Parameters:
+      call_no_050 (str): The 050 field’s call number (e.g. "PS3552 .O752 A6 2020" or "QA76.73.P98").
+
+    Returns:
+      str: A three-digit Dewey class (as string) or "FIC" for likely fiction.
+           Returns None if it cannot parse the call number.
+    """
+    # 1. Strip whitespace and grab the initial one or two letters
+    call_no_050 = call_no_050.strip().upper()
+    match = re.match(r'^([A-Z]{1,2})', call_no_050)
+    if not match:
+        return None
+
+    prefix = match.group(1)
+
+    # 2. Fiction detection: use the new is_fiction function for P-classes
+    if is_fiction(call_no_050):
+        return "FIC"
+
+    # 3. Map the first letter of non-P classes to an approximate Dewey number
+    letter = prefix[0]
+    dewey_map = {
+        'A': '000',  # General works
+        'B': '100',  # Philosophy & psychology
+        'C': '900',  # History & geography (auxiliary)
+        'D': '900',  # History
+        'E': '900',  # History of Americas
+        'F': '970',  # U.S. local history
+        'G': '910',  # Geography, recreation
+        'H': '300',  # Social sciences
+        'J': '340',  # Law
+        'K': '350',  # Law of the Americas
+        'L': '400',  # Education & linguistics
+        'M': '780',  # Music
+        'N': '780',  # Fine arts
+        'Q': '500',  # Science
+        'R': '600',  # Technology & medicine
+        'S': '650',  # Technology
+        'T': '630',  # Agriculture & related technologies
+        'U': '355',  # Military science
+        'V': '359',  # Naval sciences
+        'W': '629',  # Aircraft & aerospace
+        'X': '016',  # Bibliography
+        'Y': '686',  # Printing & related activities
+        'Z': '020',  # Library & information sciences
+    }
+
+    return dewey_map.get(letter)
+
+def clean_call_number(call_num_str, genres, raw_response_xml, call_no_050):
     if not isinstance(call_num_str, str):
-        return ""
+        call_num_str = "" # Ensure it's a string for strip() and lstrip()
+    
     cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
     cleaned = cleaned.replace('/', '')
-    if cleaned.upper().startswith("[FIC]"):
+
+    # Primary fiction checks
+    if cleaned.upper().startswith("[FIC]") or cleaned.upper().startswith("FIC"):
         return "FIC"
-    if cleaned.upper().startswith("FIC"):
-        return "FIC"
-    if is_fiction_ddn(cleaned): # Use the new function
+    if is_fiction_ddn(cleaned):
         return "FIC"
     
     # New genre check using raw_response_xml
@@ -168,6 +256,12 @@ def clean_call_number(call_num_str, genres, raw_response_xml): # Added raw_respo
         fiction_from_raw = parse_raw_response(raw_response_xml)
         if fiction_from_raw == "FIC":
             return "FIC"
+
+    # If call_num_str is still blank, try 050 fallback
+    if not cleaned and call_no_050:
+        approx_dewey = approximate_dewey_from_050(call_no_050)
+        if approx_dewey:
+            return f"{SUGGESTION_FLAG}{approx_dewey}" # Add suggestion flag for 050 fallback
 
     match = re.match(r'^(\d+(\.\d+)?)\\', cleaned) # Corrected regex for DDN matching
     if match:
@@ -243,12 +337,26 @@ def get_book_metadata(title, author, cache):
                 print(f"**Debug: API Error Message:** {error_message.text}")
         else:
             ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
+            
+            # Extract 082 classification
             classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
             if classification_node is not None: metadata['classification'] = classification_node.text.strip()
-            series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
-            if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
-            volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
-            if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
+
+            # Extract 050 classification for fallback
+            call_no_050_node = root.find('.//marc:datafield[@tag="050"]/marc:subfield[@code="a"]', ns_marc)
+            metadata['call_no_050'] = call_no_050_node.text.strip() if call_no_050_node is not None else ""
+
+            # Extract series info using the new function
+            series_info = extract_series_info(metadata['raw_response'])
+            if series_info['series']:
+                # Prioritize the first series found
+                metadata['series_name'] = series_info['series'][0]['title']
+                metadata['volume_number'] = series_info['series'][0]['volume']
+            elif series_info['fallback']:
+                # Use fallback if no standard series found
+                metadata['series_name'] = "" # No specific series name from fallback
+                metadata['volume_number'] = series_info['fallback'][0]['volume']
+            
             pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
             if pub_year_node is not None and pub_year_node.text:
                 years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
@@ -308,7 +416,8 @@ def main():
                 author = row.get("Author's Name", '').strip()
                 
                 api_call_number = lc_meta.get('classification', '')
-                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('raw_response', ''))
+                # Pass call_no_050 to clean_call_number
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('raw_response', ''), lc_meta.get('call_no_050', ''))
                 
                 results.append({
                     'Title': title,
