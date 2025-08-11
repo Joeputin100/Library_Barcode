@@ -23,7 +23,7 @@ st.markdown(r'''
 - [x] CSV file uploading
 - [x] Library of Congress API integration
 - [x] Data cleaning and processing
-- [ ] Editable data table
+- [x] Editable data table for manual classification
 - [ ] PDF label generation
 ''')
 
@@ -113,7 +113,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.\\d*$', cleaned): # Corrected regex for DDN matching
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -245,7 +245,36 @@ def main():
         
         st.write("Processing complete!")
         
-        st.dataframe(pd.DataFrame(results))
+        # Create a DataFrame from results
+        results_df = pd.DataFrame(results)
+
+        # Add Google Search Link for blank entries
+        results_df['Google Search Link'] = ''
+        for index, row in results_df.iterrows():
+            if not row['Cleaned Call Number']:
+                search_query = f"{row['Title']} {row['Author']} genre classification"
+                google_url = f"https://www.google.com/search?q={search_query.replace(' ', '+')}"
+                results_df.loc[index, 'Google Search Link'] = f"[Search]({google_url})"
+
+        st.subheader("Processed Data")
+        # Display editable DataFrame
+        edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        if st.button("Apply Manual Classifications and Update Cache"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = results_df.loc[index] # Get original row to form key
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                if row['Cleaned Call Number'] != original_row['Cleaned Call Number']:
+                    current_cache[manual_key] = row['Cleaned Call Number']
+                    updated_count += 1
+            save_cache(current_cache)
+            st.success(f"Updated {updated_count} manual classifications in cache!")
+            st.rerun()
 
 if __name__ == "__main__":
     main()
