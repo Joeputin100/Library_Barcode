@@ -14,20 +14,12 @@ from io import StringIO
 from bs4 import BeautifulSoup
 import vertexai
 from vertexai.generative_models import GenerativeModel
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
 
 # --- Page Title ---
-st.title("LOC API Processor")
-
-# --- Feature List ---
-st.header("Features")
-st.markdown(r'''
-- [x] CSV file uploading
-- [x] Library of Congress API integration
-- [x] Data cleaning and processing
-- [x] Editable data table for manual classification
-- [ ] PDF label generation
-'''
-)
+st.title("Atriuum Label Generator")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -88,6 +80,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
+    retry_delays = [5, 5, 5] # 5-second delay for 3 retries
     try:
         # Convert AttrDict to a standard dictionary
         credentials_dict = dict(vertex_ai_credentials)
@@ -105,16 +98,21 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         prompt = (
             f"What is the primary genre of the book titled '{title}' by '{author}'? "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
-            "Please provide only the classification, without any additional text or explanation. If you cannot determine, say 'Unknown'."
+            "Please provide only the classification, without any additional text or explanation. "
+            "If you cannot determine, say 'Unknown'."
         )
         
-        response = model.generate_content(prompt)
-        
-        return response.text.strip()
-    
-    except Exception as e:
-        print(f"Error calling Vertex AI for {title}: {e}") # Use print for debugging in threads
-        return "Unknown"
+        for i in range(len(retry_delays) + 1):
+            try:
+                response = model.generate_content(prompt)
+                return response.text.strip()
+            except Exception as e:
+                if i < len(retry_delays):
+                    print(f"Vertex AI call failed for {title}: {e}. Retrying in {retry_delays[i]} seconds...")
+                    time.sleep(retry_delays[i])
+                else:
+                    print(f"Vertex AI call failed after multiple retries for {title}: {e}")
+                    return "Unknown"
     finally:
         # Clean up the temporary file
         if os.path.exists(temp_creds_path):
@@ -157,7 +155,7 @@ def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
 
-    metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None}
+    metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None} # Added series_name, volume_number, publication_year
 
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
@@ -224,6 +222,70 @@ def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
     event.set()
     return metadata
 
+def generate_pdf_labels(df):
+    buffer = StringIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+
+    # Label dimensions (example, adjust as needed)
+    label_width = 2.5 * inch
+    label_height = 1 * inch
+    x_margin = 0.5 * inch
+    y_margin = 0.5 * inch
+    x_spacing = 0.25 * inch
+    y_spacing = 0.25 * inch
+
+    labels_per_row = int((width - 2 * x_margin + x_spacing) / (label_width + x_spacing))
+    labels_per_col = int((height - 2 * y_margin + y_spacing) / (label_height + y_spacing))
+
+    for i, row in df.iterrows():
+        col_num = i % labels_per_row
+        row_num = (i // labels_per_row) % labels_per_col
+        
+        if i > 0 and col_num == 0 and row_num == 0:
+            c.showPage()
+
+        x = x_margin + col_num * (label_width + x_spacing)
+        y = height - y_margin - (row_num + 1) * (label_height + y_spacing)
+
+        # Draw border for label (for debugging layout)
+        # c.rect(x, y, label_width, label_height)
+
+        # Extract and clean data for label
+        call_number = str(row['Cleaned Call Number']).replace(SUGGESTION_FLAG, '')
+        title = str(row['Title'])
+        author = str(row['Author'])
+        series_info = str(row['Series Info']).replace(SUGGESTION_FLAG, '')
+        copyright_year = str(row['Copyright Year']).replace(SUGGESTION_FLAG, '')
+
+        # Set font and size
+        c.setFont('Helvetica', 10)
+
+        # Draw Call Number
+        c.drawString(x + 0.1 * inch, y + label_height - 0.2 * inch, call_number)
+
+        # Draw Title (truncate if too long)
+        max_title_width = label_width - 0.2 * inch
+        if c.stringWidth(title, 'Helvetica', 10) > max_title_width:
+            while c.stringWidth(title + '...', 'Helvetica', 10) > max_title_width:
+                title = title[:-1]
+            title += '...'
+        c.drawString(x + 0.1 * inch, y + label_height - 0.4 * inch, title)
+
+        # Draw Author
+        c.drawString(x + 0.1 * inch, y + label_height - 0.6 * inch, author)
+
+        # Draw Series Info and Copyright Year
+        bottom_text = []
+        if series_info: bottom_text.append(series_info)
+        if copyright_year: bottom_text.append(copyright_year)
+        
+        if bottom_text:
+            c.drawString(x + 0.1 * inch, y + label_height - 0.8 * inch, ', '.join(bottom_text))
+
+    c.save()
+    return buffer.getvalue()
+
 def main():
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
 
@@ -255,14 +317,40 @@ def main():
                 title = row.get('Title', '').strip()
                 author = row.get("Author's Name", '').strip()
                 
+                # Original Atriuum data
+                original_call_number = row.get('Call Number', '').strip()
+                original_series_name = row.get('Series Title', '').strip()
+                original_volume_number = row.get('Series Number', '').strip()
+                original_publication_year = row.get('Copyright Year', '').strip()
+
+                # Mashed-up data
                 api_call_number = lc_meta.get('classification', '')
                 cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
-                
+                mashed_series_name = lc_meta.get('series_name', '').strip()
+                mashed_volume_number = lc_meta.get('volume_number', '').strip()
+                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+
+                # Merge logic
+                final_call_number = original_call_number if original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else '')
+                final_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                final_volume_number = original_volume_number if original_volume_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                final_publication_year = original_publication_year if original_publication_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+
+                # Combine series name and volume number for display
+                series_info = ""
+                if final_series_name and final_volume_number:
+                    series_info = f"{final_series_name}, Vol. {final_volume_number}"
+                elif final_series_name:
+                    series_info = final_series_name
+                elif final_volume_number:
+                    series_info = f"Vol. {final_volume_number}"
+
                 results.append({
                     'Title': title,
                     'Author': author,
-                    'API Call Number': api_call_number,
-                    'Cleaned Call Number': cleaned_call_number
+                    'Call Number': final_call_number,
+                    'Series Info': series_info,
+                    'Copyright Year': final_publication_year
                 })
                 progress_bar.progress((i + 1) / len(df))
 
@@ -286,12 +374,25 @@ def main():
                 author = original_row['Author'].strip()
                 manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
 
-                if row['Cleaned Call Number'] != original_row['Cleaned Call Number']:
-                    current_cache[manual_key] = row['Cleaned Call Number']
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
                     updated_count += 1
             save_cache(current_cache)
             st.success(f"Updated {updated_count} manual classifications in cache!")
             st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
 
 if __name__ == "__main__":
     main()
