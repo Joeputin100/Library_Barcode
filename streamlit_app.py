@@ -83,16 +83,14 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
-def get_vertex_ai_classification(title, author):
+def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
-    st.write(f"Falling back to Vertex AI for genre classification for {title}...")
+    # st.write(f"Falling back to Vertex AI for genre classification for {title}...") # Removed st.write
     
-    # The `st.secrets` object securely retrieves the credentials you saved.
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
     try:
-        credentials = st.secrets["vertex_ai"]
-        credentials_json = json.dumps(credentials)
+        credentials_json = json.dumps(vertex_ai_credentials)
         
         with open(temp_creds_path, "w") as f:
             f.write(credentials_json)
@@ -100,7 +98,7 @@ def get_vertex_ai_classification(title, author):
         # Set the environment variable for authentication
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
         
-        vertexai.init(project=credentials["project_id"], location="us-central1")
+        vertexai.init(project=vertex_ai_credentials["project_id"], location="us-central1")
         model = GenerativeModel("gemini-pro")
         
         prompt = (
@@ -114,7 +112,8 @@ def get_vertex_ai_classification(title, author):
         return response.text.strip()
     
     except Exception as e:
-        st.error(f"Error calling Vertex AI: {e}")
+        # st.error(f"Error calling Vertex AI: {e}") # Removed st.error
+        print(f"Error calling Vertex AI for {title}: {e}") # Use print for debugging in threads
         return "Unknown"
     finally:
         # Clean up the temporary file
@@ -137,7 +136,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\.5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -153,7 +152,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
         return match.group(1)
     return cleaned
 
-def get_book_metadata(title, author, cache, event):
+def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
     print(f"**Debug: Entering get_book_metadata for:** {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
@@ -217,7 +216,7 @@ def get_book_metadata(title, author, cache, event):
     # Fallback to Vertex AI if no classification found yet
     if not metadata.get('classification'):
         print(f"**Debug: No classification for {title}. Attempting Vertex AI classification.**")
-        vertex_ai_classification_result = get_vertex_ai_classification(title, author)
+        vertex_ai_classification_result = get_vertex_ai_classification(title, author, vertex_ai_credentials)
         if vertex_ai_classification_result and vertex_ai_classification_result != "Unknown":
             metadata['classification'] = vertex_ai_classification_result
             metadata['google_genres'].append(vertex_ai_classification_result) # Add to google_genres for consistency
@@ -234,11 +233,20 @@ def main():
         
         st.write("Processing rows...")
         progress_bar = st.progress(0)
-        
+
+        # Get Vertex AI credentials once on the main thread
+        vertex_ai_credentials = None
+        try:
+            vertex_ai_credentials = st.secrets["vertex_ai"]
+        except Exception as e:
+            st.error(f"Error loading Vertex AI credentials from st.secrets: {e}")
+            st.info("Please ensure you have configured your Vertex AI credentials in Streamlit secrets. See README for instructions.")
+            return # Stop execution if credentials are not available
+
         results = []
 
         with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
+            futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event(), vertex_ai_credentials): i for i, row in df.iterrows()}
             
             for i, future in enumerate(as_completed(futures)):
                 row_index = futures[future]
