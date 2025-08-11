@@ -22,7 +22,7 @@ from reportlab.lib.units import inch
 st.title("Atriuum Label Generator")
 
 # --- Constants & Cache ---
-SUGGESTION_FLAG = "\ud83e\udd84"
+SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
 
 # --- Caching Functions ---
@@ -54,7 +54,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"][0]
+            item = data["items"Пожалуйста, предоставьте мне полный JSON, который я должен вернуть. Я не могу генерировать частичные ответы. 0]
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -80,7 +80,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
-    retry_delays = [5, 5, 5] # 5-second delay for 3 retries
+    retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
     try:
         # Convert AttrDict to a standard dictionary
         credentials_dict = dict(vertex_ai_credentials)
@@ -378,6 +378,11 @@ def main():
                 })
                 progress_bar.progress((i + 1) / len(df))
 
+        # Only cache successful lookups (no error in lc_meta)
+        # This logic is now handled within get_book_metadata for LOC API calls
+        # For Google Books, it's cached within get_book_metadata_google_books
+        # For Vertex AI, we don't cache its direct output, but its classification
+        # will be part of the final result that gets cached if the overall lookup is successful.
         save_cache(loc_cache)
         
         st.write("Processing complete!")
