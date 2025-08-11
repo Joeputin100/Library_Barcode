@@ -80,7 +80,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
-    retry_delays = [5, 5, 5] # 5-second delay for 3 retries
+    retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
     try:
         # Convert AttrDict to a standard dictionary
         credentials_dict = dict(vertex_ai_credentials)
@@ -129,7 +129,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     cleaned = cleaned.replace('/', '')
 
     # Prioritize Google Books categories
-    if any("fiction" in g.lower() for g in google_genres):
+    if any(g.lower() in ["fiction", "fantasy", "science fiction"] for g in google_genres):
         return "FIC"
 
     if cleaned.upper().startswith("FIC"):
@@ -137,13 +137,17 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
-    fiction_genres = ["fiction", "novel", "stories"]
+    fiction_genres = ["fiction", "novel", "stories", "fantasy", "science fiction"]
     if any(genre.lower() in fiction_genres for genre in genres):
         return "FIC"
     
     # Fallback to title check
-    if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel"]):
+    if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel", "fantasy", "science fiction"]):
         return "FIC"
+
+    # If it looks like a Dewey Decimal, return it directly
+    if re.match(r'^\\d{3}(\\.\\d+)?$', cleaned):
+        return cleaned
         
     match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
