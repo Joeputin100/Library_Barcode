@@ -11,9 +11,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import xml.etree.ElementTree as ET
 import logging
 from io import StringIO
-from pymarc import Record
-from pymarc.marcxml import parse_xml_to_array
 from bs4 import BeautifulSoup
+import vertexai
+from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
 st.title("LOC API Processor")
@@ -61,7 +61,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"].get(0, {})
+            item = data["items"][0]
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -83,37 +83,44 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
-def web_search_classification(title, author):
-    """Performs a web search (Goodreads) to find classification for a book."""
-    search_query = f"{title} {author} goodreads genre"
-    url = f"https://www.google.com/search?q={search_query.replace(' ', '+')}"
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+def get_vertex_ai_classification(title, author):
+    """Uses a Generative AI model on Vertex AI to classify a book's genre."""
+    st.write(f"Falling back to Vertex AI for genre classification for {title}...")
     
+    # The `st.secrets` object securely retrieves the credentials you saved.
+    # Create a temporary file to store the credentials
+    temp_creds_path = "temp_creds.json"
     try:
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.text, 'html.parser')
+        credentials = st.secrets["vertex_ai"]
+        credentials_json = json.dumps(credentials)
         
-        # Look for Goodreads link in search results
-        goodreads_link = soup.find('a', href=re.compile(r'goodreads\.com/book/show/'))
-        if goodreads_link:
-            book_url = goodreads_link['href']
-            book_response = requests.get(book_url, headers=headers, timeout=10)
-            book_response.raise_for_status()
-            book_soup = BeautifulSoup(book_response.text, 'html.parser')
-            
-            # Try to find genre information on the Goodreads page
-            genre_tags = book_soup.find_all('a', class_=re.compile(r'Button--tag-inline'))
-            genres = [tag.get_text(strip=True).lower() for tag in genre_tags]
-            
-            if any(keyword in g for keyword in ["fiction", "novel", "stories", "fantasy", "sci-fi", "thriller", "mystery"] for g in genres):
-                return "FIC"
-            elif any(keyword in g for keyword in ["nonfiction", "history", "biography", "science", "self-help"] for g in genres):
-                # This is a very basic non-fiction classification. More specific DDN would require more complex parsing.
-                return "NONFIC"
+        with open(temp_creds_path, "w") as f:
+            f.write(credentials_json)
+
+        # Set the environment variable for authentication
+        os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
+        
+        vertexai.init(project=credentials["project_id"], location="us-central1")
+        model = GenerativeModel("gemini-pro")
+        
+        prompt = (
+            f"What is the primary genre of the book titled '{title}' by '{author}'? "
+            "Please provide only the genre name, without any additional text or explanation. "
+            "For example: 'Science Fiction' or 'Historical Fiction'. If you cannot determine, say 'Unknown'."
+        )
+        
+        response = model.generate_content(prompt)
+        
+        return response.text.strip()
+    
     except Exception as e:
-        print(f"Web scraping failed for {title}: {e}")
-    return ""
+        st.error(f"Error calling Vertex AI: {e}")
+        return "Unknown"
+    finally:
+        # Clean up the temporary file
+        if os.path.exists(temp_creds_path):
+            os.remove(temp_creds_path)
+
 
 def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if google_genres is None:
@@ -207,13 +214,13 @@ def get_book_metadata(title, author, cache, event):
                     print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
                     break
 
-    # Fallback to web scraping if no classification found yet
+    # Fallback to Vertex AI if no classification found yet
     if not metadata.get('classification'):
-        print(f"**Debug: No classification for {title}. Attempting web scraping.**")
-        web_classification = web_search_classification(title, author)
-        if web_classification:
-            metadata['classification'] = web_classification
-            metadata['google_genres'].append(web_classification) # Add to google_genres for consistency
+        print(f"**Debug: No classification for {title}. Attempting Vertex AI classification.**")
+        vertex_ai_classification_result = get_vertex_ai_classification(title, author)
+        if vertex_ai_classification_result and vertex_ai_classification_result != "Unknown":
+            metadata['classification'] = vertex_ai_classification_result
+            metadata['google_genres'].append(vertex_ai_classification_result) # Add to google_genres for consistency
 
     event.set()
     return metadata
@@ -257,14 +264,6 @@ def main():
         
         # Create a DataFrame from results
         results_df = pd.DataFrame(results)
-
-        # Add Google Search Link for blank entries
-        results_df['Google Search Link'] = ''
-        for index, row in results_df.iterrows():
-            if not row['Cleaned Call Number']:
-                search_query = f"{row['Title']} {row['Author']} genre classification"
-                google_url = f"https://www.google.com/search?q={search_query.replace(' ', '+')}"
-                results_df.loc[index, 'Google Search Link'] = f"[Search]({google_url})"
 
         st.subheader("Processed Data")
         # Display editable DataFrame
