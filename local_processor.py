@@ -1,3 +1,4 @@
+
 import pandas as pd
 import re
 import requests
@@ -57,7 +58,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"].get(0)
+            item = data["items"][0]
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -94,7 +95,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\.\\5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
@@ -185,16 +186,6 @@ def get_book_metadata(title, author, cache, event):
                     metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
                     print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
                     break
-
-    if not metadata.get('classification'):
-        print(f"**Debug: No classification for {title}. Performing web search.**")
-        try:
-            search_results = default_api.google_web_search(query=f"{title} by {author} genre classification")
-            if any(keyword in str(search_results).lower() for keyword in ["fiction", "novel", "stories"]):
-                metadata['classification'] = "FIC"
-                metadata['google_genres'].append("Fiction")
-        except Exception as e:
-            print(f"**Debug: Web search failed for {title}: {e}**")
 
     event.set()
     return metadata
