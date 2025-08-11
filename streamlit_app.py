@@ -100,7 +100,8 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
         
         vertexai.init(project=credentials_dict["project_id"], location="us-central1")
-        model = GenerativeModel("gemini-pro")
+        # Use a more explicit model ID if 'gemini-pro' alone is not working
+        model = GenerativeModel("gemini-pro") # Keep as is, if this fails, we need to investigate further
         
         prompt = (
             f"What is the primary genre of the book titled '{title}' by '{author}'? "
@@ -136,7 +137,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
+    if re.match(r'^8\\d{2}\\5\\d*$', cleaned):
         return "FIC"
     # Check for fiction genres
     fiction_genres = ["fiction", "novel", "stories"]
