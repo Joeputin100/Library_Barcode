@@ -5,3 +5,4 @@ qrcode
 reportlab
 requests
 lxml
+pymarc==5.3.1
