@@ -54,7 +54,7 @@ def get_book_metadata_google_books(title, author, cache):
         data = response.json()
 
         if "items" in data and data["items"]:
-            item = data["items"Пожалуйста, предоставьте мне полный JSON, который я должен вернуть. Я не могу генерировать частичные ответы. 0]
+            item = data["items"][0] # Corrected line
             volume_info = item.get("volumeInfo", {})
 
             if "categories" in volume_info:
@@ -80,7 +80,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a book's genre."""
     # Create a temporary file to store the credentials
     temp_creds_path = "temp_creds.json"
-    retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
+    retry_delays = [5, 5, 5] # 5-second delay for 3 retries
     try:
         # Convert AttrDict to a standard dictionary
         credentials_dict = dict(vertex_ai_credentials)
