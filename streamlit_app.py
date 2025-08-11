@@ -99,7 +99,7 @@ def get_vertex_ai_classification(title, author, vertex_ai_credentials):
             f"What is the primary genre of the book titled '{title}' by '{author}'? "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
             "Please provide only the classification, without any additional text or explanation. "
-            "If you cannot determine, say 'Unknown'."
+            "For example: 'Science Fiction' or 'Historical Fiction'. If you cannot determine, say 'Unknown'."
         )
         
         for i in range(len(retry_delays) + 1):
@@ -252,7 +252,8 @@ def generate_pdf_labels(df):
         # c.rect(x, y, label_width, label_height)
 
         # Extract and clean data for label
-        call_number = str(row['Cleaned Call Number']).replace(SUGGESTION_FLAG, '')
+        holding_number = str(row['Holding Number']).replace(SUGGESTION_FLAG, '')
+        call_number = str(row['Call Number']).replace(SUGGESTION_FLAG, '')
         title = str(row['Title'])
         author = str(row['Author'])
         series_info = str(row['Series Info']).replace(SUGGESTION_FLAG, '')
@@ -261,8 +262,11 @@ def generate_pdf_labels(df):
         # Set font and size
         c.setFont('Helvetica', 10)
 
+        # Draw Holding Number
+        c.drawString(x + 0.1 * inch, y + label_height - 0.2 * inch, holding_number)
+
         # Draw Call Number
-        c.drawString(x + 0.1 * inch, y + label_height - 0.2 * inch, call_number)
+        c.drawString(x + 0.1 * inch, y + label_height - 0.35 * inch, call_number)
 
         # Draw Title (truncate if too long)
         max_title_width = label_width - 0.2 * inch
@@ -270,10 +274,10 @@ def generate_pdf_labels(df):
             while c.stringWidth(title + '...', 'Helvetica', 10) > max_title_width:
                 title = title[:-1]
             title += '...'
-        c.drawString(x + 0.1 * inch, y + label_height - 0.4 * inch, title)
+        c.drawString(x + 0.1 * inch, y + label_height - 0.5 * inch, title)
 
         # Draw Author
-        c.drawString(x + 0.1 * inch, y + label_height - 0.6 * inch, author)
+        c.drawString(x + 0.1 * inch, y + label_height - 0.65 * inch, author)
 
         # Draw Series Info and Copyright Year
         bottom_text = []
@@ -318,6 +322,7 @@ def main():
                 author = row.get("Author's Name", '').strip()
                 
                 # Original Atriuum data
+                original_holding_number = row.get('Holding Number', '').strip()
                 original_call_number = row.get('Call Number', '').strip()
                 original_series_name = row.get('Series Title', '').strip()
                 original_volume_number = row.get('Series Number', '').strip()
@@ -331,6 +336,7 @@ def main():
                 mashed_publication_year = lc_meta.get('publication_year', '').strip()
 
                 # Merge logic
+                final_holding_number = original_holding_number # Holding number is always from original
                 final_call_number = original_call_number if original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else '')
                 final_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
                 final_volume_number = original_volume_number if original_volume_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
@@ -348,6 +354,7 @@ def main():
                 results.append({
                     'Title': title,
                     'Author': author,
+                    'Holding Number': final_holding_number,
                     'Call Number': final_call_number,
                     'Series Info': series_info,
                     'Copyright Year': final_publication_year
