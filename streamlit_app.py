@@ -56,10 +56,11 @@ def get_book_metadata_google_books(title, author, cache):
     try:
         query = f'intitle:"{safe_title}"+inauthor:"{safe_author}"'
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1"
-        st.write(f"DEBUG: Google Books query for '{title}' by '{author}': {url}")
+        st_logger.debug(f"Google Books query for '{title}' by '{author}': {url}")
         response = requests.get(url, timeout=15)
         response.raise_for_status()
         data = response.json()
+        st_logger.debug(f"Google Books raw response for '{title}' by '{author}': {response.text}")
 
         if "items" in data and data["items"]:
             item = data["items"][0] # Corrected line
@@ -113,14 +114,14 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             "If you cannot determine, use 'Unknown'.\n\n" +
             "Books:\n" + "\n".join(batch_prompts)
         )
-        st.write(f"DEBUG: Vertex AI full prompt:\n```\n{full_prompt}\n```")
+        st_logger.debug(f"Vertex AI full prompt:\n```\n{full_prompt}\n```")
         
         for i in range(len(retry_delays) + 1):
             try:
                 response = model.generate_content(full_prompt)
                 # Attempt to parse JSON response
                 response_text = response.text.strip()
-                st.write(f"DEBUG: Vertex AI raw response:\n```\n{response_text}\n```")
+                st_logger.debug(f"Vertex AI raw response:\n```\n{response_text}\n```")
                 # Clean up markdown code block if present
                 if response_text.startswith("```json") and response_text.endswith("```"):
                     response_text = response_text[7:-3].strip()
@@ -197,24 +198,24 @@ def get_book_metadata_initial_pass(title, author, cache, event):
     metadata.update(google_meta)
 
     if not metadata.get('google_genres'):
-        st.write(f"DEBUG: No genres in Google Books for {title}. Querying LOC.")
+        st_logger.debug(f"No genres in Google Books for {title}. Querying LOC.")
         loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
         if loc_cache_key in cache:
-            st.write(f"DEBUG: LOC cache hit for '{title}' by '{author}'.")
+            st_logger.debug(f"LOC cache hit for '{title}' by '{author}'.")
             cached_loc_meta = cache[loc_cache_key]
             metadata.update(cached_loc_meta)
         else:
             base_url = "http://lx2.loc.gov:210/LCDB"
             query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
             params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-            st.write(f"DEBUG: LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})")
+            st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})")
             
             retry_delays = [5, 15, 30]
             for i in range(len(retry_delays) + 1):
                 try:
                     response = requests.get(base_url, params=params, timeout=20)
                     response.raise_for_status()
-                    st.write(f"DEBUG: LOC raw response for '{title}' by '{author}':\n```xml\n{response.content.decode('utf-8')}\n```")
+                    st_logger.debug(f"LOC raw response for '{title}' by '{author}':\n```xml\n{response.content.decode('utf-8')}\n```")
                     root = etree.fromstring(response.content)
                     ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
                     error_message = root.find('.//diag:message', ns_diag)
