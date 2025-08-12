@@ -88,6 +88,22 @@ def get_book_metadata_google_books(title, author, cache):
                     if 'title' in series_info['series'][0]:
                         metadata['series_name'] = series_info['series'][0]['title']
 
+            # Series number extraction from title
+            if not metadata['volume_number']:
+                volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.)\s*(\d+|one|two|three|four|five|six|seven|eight|nine|ten)', title, re.IGNORECASE)
+                if volume_match:
+                    volume_str = volume_match.group(2)
+                    if volume_str.isdigit():
+                        metadata['volume_number'] = volume_str
+                    else:
+                        word_to_num = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10'}
+                        metadata['volume_number'] = word_to_num.get(volume_str.lower())
+
+            if not metadata['volume_number'] and any(c.lower() in ['manga', 'comic'] for c in metadata['genres']):
+                trailing_num_match = re.search(r'(\d+)$', title)
+                if trailing_num_match:
+                    metadata['volume_number'] = trailing_num_match.group(1)
+
         cache[cache_key] = metadata
         return metadata
 
@@ -232,7 +248,7 @@ def get_book_metadata_initial_pass(title, author, cache, event):
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -261,6 +277,22 @@ def get_book_metadata_initial_pass(title, author, cache, event):
                     if genre_nodes:
                         metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
                     
+                    # Series number extraction from title
+                    if not metadata['volume_number']:
+                        volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.)\s*(\d+|one|two|three|four|five|six|seven|eight|nine|ten)', title, re.IGNORECASE)
+                        if volume_match:
+                            volume_str = volume_match.group(2)
+                            if volume_str.isdigit():
+                                metadata['volume_number'] = volume_str
+                            else:
+                                word_to_num = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10'}
+                                metadata['volume_number'] = word_to_num.get(volume_str.lower())
+
+                    if not metadata['volume_number'] and any(c.lower() in ['manga', 'comic'] for c in metadata['genres']):
+                        trailing_num_match = re.search(r'(\d+)$', title)
+                        if trailing_num_match:
+                            metadata['volume_number'] = trailing_num_match.group(1)
+
                     # Only cache successful LOC lookups
                     if not metadata['error']:
                         cache[loc_cache_key] = metadata
