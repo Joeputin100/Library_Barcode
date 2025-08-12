@@ -10,7 +10,15 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import xml.etree.ElementTree as ET
 import logging
-from io import StringIO
+import io
+
+# --- Logging Setup ---
+log_capture_string = io.StringIO()
+st_logger = logging.getLogger()
+st_logger.setLevel(logging.DEBUG)
+st_handler = logging.StreamHandler(log_capture_string)
+st_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+st_logger.addHandler(st_handler)
 from bs4 import BeautifulSoup
 import vertexai
 from vertexai.generative_models import GenerativeModel
@@ -127,10 +135,10 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
                 return classified_results
             except Exception as e:
                 if i < len(retry_delays):
-                    print(f"Vertex AI batch call failed: {e}. Retrying in {retry_delays[i]} seconds...")
+                    st_logger.warning(f"Vertex AI batch call failed: {e}. Retrying in {retry_delays[i]} seconds...")
                     time.sleep(retry_delays[i])
                 else:
-                    print(f"Vertex AI batch call failed after multiple retries: {e}")
+                    st_logger.error(f"Vertex AI batch call failed after multiple retries: {e}")
                     return {f"{book['title']}|{book['author']}".lower(): "Unknown" for book in batch_books}
     finally:
         if os.path.exists(temp_creds_path):
@@ -179,7 +187,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
     return ""
 
 def get_book_metadata_initial_pass(title, author, cache, event):
-    print(f"**Debug: Entering get_book_metadata_initial_pass for:** {title}")
+    st_logger.debug(f"Entering get_book_metadata_initial_pass for: {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
 
@@ -234,14 +242,14 @@ def get_book_metadata_initial_pass(title, author, cache, event):
                     break # Exit retry loop on success
                 except requests.exceptions.RequestException as e:
                     if i < len(retry_delays):
-                        print(f"LOC API call failed for {title}. Retrying in {retry_delays[i]}s...")
+                        st_logger.warning(f"LOC API call failed for {title}. Retrying in {retry_delays[i]}s...")
                         time.sleep(retry_delays[i])
                         continue
                     metadata['error'] = f"LOC API request failed after retries: {e}"
-                    print(f"**Debug: LOC failed for {title}, returning what we have.**")
+                    st_logger.error(f"LOC failed for {title}, returning what we have.")
                 except Exception as e:
                     metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
-                    print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
+                    st_logger.error(f"Unexpected LOC error for {title}, returning what we have.")
                     break
 
     event.set()
@@ -324,7 +332,7 @@ def extract_year(date_string):
     return ""
 
 def main():
-    print("DEBUG: Streamlit app main function started.")
+    st_logger.debug("Streamlit app main function started.")
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
 
     if uploaded_file:
@@ -503,6 +511,9 @@ def main():
                 file_name="book_labels.pdf",
                 mime="application/pdf"
             )
+
+    with st.expander("Debug Log"): # Add this block
+        st.code(log_capture_string.getvalue()) # Add this line
 
 if __name__ == "__main__":
     main()
