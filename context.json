@@ -1,35 +1,36 @@
 {
-    "overall_goal": "Refine the Python script (\"test_loc_processing.py\") to accurately determine the Dewey Decimal Number (DDN) or \"FIC\" classification for a list of books from a CSV file, using data from the Library of Congress and Google Books APIs.",
+    "overall_goal": "Refine the Python script ("streamlit_app.py") to accurately determine the Dewey Decimal Number (DDN) or "FIC" classification for a list of books from a CSV file, using data from the Library of Congress, Google Books, and Vertex AI APIs.",
     "key_knowledge": [
         "The script processes a CSV of book titles and authors.",
         "It first queries the Library of Congress (LoC) API for classification data.",
         "If the LoC API fails or provides no classification, it falls back to the Google Books API.",
-        "The Google Books API response sometimes contains a \"Subject\" field embedded within the `description` field, which is crucial for classification.",
-        "The `is_likely_fiction` function has been a source of errors, incorrectly classifying non-fiction books as \"FIC\" due to ambiguous keywords like \"story\" and \"narrative\".",
+        "Any remaining blanks are filled in with Vertex AI.",
+        "The current Vertex AI implementation makes one query per prompt.",
+        "The goal is to batch Vertex AI API calls (up to 5 queries per call) to decrease costs.",
+        "The `is_likely_fiction` function has been a source of errors, incorrectly classifying non-fiction books as "FIC" due to ambiguous keywords like "story" and "narrative".",
         "The order of operations in the `clean_call_number` function is critical for correct classification. The Google Books data should be prioritized."
     ],
     "file_system_state": {
         "cwd": "/data/data/com.termux/files/home/projects/barcode",
         "modified": [
-            "test_loc_processing.py"
+            "streamlit_app.py"
         ],
         "read": [
-            "test2.csv",
+            "books.csv",
             "loc_cache.json",
-            "test_loc_processing_results.csv"
+            "label_gen_output.log",
+            "requirements.txt"
         ]
     },
     "recent_actions": [
-        "The script was run multiple times with different modifications to the `test_loc_processing.py` file.",
-        "The `is_likely_fiction` function was identified as a key source of errors.",
-        "The Google Books API response was analyzed, and the \"Subject\" field in the `description` was identified as a key piece of information.",
-        "The script was reverted to its original state to prepare for a clean implementation of the necessary changes.",
-        "Read all relevant files to save the context."
+        "Identified that Vertex AI API calls need to be batched.",
+        "Confirmed `streamlit_app.py` is the relevant file.",
+        "Confirmed `google-cloud-aiplatform` and `vertexai` are in `requirements.txt`."
     ],
     "current_plan": [
-        "Modify `get_book_metadata_google_books` to correctly extract the \"Subject\" from the `description` field and add it to the `genres` list.",
-        "Modify `get_book_metadata` to always call the Google Books API and correctly merge the data from both APIs.",
-        "Modify `clean_call_number` to prioritize the Google Books categories over the `is_likely_fiction` check.",
-        "Re-run the test script with the corrected logic and a cleared cache for the failing record to verify the fix."
+        "Modify `get_vertex_ai_classification_batch` to handle batched prompts.",
+        "Adjust the calling logic in `main()` to prepare batches of books for Vertex AI.",
+        "Parse the batched response from Vertex AI to correctly assign classifications to individual books.",
+        "Test the changes."
     ]
 }

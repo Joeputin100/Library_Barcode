@@ -1,13 +1,14 @@
 {
-    "overall_goal": "To process book data, extract metadata from LOC and Google Books APIs, and generate barcode and QR code labels.",
+    "overall_goal": "To process book data, extract metadata from LOC, Google Books, and Vertex AI APIs, and generate barcode and QR code labels.",
     "key_knowledge": [
         "The project is `barcode` and is focused on processing book data.",
-        "It uses LOC API and Google Books API for metadata extraction.",
-        "The `test_loc_processing.py` script is used for testing the metadata extraction logic.",
+        "It uses LOC API, Google Books API, and Vertex AI for metadata extraction.",
+        "The `streamlit_app.py` script is the main application.",
         "The `get_book_metadata_google_books` function now extracts `mainCategory` and `seriesInfo`.",
         "A `google_category_to_dewey_map` has been created for estimating DDNs from Google Books categories.",
-        "The `estimate_dewey_from_google_categories` function uses this map as a fallback for DDN estimation.",
-        "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback."
+        "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback.",
+        "Vertex AI is used as a final fallback for classification.",
+        "The current task is to batch Vertex AI API calls to improve efficiency."
     ],
-    "current_plan": "The Google Books fallback for DDN estimation has been implemented. The next step is to test these changes by running `test_loc_processing.py`."
+    "current_plan": "Implement batching for Vertex AI API calls in `streamlit_app.py`."
 }
