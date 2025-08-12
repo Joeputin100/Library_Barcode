@@ -1,56 +1,13 @@
 {
-    "overall_goal": "Generate barcode and QR code labels for books, printable from HTML using Avery 5160 labels, with specific content and formatting for four label types per book.",
+    "overall_goal": "To process book data, extract metadata from LOC and Google Books APIs, and generate barcode and QR code labels.",
     "key_knowledge": [
-        "Barcode Symbology: Code 128 for inventory numbers.",
-        "QR Code Content: 6-digit inventory number only.",
-        "Output Format: HTML with embedded images for printing.",
-        "Inventory Number Format: 6 digits, padded with leading zeros.",
-        "Global Font: All text fields on all labels should use a monospace OCR font (Courier).",
-        "Development Environment: Termux on Android.",
-        "Libraries Used: `python-barcode`, `qrcode`, `reportlab` (Python version); `JsBarcode`, `qrcode.js`, `PapaParse` (JavaScript version).",
-        "Debugging Aids: Blue grid (0.1 inch spacing), green outlines for QR/barcode elements."
+        "The project is `barcode` and is focused on processing book data.",
+        "It uses LOC API and Google Books API for metadata extraction.",
+        "The `test_loc_processing.py` script is used for testing the metadata extraction logic.",
+        "The `get_book_metadata_google_books` function now extracts `mainCategory` and `seriesInfo`.",
+        "A `google_category_to_dewey_map` has been created for estimating DDNs from Google Books categories.",
+        "The `estimate_dewey_from_google_categories` function uses this map as a fallback for DDN estimation.",
+        "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback."
     ],
-    "file_system_state": {
-        "CWD": "/data/data/com.termux/files/home/projects/barcode",
-        "CREATED": [
-            "project_plan.json",
-            "book_labels.pdf",
-            "barcode_project.tar.gz",
-            "index.html",
-            "papaparse.min.js"
-        ],
-        "MODIFIED": [
-            "label_generator.py",
-            "project_state.json",
-            "index.html"
-        ],
-        "LOGS": [],
-        "DATA": []
-    },
-    "recent_actions": [
-        "Implemented initial label generation logic.",
-        "Fixed `SyntaxError` and `UnboundLocalError`.",
-        "Applied global font change to Courier.",
-        "Added debugging grid and green outlines for QR/barcode.",
-        "Limited PDF output to 8 labels for faster iteration.",
-        "Attempted to fix Label 1 text sizing and positioning, but non-series books still overlap.",
-        "Attempted to fix Label 2 QR code size and text sizing/wrapping, but text is still too small.",
-        "Confirmed Label 3 (spine label) renders correctly.",
-        "Confirmed Label 4 top row text renders perfectly, but series number text is above the upper border.",
-        "Adjusted Label 4 barcode width and position.",
-        "Adjusted Label 2 QR code size and position.",
-        "Refined Label 1 text sizing and positioning.",
-        "Refined Label 2 text sizing.",
-        "Adjusted Label 4 rotated text position.",
-        "Created `index.html` for client-side label generation with settings.",
-        "Updated `index.html` to use `accept=\"text/csv\"` for file input.",
-        "Attempted to embed `PapaParse` directly into `index.html`, which caused `SyntaxError` and `ReferenceError`.",
-        "Created `papaparse.min.js` file and updated `index.html` to reference it locally.",
-        "Encountered `net::ERR_FILE_NOT_FOUND` for `papaparse.min.js` when `index.html` is opened directly from `file://` URL.",
-        "Embedded `JsBarcode` library directly into `index.html`.",
-        "Embedded `qrcode.js` library directly into `index.html`.",
-        "Removed `jsPDF` library and implemented HTML-based label generation with embedded images.",
-        "Attempted to embed `papaparse.min.js` directly into `index.html`."
-    ],
-    "current_plan": "The user has cancelled the current task. The project state has been saved."
+    "current_plan": "The Google Books fallback for DDN estimation has been implemented. The next step is to test these changes by running `test_loc_processing.py`."
 }
