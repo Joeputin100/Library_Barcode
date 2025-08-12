@@ -41,12 +41,14 @@ def get_book_metadata_google_books(title, author, cache):
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
     cache_key = f"google_{safe_title}|{safe_author}".lower()
     if cache_key in cache:
+        st.write(f"DEBUG: Google Books cache hit for '{title}' by '{author}'.")
         return cache[cache_key]
 
     metadata = {'google_genres': [], 'classification': '', 'error': None}
     try:
         query = f'intitle:"{safe_title}"+inauthor:"{safe_author}"'
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1"
+        st.write(f"DEBUG: Google Books query for '{title}' by '{author}': {url}")
         response = requests.get(url, timeout=15)
         response.raise_for_status()
         data = response.json()
@@ -103,12 +105,14 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             "If you cannot determine, use 'Unknown'.\n\n" +
             "Books:\n" + "\n".join(batch_prompts)
         )
+        st.write(f"DEBUG: Vertex AI full prompt:\n```\n{full_prompt}\n```")
         
         for i in range(len(retry_delays) + 1):
             try:
                 response = model.generate_content(full_prompt)
                 # Attempt to parse JSON response
                 response_text = response.text.strip()
+                st.write(f"DEBUG: Vertex AI raw response:\n```\n{response_text}\n```")
                 # Clean up markdown code block if present
                 if response_text.startswith("```json") and response_text.endswith("```"):
                     response_text = response_text[7:-3].strip()
@@ -172,7 +176,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
         return cleaned
 
     # If none of the above conditions are met, it's an invalid format for a call number
-    return "UNKNOWN"
+    return ""
 
 def get_book_metadata_initial_pass(title, author, cache, event):
     print(f"**Debug: Entering get_book_metadata_initial_pass for:** {title}")
@@ -185,21 +189,24 @@ def get_book_metadata_initial_pass(title, author, cache, event):
     metadata.update(google_meta)
 
     if not metadata.get('google_genres'):
-        print(f"**Debug: No genres in Google Books for {title}. Querying LOC.")
+        st.write(f"DEBUG: No genres in Google Books for {title}. Querying LOC.")
         loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
         if loc_cache_key in cache:
+            st.write(f"DEBUG: LOC cache hit for '{title}' by '{author}'.")
             cached_loc_meta = cache[loc_cache_key]
             metadata.update(cached_loc_meta)
         else:
             base_url = "http://lx2.loc.gov:210/LCDB"
             query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
             params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
+            st.write(f"DEBUG: LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})")
             
             retry_delays = [5, 15, 30]
             for i in range(len(retry_delays) + 1):
                 try:
                     response = requests.get(base_url, params=params, timeout=20)
                     response.raise_for_status()
+                    st.write(f"DEBUG: LOC raw response for '{title}' by '{author}':\n```xml\n{response.content.decode('utf-8')}\n```")
                     root = etree.fromstring(response.content)
                     ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
                     error_message = root.find('.//diag:message', ns_diag)
@@ -372,7 +379,7 @@ def main():
 
                 # Merge logic for initial pass
                 # Use cleaned_original_call_number if valid, else fallback to mashed-up
-                current_call_number = cleaned_original_call_number if cleaned_original_call_number != "UNKNOWN" else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number != "UNKNOWN" else "UNKNOWN")
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else "")
                 current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
                 current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
                 current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
@@ -432,25 +439,26 @@ def main():
                         final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
                         
                         # Update the results list with the new classification
-                        results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai != "UNKNOWN" else "UNKNOWN")
+                        results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai else "")
 
         # Final pass to populate Series Info and ensure all fields are non-blank
         for i, row_data in enumerate(results):
             # Ensure all fields are populated, even if with UNKNOWN
-            if not row_data['Call Number']: row_data['Call Number'] = "UNKNOWN"
-            if not row_data['Copyright Year']: row_data['Copyright Year'] = "UNKNOWN"
-            if not row_data['Series Number']: row_data['Series Number'] = "UNKNOWN"
+            # No longer explicitly setting to "UNKNOWN", leaving as empty string if not found
+            # if not row_data['Call Number']: row_data['Call Number'] = ""
+            # if not row_data['Copyright Year']: row_data['Copyright Year'] = ""
+            # if not row_data['Series Number']: row_data['Series Number'] = ""
 
             # Re-combine series name and volume number for display after all processing
             final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
             final_series_number = row_data['Series Number']
 
             series_info = ""
-            if final_series_name and final_series_number and final_series_number != "UNKNOWN":
+            if final_series_name and final_series_number:
                 series_info = f"{final_series_name}, Vol. {final_series_number}"
             elif final_series_name:
                 series_info = final_series_name
-            elif final_series_number and final_series_number != "UNKNOWN":
+            elif final_series_number:
                 series_info = f"Vol. {final_series_number}"
             
             results[i]['Series Info'] = series_info
