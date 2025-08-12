@@ -324,6 +324,7 @@ def extract_year(date_string):
     return ""
 
 def main():
+    print("DEBUG: Streamlit app main function started.")
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
 
     if uploaded_file:
