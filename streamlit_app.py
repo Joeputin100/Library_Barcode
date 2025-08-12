@@ -52,7 +52,7 @@ def get_book_metadata_google_books(title, author, cache):
         st.write(f"DEBUG: Google Books cache hit for '{title}' by '{author}'.")
         return cache[cache_key]
 
-    metadata = {'google_genres': [], 'classification': '', 'error': None}
+    metadata = {'google_genres': [], 'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'error': None}
     try:
         query = f'intitle:"{safe_title}"+inauthor:"{safe_author}"'
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1"
@@ -63,7 +63,7 @@ def get_book_metadata_google_books(title, author, cache):
         st_logger.debug(f"Google Books raw response for '{title}' by '{author}': {response.text}")
 
         if "items" in data and data["items"]:
-            item = data["items"][0] # Corrected line
+            item = data["items"][0]
             volume_info = item.get("volumeInfo", {})
             st_logger.debug(f"Google Books volume_info for '{title}': {volume_info}")
 
@@ -76,6 +76,17 @@ def get_book_metadata_google_books(title, author, cache):
                 if match:
                     subjects = [s.strip() for s in match.group(1).split(',')]
                     metadata['google_genres'].extend(subjects)
+
+            if 'publishedDate' in volume_info:
+                metadata['publication_year'] = extract_year(volume_info['publishedDate'])
+
+            if 'seriesInfo' in volume_info:
+                series_info = volume_info['seriesInfo']
+                if 'bookDisplayNumber' in series_info:
+                    metadata['volume_number'] = series_info['bookDisplayNumber']
+                if 'series' in series_info and series_info['series']:
+                    if 'title' in series_info['series'][0]:
+                        metadata['series_name'] = series_info['series'][0]['title']
 
         cache[cache_key] = metadata
         return metadata
@@ -109,10 +120,10 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             batch_prompts.append(f"Title: {book['title']}, Author: {book['author']}")
         
         full_prompt = (
-            "For each book in the following list, provide its primary genre or Dewey Decimal classification. "
+            "For each book in the following list, provide its primary genre or Dewey Decimal classification, series title, volume number, and copyright year. "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
-            "Provide the output as a JSON array of objects, where each object has 'title', 'author', and 'classification' fields. "
-            "If you cannot determine, use 'Unknown'.\n\n" +
+            "Provide the output as a JSON array of objects, where each object has 'title', 'author', 'classification', 'series_title', 'volume_number', and 'copyright_year' fields. "
+            "If you cannot determine a value for a field, use 'Unknown'.\n\n" +
             "Books:\n" + "\n".join(batch_prompts)
         )
         st_logger.debug(f"Vertex AI full prompt:\n```\n{full_prompt}\n```")
@@ -133,7 +144,12 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
                 classified_results = {}
                 for item in classifications:
                     key = f"{item['title']}|{item['author']}".lower()
-                    classified_results[key] = item.get('classification', 'Unknown')
+                    classified_results[key] = {
+                        'classification': item.get('classification', 'Unknown'),
+                        'series_title': item.get('series_title', ''),
+                        'volume_number': item.get('volume_number', ''),
+                        'copyright_year': item.get('copyright_year', '')
+                    }
                 return classified_results
             except Exception as e:
                 if i < len(retry_delays):
@@ -141,7 +157,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
                     time.sleep(retry_delays[i])
                 else:
                     st_logger.error(f"Vertex AI batch call failed after multiple retries: {e}")
-                    return {f"{book['title']}|{book['author']}".lower(): "Unknown" for book in batch_books}
+                    return {f"{book['title']}|{book['author']}".lower(): {'classification': 'Unknown', 'series_title': '', 'volume_number': '', 'copyright_year': ''} for book in batch_books}
     finally:
         if os.path.exists(temp_creds_path):
             os.remove(temp_creds_path)
@@ -207,61 +223,59 @@ def get_book_metadata_initial_pass(title, author, cache, event):
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
 
-    if not metadata.get('google_genres'):
-        st_logger.debug(f"No genres in Google Books for {title}. Querying LOC.")
-        loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
-        if loc_cache_key in cache:
-            st_logger.debug(f"LOC cache hit for '{title}' by '{author}'.")
-            cached_loc_meta = cache[loc_cache_key]
-            metadata.update(cached_loc_meta)
-        else:
-            base_url = "http://lx2.loc.gov:210/LCDB"
-            query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
-            params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-            st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line again
-            
-            retry_delays = [5, 15, 30]
-            for i in range(len(retry_delays) + 1):
-                try:
-                    response = requests.get(base_url, params=params, timeout=20)
-                    response.raise_for_status()
-                    st_logger.debug(f"LOC raw response for '{title}' by '{author}':\n```xml\n{response.content.decode('utf-8')}\n```")
-                    root = etree.fromstring(response.content)
-                    ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
-                    error_message = root.find('.//diag:message', ns_diag)
-                    if error_message is not None:
-                        metadata['error'] = f"LOC API Error: {error_message.text}"
-                    else:
-                        ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
-                        classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
-                        if classification_node is not None: metadata['classification'] = classification_node.text.strip()
-                        series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
-                        if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
-                        volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
-                        if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
-                        pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
-                        if pub_year_node is not None and pub_year_node.text:
-                            years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
-                            if years: metadata['publication_year'] = str(min([int(y) for y in years]))
-                        genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
-                        if genre_nodes:
-                            metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
-                        
-                        # Only cache successful LOC lookups
-                        if not metadata['error']:
-                            cache[loc_cache_key] = metadata
-                    break # Exit retry loop on success
-                except requests.exceptions.RequestException as e:
-                    if i < len(retry_delays):
-                        st_logger.warning(f"LOC API call failed for {title}. Retrying in {retry_delays[i]}s...")
-                        time.sleep(retry_delays[i])
-                        continue
-                    metadata['error'] = f"LOC API request failed after retries: {e}"
-                    st_logger.error(f"LOC failed for {title}, returning what we have.")
-                except Exception as e:
-                    metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
-                    st_logger.error(f"Unexpected LOC error for {title}, returning what we have.")
-                    break
+    loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
+    if loc_cache_key in cache and 'series_name' in cache[loc_cache_key] and 'publication_year' in cache[loc_cache_key]:
+        st_logger.debug(f"LOC cache hit for '{title}' by '{author}'.")
+        cached_loc_meta = cache[loc_cache_key]
+        metadata.update(cached_loc_meta)
+    else:
+        base_url = "http://lx2.loc.gov:210/LCDB"
+        query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+        params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
+        
+        retry_delays = [5, 15, 30]
+        for i in range(len(retry_delays) + 1):
+            try:
+                response = requests.get(base_url, params=params, timeout=20)
+                response.raise_for_status()
+                st_logger.debug(f"LOC raw response for '{title}' by '{author}':\n```xml\n{response.content.decode('utf-8')}\n```")
+                root = etree.fromstring(response.content)
+                ns_diag = {'diag': 'http://www.loc.gov/zing/srw/diagnostic/'}
+                error_message = root.find('.//diag:message', ns_diag)
+                if error_message is not None:
+                    metadata['error'] = f"LOC API Error: {error_message.text}"
+                else:
+                    ns_marc = {'marc': 'http://www.loc.gov/MARC21/slim'}
+                    classification_node = root.find('.//marc:datafield[@tag="082"]/marc:subfield[@code="a"]', ns_marc)
+                    if classification_node is not None: metadata['classification'] = classification_node.text.strip()
+                    series_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="a"]', ns_marc)
+                    if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
+                    volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
+                    if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
+                    pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
+                    if pub_year_node is not None and pub_year_node.text:
+                        years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
+                        if years: metadata['publication_year'] = str(min([int(y) for y in years]))
+                    genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
+                    if genre_nodes:
+                        metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
+                    
+                    # Only cache successful LOC lookups
+                    if not metadata['error']:
+                        cache[loc_cache_key] = metadata
+                break # Exit retry loop on success
+            except requests.exceptions.RequestException as e:
+                if i < len(retry_delays):
+                    st_logger.warning(f"LOC API call failed for {title}. Retrying in {retry_delays[i]}s...")
+                    time.sleep(retry_delays[i])
+                    continue
+                metadata['error'] = f"LOC API request failed after retries: {e}"
+                st_logger.error(f"LOC failed for {title}, returning what we have.")
+            except Exception as e:
+                metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
+                st_logger.error(f"Unexpected LOC error for {title}, returning what we have.")
+                break
 
     event.set()
     return metadata
@@ -446,22 +460,32 @@ def main():
                         lc_meta = book_data['lc_meta']
                         
                         key = f"{title}|{author}".lower()
-                        vertex_ai_classification = batch_classifications.get(key, "Unknown")
+                        vertex_ai_results = batch_classifications.get(key, {'classification': 'Unknown', 'series_title': '', 'volume_number': '', 'copyright_year': ''})
 
                         # Update the classification in lc_meta for this book
-                        if vertex_ai_classification and vertex_ai_classification != "Unknown":
-                            lc_meta['classification'] = vertex_ai_classification
+                        if vertex_ai_results['classification'] and vertex_ai_results['classification'] != "Unknown":
+                            lc_meta['classification'] = vertex_ai_results['classification']
                             # Ensure google_genres is a list before appending
                             if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
                                 lc_meta['google_genres'] = []
-                            lc_meta['google_genres'].append(vertex_ai_classification) # Add to google_genres for consistency
+                            lc_meta['google_genres'].append(vertex_ai_results['classification']) # Add to google_genres for consistency
                         
+                        if vertex_ai_results['series_title']:
+                            lc_meta['series_name'] = vertex_ai_results['series_title']
+                        if vertex_ai_results['volume_number']:
+                            lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                        if vertex_ai_results['copyright_year']:
+                            lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
                         st_logger.debug(f"Post-Vertex lc_meta for row {row_index}: {lc_meta}")
                         # Re-clean call number with new Vertex AI classification
                         final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
                         
                         # Update the results list with the new classification
                         results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai else "")
+                        results[row_index]['Series Info'] = lc_meta.get('series_name', '')
+                        results[row_index]['Series Number'] = lc_meta.get('volume_number', '')
+                        results[row_index]['Copyright Year'] = lc_meta.get('publication_year', '')
 
         # Final pass to populate Series Info and ensure all fields are non-blank
         for i, row_data in enumerate(results):
