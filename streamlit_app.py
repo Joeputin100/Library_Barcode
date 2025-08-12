@@ -514,7 +514,12 @@ def main():
             )
 
     with st.expander("Debug Log"): # Add this block
-        st.code(log_capture_string.getvalue()) # Add this line
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
 
 if __name__ == "__main__":
     main()
