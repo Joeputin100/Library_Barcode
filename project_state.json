@@ -8,7 +8,9 @@
         "A `google_category_to_dewey_map` has been created for estimating DDNs from Google Books categories.",
         "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback.",
         "Vertex AI is used as a final fallback for classification.",
-        "The current task is to batch Vertex AI API calls to improve efficiency."
+        "The `streamlit_app.py` has been modified to display debug logs within an `st.expander` and provide a download button for full logs.",
+        "Identified issues: Missing Series Title/Number, 'No genre' from Google Books, and ignored Vertex AI responses.",
+        "Attempted to fix regex `SyntaxError` in `clean_call_number` by direct string replacement in memory."
     ],
-    "current_plan": "Implement batching for Vertex AI API calls in `streamlit_app.py`."
+    "current_plan": "The user is restarting the Gemini CLI with a different model. The current task is to ensure the `streamlit_app.py` is in a stable state after the regex fixes and to continue debugging the identified issues (Google Books genres, Vertex AI responses, and series info)."
 }
