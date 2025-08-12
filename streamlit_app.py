@@ -14,9 +14,6 @@ from io import StringIO
 from bs4 import BeautifulSoup
 import vertexai
 from vertexai.generative_models import GenerativeModel
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
@@ -76,90 +73,112 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
-def get_vertex_ai_classification(title, author, vertex_ai_credentials):
-    """Uses a Generative AI model on Vertex AI to classify a book's genre."""
-    # Create a temporary file to store the credentials
+def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
+    """Uses a Generative AI model on Vertex AI to classify a batch of books' genres."""
     temp_creds_path = "temp_creds.json"
     retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
+    
     try:
-        # Convert AttrDict to a standard dictionary
         credentials_dict = dict(vertex_ai_credentials)
         credentials_json = json.dumps(credentials_dict)
         
         with open(temp_creds_path, "w") as f:
             f.write(credentials_json)
 
-        # Set the environment variable for authentication
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
         
         vertexai.init(project=credentials_dict["project_id"], location="us-central1")
-        model = GenerativeModel("gemini-2.5-flash") # Changed model to gemini-2.5-flash
+        model = GenerativeModel("gemini-2.5-flash")
         
-        prompt = (
-            f"What is the primary genre of the book titled '{title}' by '{author}'? "
+        # Construct a single prompt for the batch
+        batch_prompts = []
+        for book in batch_books:
+            batch_prompts.append(f"Title: {book['title']}, Author: {book['author']}")
+        
+        full_prompt = (
+            "For each book in the following list, provide its primary genre or Dewey Decimal classification. "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
-            "Please provide only the classification, without any additional text or explanation. "
-            "For example: 'Science Fiction' or 'Historical Fiction'. If you cannot determine, say 'Unknown'."
+            "Provide the output as a JSON array of objects, where each object has 'title', 'author', and 'classification' fields. "
+            "If you cannot determine, use 'Unknown'.\n\n" +
+            "Books:\n" + "\n".join(batch_prompts)
         )
         
         for i in range(len(retry_delays) + 1):
             try:
-                response = model.generate_content(prompt)
-                return response.text.strip()
+                response = model.generate_content(full_prompt)
+                # Attempt to parse JSON response
+                response_text = response.text.strip()
+                # Clean up markdown code block if present
+                if response_text.startswith("```json") and response_text.endswith("```"):
+                    response_text = response_text[7:-3].strip()
+                
+                classifications = json.loads(response_text)
+                
+                # Create a dictionary for easy lookup
+                classified_results = {}
+                for item in classifications:
+                    key = f"{item['title']}|{item['author']}".lower()
+                    classified_results[key] = item.get('classification', 'Unknown')
+                return classified_results
             except Exception as e:
                 if i < len(retry_delays):
-                    print(f"Vertex AI call failed for {title}: {e}. Retrying in {retry_delays[i]} seconds...")
+                    print(f"Vertex AI batch call failed: {e}. Retrying in {retry_delays[i]} seconds...")
                     time.sleep(retry_delays[i])
                 else:
-                    print(f"Vertex AI call failed after multiple retries for {title}: {e}")
-                    return "Unknown"
+                    print(f"Vertex AI batch call failed after multiple retries: {e}")
+                    return {f"{book['title']}|{book['author']}".lower(): "Unknown" for book in batch_books}
     finally:
-        # Clean up the temporary file
         if os.path.exists(temp_creds_path):
             os.remove(temp_creds_path)
 
 
-def clean_call_number(call_num_str, genres, google_genres=None, title=""):
+def clean_call_number(call_num_str, genres, google_genres=None, title="", is_original_data=False):
     if google_genres is None:
         google_genres = []
         
     if not isinstance(call_num_str, str):
-        return ""
-    cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
+        return "UNKNOWN" # Default for non-string input
+
+    cleaned = call_num_str.strip()
+    # Only remove suggestion flag if it's not original data
+    if not is_original_data:
+        cleaned = cleaned.lstrip(SUGGESTION_FLAG)
     cleaned = cleaned.replace('/', '')
 
-    # Prioritize Google Books categories
-    if any(g.lower() in ["fiction", "fantasy", "science fiction"] for g in google_genres):
+    # Prioritize Google Books categories and other genre lists for FIC
+    fiction_keywords_all = ["fiction", "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "stories", "a novel", "young adult fiction", "historical fiction", "literary fiction"]
+    if any(g.lower() in fiction_keywords_all for g in google_genres) or \
+       any(genre.lower() in fiction_keywords_all for genre in genres) or \
+       any(keyword in title.lower() for keyword in fiction_keywords_all):
         return "FIC"
 
+    # If the cleaned string is a known non-numeric genre from Vertex AI, map to FIC
+    # This catches cases where Vertex AI directly returns a genre name
+    if cleaned.lower() in ["fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "fiction", "young adult fiction", "historical fiction", "literary fiction"]:
+        return "FIC"
+
+    # Check for explicit "FIC" or valid Dewey Decimal from any source
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    if re.match(r'^8\\d{2}\\.5\\d*$', cleaned):
-        return "FIC"
-    # Check for fiction genres
-    fiction_genres = ["fiction", "novel", "stories", "fantasy", "science fiction"]
-    if any(genre.lower() in fiction_genres for genre in genres):
-        return "FIC"
     
-    # Fallback to title check
-    if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel", "fantasy", "science fiction"]):
-        return "FIC"
-
-    # If it looks like a Dewey Decimal, return it directly
+    # Strict check for Dewey Decimal Number format (3 digits, optional decimal and more digits)
     if re.match(r'^\\d{3}(\\.\\d+)?$', cleaned):
         return cleaned
-        
-    match = re.match(r'^(\d+(\.\d+)?)', cleaned)
-    if match:
-        return match.group(1)
-    return cleaned
+    
+    # If it's a number but not 3 digits, still return it (e.g., from LOC 050 field like "PS3515.E37"), keep it as is
+    # This allows for LC call numbers to pass through if they are numeric-like
+    if re.match(r'^[A-Z]{1,3}\\d+(\\.\\d+)?$', cleaned) or re.match(r'^\\d+(\\.\\d+)?$', cleaned):
+        return cleaned
 
-def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
-    print(f"**Debug: Entering get_book_metadata for:** {title}")
+    # If none of the above conditions are met, it's an invalid format for a call number
+    return "UNKNOWN"
+
+def get_book_metadata_initial_pass(title, author, cache, event):
+    print(f"**Debug: Entering get_book_metadata_initial_pass for:** {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
 
-    metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None} # Added series_name, volume_number, publication_year
+    metadata = {'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'genres': [], 'google_genres': [], 'error': None}
 
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
@@ -216,14 +235,6 @@ def get_book_metadata(title, author, cache, event, vertex_ai_credentials):
                     metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
                     print(f"**Debug: Unexpected LOC error for {title}, returning what we have.**")
                     break
-
-    # Fallback to Vertex AI if no classification found yet
-    if not metadata.get('classification'):
-        print(f"**Debug: No classification for {title}. Attempting Vertex AI classification.**")
-        vertex_ai_classification_result = get_vertex_ai_classification(title, author, vertex_ai_credentials)
-        if vertex_ai_classification_result and vertex_ai_classification_result != "Unknown":
-            metadata['classification'] = vertex_ai_classification_result
-            metadata['google_genres'].append(vertex_ai_classification_result) # Add to google_genres for consistency
 
     event.set()
     return metadata
@@ -299,7 +310,7 @@ def generate_pdf_labels(df):
 def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
-        match = re.search(r'\b(1[7-9]\d{2}|20\d{2})\b', date_string)
+        match = re.search(r'\\b(1[7-9]\d{2}|20\d{2})\\b', date_string)
         if match:
             return match.group(1)
     return ""
@@ -324,9 +335,11 @@ def main():
             return # Stop execution if credentials are not available
 
         results = []
+        unclassified_books_for_vertex_ai = [] # To collect books for batch Vertex AI processing
 
+        # First pass: Process with Google Books and LOC APIs
         with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event(), vertex_ai_credentials): i for i, row in df.iterrows()}
+            futures = {executor.submit(get_book_metadata_initial_pass, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
             
             for i, future in enumerate(as_completed(futures)):
                 row_index = futures[future]
@@ -337,7 +350,8 @@ def main():
                 
                 # Original Atriuum data
                 original_holding_barcode = row.get('Holdings Barcode', '').strip()
-                original_call_number = row.get('Call Number', '').strip()
+                raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
+                cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
                 original_series_name = row.get('Series Title', '').strip()
                 original_series_number = row.get('Series Number', '').strip()
                 original_copyright_year = extract_year(row.get('Copyright', '').strip())
@@ -348,45 +362,98 @@ def main():
                 if original_copyright_year: final_original_year = original_copyright_year
                 elif original_publication_date_year: final_original_year = original_publication_date_year
 
-                # Mashed-up data
+                # Mashed-up data from initial pass
                 api_call_number = lc_meta.get('classification', '')
                 cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
                 mashed_series_name = lc_meta.get('series_name', '').strip()
                 mashed_volume_number = lc_meta.get('volume_number', '').strip()
                 mashed_publication_year = lc_meta.get('publication_year', '').strip()
 
-                # Merge logic
-                final_holding_barcode = original_holding_barcode # Holding barcode is always from original
-                final_call_number = original_call_number if original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else '')
-                final_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
-                final_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
-                final_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+                # Merge logic for initial pass
+                # Use cleaned_original_call_number if valid, else fallback to mashed-up
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number != "UNKNOWN" else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number != "UNKNOWN" else "UNKNOWN")
+                current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
 
-                # Combine series name and volume number for display
-                series_info = ""
-                if final_series_name and final_series_number:
-                    series_info = f"{final_series_name}, Vol. {final_series_number}"
-                elif final_series_name:
-                    series_info = final_series_name
-                elif final_series_number:
-                    series_info = f"Vol. {final_series_number}"
-
+                # Collect for Vertex AI batch processing if still unclassified
+                if not current_call_number or current_call_number == "UNKNOWN":
+                    unclassified_books_for_vertex_ai.append({
+                        'title': title,
+                        'author': author,
+                        'row_index': row_index, # Keep track of original row index
+                        'lc_meta': lc_meta # Keep original metadata for later merging
+                    })
+                
                 results.append({
                     'Title': title,
                     'Author': author,
-                    'Holdings Barcode': final_holding_barcode,
-                    'Call Number': final_call_number,
-                    'Series Info': series_info,
-                    'Series Number': final_series_number,
-                    'Copyright Year': final_publication_year
+                    'Holdings Barcode': original_holding_barcode,
+                    'Call Number': current_call_number,
+                    'Series Info': "", # Will be populated after all processing
+                    'Series Number': current_series_number,
+                    'Copyright Year': current_publication_year
                 })
                 progress_bar.progress((i + 1) / len(df))
 
-        # Only cache successful lookups (no error in lc_meta)
-        # This logic is now handled within get_book_metadata for LOC API calls
-        # For Google Books, it's cached within get_book_metadata_google_books
-        # For Vertex AI, we don't cache its direct output, but its classification
-        # will be part of the final result that gets cached if the overall lookup is successful.
+        # Second pass: Batch process unclassified books with Vertex AI
+        if unclassified_books_for_vertex_ai:
+            st.write("Attempting Vertex AI batch classification for remaining books...")
+            BATCH_SIZE = 5
+            # Group unclassified books into batches
+            batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+            
+            with ThreadPoolExecutor(max_workers=1) as executor: # Use single worker for batch calls to avoid hitting rate limits too fast
+                batch_futures = {executor.submit(get_vertex_ai_classification_batch, batch, vertex_ai_credentials): batch for batch in batches}
+                
+                for future in as_completed(batch_futures):
+                    processed_batch = batch_futures[future]
+                    batch_classifications = future.result()
+                    
+                    for book_data in processed_batch:
+                        title = book_data['title']
+                        author = book_data['author']
+                        row_index = book_data['row_index']
+                        lc_meta = book_data['lc_meta']
+                        
+                        key = f"{title}|{author}".lower()
+                        vertex_ai_classification = batch_classifications.get(key, "Unknown")
+
+                        # Update the classification in lc_meta for this book
+                        if vertex_ai_classification and vertex_ai_classification != "Unknown":
+                            lc_meta['classification'] = vertex_ai_classification
+                            # Ensure google_genres is a list before appending
+                            if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                lc_meta['google_genres'] = []
+                            lc_meta['google_genres'].append(vertex_ai_classification) # Add to google_genres for consistency
+                        
+                        # Re-clean call number with new Vertex AI classification
+                        final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                        
+                        # Update the results list with the new classification
+                        results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai != "UNKNOWN" else "UNKNOWN")
+
+        # Final pass to populate Series Info and ensure all fields are non-blank
+        for i, row_data in enumerate(results):
+            # Ensure all fields are populated, even if with UNKNOWN
+            if not row_data['Call Number']: row_data['Call Number'] = "UNKNOWN"
+            if not row_data['Copyright Year']: row_data['Copyright Year'] = "UNKNOWN"
+            if not row_data['Series Number']: row_data['Series Number'] = "UNKNOWN"
+
+            # Re-combine series name and volume number for display after all processing
+            final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
+            final_series_number = row_data['Series Number']
+
+            series_info = ""
+            if final_series_name and final_series_number and final_series_number != "UNKNOWN":
+                series_info = f"{final_series_name}, Vol. {final_series_number}"
+            elif final_series_name:
+                series_info = final_series_name
+            elif final_series_number and final_series_number != "UNKNOWN":
+                series_info = f"Vol. {final_series_number}"
+            
+            results[i]['Series Info'] = series_info
+
         save_cache(loc_cache)
         
         st.write("Processing complete!")
