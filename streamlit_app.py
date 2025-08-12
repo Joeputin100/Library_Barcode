@@ -17,6 +17,7 @@ from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
+st.caption("Last updated: 2025-08-11 21:52:02 PDT-0700")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
