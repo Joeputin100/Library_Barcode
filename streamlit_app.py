@@ -25,7 +25,7 @@ from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
-st.caption("Last updated: 2025-08-11 21:52:02 PDT-0700")
+st.caption("Last updated: 2025-08-12 08:43:41 PDT-0700")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -218,7 +218,7 @@ def get_book_metadata_initial_pass(title, author, cache, event):
             base_url = "http://lx2.loc.gov:210/LCDB"
             query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
             params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-            st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
+            st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line again
             
             retry_delays = [5, 15, 30]
             for i in range(len(retry_delays) + 1):
