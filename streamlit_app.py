@@ -558,9 +558,9 @@ def main():
                 # Mashed-up data from initial pass
                 api_call_number = lc_meta.get('classification', '')
                 cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
-                mashed_series_name = lc_meta.get('series_name', '').strip()
-                mashed_volume_number = lc_meta.get('volume_number', '').strip()
-                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+                mashed_series_name = (lc_meta.get('series_name') or '').strip()
+                mashed_volume_number = (lc_meta.get('volume_number') or '').strip()
+                mashed_publication_year = (lc_meta.get('publication_year') or '').strip()
 
                 # Merge logic for initial pass
                 # Use cleaned_original_call_number if valid, else fallback to mashed-up
