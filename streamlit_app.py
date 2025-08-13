@@ -22,11 +22,12 @@ st_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 st_logger.addHandler(st_handler)
 from bs4 import BeautifulSoup
 import vertexai
+import pytz
 from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
-st.caption(f"Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
+st.caption(f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -42,6 +43,25 @@ def load_cache():
 def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
+
+def clean_title(title):
+    """Cleans title by moving leading articles to the end."""
+    if not isinstance(title, str):
+        return ""
+    articles = ['The ', 'A ', 'An ']
+    for article in articles:
+        if title.startswith(article):
+            return title[len(article):] + ", " + title[:len(article)-1]
+    return title
+
+def clean_author(author):
+    """Cleans author name to Last, First Middle."""
+    if not isinstance(author, str):
+        return ""
+    parts = author.split(',')
+    if len(parts) == 2:
+        return f"{parts[0].strip()}, {parts[1].strip()}"
+    return author
 
 # --- Helper Functions ---
 def get_book_metadata_google_books(title, author, cache):
@@ -236,7 +256,7 @@ def lcc_to_ddc(lcc):
     # General mapping
     for prefix, ddc_range in LCC_TO_DDC_MAP.items():
         if lcc.startswith(prefix):
-            return ddc_range
+            return ddc_range.split('-')[0].strip()
             
     return "" # Return empty if no match found
 
@@ -246,22 +266,13 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
         google_genres = []
         
     if not isinstance(call_num_str, str):
-        st_logger.debug(f"clean_call_number returning UNKNOWN for non-string input: {call_num_str}")
-        return "UNKNOWN" # Default for non-string input
+        st_logger.debug(f"clean_call_number returning empty string for non-string input: {call_num_str}")
+        return "" # Default for non-string input
 
     cleaned = call_num_str.strip()
     # Only remove suggestion flag if it's not original data
     if not is_original_data:
         cleaned = cleaned.lstrip(SUGGESTION_FLAG)
-
-    # Check for LCC first
-    ddc_from_lcc = lcc_to_ddc(cleaned)
-    if ddc_from_lcc:
-        st_logger.debug(f"clean_call_number returning from LCC: {ddc_from_lcc}")
-        return ddc_from_lcc
-
-    # Strip common non-numeric characters from Dewey-like numbers
-    cleaned = re.sub(r'[a-zA-Z/\\]', '', cleaned).strip()
 
     # Prioritize Google Books categories and other genre lists for FIC
     fiction_keywords_all = ["fiction", "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "stories", "a novel", "young adult fiction", "historical fiction", "literary fiction"]
@@ -270,6 +281,15 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
        any(keyword in title.lower() for keyword in fiction_keywords_all):
         st_logger.debug(f"clean_call_number returning FIC based on genre/title keywords: {cleaned}")
         return "FIC"
+
+    # Check for LCC
+    ddc_from_lcc = lcc_to_ddc(cleaned)
+    if ddc_from_lcc:
+        st_logger.debug(f"clean_call_number returning from LCC: {ddc_from_lcc}")
+        return ddc_from_lcc
+
+    # Strip common non-numeric characters from Dewey-like numbers
+    cleaned = re.sub(r'[^a-zA-Z0-9\s\.:]', '', cleaned).strip()
 
     # If the cleaned string is a known non-numeric genre from Vertex AI, map to FIC
     # This catches cases where Vertex AI directly returns a genre name
@@ -299,6 +319,16 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
 
 
 def get_book_metadata_initial_pass(title, author, cache, event):
+    problematic_books = [
+        ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+        ("The old man and the sea", "Hemingway, Ernest"),
+        ("Jack & Jill (Alex Cross)", "Patterson, James"),
+    ]
+    is_problematic = (title, author) in problematic_books
+
+    if is_problematic:
+        st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
+
     st_logger.debug(f"Entering get_book_metadata_initial_pass for: {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
@@ -307,6 +337,8 @@ def get_book_metadata_initial_pass(title, author, cache, event):
 
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
+    if is_problematic:
+        st_logger.info(f"After Google Books for '{title}': {metadata}")
 
     loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
     if loc_cache_key in cache and 'series_name' in cache[loc_cache_key] and 'publication_year' in cache[loc_cache_key]:
@@ -317,7 +349,7 @@ def get_book_metadata_initial_pass(title, author, cache, event):
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params))}") # Corrected this line
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -366,6 +398,8 @@ def get_book_metadata_initial_pass(title, author, cache, event):
                     # Only cache successful LOC lookups
                     if not metadata['error']:
                         cache[loc_cache_key] = metadata
+                        if is_problematic:
+                            st_logger.info(f"After LOC for '{title}': {metadata}")
                 break # Exit retry loop on success
             except requests.exceptions.RequestException as e:
                 if i < len(retry_delays):
@@ -454,7 +488,7 @@ def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\[©c]?(\d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\[©c]?(d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
@@ -522,6 +556,9 @@ def main():
                 current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
                 current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
 
+                if is_problematic:
+                    st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+
                 # Collect for Vertex AI batch processing if still unclassified
                 if not current_call_number or current_call_number == "UNKNOWN":
                     unclassified_books_for_vertex_ai.append({
@@ -532,8 +569,8 @@ def main():
                     })
                 
                 results.append({
-                    'Title': title,
-                    'Author': author,
+                    'Title': clean_title(title),
+                    'Author': clean_author(author),
                     'Holdings Barcode': original_holding_barcode,
                     'Call Number': current_call_number,
                     'Series Info': current_series_name, # Will be populated after all processing
