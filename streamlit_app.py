@@ -162,7 +162,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             "For each book in the following list, provide its primary genre or Dewey Decimal classification, series title, volume number, and copyright year. "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
             "Provide the output as a JSON array of objects, where each object has 'title', 'author', 'classification', 'series_title', 'volume_number', and 'copyright_year' fields. "
-            "If you cannot determine a value for a field, use 'Unknown'.\n\n" +
+            "If you cannot determine a value for a field, use an empty string ''.\n\n" +
             "Books:\n" + "\n".join(batch_prompts)
         )
         st_logger.debug(f"Vertex AI full prompt:\n```\n{full_prompt}\n```")
@@ -248,6 +248,9 @@ def lcc_to_ddc(lcc):
     """Converts an LCC call number to a DDC range or 'FIC'."""
     if not isinstance(lcc, str) or not lcc:
         return ""
+
+    if lcc == "FIC":
+        return "FIC"
 
     # Check for fiction-heavy classes first
     if lcc.startswith(('PZ', 'PQ', 'PR', 'PS', 'PT')):
@@ -337,7 +340,7 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -610,6 +613,11 @@ def main():
                         
                         key = f"{title}|{author}".lower()
                         vertex_ai_results = batch_classifications.get(key, {'classification': 'Unknown', 'series_title': '', 'volume_number': '', 'copyright_year': ''})
+
+                        # Replace "Unknown" with empty string
+                        for k, v in vertex_ai_results.items():
+                            if v == "Unknown":
+                                vertex_ai_results[k] = ""
 
                         # Update the classification in lc_meta for this book
                         if vertex_ai_results['classification'] and vertex_ai_results['classification'] != "Unknown":
