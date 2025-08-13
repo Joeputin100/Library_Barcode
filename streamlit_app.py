@@ -1312,4 +1312,776 @@ if __name__ == "__main__":
         )
 
 if __name__ == "__main__":
+    main(), title)
+                row = df.iloc[row_index]
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic = (title, author) in problematic_books
+
+                if is_problematic:
+                    st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
+                
+                # Original Atriuum data
+                original_holding_barcode = row.get('Holdings Barcode', '').strip()
+                raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
+                cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
+                original_series_name = row.get('Series Title', '').strip()
+                original_series_number = row.get('Series Number', '').strip()
+                original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+
+                # Prioritize original copyright/publication year
+                final_original_year = ""
+                if original_copyright_year: final_original_year = original_copyright_year
+                elif original_publication_date_year: final_original_year = original_publication_date_year
+
+                # Mashed-up data from initial pass
+                api_call_number = lc_meta.get('classification', '')
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                mashed_series_name = lc_meta.get('series_name', '').strip()
+                mashed_volume_number = lc_meta.get('volume_number', '').strip()
+                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+
+                # Merge logic for initial pass
+                # Use cleaned_original_call_number if valid, else fallback to mashed-up
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else "")
+                current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+
+                if is_problematic:
+                    st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+
+                # Collect for Vertex AI batch processing if still unclassified
+                if not current_call_number or current_call_number == "UNKNOWN":
+                    unclassified_books_for_vertex_ai.append({
+                        'title': title,
+                        'author': author,
+                        'row_index': row_index, # Keep track of original row index
+                        'lc_meta': lc_meta # Keep original metadata for later merging
+                    })
+                
+                results[row_index] = {
+                    'Title': capitalize_title_mla(clean_title(title)),
+                    'Author': clean_author(author),
+                    'Holdings Barcode': original_holding_barcode,
+                    'Call Number': current_call_number,
+                    'Series Info': current_series_name,
+                    'Series Number': current_series_number,
+                    'Copyright Year': current_publication_year
+                }
+                progress_bar.progress((i + 1) / len(df))
+
+        # Second pass: Batch process unclassified books with Vertex AI
+        if unclassified_books_for_vertex_ai:
+            st.write("Attempting Vertex AI batch classification for remaining books...")
+            BATCH_SIZE = 5
+            # Group unclassified books into batches
+            batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+            
+            with ThreadPoolExecutor(max_workers=1) as executor: # Use single worker for batch calls to avoid hitting rate limits too fast
+                batch_futures = {executor.submit(get_vertex_ai_classification_batch, batch, vertex_ai_credentials): batch for batch in batches}
+                
+                for future in as_completed(batch_futures):
+                    processed_batch = batch_futures[future]
+                    batch_classifications = future.result()
+                    
+                    for book_data, vertex_ai_results in zip(processed_batch, batch_classifications):
+                        title = book_data['title']
+                        author = book_data['author']
+                        row_index = book_data['row_index']
+                        lc_meta = book_data['lc_meta']
+                        
+                        st_logger.debug(f"--- Processing Vertex AI results for row {row_index}, title: {title} ---")
+                        st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
+                        st_logger.debug(f"lc_meta before update: {lc_meta}")
+
+                        
+                        st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
+
+                        # Replace "Unknown" with empty string
+                        for k, v in vertex_ai_results.items():
+                            if v == "Unknown":
+                                vertex_ai_results[k] = ""
+
+                        # Update the classification in lc_meta for this book
+                        if vertex_ai_results.get('classification'):
+                            lc_meta['classification'] = vertex_ai_results['classification']
+                            if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                lc_meta['google_genres'] = []
+                            lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                        
+                        if vertex_ai_results.get('series_title'):
+                            lc_meta['series_name'] = vertex_ai_results['series_title']
+                        if vertex_ai_results.get('volume_number'):
+                            lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                        if vertex_ai_results.get('copyright_year'):
+                            lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
+                        st_logger.debug(f"lc_meta after update: {lc_meta}")
+
+                        # Re-clean call number with new Vertex AI classification
+                        final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                        
+                        # Update the results list, but only if we have new information
+                        if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                        
+                        if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+
+                        if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+
+                        if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
+                        st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
+
+        # Final pass to populate Series Info and ensure all fields are non-blank
+        for i, row_data in enumerate(results):
+            # Re-combine series name and volume number for display after all processing
+            final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
+            final_series_number = row_data['Series Number']
+
+            results[i]['Series Info'] = final_series_name
+            results[i]['Series Number'] = final_series_number
+
+        save_cache(loc_cache)
+        
+        st.write("Processing complete!")
+        
+        # Create a DataFrame from results
+        results_df = pd.DataFrame(results)
+
+        st.subheader("Processed Data")
+        # Display editable DataFrame
+        edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
+
+        if st.button("Apply Manual Classifications and Update Cache"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = results_df.loc[index] # Get original row to form key
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
+                    updated_count += 1
+            save_cache(current_cache)
+            st.success(f"Updated {updated_count} manual classifications in cache!")
+            st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
+
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
+
+if __name__ == "__main__":
+    main(), title)
+                    if trailing_num_match:
+                        lc_meta['volume_number'] = trailing_num_match.group(1)
+                st_logger.debug(f"lc_meta for row {row_index}: {lc_meta}")
+                row = df.iloc[row_index]
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic = (title, author) in problematic_books
+
+                if is_problematic:
+                    st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
+                
+                # Original Atriuum data
+                original_holding_barcode = row.get('Holdings Barcode', '').strip()
+                raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
+                cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
+                original_series_name = row.get('Series Title', '').strip()
+                original_series_number = row.get('Series Number', '').strip()
+                original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+
+                # Prioritize original copyright/publication year
+                final_original_year = ""
+                if original_copyright_year: final_original_year = original_copyright_year
+                elif original_publication_date_year: final_original_year = original_publication_date_year
+
+                # Mashed-up data from initial pass
+                api_call_number = lc_meta.get('classification', '')
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                mashed_series_name = lc_meta.get('series_name', '').strip()
+                mashed_volume_number = lc_meta.get('volume_number', '').strip()
+                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+
+                # Merge logic for initial pass
+                # Use cleaned_original_call_number if valid, else fallback to mashed-up
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else "")
+                current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+
+                if is_problematic:
+                    st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+
+                # Collect for Vertex AI batch processing if still unclassified
+                if not current_call_number or current_call_number == "UNKNOWN":
+                    unclassified_books_for_vertex_ai.append({
+                        'title': title,
+                        'author': author,
+                        'row_index': row_index, # Keep track of original row index
+                        'lc_meta': lc_meta # Keep original metadata for later merging
+                    })
+                
+                results[row_index] = {
+                    'Title': capitalize_title_mla(clean_title(title)),
+                    'Author': clean_author(author),
+                    'Holdings Barcode': original_holding_barcode,
+                    'Call Number': current_call_number,
+                    'Series Info': current_series_name,
+                    'Series Number': current_series_number,
+                    'Copyright Year': current_publication_year
+                }
+                progress_bar.progress((i + 1) / len(df))
+
+        # Second pass: Batch process unclassified books with Vertex AI
+        if unclassified_books_for_vertex_ai:
+            st.write("Attempting Vertex AI batch classification for remaining books...")
+            BATCH_SIZE = 5
+            # Group unclassified books into batches
+            batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+            
+            with ThreadPoolExecutor(max_workers=1) as executor: # Use single worker for batch calls to avoid hitting rate limits too fast
+                batch_futures = {executor.submit(get_vertex_ai_classification_batch, batch, vertex_ai_credentials): batch for batch in batches}
+                
+                for future in as_completed(batch_futures):
+                    processed_batch = batch_futures[future]
+                    batch_classifications = future.result()
+                    
+                    for book_data, vertex_ai_results in zip(processed_batch, batch_classifications):
+                        title = book_data['title']
+                        author = book_data['author']
+                        row_index = book_data['row_index']
+                        lc_meta = book_data['lc_meta']
+                        
+                        st_logger.debug(f"--- Processing Vertex AI results for row {row_index}, title: {title} ---")
+                        st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
+                        st_logger.debug(f"lc_meta before update: {lc_meta}")
+
+                        
+                        st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
+
+                        # Replace "Unknown" with empty string
+                        for k, v in vertex_ai_results.items():
+                            if v == "Unknown":
+                                vertex_ai_results[k] = ""
+
+                        # Update the classification in lc_meta for this book
+                        if vertex_ai_results.get('classification'):
+                            lc_meta['classification'] = vertex_ai_results['classification']
+                            if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                lc_meta['google_genres'] = []
+                            lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                        
+                        if vertex_ai_results.get('series_title'):
+                            lc_meta['series_name'] = vertex_ai_results['series_title']
+                        if vertex_ai_results.get('volume_number'):
+                            lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                        if vertex_ai_results.get('copyright_year'):
+                            lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
+                        st_logger.debug(f"lc_meta after update: {lc_meta}")
+
+                        # Re-clean call number with new Vertex AI classification
+                        final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                        
+                        # Update the results list, but only if we have new information
+                        if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                        
+                        if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+
+                        if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+
+                        if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
+                        st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
+
+        # Final pass to populate Series Info and ensure all fields are non-blank
+        for i, row_data in enumerate(results):
+            # Re-combine series name and volume number for display after all processing
+            final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
+            final_series_number = row_data['Series Number']
+
+            results[i]['Series Info'] = final_series_name
+            results[i]['Series Number'] = final_series_number
+
+        save_cache(loc_cache)
+        
+        st.write("Processing complete!")
+        
+        # Create a DataFrame from results
+        results_df = pd.DataFrame(results)
+
+        st.subheader("Processed Data")
+        # Display editable DataFrame
+        edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
+
+        if st.button("Apply Manual Classifications and Update Cache"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = results_df.loc[index] # Get original row to form key
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
+                    updated_count += 1
+            save_cache(current_cache)
+            st.success(f"Updated {updated_count} manual classifications in cache!")
+            st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
+
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
+
+if __name__ == "__main__":
+    main(), title)
+                    if trailing_num_match:
+                        lc_meta['volume_number'] = trailing_num_match.group(1)
+                row = df.iloc[row_index]
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic = (title, author) in problematic_books
+
+                if is_problematic:
+                    st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
+                
+                # Original Atriuum data
+                original_holding_barcode = row.get('Holdings Barcode', '').strip()
+                raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
+                cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
+                original_series_name = row.get('Series Title', '').strip()
+                original_series_number = row.get('Series Number', '').strip()
+                original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+
+                # Prioritize original copyright/publication year
+                final_original_year = ""
+                if original_copyright_year: final_original_year = original_copyright_year
+                elif original_publication_date_year: final_original_year = original_publication_date_year
+
+                # Mashed-up data from initial pass
+                api_call_number = lc_meta.get('classification', '')
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                mashed_series_name = lc_meta.get('series_name', '').strip()
+                mashed_volume_number = lc_meta.get('volume_number', '').strip()
+                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+
+                # Merge logic for initial pass
+                # Use cleaned_original_call_number if valid, else fallback to mashed-up
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else "")
+                current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+
+                if is_problematic:
+                    st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+
+                # Collect for Vertex AI batch processing if still unclassified
+                if not current_call_number or current_call_number == "UNKNOWN":
+                    unclassified_books_for_vertex_ai.append({
+                        'title': title,
+                        'author': author,
+                        'row_index': row_index, # Keep track of original row index
+                        'lc_meta': lc_meta # Keep original metadata for later merging
+                    })
+                
+                results[row_index] = {
+                    'Title': capitalize_title_mla(clean_title(title)),
+                    'Author': clean_author(author),
+                    'Holdings Barcode': original_holding_barcode,
+                    'Call Number': current_call_number,
+                    'Series Info': current_series_name,
+                    'Series Number': current_series_number,
+                    'Copyright Year': current_publication_year
+                }
+                progress_bar.progress((i + 1) / len(df))
+
+        # Second pass: Batch process unclassified books with Vertex AI
+        if unclassified_books_for_vertex_ai:
+            st.write("Attempting Vertex AI batch classification for remaining books...")
+            BATCH_SIZE = 5
+            # Group unclassified books into batches
+            batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+            
+            with ThreadPoolExecutor(max_workers=1) as executor: # Use single worker for batch calls to avoid hitting rate limits too fast
+                batch_futures = {executor.submit(get_vertex_ai_classification_batch, batch, vertex_ai_credentials): batch for batch in batches}
+                
+                for future in as_completed(batch_futures):
+                    processed_batch = batch_futures[future]
+                    batch_classifications = future.result()
+                    
+                    for book_data, vertex_ai_results in zip(processed_batch, batch_classifications):
+                        title = book_data['title']
+                        author = book_data['author']
+                        row_index = book_data['row_index']
+                        lc_meta = book_data['lc_meta']
+                        
+                        st_logger.debug(f"--- Processing Vertex AI results for row {row_index}, title: {title} ---")
+                        st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
+                        st_logger.debug(f"lc_meta before update: {lc_meta}")
+
+                        
+                        st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
+
+                        # Replace "Unknown" with empty string
+                        for k, v in vertex_ai_results.items():
+                            if v == "Unknown":
+                                vertex_ai_results[k] = ""
+
+                        # Update the classification in lc_meta for this book
+                        if vertex_ai_results.get('classification'):
+                            lc_meta['classification'] = vertex_ai_results['classification']
+                            if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                lc_meta['google_genres'] = []
+                            lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                        
+                        if vertex_ai_results.get('series_title'):
+                            lc_meta['series_name'] = vertex_ai_results['series_title']
+                        if vertex_ai_results.get('volume_number'):
+                            lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                        if vertex_ai_results.get('copyright_year'):
+                            lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
+                        st_logger.debug(f"lc_meta after update: {lc_meta}")
+
+                        # Re-clean call number with new Vertex AI classification
+                        final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                        
+                        # Update the results list, but only if we have new information
+                        if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                        
+                        if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+
+                        if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+
+                        if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
+                        st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
+
+        # Final pass to populate Series Info and ensure all fields are non-blank
+        for i, row_data in enumerate(results):
+            # Re-combine series name and volume number for display after all processing
+            final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
+            final_series_number = row_data['Series Number']
+
+            results[i]['Series Info'] = final_series_name
+            results[i]['Series Number'] = final_series_number
+
+        save_cache(loc_cache)
+        
+        st.write("Processing complete!")
+        
+        # Create a DataFrame from results
+        results_df = pd.DataFrame(results)
+
+        st.subheader("Processed Data")
+        # Display editable DataFrame
+        edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
+
+        if st.button("Apply Manual Classifications and Update Cache"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = results_df.loc[index] # Get original row to form key
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
+                    updated_count += 1
+            save_cache(current_cache)
+            st.success(f"Updated {updated_count} manual classifications in cache!")
+            st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
+
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
+
+if __name__ == "__main__":
+    main(), title)
+                    if trailing_num_match:
+                        lc_meta['volume_number'] = trailing_num_match.group(1)
+                st_logger.debug(f"lc_meta for row {row_index}: {lc_meta}")
+                row = df.iloc[row_index]
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic = (title, author) in problematic_books
+
+                if is_problematic:
+                    st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
+                
+                # Original Atriuum data
+                original_holding_barcode = row.get('Holdings Barcode', '').strip()
+                raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
+                cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
+                original_series_name = row.get('Series Title', '').strip()
+                original_series_number = row.get('Series Number', '').strip()
+                original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+
+                # Prioritize original copyright/publication year
+                final_original_year = ""
+                if original_copyright_year: final_original_year = original_copyright_year
+                elif original_publication_date_year: final_original_year = original_publication_date_year
+
+                # Mashed-up data from initial pass
+                api_call_number = lc_meta.get('classification', '')
+                cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                mashed_series_name = lc_meta.get('series_name', '').strip()
+                mashed_volume_number = lc_meta.get('volume_number', '').strip()
+                mashed_publication_year = lc_meta.get('publication_year', '').strip()
+
+                # Merge logic for initial pass
+                # Use cleaned_original_call_number if valid, else fallback to mashed-up
+                current_call_number = cleaned_original_call_number if cleaned_original_call_number else (SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else "")
+                current_series_name = original_series_name if original_series_name else (SUGGESTION_FLAG + mashed_series_name if mashed_series_name else '')
+                current_series_number = original_series_number if original_series_number else (SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else '')
+                current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
+
+                if is_problematic:
+                    st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+
+                # Collect for Vertex AI batch processing if still unclassified
+                if not current_call_number or current_call_number == "UNKNOWN":
+                    unclassified_books_for_vertex_ai.append({
+                        'title': title,
+                        'author': author,
+                        'row_index': row_index, # Keep track of original row index
+                        'lc_meta': lc_meta # Keep original metadata for later merging
+                    })
+                
+                results[row_index] = {
+                    'Title': capitalize_title_mla(clean_title(title)),
+                    'Author': clean_author(author),
+                    'Holdings Barcode': original_holding_barcode,
+                    'Call Number': current_call_number,
+                    'Series Info': current_series_name,
+                    'Series Number': current_series_number,
+                    'Copyright Year': current_publication_year
+                }
+                progress_bar.progress((i + 1) / len(df))
+
+        # Second pass: Batch process unclassified books with Vertex AI
+        if unclassified_books_for_vertex_ai:
+            st.write("Attempting Vertex AI batch classification for remaining books...")
+            BATCH_SIZE = 5
+            # Group unclassified books into batches
+            batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+            
+            with ThreadPoolExecutor(max_workers=1) as executor: # Use single worker for batch calls to avoid hitting rate limits too fast
+                batch_futures = {executor.submit(get_vertex_ai_classification_batch, batch, vertex_ai_credentials): batch for batch in batches}
+                
+                for future in as_completed(batch_futures):
+                    processed_batch = batch_futures[future]
+                    batch_classifications = future.result()
+                    
+                    for book_data, vertex_ai_results in zip(processed_batch, batch_classifications):
+                        title = book_data['title']
+                        author = book_data['author']
+                        row_index = book_data['row_index']
+                        lc_meta = book_data['lc_meta']
+                        
+                        st_logger.debug(f"--- Processing Vertex AI results for row {row_index}, title: {title} ---")
+                        st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
+                        st_logger.debug(f"lc_meta before update: {lc_meta}")
+
+                        
+                        st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
+
+                        # Replace "Unknown" with empty string
+                        for k, v in vertex_ai_results.items():
+                            if v == "Unknown":
+                                vertex_ai_results[k] = ""
+
+                        # Update the classification in lc_meta for this book
+                        if vertex_ai_results.get('classification'):
+                            lc_meta['classification'] = vertex_ai_results['classification']
+                            if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                lc_meta['google_genres'] = []
+                            lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                        
+                        if vertex_ai_results.get('series_title'):
+                            lc_meta['series_name'] = vertex_ai_results['series_title']
+                        if vertex_ai_results.get('volume_number'):
+                            lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                        if vertex_ai_results.get('copyright_year'):
+                            lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
+                        st_logger.debug(f"lc_meta after update: {lc_meta}")
+
+                        # Re-clean call number with new Vertex AI classification
+                        final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
+                        
+                        # Update the results list, but only if we have new information
+                        if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                        
+                        if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+
+                        if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+
+                        if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
+                        st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
+
+        # Final pass to populate Series Info and ensure all fields are non-blank
+        for i, row_data in enumerate(results):
+            # Re-combine series name and volume number for display after all processing
+            final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
+            final_series_number = row_data['Series Number']
+
+            results[i]['Series Info'] = final_series_name
+            results[i]['Series Number'] = final_series_number
+
+        save_cache(loc_cache)
+        
+        st.write("Processing complete!")
+        
+        # Create a DataFrame from results
+        results_df = pd.DataFrame(results)
+
+        st.subheader("Processed Data")
+        # Display editable DataFrame
+        edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
+
+        if st.button("Apply Manual Classifications and Update Cache"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = results_df.loc[index] # Get original row to form key
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
+                    updated_count += 1
+            save_cache(current_cache)
+            st.success(f"Updated {updated_count} manual classifications in cache!")
+            st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
+
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
+
+if __name__ == "__main__":
     main()
