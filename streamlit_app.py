@@ -495,7 +495,7 @@ def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(\d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
@@ -681,11 +681,18 @@ def main():
                         # Re-clean call number with new Vertex AI classification
                         final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
                         
-                        # Update the results list with the new classification
-                        results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai else "")
-                        results[row_index]['Series Info'] = lc_meta.get('series_name', '')
-                        results[row_index]['Series Number'] = str(lc_meta.get('volume_number', ''))
-                        results[row_index]['Copyright Year'] = str(lc_meta.get('publication_year', ''))
+                        # Update the results list, but only if we have new information
+                        if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                        
+                        if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+
+                        if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+
+                        if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                            results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
                         st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
 
         # Final pass to populate Series Info and ensure all fields are non-blank
