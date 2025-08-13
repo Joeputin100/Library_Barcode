@@ -639,7 +639,7 @@ def main():
                             item_title = item.get('title', '')
                             if isinstance(item_title, str):
                                 cleaned_item_title = re.sub(r'[^a-zA-Z0-9\s]', '', item_title).lower()
-                                if cleaned_item_title in cleaned_title and author.lower() in item.get('author', '').lower():
+                                if (cleaned_item_title in cleaned_title or cleaned_title in cleaned_item_title) and author.lower() in item.get('author', '').lower():
                                     vertex_ai_results = item
                                     break
                         st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
