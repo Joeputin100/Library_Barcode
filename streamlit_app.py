@@ -54,6 +54,24 @@ def clean_title(title):
             return title[len(article):] + ", " + title[:len(article)-1]
     return title
 
+def capitalize_title_mla(title):
+    """Capitalizes a title according to MLA standards."""
+    if not isinstance(title, str) or not title:
+        return ""
+    
+    words = title.lower().split()
+    # List of articles, prepositions, and conjunctions that should not be capitalized unless they are the first or last word.
+    minor_words = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'in', 'of', 'off', 'out', 'up', 'so', 'yet']
+    
+    capitalized_words = []
+    for i, word in enumerate(words):
+        if i == 0 or i == len(words) - 1 or word not in minor_words:
+            capitalized_words.append(word.capitalize())
+        else:
+            capitalized_words.append(word)
+            
+    return " ".join(capitalized_words)
+
 def clean_author(author):
     """Cleans author name to Last, First Middle."""
     if not isinstance(author, str):
@@ -340,7 +358,7 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -581,7 +599,7 @@ def main():
                     })
                 
                 results[row_index] = {
-                    'Title': clean_title(title),
+                    'Title': capitalize_title_mla(clean_title(title)),
                     'Author': clean_author(author),
                     'Holdings Barcode': original_holding_barcode,
                     'Call Number': current_call_number,
@@ -618,10 +636,12 @@ def main():
                         vertex_ai_results = {}
                         cleaned_title = re.sub(r'[^a-zA-Z0-9\s]', '', title).lower()
                         for item in batch_classifications:
-                            cleaned_item_title = re.sub(r'[^a-zA-Z0-9\s]', '', item.get('title', '')).lower()
-                            if cleaned_item_title in cleaned_title and author.lower() in item.get('author', '').lower():
-                                vertex_ai_results = item
-                                break
+                            item_title = item.get('title', '')
+                            if isinstance(item_title, str):
+                                cleaned_item_title = re.sub(r'[^a-zA-Z0-9\s]', '', item_title).lower()
+                                if cleaned_item_title in cleaned_title and author.lower() in item.get('author', '').lower():
+                                    vertex_ai_results = item
+                                    break
                         st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
 
                         # Replace "Unknown" with empty string
