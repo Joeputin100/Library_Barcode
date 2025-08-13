@@ -319,16 +319,6 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
 
 
 def get_book_metadata_initial_pass(title, author, cache, event):
-    problematic_books = [
-        ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
-        ("The old man and the sea", "Hemingway, Ernest"),
-        ("Jack & Jill (Alex Cross)", "Patterson, James"),
-    ]
-    is_problematic = (title, author) in problematic_books
-
-    if is_problematic:
-        st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
-
     st_logger.debug(f"Entering get_book_metadata_initial_pass for: {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
@@ -349,7 +339,7 @@ def get_book_metadata_initial_pass(title, author, cache, event):
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line
+                st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -527,6 +517,16 @@ def main():
                 row = df.iloc[row_index]
                 title = row.get('Title', '').strip()
                 author = row.get("Author's Name", '').strip()
+
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic = (title, author) in problematic_books
+
+                if is_problematic:
+                    st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
                 
                 # Original Atriuum data
                 original_holding_barcode = row.get('Holdings Barcode', '').strip()
