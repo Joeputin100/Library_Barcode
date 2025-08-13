@@ -501,7 +501,7 @@ def main():
             st.info("Please ensure you have configured your Vertex AI credentials in Streamlit secrets. See README for instructions.")
             return # Stop execution if credentials are not available
 
-        results = []
+        results = [{} for _ in range(len(df))]
         unclassified_books_for_vertex_ai = [] # To collect books for batch Vertex AI processing
 
         # First pass: Process with Google Books and LOC APIs
@@ -580,15 +580,15 @@ def main():
                         'lc_meta': lc_meta # Keep original metadata for later merging
                     })
                 
-                results.append({
+                results[row_index] = {
                     'Title': clean_title(title),
                     'Author': clean_author(author),
                     'Holdings Barcode': original_holding_barcode,
                     'Call Number': current_call_number,
-                    'Series Info': current_series_name, # Will be populated after all processing
+                    'Series Info': current_series_name,
                     'Series Number': current_series_number,
                     'Copyright Year': current_publication_year
-                })
+                }
                 progress_bar.progress((i + 1) / len(df))
 
         # Second pass: Batch process unclassified books with Vertex AI
