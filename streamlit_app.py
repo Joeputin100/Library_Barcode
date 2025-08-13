@@ -10,6 +10,7 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import xml.etree.ElementTree as ET
 import logging
+from datetime import datetime
 import io
 
 # --- Logging Setup ---
@@ -25,7 +26,7 @@ from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
-st.caption("Last updated: 2025-08-12 08:43:41 PDT-0700")
+st.caption(f"Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
@@ -525,15 +526,8 @@ def main():
             final_series_name = row_data['Series Info'] # This was populated with mashed_series_name
             final_series_number = row_data['Series Number']
 
-            series_info = ""
-            if final_series_name and final_series_number:
-                series_info = f"{final_series_name}, Vol. {final_series_number}"
-            elif final_series_name:
-                series_info = final_series_name
-            elif final_series_number:
-                series_info = f"Vol. {final_series_number}"
-            
-            results[i]['Series Info'] = series_info
+            results[i]['Series Info'] = final_series_name
+            results[i]['Series Number'] = final_series_number
 
         save_cache(loc_cache)
         
@@ -545,6 +539,8 @@ def main():
         st.subheader("Processed Data")
         # Display editable DataFrame
         edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs and are not saved to Atriuum. They will not appear on printed labels.")
 
         if st.button("Apply Manual Classifications and Update Cache"):
             updated_count = 0
