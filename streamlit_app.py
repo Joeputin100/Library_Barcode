@@ -611,8 +611,13 @@ def main():
                         row_index = book_data['row_index']
                         lc_meta = book_data['lc_meta']
                         
+                        st_logger.debug(f"--- Processing Vertex AI results for row {row_index}, title: {title} ---")
+                        st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
+                        st_logger.debug(f"lc_meta before update: {lc_meta}")
+
                         key = f"{title}|{author}".lower()
                         vertex_ai_results = batch_classifications.get(key, {'classification': 'Unknown', 'series_title': '', 'volume_number': '', 'copyright_year': ''})
+                        st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
 
                         # Replace "Unknown" with empty string
                         for k, v in vertex_ai_results.items():
@@ -620,12 +625,11 @@ def main():
                                 vertex_ai_results[k] = ""
 
                         # Update the classification in lc_meta for this book
-                        if vertex_ai_results['classification'] and vertex_ai_results['classification'] != "Unknown":
+                        if vertex_ai_results['classification']:
                             lc_meta['classification'] = vertex_ai_results['classification']
-                            # Ensure google_genres is a list before appending
                             if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
                                 lc_meta['google_genres'] = []
-                            lc_meta['google_genres'].append(vertex_ai_results['classification']) # Add to google_genres for consistency
+                            lc_meta['google_genres'].append(vertex_ai_results['classification'])
                         
                         if vertex_ai_results['series_title']:
                             lc_meta['series_name'] = vertex_ai_results['series_title']
@@ -634,15 +638,17 @@ def main():
                         if vertex_ai_results['copyright_year']:
                             lc_meta['publication_year'] = vertex_ai_results['copyright_year']
 
-                        st_logger.debug(f"Post-Vertex lc_meta for row {row_index}: {lc_meta}")
+                        st_logger.debug(f"lc_meta after update: {lc_meta}")
+
                         # Re-clean call number with new Vertex AI classification
                         final_call_number_after_vertex_ai = clean_call_number(lc_meta.get('classification', ''), lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
                         
                         # Update the results list with the new classification
                         results[row_index]['Call Number'] = (SUGGESTION_FLAG + final_call_number_after_vertex_ai if final_call_number_after_vertex_ai else "")
                         results[row_index]['Series Info'] = lc_meta.get('series_name', '')
-                        results[row_index]['Series Number'] = lc_meta.get('volume_number', '')
-                        results[row_index]['Copyright Year'] = lc_meta.get('publication_year', '')
+                        results[row_index]['Series Number'] = str(lc_meta.get('volume_number', ''))
+                        results[row_index]['Copyright Year'] = str(lc_meta.get('publication_year', ''))
+                        st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
 
         # Final pass to populate Series Info and ensure all fields are non-blank
         for i, row_data in enumerate(results):
