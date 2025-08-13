@@ -113,7 +113,7 @@ def get_book_metadata_google_books(title, author, cache):
 
             # Series number extraction from title
             if not metadata['volume_number']:
-                volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.)\s*(\d+|one|two|three|four|five|six|seven|eight|nine|ten)', title, re.IGNORECASE)
+                volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.|v)\s*(\d+|[ivxlcdm]+|one|two|three|four|five|six|seven|eight|nine|ten)[\s\)]*', title, re.IGNORECASE)
                 if volume_match:
                     volume_str = volume_match.group(2)
                     if volume_str.isdigit():
@@ -372,7 +372,7 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
                     
                     # Series number extraction from title
                     if not metadata['volume_number']:
-                        volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.)\s*(\d+|one|two|three|four|five|six|seven|eight|nine|ten)', title, re.IGNORECASE)
+                        volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.|v)\s*(\d+|[ivxlcdm]+|one|two|three|four|five|six|seven|eight|nine|ten)[\s\)]*', title, re.IGNORECASE)
                         if volume_match:
                             volume_str = volume_match.group(2)
                             if volume_str.isdigit():
@@ -615,8 +615,13 @@ def main():
                         st_logger.debug(f"results[{row_index}] before update: {results[row_index]}")
                         st_logger.debug(f"lc_meta before update: {lc_meta}")
 
-                        key = f"{title}|{author}".lower()
-                        vertex_ai_results = batch_classifications.get(key, {'classification': 'Unknown', 'series_title': '', 'volume_number': '', 'copyright_year': ''})
+                        vertex_ai_results = {}
+                        cleaned_title = re.sub(r'[^a-zA-Z0-9\s]', '', title).lower()
+                        for item in batch_classifications:
+                            cleaned_item_title = re.sub(r'[^a-zA-Z0-9\s]', '', item.get('title', '')).lower()
+                            if cleaned_item_title in cleaned_title and author.lower() in item.get('author', '').lower():
+                                vertex_ai_results = item
+                                break
                         st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
 
                         # Replace "Unknown" with empty string
@@ -625,17 +630,17 @@ def main():
                                 vertex_ai_results[k] = ""
 
                         # Update the classification in lc_meta for this book
-                        if vertex_ai_results['classification']:
+                        if vertex_ai_results.get('classification'):
                             lc_meta['classification'] = vertex_ai_results['classification']
                             if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
                                 lc_meta['google_genres'] = []
                             lc_meta['google_genres'].append(vertex_ai_results['classification'])
                         
-                        if vertex_ai_results['series_title']:
+                        if vertex_ai_results.get('series_title'):
                             lc_meta['series_name'] = vertex_ai_results['series_title']
-                        if vertex_ai_results['volume_number']:
+                        if vertex_ai_results.get('volume_number'):
                             lc_meta['volume_number'] = vertex_ai_results['volume_number']
-                        if vertex_ai_results['copyright_year']:
+                        if vertex_ai_results.get('copyright_year'):
                             lc_meta['publication_year'] = vertex_ai_results['copyright_year']
 
                         st_logger.debug(f"lc_meta after update: {lc_meta}")
@@ -670,7 +675,7 @@ def main():
         # Display editable DataFrame
         edited_df = st.data_editor(results_df, use_container_width=True, hide_index=True)
 
-        st.info("Values marked with 🐒 are suggestions from external APIs and are not saved to Atriuum. They will not appear on printed labels.")
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
 
         if st.button("Apply Manual Classifications and Update Cache"):
             updated_count = 0
