@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 import logging
 from datetime import datetime
 import io
+import hashlib
 
 # --- Logging Setup ---
 log_capture_string = io.StringIO()
@@ -501,6 +502,13 @@ def extract_year(date_string):
 
 def main():
     st_logger.debug("Streamlit app main function started.")
+    try:
+        with open(__file__, 'rb') as f:
+            file_hash = hashlib.md5(f.read()).hexdigest()
+            st_logger.info(f"Running streamlit_app.py version: {file_hash}")
+    except Exception as e:
+        st_logger.warning(f"Could not calculate file hash: {e}")
+
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
 
     if uploaded_file:
