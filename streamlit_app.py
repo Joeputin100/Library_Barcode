@@ -318,7 +318,7 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
     return ""
 
 
-def get_book_metadata_initial_pass(title, author, cache, event):
+def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_problematic=False):
     st_logger.debug(f"Entering get_book_metadata_initial_pass for: {title}")
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
@@ -327,8 +327,6 @@ def get_book_metadata_initial_pass(title, author, cache, event):
 
     google_meta = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
-    if is_problematic:
-        st_logger.info(f"After Google Books for '{title}': {metadata}")
 
     loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
     if loc_cache_key in cache and 'series_name' in cache[loc_cache_key] and 'publication_year' in cache[loc_cache_key]:
@@ -339,7 +337,7 @@ def get_book_metadata_initial_pass(title, author, cache, event):
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}") # Corrected this line
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -388,8 +386,6 @@ def get_book_metadata_initial_pass(title, author, cache, event):
                     # Only cache successful LOC lookups
                     if not metadata['error']:
                         cache[loc_cache_key] = metadata
-                        if is_problematic:
-                            st_logger.info(f"After LOC for '{title}': {metadata}")
                 break # Exit retry loop on success
             except requests.exceptions.RequestException as e:
                 if i < len(retry_delays):
@@ -403,7 +399,6 @@ def get_book_metadata_initial_pass(title, author, cache, event):
                 st_logger.error(f"Unexpected LOC error for {title}, returning what we have.")
                 break
 
-    event.set()
     return metadata
 
 def generate_pdf_labels(df):
@@ -478,7 +473,7 @@ def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\[©c]?(d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
@@ -508,8 +503,22 @@ def main():
 
         # First pass: Process with Google Books and LOC APIs
         with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(get_book_metadata_initial_pass, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
-            
+            futures = {}
+            for i, row in df.iterrows():
+                title = row.get('Title', '').strip()
+                author = row.get("Author's Name", '').strip()
+                is_blank_row = not title and not author
+                
+                problematic_books = [
+                    ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
+                    ("The old man and the sea", "Hemingway, Ernest"),
+                    ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                ]
+                is_problematic_row = (title, author) in problematic_books
+
+                future = executor.submit(get_book_metadata_initial_pass, title, author, loc_cache, is_blank=is_blank_row, is_problematic=is_problematic_row)
+                futures[future] = i
+
             for i, future in enumerate(as_completed(futures)):
                 row_index = futures[future]
                 lc_meta = future.result()
