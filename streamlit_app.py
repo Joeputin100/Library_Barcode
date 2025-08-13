@@ -642,14 +642,19 @@ def main():
                         st_logger.debug(f"lc_meta before update: {lc_meta}")
 
                         vertex_ai_results = {}
-                        cleaned_title = re.sub(r'[^a-zA-Z0-9\s]', '', title).lower()
-                        for item in batch_classifications:
-                            item_title = item.get('title', '')
-                            if isinstance(item_title, str):
-                                cleaned_item_title = re.sub(r'[^a-zA-Z0-9\s]', '', item_title).lower()
-                                if (cleaned_item_title in cleaned_title or cleaned_title in cleaned_item_title) and author.lower() in item.get('author', '').lower():
-                                    vertex_ai_results = item
+                        lookup_key = f"{title}|{author}".lower()
+                        vertex_ai_results = batch_classifications.get(lookup_key)
+
+                        if not vertex_ai_results:
+                            # Fuzzy match if exact lookup fails
+                            for key, value in batch_classifications.items():
+                                if author.lower() in key and title.lower() in key:
+                                    vertex_ai_results = value
+                                    st_logger.debug(f"Fuzzy match for '{title}': found key '{key}'")
                                     break
+                        
+                        if not vertex_ai_results:
+                            vertex_ai_results = {}
                         st_logger.debug(f"vertex_ai_results: {vertex_ai_results}")
 
                         # Replace "Unknown" with empty string
