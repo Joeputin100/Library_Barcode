@@ -462,6 +462,40 @@ def extract_year(date_string):
             return match.group(1)
     return ""
 
+def clean_series_number(series_num_str):
+    """Cleans and converts series number strings to digits.
+    Removes brackets, periods, descriptive words, and converts written numbers to digits.
+    Handles 'of X' phrases.
+    """
+    if not isinstance(series_num_str, str):
+        return ""
+
+    cleaned = series_num_str.strip().lower()
+
+    # Remove 'of X' phrases (e.g., 'book 3 of 6' -> 'book 3')
+    cleaned = re.sub(r'\s*of\s*\d+', '', cleaned)
+
+    # Remove brackets, periods, and common descriptive words
+    cleaned = re.sub(r'[\[\]\.]', '', cleaned) # Remove brackets and periods
+    cleaned = re.sub(r'\b(book|bk|volume|vol|part|pt|v|no|number)\b', '', cleaned) # Remove descriptive words
+    cleaned = cleaned.strip()
+
+    # Convert written numbers to digits
+    word_to_num = {
+        'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+        'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10',
+        'eleven': '11', 'twelve': '12', 'thirteen': '13', 'fourteen': '14', 'fifteen': '15',
+        'sixteen': '16', 'seventeen': '17', 'eighteen': '18', 'nineteen': '19', 'twenty': '20'
+    }
+    for word, digit in word_to_num.items():
+        cleaned = cleaned.replace(word, digit)
+
+    # Extract the first sequence of digits found
+    match = re.search(r'\d+', cleaned)
+    if match:
+        return match.group(0)
+    return ""
+
 def main():
     st_logger.debug("Streamlit app main function started.")
     try:
@@ -519,14 +553,9 @@ def main():
 
                     # Series number extraction from title, to be done even if cache is hit
                     if not lc_meta.get('volume_number'):
-                        volume_match = re.search(r'(volume|vol\.|book|part|vol|bk\.|v)\s*(\d+|[ivxlcdm]+|one|two|three|four|five|six|seven|eight|nine|ten)[\s\)]*', title, re.IGNORECASE)
-                        if volume_match:
-                            volume_str = volume_match.group(2)
-                            if volume_str.isdigit():
-                                lc_meta['volume_number'] = volume_str
-                            else:
-                                word_to_num = {'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10'}
-                                lc_meta['volume_number'] = word_to_num.get(volume_str.lower())
+                        cleaned_volume = clean_series_number(title)
+                        if cleaned_volume:
+                            lc_meta['volume_number'] = cleaned_volume
 
                     if not lc_meta.get('volume_number') and any(c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', [])):
                         trailing_num_match = re.search(r'(\d+)$', title)
