@@ -497,7 +497,7 @@ def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(?:\d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(\d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
