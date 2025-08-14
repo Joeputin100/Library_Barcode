@@ -759,7 +759,7 @@ def main():
         st.subheader("Generate PDF Labels")
         if st.button("Generate PDF"):
             st_logger.debug("'Generate PDF' button clicked.")
-            print('Generate PDF button clicked')
+            st.write('Generate PDF button was clicked!')
             pdf_output = generate_pdf_labels(edited_df)
             st_logger.debug(f"PDF output type: {type(pdf_output)}, size: {len(pdf_output)} bytes.")
             st.download_button(
