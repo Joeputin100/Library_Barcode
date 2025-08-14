@@ -34,7 +34,7 @@ st.title("Atriuum Label Generator")
 st.caption(f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
 # --- Constants & Cache ---
-SUGGESTION_FLAG = "\ud83e\udd9a"
+SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
 
 # --- Caching Functions ---
@@ -384,8 +384,42 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
 
     return metadata
 
+def clean_series_number(series_num_str):
+    """Cleans and converts series number strings to digits.
+    Removes brackets, periods, descriptive words, and converts written numbers to digits.
+    Handles 'of X' phrases.
+    """
+    if not isinstance(series_num_str, str):
+        return ""
+
+    cleaned = series_num_str.strip().lower()
+
+    # Remove 'of X' phrases (e.g., 'book 3 of 6' -> 'book 3')
+    cleaned = re.sub(r'\s*of\s*\d+', '', cleaned)
+
+    # Remove brackets, periods, and common descriptive words
+    cleaned = re.sub(r'[\[\]\.]', '', cleaned) # Remove brackets and periods
+    cleaned = re.sub(r'\b(book|bk|bk\.|volume|vol|part|pt|v|no|number)\b', '', cleaned) # Remove descriptive words
+    cleaned = cleaned.strip()
+
+    # Convert written numbers to digits
+    word_to_num = {
+        'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
+        'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10',
+        'eleven': '11', 'twelve': '12', 'thirteen': '13', 'fourteen': '14', 'fifteen': '15',
+        'sixteen': '16', 'seventeen': '17', 'eighteen': '18', 'nineteen': '19', 'twenty': '20'
+    }
+    for word, digit in word_to_num.items():
+        cleaned = cleaned.replace(word, digit)
+
+    # Extract the first sequence of digits found
+    match = re.search(r'\d+', cleaned)
+    if match:
+        return match.group(0)
+    return ""
+
 def generate_pdf_labels(df):
-    buffer = io.BytesIO() # Changed to BytesIO for PDF
+    buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
 
@@ -450,50 +484,15 @@ def generate_pdf_labels(df):
             c.drawString(x + 0.1 * inch, y + label_height - 0.8 * inch, ', '.join(bottom_text))
 
     c.save()
-    buffer.seek(0) # Rewind buffer to the beginning
     return buffer.getvalue()
 
 def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(?:\d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
-    return ""
-
-def clean_series_number(series_num_str):
-    """Cleans and converts series number strings to digits.
-    Removes brackets, periods, descriptive words, and converts written numbers to digits.
-    Handles 'of X' phrases.
-    """
-    if not isinstance(series_num_str, str):
-        return ""
-
-    cleaned = series_num_str.strip().lower()
-
-    # Remove 'of X' phrases (e.g., 'book 3 of 6' -> 'book 3')
-    cleaned = re.sub(r'\s*of\s*\d+', '', cleaned)
-
-    # Remove brackets, periods, and common descriptive words
-    cleaned = re.sub(r'[\[\]\.]', '', cleaned) # Remove brackets and periods
-    cleaned = re.sub(r'\b(book|bk|volume|vol|part|pt|v|no|number)\b', '', cleaned) # Remove descriptive words
-    cleaned = cleaned.strip()
-
-    # Convert written numbers to digits
-    word_to_num = {
-        'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5',
-        'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10',
-        'eleven': '11', 'twelve': '12', 'thirteen': '13', 'fourteen': '14', 'fifteen': '15',
-        'sixteen': '16', 'seventeen': '17', 'eighteen': '18', 'nineteen': '19', 'twenty': '20'
-    }
-    for word, digit in word_to_num.items():
-        cleaned = cleaned.replace(word, digit)
-
-    # Extract the first sequence of digits found
-    match = re.search(r'\d+', cleaned)
-    if match:
-        return match.group(0)
     return ""
 
 def main():
@@ -509,8 +508,13 @@ def main():
 
     if uploaded_file:
         if 'processed_df' not in st.session_state or st.session_state.uploaded_file_hash != hashlib.md5(uploaded_file.getvalue()).hexdigest():
-            # Process only if a new file is uploaded or if it's the first run
             df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
+            if 'edited' not in df.columns:
+                df['edited'] = False
+            st.session_state.processed_df = df
+            st.session_state.uploaded_file_hash = hashlib.md5(uploaded_file.getvalue()).hexdigest()
+            st.session_state.original_df = df.copy()
+
             loc_cache = load_cache()
             
             st.write("Processing rows...")
@@ -525,13 +529,18 @@ def main():
                 st.info("Please ensure you have configured your Vertex AI credentials in Streamlit secrets. See README for instructions.")
                 return # Stop execution if credentials are not available
 
-            results = [{} for _ in range(len(df))]
+            results = [{} for _ in range(len(st.session_state.processed_df))]
             unclassified_books_for_vertex_ai = [] # To collect books for batch Vertex AI processing
 
             # First pass: Process with Google Books and LOC APIs
             with ThreadPoolExecutor(max_workers=5) as executor:
                 futures = {}
-                for i, row in df.iterrows():
+                for i, row in st.session_state.processed_df.iterrows():
+                    if row['edited']:
+                        results[i] = row.to_dict()
+                        progress_bar.progress((i + 1) / len(st.session_state.processed_df))
+                        continue
+
                     title = row.get('Title', '').strip()
                     author = row.get("Author's Name", '').strip()
                     is_blank_row = not title and not author
@@ -549,20 +558,18 @@ def main():
                 for i, future in enumerate(as_completed(futures)):
                     row_index = futures[future]
                     lc_meta = future.result()
-                    title = df.iloc[row_index].get('Title', '').strip()
+                    title = st.session_state.processed_df.iloc[row_index].get('Title', '').strip()
 
-                    # Series number extraction from title, to be done even if cache is hit
+                    # Series number extraction from title, to be done if cache is hit
                     if not lc_meta.get('volume_number'):
-                        cleaned_volume = clean_series_number(title)
-                        if cleaned_volume:
-                            lc_meta['volume_number'] = cleaned_volume
+                        lc_meta['volume_number'] = clean_series_number(title)
 
                     if not lc_meta.get('volume_number') and any(c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', [])):
                         trailing_num_match = re.search(r'(\d+)$', title)
                         if trailing_num_match:
                             lc_meta['volume_number'] = trailing_num_match.group(1)
                     st_logger.debug(f"lc_meta for row {row_index}: {lc_meta}")
-                    row = df.iloc[row_index]
+                    row = st.session_state.processed_df.iloc[row_index]
                     author = row.get("Author's Name", '').strip()
 
                     problematic_books = [
@@ -573,14 +580,14 @@ def main():
                     is_problematic = (title, author) in problematic_books
 
                     if is_problematic:
-                        st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+                        st_logger.info(f"--- Problematic Book Detected: {title} by {author} ---")
                     
                     # Original Atriuum data
                     original_holding_barcode = row.get('Holdings Barcode', '').strip()
                     raw_original_call_number = row.get('Call Number', '').strip() # Get raw original
                     cleaned_original_call_number = clean_call_number(raw_original_call_number, [], [], title="", is_original_data=True) # Clean original
                     original_series_name = row.get('Series Title', '').strip()
-                    original_series_number = row.get('Series Number', '').strip()
+                    original_series_number = clean_series_number(row.get('Series Number', '').strip())
                     original_copyright_year = extract_year(row.get('Copyright', '').strip())
                     original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
 
@@ -604,7 +611,7 @@ def main():
                     current_publication_year = final_original_year if final_original_year else (SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else '')
 
                     if is_problematic:
-                        st_logger.info(f"Final merged data for '{title}': {{'Call Number': current_call_number, 'Series Info': current_series_name, 'Series Number': current_series_number, 'Copyright Year': current_publication_year}}")
+                        st_logger.info(f"Final merged data for '{title}': Call Number: {current_call_number}, Series Info: {current_series_name}, Series Number: {current_series_number}, Copyright Year: {current_publication_year}")
 
                     # Collect for Vertex AI batch processing if still unclassified
                     if not current_call_number or current_call_number == "UNKNOWN":
@@ -622,9 +629,10 @@ def main():
                         'Call Number': current_call_number,
                         'Series Info': current_series_name,
                         'Series Number': current_series_number,
-                        'Copyright Year': current_publication_year
+                        'Copyright Year': current_publication_year,
+                        'edited': False
                     }
-                    progress_bar.progress((i + 1) / len(df))
+                    progress_bar.progress((i + 1) / len(st.session_state.processed_df))
 
             # Second pass: Batch process unclassified books with Vertex AI
             if unclassified_books_for_vertex_ai:
@@ -673,7 +681,7 @@ def main():
                                 lc_meta['series_name'] = vertex_ai_results['series_title']
                             if vertex_ai_results.get('volume_number'):
                                 lc_meta['volume_number'] = vertex_ai_results['volume_number']
-                            if lc_meta.get('publication_year'):
+                            if lc_meta.get('copyright_year'):
                                 lc_meta['publication_year'] = vertex_ai_results['copyright_year']
 
                             st_logger.debug(f"lc_meta after update: {lc_meta}")
@@ -711,8 +719,6 @@ def main():
             # Create a DataFrame from results
             results_df = pd.DataFrame(results)
             st.session_state.processed_df = results_df
-            st.session_state.uploaded_file_hash = hashlib.md5(uploaded_file.getvalue()).hexdigest() # Store hash of uploaded file
-            st.session_state.original_df = results_df.copy() # Store a copy of the original processed data
 
         # Display editable DataFrame
         edited_df = st.data_editor(st.session_state.processed_df, use_container_width=True, hide_index=True)
@@ -723,7 +729,10 @@ def main():
             updated_count = 0
             current_cache = load_cache()
             for index, row in edited_df.iterrows():
-                original_row = st.session_state.original_df.loc[index] # Use original_df for comparison
+                original_row = st.session_state.original_df.loc[index]
+                if not row.equals(original_row):
+                    st.session_state.processed_df.loc[index, 'edited'] = True
+                
                 title = original_row['Title'].strip()
                 author = original_row['Author'].strip()
                 manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
@@ -737,29 +746,25 @@ def main():
             st.session_state.processed_df = edited_df.copy() # Update the displayed DataFrame
             st.success(f"Updated {updated_count} manual classifications in cache and applied changes!")
             st.rerun()
-    elif 'processed_df' in st.session_state:
-        # If no new file uploaded but processed_df exists in session_state, display it
-        edited_df = st.data_editor(st.session_state.processed_df, use_container_width=True, hide_index=True)
-        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
 
-        if st.button("Apply Manual Classifications and Update Cache"):
-            updated_count = 0
-            current_cache = load_cache()
-            for index, row in edited_df.iterrows():
-                original_row = st.session_state.original_df.loc[index] # Use original_df for comparison
-                title = original_row['Title'].strip()
-                author = original_row['Author'].strip()
-                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF"):
+            pdf_output = generate_pdf_labels(edited_df)
+            st.download_button(
+                label="Download PDF Labels",
+                data=pdf_output,
+                file_name="book_labels.pdf",
+                mime="application/pdf"
+            )
 
-                # Update cache only if the cleaned call number has changed
-                if row['Call Number'] != original_row['Call Number']:
-                    # Remove monkey emoji before saving to cache
-                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
-                    updated_count += 1
-            save_cache(current_cache)
-            st.session_state.processed_df = edited_df.copy() # Update the displayed DataFrame
-            st.success(f"Updated {updated_count} manual classifications in cache and applied changes!")
-            st.rerun()
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
 
 if __name__ == "__main__":
     main()
