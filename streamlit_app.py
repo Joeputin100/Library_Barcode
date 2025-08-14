@@ -34,7 +34,7 @@ st.title("Atriuum Label Generator")
 st.caption(f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
 # --- Constants & Cache ---
-SUGGESTION_FLAG = "🐒"
+SUGGESTION_FLAG = "\ud83e\udd9a"
 CACHE_FILE = "loc_cache.json"
 
 # --- Caching Functions ---
@@ -336,7 +336,7 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
         params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
+        st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)})
         
         retry_delays = [5, 15, 30]
         for i in range(len(retry_delays) + 1):
@@ -760,3 +760,6 @@ def main():
             st.session_state.processed_df = edited_df.copy() # Update the displayed DataFrame
             st.success(f"Updated {updated_count} manual classifications in cache and applied changes!")
             st.rerun()
+
+if __name__ == "__main__":
+    main()
