@@ -11,3 +11,5 @@ jsonschema<4.18.0
 pymarc
 reportlab
 python-barcode
+qrcode
+beautifulsoup4
