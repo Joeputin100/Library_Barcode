@@ -3,7 +3,6 @@
 
 # ... (content up to line 338)
 
-# Corrected line 339
-st_logger.debug(f"LOC query for '{title}' by '{author}': {base_url}?{requests.compat.urlencode(params)}")
-
 # ... (content from line 340 onwards)
+
+# The stray logging line and its comment are removed to fix the NameError.
