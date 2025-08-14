@@ -14,6 +14,9 @@ import logging
 from datetime import datetime
 import io
 import hashlib
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
 
 # --- Logging Setup ---
 log_capture_string = io.StringIO()
