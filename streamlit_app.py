@@ -711,6 +711,7 @@ def main():
             # Create a DataFrame from results
             results_df = pd.DataFrame(results)
             st.session_state.processed_df = results_df
+            st.session_state.uploaded_file_hash = hashlib.md5(uploaded_file.getvalue()).hexdigest() # Store hash of uploaded file
             st.session_state.original_df = results_df.copy() # Store a copy of the original processed data
 
         # Display editable DataFrame
