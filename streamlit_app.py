@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import re
@@ -487,13 +486,14 @@ def generate_pdf_labels(df):
             c.drawString(x + 0.1 * inch, y + label_height - 0.8 * inch, ', '.join(bottom_text))
 
     c.save()
+    buffer.seek(0)
     return buffer.getvalue()
 
 def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(\d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(?:\d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
