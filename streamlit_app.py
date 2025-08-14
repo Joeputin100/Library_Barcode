@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import re
@@ -357,7 +358,9 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
                     if series_node is not None: metadata['series_name'] = series_node.text.strip().rstrip(' ;')
                     volume_node = root.find('.//marc:datafield[@tag="490"]/marc:subfield[@code="v"]', ns_marc)
                     if volume_node is not None: metadata['volume_number'] = volume_node.text.strip()
-                    pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc) or root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
+                    pub_year_node = root.find('.//marc:datafield[@tag="264"]/marc:subfield[@code="c"]', ns_marc)
+                    if pub_year_node is None:
+                        pub_year_node = root.find('.//marc:datafield[@tag="260"]/marc:subfield[@code="c"]', ns_marc)
                     if pub_year_node is not None and pub_year_node.text:
                         years = re.findall(r'(1[7-9]\d{2}|20\d{2})', pub_year_node.text)
                         if years: metadata['publication_year'] = str(min([int(y) for y in years]))
@@ -490,7 +493,7 @@ def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(\d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
@@ -509,6 +512,7 @@ def main():
     if uploaded_file:
         if 'processed_df' not in st.session_state or st.session_state.uploaded_file_hash != hashlib.md5(uploaded_file.getvalue()).hexdigest():
             df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
+            df.rename(columns={"Author's Name": "Author"}, inplace=True)
             if 'edited' not in df.columns:
                 df['edited'] = False
             st.session_state.processed_df = df
@@ -542,7 +546,7 @@ def main():
                         continue
 
                     title = row.get('Title', '').strip()
-                    author = row.get("Author's Name", '').strip()
+                    author = row.get("Author", '').strip()
                     is_blank_row = not title and not author
                     
                     problematic_books = [
@@ -560,7 +564,7 @@ def main():
                     lc_meta = future.result()
                     title = st.session_state.processed_df.iloc[row_index].get('Title', '').strip()
 
-                    # Series number extraction from title, to be done if cache is hit
+                    # Series number extraction from title, to be done even if cache is hit
                     if not lc_meta.get('volume_number'):
                         lc_meta['volume_number'] = clean_series_number(title)
 
@@ -570,7 +574,7 @@ def main():
                             lc_meta['volume_number'] = trailing_num_match.group(1)
                     st_logger.debug(f"lc_meta for row {row_index}: {lc_meta}")
                     row = st.session_state.processed_df.iloc[row_index]
-                    author = row.get("Author's Name", '').strip()
+                    author = row.get("Author", '').strip()
 
                     problematic_books = [
                         ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5", "Toba, Toru"),
