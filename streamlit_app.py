@@ -421,6 +421,7 @@ def clean_series_number(series_num_str):
     return ""
 
 def generate_pdf_labels(df):
+    st_logger.info("--- generate_pdf_labels function called ---")
     st_logger.debug(f"Generating PDF for {len(df)} rows.")
     if len(df) > 0:
         st_logger.debug(f"First row of data:\n{df.head(1).to_string()}")
@@ -734,7 +735,7 @@ def main():
 
         st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
 
-        if st.button("Apply Manual Classifications and Update Cache"):
+        if st.button("Apply Manual Classifications and Update Cache", key="apply_changes"):
             updated_count = 0
             current_cache = load_cache()
             for index, row in edited_df.iterrows():
@@ -758,7 +759,7 @@ def main():
 
         # PDF Generation Section
         st.subheader("Generate PDF Labels")
-        if st.button("Generate PDF"):
+        if st.button("Generate PDF", key="generate_pdf"):
             st_logger.debug("'Generate PDF' button clicked.")
             try:
                 pdf_output = generate_pdf_labels(edited_df)
