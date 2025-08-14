@@ -421,6 +421,9 @@ def clean_series_number(series_num_str):
     return ""
 
 def generate_pdf_labels(df):
+    st_logger.debug(f"Generating PDF for {len(df)} rows.")
+    if len(df) > 0:
+        st_logger.debug(f"First row of data:\n{df.head(1).to_string()}")
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
@@ -486,14 +489,15 @@ def generate_pdf_labels(df):
             c.drawString(x + 0.1 * inch, y + label_height - 0.8 * inch, ', '.join(bottom_text))
 
     c.save()
-    buffer.seek(0)
-    return buffer.getvalue()
+    pdf_data = buffer.getvalue()
+    st_logger.debug(f"Generated PDF size: {len(pdf_data)} bytes.")
+    return pdf_data
 
 def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
         # Regex to find a 4-digit year, ignoring surrounding brackets, c, or ©
-        match = re.search(r'[\(\)\[©c]?(\d{4})[\)\]]?', date_string)
+        match = re.search(r'[\(\)\[©c]?(?:\d{4})[\)\]]?', date_string)
         if match:
             return match.group(1)
     return ""
@@ -754,13 +758,16 @@ def main():
         # PDF Generation Section
         st.subheader("Generate PDF Labels")
         if st.button("Generate PDF"):
+            st_logger.debug("'Generate PDF' button clicked.")
             pdf_output = generate_pdf_labels(edited_df)
+            st_logger.debug(f"PDF output type: {type(pdf_output)}, size: {len(pdf_output)} bytes.")
             st.download_button(
                 label="Download PDF Labels",
                 data=pdf_output,
                 file_name="book_labels.pdf",
                 mime="application/pdf"
             )
+            st_logger.debug("Download button created.")
 
     with st.expander("Debug Log"):
         st.download_button(
