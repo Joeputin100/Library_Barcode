@@ -867,8 +867,12 @@ def main():
     uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
 
     if uploaded_file:
+        st_logger.debug("Uploaded file detected.")
         if 'processed_df' not in st.session_state or st.session_state.uploaded_file_hash != hashlib.md5(uploaded_file.getvalue()).hexdigest():
+            st_logger.debug("New or updated CSV file. Starting processing.")
+            st_logger.debug("Attempting to read CSV file.")
             df = pd.read_csv(uploaded_file, encoding='latin1', dtype=str).fillna('')
+            st_logger.debug(f"CSV file read successfully. {len(df)} rows found.")
             df.rename(columns={"Author's Name": "Author"}, inplace=True)
             if 'edited' not in df.columns:
                 df['edited'] = False
@@ -895,10 +899,13 @@ def main():
             unclassified_books_for_vertex_ai = [] # To collect books for batch Vertex AI processing
 
             # First pass: Process with Google Books and LOC APIs
+            st_logger.debug("Starting first pass: Processing with Google Books and LOC APIs.")
             with ThreadPoolExecutor(max_workers=5) as executor:
                 futures = {}
                 for i, row in st.session_state.processed_df.iterrows():
+                    st_logger.debug(f"Processing row {i}: Title='{row.get('Title', '')}', Author='{row.get('Author', '')}'")
                     if row['edited']:
+                        st_logger.debug(f"Row {i} already edited, skipping API calls.")
                         results[i] = row.to_dict()
                         progress_bar.progress((i + 1) / len(st.session_state.processed_df))
                         continue
@@ -927,7 +934,69 @@ def main():
                         lc_meta['volume_number'] = clean_series_number(title)
 
                     if not lc_meta.get('volume_number') and any(c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', [])):
-                        trailing_num_match = re.search(r'(\d+)$', title)
+                        trailing_num_match = re.search(r'(\d+)
+
+        # Display editable DataFrame
+        edited_df = st.data_editor(st.session_state.processed_df, use_container_width=True, hide_index=True)
+
+        st.info("Values marked with 🐒 are suggestions from external APIs. The monkey emoji will not appear on printed labels, but the suggested values will be used.")
+
+        if st.button("Apply Manual Classifications and Update Cache", key="apply_changes"):
+            updated_count = 0
+            current_cache = load_cache()
+            for index, row in edited_df.iterrows():
+                original_row = st.session_state.original_df.loc[index]
+                if not row.equals(original_row):
+                    st.session_state.processed_df.loc[index, 'edited'] = True
+                
+                title = original_row['Title'].strip()
+                author = original_row['Author'].strip()
+                manual_key = f"{re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)}|{re.sub(r'[^a-zA-Z0-9\s,]', '', author)}".lower()
+
+                # Update cache only if the cleaned call number has changed
+                if row['Call Number'] != original_row['Call Number']:
+                    # Remove monkey emoji before saving to cache
+                    current_cache[manual_key] = row['Call Number'].replace(SUGGESTION_FLAG, '')
+                    updated_count += 1
+            save_cache(current_cache)
+            st.session_state.processed_df = edited_df.copy() # Update the displayed DataFrame
+            st.success(f"Updated {updated_count} manual classifications in cache and applied changes!")
+            st.rerun()
+
+        # PDF Generation Section
+        st.subheader("Generate PDF Labels")
+        if st.button("Generate PDF", key="generate_pdf"):
+            st_logger.debug("'Generate PDF' button clicked.")
+            try:
+                pdf_output = generate_pdf_labels(edited_df)
+                st.session_state.pdf_data = pdf_output
+                st_logger.debug(f"PDF generated successfully. Size: {len(pdf_output)} bytes.")
+            except Exception as e:
+                st_logger.error(f"Error generating PDF: {e}", exc_info=True)
+                st.error(f"An error occurred while generating the PDF: {e}")
+                st.session_state.pdf_data = None
+
+        if 'pdf_data' in st.session_state and st.session_state.pdf_data:
+            st.download_button(
+                label="Download PDF Labels",
+                data=st.session_state.pdf_data,
+                file_name="book_labels.pdf",
+                mime="application/pdf",
+                key="pdf-download"
+            )
+            st_logger.debug("Download button rendered.")
+
+    with st.expander("Debug Log"):
+        st.download_button(
+            label="Download Full Debug Log",
+            data=log_capture_string.getvalue(),
+            file_name="debug_log.txt",
+            mime="text/plain"
+        )
+
+if __name__ == "__main__":
+    main()
+, title)
                         if trailing_num_match:
                             lc_meta['volume_number'] = trailing_num_match.group(1)
                     st_logger.debug(f"lc_meta for row {row_index}: {lc_meta}")
@@ -995,10 +1064,11 @@ def main():
                         'edited': False
                     }
                     progress_bar.progress((i + 1) / len(st.session_state.processed_df))
+            st_logger.debug("First pass complete.")
 
             # Second pass: Batch process unclassified books with Vertex AI
             if unclassified_books_for_vertex_ai:
-                st.write("Attempting Vertex AI batch classification for remaining books...")
+                st_logger.debug(f"Starting second pass: Batch processing {len(unclassified_books_for_vertex_ai)} unclassified books with Vertex AI.")
                 BATCH_SIZE = 5
                 # Group unclassified books into batches
                 batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
@@ -1064,6 +1134,7 @@ def main():
                             if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
                                 results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
                             st_logger.debug(f"results[{row_index}] after update: {results[row_index]}")
+                st_logger.debug("Second pass (Vertex AI) complete.")
 
             # Final pass to populate Series Info and ensure all fields are non-blank
             for i, row_data in enumerate(results):
