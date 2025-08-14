@@ -5,4 +5,8 @@ lxml
 beautifulsoup4
 vertexai
 pytz
-# Triggering rebuild
+rich
+textual
+jsonschema<4.18.0
+pymarc
+reportlab
