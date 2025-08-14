@@ -454,7 +454,7 @@ HORIZONTAL_SPACING = 0.125 * inch # Space between labels horizontally
 VERTICAL_SPACING = 0.0 * inch # Space between labels vertically (they touch)
 
 # Debugging grid spacing
-GRI D_SPACING = 0.1 * inch
+GRID_SPACING = 0.1 * inch
 
 def pad_inventory_number(inventory_num):
     """Pads the inventory number with leading zeros to 6 digits."""
