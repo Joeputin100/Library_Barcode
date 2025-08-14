@@ -522,6 +522,7 @@ def main():
             st.session_state.processed_df = df
             st.session_state.uploaded_file_hash = hashlib.md5(uploaded_file.getvalue()).hexdigest()
             st.session_state.original_df = df.copy()
+            st.session_state.pdf_data = None
 
             loc_cache = load_cache()
             
@@ -759,16 +760,24 @@ def main():
         st.subheader("Generate PDF Labels")
         if st.button("Generate PDF"):
             st_logger.debug("'Generate PDF' button clicked.")
-            st.write('Generate PDF button was clicked!')
-            pdf_output = generate_pdf_labels(edited_df)
-            st_logger.debug(f"PDF output type: {type(pdf_output)}, size: {len(pdf_output)} bytes.")
+            try:
+                pdf_output = generate_pdf_labels(edited_df)
+                st.session_state.pdf_data = pdf_output
+                st_logger.debug(f"PDF generated successfully. Size: {len(pdf_output)} bytes.")
+            except Exception as e:
+                st_logger.error(f"Error generating PDF: {e}", exc_info=True)
+                st.error(f"An error occurred while generating the PDF: {e}")
+                st.session_state.pdf_data = None
+
+        if 'pdf_data' in st.session_state and st.session_state.pdf_data:
             st.download_button(
                 label="Download PDF Labels",
-                data=pdf_output,
+                data=st.session_state.pdf_data,
                 file_name="book_labels.pdf",
-                mime="application/pdf"
+                mime="application/pdf",
+                key="pdf-download"
             )
-            st_logger.debug("Download button created.")
+            st_logger.debug("Download button rendered.")
 
     with st.expander("Debug Log"):
         st.download_button(
