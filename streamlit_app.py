@@ -900,8 +900,8 @@ def main():
 
             # First pass: Process with Google Books and LOC APIs
             st_logger.debug("Starting first pass: Processing with Google Books and LOC APIs.")
+            futures = {}
             with ThreadPoolExecutor(max_workers=5) as executor:
-                futures = {}
                 for i, row in st.session_state.processed_df.iterrows():
                     st_logger.debug(f"Processing row {i}: Title='{row.get('Title', '')}', Author='{row.get('Author', '')}'")
                     if row['edited']:
