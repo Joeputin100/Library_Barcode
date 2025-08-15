@@ -38,12 +38,13 @@ import pytz
 from vertexai.generative_models import GenerativeModel
 
 # --- Page Title ---
-st.title("Atriuum Label Generator")
+st.title("Atriuum Label Generator 🐠")
 st.caption(f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
 # --- Constants & Cache ---
 SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
+futures = {} # Initialize futures at the module level
 
 # --- Caching Functions ---
 def load_cache():
@@ -900,9 +901,7 @@ def main():
 
             # First pass: Process with Google Books and LOC APIs
             st_logger.debug("Starting first pass: Processing with Google Books and LOC APIs.")
-            st_logger.debug("DEBUG: Initializing futures dictionary.")
-            futures = {}
-            st_logger.debug(f"DEBUG: Futures after initialization: {futures}")
+
             with ThreadPoolExecutor(max_workers=5) as executor:
                 for i, row in st.session_state.processed_df.iterrows():
                     st_logger.debug(f"Processing row {i}: Title='{row.get('Title', '')}', Author='{row.get('Author', '')}'")
@@ -923,15 +922,10 @@ def main():
                     ]
                     is_problematic_row = (title, author) in problematic_books
 
-                    st_logger.debug(f"DEBUG: Submitting future for row {i}. Current futures count: {len(futures)}")
                     future = executor.submit(get_book_metadata_initial_pass, title, author, loc_cache, is_blank=is_blank_row, is_problematic=is_problematic_row)
                     futures[future] = i
-                    st_logger.debug(f"DEBUG: Future submitted for row {i}. Futures dict updated. Total futures: {len(futures)}")
 
-st_logger.debug("DEBUG: Attempting to iterate over as_completed(futures).")
-st_logger.debug(f"DEBUG: Value of 'futures' before as_completed: {futures}")
 for i, future in enumerate(as_completed(futures)):
-    st_logger.debug(f"DEBUG: Processing future {i}.")
     row_index = futures[future]
     lc_meta   = future.result()
 
