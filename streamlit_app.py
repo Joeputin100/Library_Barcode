@@ -865,7 +865,7 @@ def main():
     except Exception as e:
         st_logger.warning(f"Could not calculate file hash: {e}")
 
-    uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
+    uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv", key="atriuum_csv_uploader")
 
     if uploaded_file:
         st_logger.debug("Uploaded file detected.")
@@ -995,12 +995,6 @@ for i, future in enumerate(as_completed(futures)):
             mime="text/plain"
         )
 
-if __name__ == "__main__":
-    main()
-if __name__ == "__main__":
-    main()
-if __name__ == "__main__":
-    main()
 if __name__ == "__main__":
     main()
 if __name__ == "__main__":
