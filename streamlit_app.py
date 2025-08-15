@@ -49,15 +49,15 @@ LABEL_DISPLAY_COLUMNS = [
 # --- CSS for colored cells ---
 CSS_STYLES = """
 <style>
-    .st-emotion-cache-1r4qj8z {{ /* Target for data editor cells */
+    .st-emotion-cache-1r4qj8z { /* Target for data editor cells */
         background-color: var(--background-color);
-    }}
-    .st-emotion-cache-1r4qj8z[data-source="Atriuum"] {{ background-color: #FFBF00; }}
-    .st-emotion-cache-1r4qj8z[data-source="LOC"] {{ background-color: #D8BFD8; }}
-    .st-emotion-cache-1r4qj8z[data-source="Google"] {{ background-color: #90EE90; }}
-    .st-emotion-cache-1r4qj8z[data-source="Vertex"] {{ background-color: #E42217; }}
+    }
+    .st-emotion-cache-1r4qj8z[data-source="Atriuum"] { background-color: #FFBF00; }
+    .st-emotion-cache-1r4qj8z[data-source="LOC"] { background-color: #D8BFD8; }
+    .st-emotion-cache-1r4qj8z[data-source="Google"] { background-color: #90EE90; }
+    .st-emotion-cache-1r4qj8z[data-source="Vertex"] { background-color: #E42217; }
 </style>
-""
+"
 st.markdown(CSS_STYLES, unsafe_allow_html=True)
 
 # --- Helper Functions for UI State Management ---
