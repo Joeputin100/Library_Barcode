@@ -84,6 +84,8 @@ def main():
         st.session_state.edited_rows = {}
     if "source_data" not in st.session_state:
         st.session_state.source_data = {}
+    if "uploaded_file_hash" not in st.session_state:
+        st.session_state.uploaded_file_hash = None
 
     # --- Step 1: Upload CSV ---
     if st.session_state.current_step == "upload_csv":
