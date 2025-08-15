@@ -1,0 +1,38 @@
+Screen {
+    layout: vertical;
+}
+
+#tabs {
+    dock: top;
+}
+
+#content-container {
+    height: 1fr;
+}
+
+#query-view {
+    layout: vertical;
+}
+
+Input {
+    dock: top;
+    margin: 1;
+}
+
+Static {
+    margin: 1;
+}
+
+RichLog { /* Added styling for RichLog */
+    margin: 1;
+    border: solid grey;
+    overflow: scroll;
+}
+
+Tree {
+    padding: 1;
+}
+
+.hidden {
+    display: none;
+}

@@ -10,13 +10,23 @@
         "Based on advice from an external source (Copilot), a version logging mechanism using an MD5 hash was added to `streamlit_app.py` to verify which script version is being executed.",
         "A trivial change was made to `requirements.txt` to force a clean rebuild on Streamlit Cloud.",
         "A feature to capitalize titles according to MLA standards has been implemented.",
-        "Logic to handle data integration issues, particularly with matching Vertex AI results, has been made more flexible."
+        "Logic to handle data integration issues, particularly with matching Vertex AI results, has been made more flexible.",
+        "The TUI functionality has been separated into two distinct applications:",
+        "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
+        "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display.",
+        "The Query tab in `marc_query_tui.py` uses `query_parser.py` to parse natural language queries.",
+        "`query_parser.py` handles individual barcodes, barcode ranges, barcodes starting with a prefix, and field-specific queries (author, title, series, ISBN, call number, holding barcode).",
+        "`marc_query_tui.py` integrates `marc_processor.py` to load and filter MARC records based on parsed queries.",
+        "`marc_processor.py` correctly extracts holding barcodes from MARC tag 852 subfield 'p'."
     ],
     "file_system_state": {
         "CWD": "/data/data/com.termux/files/home/projects/barcode/",
         "MODIFIED": [
-            "`streamlit_app.py` - The file was repeatedly modified to fix a persistent `SyntaxError`. The final correction was verified by fetching the raw file from GitHub after pushing. The file also includes new MLA capitalization and version logging features.",
-            "`requirements.txt` - A comment was added to the end of the file to act as a trivial change to trigger a fresh deployment on Streamlit Cloud."
+            "`streamlit_app.py` - The file was repeatedly modified to fix a persistent `SyntaxError`. The final correction was verified by fetching the raw file from GitHub after pushing. The file also includes new MLA capitalization and version logging features.\n            `requirements.txt` - A comment was added to the end of the file to act as a trivial change to trigger a fresh deployment on Streamlit Cloud. `pymarc` was added.\n            `project_viewer.py` - Recreated as a dedicated project status viewer TUI.",
+            "`marc_query_tui.py` - Renamed from `project_viewer.py` and refactored to be a dedicated MARC query TUI.",
+            "`project_viewer.css` - Used by both TUI applications.",
+            "`query_parser.py` - Extended to handle field-specific queries.",
+            "`marc_processor.py` - Created to load and filter MARC records, fixed holding barcode tag."
         ],
         "CREATED": [
             "`context.json` - A detailed machine-readable JSON file was created to summarize the project's context and the persistent error for external analysis."
@@ -31,7 +41,13 @@
         "Added MD5 hash logging to the beginning of the script to verify the running version.",
         "Added a comment to `requirements.txt` to force a cache-clearing redeployment.",
         "Pushed the final corrected code and the trivial change to the `master` branch on GitHub.",
-        "Verified the final pushed code on GitHub via `web_fetch` to ensure the correction was present."
+        "Verified the final pushed code on GitHub via `web_fetch` to ensure the correction was present.",
+        "Implemented `query_parser.py` for natural language query parsing.",
+        "Implemented `marc_processor.py` for MARC record loading and filtering.",
+        "Separated TUI functionality into `project_viewer.py` (project status) and `marc_query_tui.py` (MARC query).",
+        "Fixed `pymarc` holding barcode tag issue in `marc_processor.py`.",
+        "Implemented query confirmation step in `marc_query_tui.py`.",
+        "Implemented full barcode list display in `marc_query_tui.py` using `RichLog`."
     ],
     "current_plan": {
         "1": "[DONE] Diagnose the root cause of the persistent `SyntaxError`, identifying it as a deployment/caching issue.",
@@ -40,6 +56,7 @@
         "4": "[DONE] Push all changes to the `master` branch on GitHub.",
         "5": "[IN PROGRESS] Awaiting user feedback and logs from the latest deployment to confirm the `SyntaxError` is resolved.",
         "6": "[TODO] Address any remaining data integration issues or feature requests once the application is confirmed to be running.",
-        "7": "[TODO] Clean up the debugging code (version logging, comments) once the core issue is fully resolved."
+        "7": "[TODO] Clean up the debugging code (version logging, comments) once the core issue is fully resolved.",
+        "8": "[DONE] Separate TUI applications and complete Phase 1. The next step is to move to Phase 2: Data Enrichment and Processing."
     }
 }

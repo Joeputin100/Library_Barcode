@@ -10,7 +10,11 @@
         "Vertex AI is used as a final fallback for classification.",
         "The `streamlit_app.py` has been modified to display debug logs within an `st.expander` and provide a download button for full logs.",
         "Identified issues: Missing Series Title/Number, 'No genre' from Google Books, and ignored Vertex AI responses.",
-        "Attempted to fix regex `SyntaxError` in `clean_call_number` by direct string replacement in memory."
+        "The `query_parser.py` has been extended to handle individual barcodes, barcode ranges, barcodes starting with a prefix, and field-specific queries (author, title, series, ISBN, call number, holding barcode).",
+        "The `marc_processor.py` module has been created to load and filter MARC records based on parsed queries. It correctly extracts holding barcodes from MARC tag 852 subfield 'p'.",
+        "The TUI functionality has been separated into two distinct applications:",
+        "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
+        "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display."
     ],
-    "current_plan": "The user is restarting the Gemini CLI with a different model. The current task is to ensure the `streamlit_app.py` is in a stable state after the regex fixes and to continue debugging the identified issues (Google Books genres, Vertex AI responses, and series info)."
+    "current_plan": "Phase 1: Local MARC Parsing and Querying is now complete. The TUI applications have been separated and refined. The next step is to move to Phase 2: Data Enrichment and Processing."
 }
