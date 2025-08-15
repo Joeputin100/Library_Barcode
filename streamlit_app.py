@@ -27,234 +27,405 @@ st_logger.addHandler(st_handler)
 st.title("Atriuum Label Generator")
 st.caption(f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S %Z%z')}")
 
+# --- Constants for UI and Data Sourcing ---
+SOURCE_COLORS = {
+    "Atriuum": "#FFBF00",  # Amber
+    "LOC": "#D8BFD8",      # Lilac
+    "Google": "#90EE90",   # Green
+    "Vertex": "#E42217"    # Vermillion
+}
+
+# Columns to display in the editable table (label-relevant fields)
+LABEL_DISPLAY_COLUMNS = [
+    'Title',
+    'Author',
+    'Call Number',
+    'Series Info',
+    'Series Number',
+    'Copyright Year',
+    'Holdings Barcode'
+]
+
+# --- CSS for colored cells ---
+CSS_STYLES = """
+<style>
+    .st-emotion-cache-1r4qj8z {{ /* Target for data editor cells */
+        background-color: var(--background-color);
+    }}
+    .st-emotion-cache-1r4qj8z[data-source="Atriuum"] {{ background-color: #FFBF00; }}
+    .st-emotion-cache-1r4qj8z[data-source="LOC"] {{ background-color: #D8BFD8; }}
+    .st-emotion-cache-1r4qj8z[data-source="Google"] {{ background-color: #90EE90; }}
+    .st-emotion-cache-1r4qj8z[data-source="Vertex"] {{ background-color: #E42217; }}
+</style>
+""
+st.markdown(CSS_STYLES, unsafe_allow_html=True)
+
+# --- Helper Functions for UI State Management ---
+def next_step():
+    if st.session_state.current_step == "upload_csv":
+        st.session_state.current_step = "process_data"
+    elif st.session_state.current_step == "process_data":
+        st.session_state.current_step = "review_edits"
+    elif st.session_state.current_step == "review_edits":
+        st.session_state.current_step = "generate_pdf"
+
+def set_step(step):
+    st.session_state.current_step = step
+
 # --- Main App ---
-
-
 def main():
     st_logger.debug("Streamlit app main function started.")
 
-    uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv")
+    if "current_step" not in st.session_state:
+        st.session_state.current_step = "upload_csv"
+    if "processed_df" not in st.session_state:
+        st.session_state.processed_df = pd.DataFrame()
+    if "edited_rows" not in st.session_state:
+        st.session_state.edited_rows = {}
+    if "source_data" not in st.session_state:
+        st.session_state.source_data = {}
 
-    if uploaded_file:
-        if 'processed_df' not in st.session_state:
-            st.session_state.processed_df = import_csv(uploaded_file)
-            st.session_state.edited_rows = {}
+    # --- Step 1: Upload CSV ---
+    if st.session_state.current_step == "upload_csv":
+        with st.container():
+            st.header("Step 1: Upload CSV Export")
+            uploaded_file = st.file_uploader("Upload your Atriuum CSV Export", type="csv", key="csv_uploader")
 
-        def on_edit():
-            st.session_state.edited_rows.update(st.session_state.data_editor['edited_rows'])
+            if uploaded_file:
+                st.session_state.raw_df = import_csv(uploaded_file)
+                st.write("### Raw Imported Data (Non-Editable)")
+                st.dataframe(st.session_state.raw_df, use_container_width=True, hide_index=True)
+                if st.button("Proceed to Data Processing", on_click=next_step):
+                    pass # Handled by on_click
 
-        st.data_editor(
-            st.session_state.processed_df,
-            key="data_editor",
-            on_change=on_edit,
-            use_container_width=True,
-            hide_index=True
-        )
+    # --- Step 2: Process Data ---
+    if st.session_state.current_step == "process_data":
+        with st.container():
+            st.header("Step 2: Process Data")
+            st.info("Click 'Process Data' to enrich and clean your book entries. This may take some time.")
 
-        if st.button("Process Data"):
-            loc_cache = load_cache()
+            if st.button("Process Data", key="process_data_button"):
+                loc_cache = load_cache()
+                st.session_state.source_data = {} # Reset source data for new processing
 
-            with st.expander("Processing Report", expanded=True):
-                st.write("Processing rows...")
-                steps = ["Extracting data", "Enriching with Google Books", "Enriching with Library of Congress", "Classifying with Vertex AI", "Cleaning data"]
-                progress_placeholders = {step: st.empty() for step in steps}
+                with st.expander("Processing Report", expanded=True):
+                    st.write("Processing rows...")
+                    steps = ["Extracting data", "Enriching with Google Books", "Enriching with Library of Congress", "Classifying with Vertex AI", "Cleaning data"]
+                    progress_placeholders = {step: st.empty() for step in steps}
 
-                def update_progress(step, status):
-                    progress_placeholders[step].write(f"- {step}: {status}")
+                    def update_progress(step, status):
+                        progress_placeholders[step].write(f"- {step}: {status}")
 
-                for step in steps:
-                    update_progress(step, "Pending")
+                    for step in steps:
+                        update_progress(step, "Pending")
 
-                results = [{} for _ in range(len(st.session_state.processed_df))]
-                unclassified_books_for_vertex_ai = []
+                    results = []
+                    unclassified_books_for_vertex_ai = []
 
-                for i, row in st.session_state.processed_df.iterrows():
-                    if i in st.session_state.edited_rows:
-                        results[i] = row.to_dict()
-                        continue
+                    for i, row in st.session_state.raw_df.iterrows():
+                        # Initialize source tracking for this row
+                        row_sources = {col: "Atriuum" for col in LABEL_DISPLAY_COLUMNS}
 
-                    title = row.get('Title', '').strip()
-                    author = row.get("Author", '').strip()
-                    is_blank_row = not title and not author
+                        title = row.get('Title', '').strip()
+                        author = row.get("Author", '').strip()
+                        is_blank_row = not title and not author
 
-                    problematic_books = [
-                        ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5",
-                         "Toba, Toru"),
-                        ("The old man and the sea", "Hemingway, Ernest"),
-                        ("Jack & Jill (Alex Cross)", "Patterson, James"),
-                    ]
-                    is_problematic_row = (title, author) in problematic_books
+                        problematic_books = [
+                            ("The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5",
+                             "Toba, Toru"),
+                            ("The old man and the sea", "Hemingway, Ernest"),
+                            ("Jack & Jill (Alex Cross)", "Patterson, James"),
+                        ]
+                        is_problematic_row = (title, author) in problematic_books
 
-                    update_progress("Extracting data", f"Processing row {i+1}/{len(st.session_state.processed_df)}")
-                    lc_meta = get_book_metadata_initial_pass(
-                        title, author, loc_cache, is_blank=is_blank_row, is_problematic=is_problematic_row
-                    )
+                        st_logger.debug(f"--- Processing row {i+1}/{len(st.session_state.raw_df)} ---")
+                        st_logger.debug(f"Original row data: {row.to_dict()}")
 
-                    if not lc_meta.get('volume_number'):
-                        lc_meta['volume_number'] = clean_series_number(title)
-
-                    if (not lc_meta.get('volume_number') and
-                            any(c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', []))):
-                        trailing_num_match = re.search(r'(\d+)$', title)
-                        if trailing_num_match:
-                            lc_meta['volume_number'] = trailing_num_match.group(1)
-
-                    original_holding_barcode = row.get('Holdings Barcode', '').strip()
-                    raw_original_call_number = row.get('Call Number', '').strip()
-                    cleaned_original_call_number = clean_call_number(
-                        raw_original_call_number, [], [], title="", is_original_data=True
-                    )
-                    original_series_name = row.get('Series Title', '').strip()
-                    original_series_number = clean_series_number(row.get('Series Number', '').strip())
-                    original_copyright_year = extract_year(row.get('Copyright', '').strip())
-                    original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
-
-                    final_original_year = ""
-                    if original_copyright_year:
-                        final_original_year = original_copyright_year
-                    elif original_publication_date_year:
-                        final_original_year = original_publication_date_year
-
-                    api_call_number = lc_meta.get('classification', '')
-                    cleaned_call_number = clean_call_number(
-                        api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title
-                    )
-                    mashed_series_name = (lc_meta.get('series_name') or '').strip()
-                    mashed_volume_number = (lc_meta.get('volume_number') or '').strip()
-                    mashed_publication_year = (lc_meta.get('publication_year') or '').strip()
-
-                    current_call_number = cleaned_original_call_number if cleaned_original_call_number else (
-                        SUGGESTION_FLAG + cleaned_call_number if cleaned_call_number else ""
-                    )
-                    current_series_name = original_series_name if original_series_name else (
-                        SUGGESTION_FLAG + mashed_series_name if mashed_series_name else ''
-                    )
-                    current_series_number = original_series_number if original_series_number else (
-                        SUGGESTION_FLAG + mashed_volume_number if mashed_volume_number else ''
-                    )
-                    current_publication_year = final_original_year if final_original_year else (
-                        SUGGESTION_FLAG + mashed_publication_year if mashed_publication_year else ''
-                    )
-
-                    if not current_call_number or current_call_number == "UNKNOWN":
-                        unclassified_books_for_vertex_ai.append({
-                            'title': title,
-                            'author': author,
-                            'row_index': i,
-                            'lc_meta': lc_meta
-                        })
-
-                    results[i] = {
-                        'Title': capitalize_title_mla(clean_title(title)),
-                        'Author': clean_author(author),
-                        'Holdings Barcode': original_holding_barcode,
-                        'Call Number': current_call_number,
-                        'Series Info': current_series_name,
-                        'Series Number': current_series_number,
-                        'Copyright Year': current_publication_year,
-                    }
-
-                update_progress("Extracting data", "Done")
-
-                if unclassified_books_for_vertex_ai:
-                    update_progress("Classifying with Vertex AI", "In progress...")
-                    BATCH_SIZE = 5
-                    batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE]
-                               for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
-
-                    for batch in batches:
-                        batch_classifications = get_vertex_ai_classification_batch(
-                            batch, st.secrets["vertex_ai"], loc_cache
+                        update_progress("Extracting data", f"Processing row {i+1}/{len(st.session_state.raw_df)}")
+                        
+                        st_logger.debug(f"Calling get_book_metadata_initial_pass for title='{title}', author='{author}'")
+                        lc_meta = get_book_metadata_initial_pass(
+                            title, author, loc_cache, is_blank=is_blank_row, is_problematic=is_problematic_row
                         )
+                        st_logger.debug(f"lc_meta after initial pass: {lc_meta}")
 
-                        if not isinstance(batch_classifications, list):
-                            continue
+                        if not lc_meta.get('volume_number'):
+                            st_logger.debug(f"lc_meta volume_number empty, calling clean_series_number for title='{title}'")
+                            lc_meta['volume_number'] = clean_series_number(title)
+                            st_logger.debug(f"lc_meta volume_number after clean_series_number: {lc_meta['volume_number']}")
 
-                        for book_data, vertex_ai_results in zip(batch, batch_classifications):
-                            row_index = book_data['row_index']
-                            lc_meta = book_data['lc_meta']
-                            title = book_data['title']
+                        if (
+                                not lc_meta.get('volume_number') and
+                                any(c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', []))):
+                            st_logger.debug(f"Attempting to extract trailing number for manga/comic: {title}")
+                            trailing_num_match = re.search(r'(\d+)$', title)
+                            if trailing_num_match:
+                                lc_meta['volume_number'] = trailing_num_match.group(1)
+                                st_logger.debug(f"Extracted trailing number: {lc_meta['volume_number']}")
 
-                            for k, v in vertex_ai_results.items():
-                                if v == "Unknown":
-                                    vertex_ai_results[k] = ""
+                        original_holding_barcode = row.get('Holdings Barcode', '').strip()
+                        raw_original_call_number = row.get('Call Number', '').strip()
+                        st_logger.debug(f"Calling clean_call_number for raw_original_call_number='{raw_original_call_number}'")
+                        cleaned_original_call_number = clean_call_number(
+                            raw_original_call_number, [], [], title="", is_original_data=True
+                        )
+                        st_logger.debug(f"cleaned_original_call_number: {cleaned_original_call_number}")
 
-                            if vertex_ai_results.get('classification'):
-                                lc_meta['classification'] = vertex_ai_results['classification']
-                                if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
-                                    lc_meta['google_genres'] = []
-                                lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                        original_series_name = row.get('Series Title', '').strip()
+                        st_logger.debug(f"Calling clean_series_number for original_series_number='{row.get('Series Number', '').strip()}'")
+                        original_series_number = clean_series_number(row.get('Series Number', '').strip())
+                        st_logger.debug(f"original_series_number: {original_series_number}")
 
-                            if vertex_ai_results.get('series_title'):
-                                lc_meta['series_name'] = vertex_ai_results['series_title']
-                            if vertex_ai_results.get('volume_number'):
-                                lc_meta['volume_number'] = vertex_ai_results['volume_number']
-                            if vertex_ai_results.get('copyright_year'):
-                                lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+                        original_copyright_year = extract_year(row.get('Copyright', '').strip())
+                        st_logger.debug(f"original_copyright_year: {original_copyright_year}")
 
-                            final_call_number_after_vertex_ai = clean_call_number(
-                                lc_meta.get('classification', ''),
-                                lc_meta.get('genres', []),
-                                lc_meta.get('google_genres', []),
-                                title=title
+                        original_publication_date_year = extract_year(row.get('Publication Date', '').strip())
+                        st_logger.debug(f"original_publication_date_year: {original_publication_date_year}")
+
+                        final_original_year = ""
+                        if original_copyright_year:
+                            final_original_year = original_copyright_year
+                        elif original_publication_date_year:
+                            final_original_year = original_publication_date_year
+                        st_logger.debug(f"final_original_year: {final_original_year}")
+
+                        api_call_number = lc_meta.get('classification', '')
+                        st_logger.debug(f"Calling clean_call_number for api_call_number='{api_call_number}'")
+                        cleaned_call_number = clean_call_number(
+                            api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title
+                        )
+                        st_logger.debug(f"cleaned_call_number from API: {cleaned_call_number}")
+
+                        mashed_series_name = (lc_meta.get('series_name') or '').strip()
+                        mashed_volume_number = (lc_meta.get('volume_number') or '').strip()
+                        mashed_publication_year = (lc_meta.get('publication_year') or '').strip()
+                        st_logger.debug(f"mashed_series_name: {mashed_series_name}, mashed_volume_number: {mashed_volume_number}, mashed_publication_year: {mashed_publication_year}")
+
+                        current_call_number = cleaned_original_call_number
+                        if not current_call_number and cleaned_call_number:
+                            current_call_number = SUGGESTION_FLAG + cleaned_call_number
+                            row_sources['Call Number'] = "LOC" # Assuming LOC is primary source for classification
+
+                        current_series_name = original_series_name
+                        if not current_series_name and mashed_series_name:
+                            current_series_name = SUGGESTION_FLAG + mashed_series_name
+                            row_sources['Series Info'] = "Google" # Assuming Google is primary source for series
+
+                        current_series_number = original_series_number
+                        if not current_series_number and mashed_volume_number:
+                            current_series_number = SUGGESTION_FLAG + mashed_volume_number
+                            row_sources['Series Number'] = "Google" # Assuming Google is primary source for volume
+
+                        current_publication_year = final_original_year
+                        if not current_publication_year and mashed_publication_year:
+                            current_publication_year = SUGGESTION_FLAG + mashed_publication_year
+                            row_sources['Copyright Year'] = "Google" # Assuming Google is primary source for year
+
+                        if not current_call_number or current_call_number == "UNKNOWN":
+                            st_logger.debug(f"Book {title} unclassified, adding to Vertex AI queue.")
+                            unclassified_books_for_vertex_ai.append({
+                                'title': title,
+                                'author': author,
+                                'row_index': i,
+                                'lc_meta': lc_meta,
+                                'row_sources': row_sources # Pass sources to Vertex AI step
+                            })
+
+                        results.append({
+                            'Title': capitalize_title_mla(clean_title(title)),
+                            'Author': clean_author(author),
+                            'Holdings Barcode': original_holding_barcode,
+                            'Call Number': current_call_number,
+                            'Series Info': current_series_name,
+                            'Series Number': current_series_number,
+                            'Copyright Year': current_publication_year,
+                            '_source_data': row_sources # Store source data for later
+                        })
+                        st_logger.debug(f"Results for row {i}: {results[-1]}")
+
+                    update_progress("Extracting data", "Done")
+
+                    if unclassified_books_for_vertex_ai:
+                        update_progress("Classifying with Vertex AI", "In progress...")
+                        BATCH_SIZE = 5
+                        batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE]
+                                   for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
+
+                        for batch in batches:
+                            st_logger.debug(f"Processing Vertex AI batch: {batch}")
+                            batch_classifications = get_vertex_ai_classification_batch(
+                                batch, st.secrets["vertex_ai"], loc_cache
                             )
+                            st_logger.debug(f"Received Vertex AI batch classifications: {batch_classifications}")
 
-                            if (final_call_number_after_vertex_ai and
-                                    not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, '')):
-                                results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                            if not isinstance(batch_classifications, list):
+                                st_logger.warning(f"Vertex AI batch classifications not a list: {batch_classifications}")
+                                continue
 
-                            if (lc_meta.get('series_name') and
-                                    not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, '')):
-                                results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+                            for book_data, vertex_ai_results in zip(batch, batch_classifications):
+                                st_logger.debug(f"Processing Vertex AI results for book: {book_data}")
+                                row_index = book_data['row_index']
+                                lc_meta = book_data['lc_meta']
+                                title = book_data['title']
+                                row_sources = book_data['row_sources'] # Retrieve sources
 
-                            if (lc_meta.get('volume_number') and
-                                    not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, '')):
-                                results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+                                for k, v in vertex_ai_results.items():
+                                    if v == "Unknown":
+                                        vertex_ai_results[k] = ""
+                                st_logger.debug(f"Vertex AI results after 'Unknown' cleanup: {vertex_ai_results}")
 
-                            if (lc_meta.get('publication_year') and
-                                    not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, '')):
-                                results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(
-                                    lc_meta.get('publication_year')
+                                if vertex_ai_results.get('classification'):
+                                    st_logger.debug(f"Updating lc_meta classification with: {vertex_ai_results['classification']}")
+                                    lc_meta['classification'] = vertex_ai_results['classification']
+                                    if 'google_genres' not in lc_meta or not isinstance(lc_meta['google_genres'], list):
+                                        st_logger.debug("google_genres not found or not a list, initializing.")
+                                        lc_meta['google_genres'] = []
+                                    lc_meta['google_genres'].append(vertex_ai_results['classification'])
+                                    st_logger.debug(f"lc_meta google_genres after update: {lc_meta['google_genres']}")
+
+                                if vertex_ai_results.get('series_title'):
+                                    st_logger.debug(f"Updating lc_meta series_name with: {vertex_ai_results['series_title']}")
+                                    lc_meta['series_name'] = vertex_ai_results['series_title']
+                                if vertex_ai_results.get('volume_number'):
+                                    st_logger.debug(f"Updating lc_meta volume_number with: {vertex_ai_results['volume_number']}")
+                                    lc_meta['volume_number'] = vertex_ai_results['volume_number']
+                                if vertex_ai_results.get('copyright_year'):
+                                    st_logger.debug(f"Updating lc_meta publication_year with: {vertex_ai_results['copyright_year']}")
+                                    lc_meta['publication_year'] = vertex_ai_results['copyright_year']
+
+                                st_logger.debug(f"Calling clean_call_number after Vertex AI for classification='{lc_meta.get('classification', '')}'")
+                                final_call_number_after_vertex_ai = clean_call_number(
+                                    lc_meta.get('classification', ''),
+                                    lc_meta.get('genres', []),
+                                    lc_meta.get('google_genres', []),
+                                    title=title
                                 )
-                    update_progress("Classifying with Vertex AI", "Done")
+                                st_logger.debug(f"final_call_number_after_vertex_ai: {final_call_number_after_vertex_ai}")
 
-                update_progress("Cleaning data", "In progress...")
-                for i, row_data in enumerate(results):
-                    final_series_name = row_data['Series Info']
-                    final_series_number = row_data['Series Number']
+                                # Only update if current value is empty or from a less authoritative source
+                                if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
+                                    st_logger.debug(f"Updating Call Number for row {row_index} with Vertex AI suggestion.")
+                                    results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
+                                    results[row_index]['_source_data']['Call Number'] = "Vertex"
 
-                    results[i]['Series Info'] = final_series_name
-                    results[i]['Series Number'] = final_series_number
-                update_progress("Cleaning data", "Done")
+                                if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
+                                    st_logger.debug(f"Updating Series Info for row {row_index} with Vertex AI suggestion.")
+                                    results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
+                                    results[row_index]['_source_data']['Series Info'] = "Vertex"
 
-                save_cache(loc_cache)
+                                if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
+                                    st_logger.debug(f"Updating Series Number for row {row_index} with Vertex AI suggestion.")
+                                    results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
+                                    results[row_index]['_source_data']['Series Number'] = "Vertex"
 
-                st.write("Processing complete!")
+                                if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
+                                    st_logger.debug(f"Updating Copyright Year for row {row_index} with Vertex AI suggestion.")
+                                    results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
+                                    results[row_index]['_source_data']['Copyright Year'] = "Vertex"
 
-                results_df = pd.DataFrame(results)
-                st.session_state.processed_df = results_df
+                        update_progress("Classifying with Vertex AI", "Done")
 
-        if st.button("Save Manual Edits"):
-            st.session_state.processed_df = st.session_state.data_editor
-            st.success("Manual edits saved!")
+                    update_progress("Cleaning data", "In progress...")
+                    # Final pass to clean up any remaining issues or apply final formatting
+                    for i, row_data in enumerate(results):
+                        # Remove monkey emojis for final display in editable table
+                        for col in LABEL_DISPLAY_COLUMNS:
+                            if isinstance(row_data.get(col), str) and row_data[col].startswith(SUGGESTION_FLAG):
+                                results[i][col] = row_data[col].lstrip(SUGGESTION_FLAG)
 
-        st.subheader("Generate PDF Labels")
-        if st.button("Generate PDF"):
-            try:
-                pdf_output = generate_pdf_labels(st.session_state.processed_df)
-                st.session_state.pdf_data = pdf_output
-            except Exception as e:
-                st.error(f"An error occurred while generating the PDF: {e}")
-                st.session_state.pdf_data = None
+                        # Ensure all label display columns are present, even if empty
+                        for col in LABEL_DISPLAY_COLUMNS:
+                            if col not in results[i]:
+                                results[i][col] = ""
 
-        if 'pdf_data' in st.session_state and st.session_state.pdf_data:
-            st.download_button(
-                label="Download PDF Labels",
-                data=st.session_state.pdf_data,
-                file_name="book_labels.pdf",
-                mime="application/pdf",
-                key="pdf-download"
+                    update_progress("Cleaning data", "Done")
+
+                    save_cache(loc_cache)
+
+                    st.write("Processing complete!")
+
+                    st.session_state.processed_df = pd.DataFrame(results)
+                    st.session_state.processed_df['_source_data'] = [r['_source_data'] for r in results] # Store source data separately
+
+                st.write("### Review and Edit Processed Data")
+                st.info("Values marked with 🐒 are suggestions from external APIs. You can edit any field. Click 'Save Manual Edits' when done.")
+                
+                # Display editable table with monkey emojis
+                st.data_editor(
+                    st.session_state.processed_df[LABEL_DISPLAY_COLUMNS],
+                    key="data_editor",
+                    on_change=lambda: st.session_state.edited_rows.update(st.session_state.data_editor['edited_rows']),
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+                if st.button("Save Manual Edits", key="save_manual_edits_button", on_click=next_step):
+                    # Apply manual edits to the processed_df
+                    for idx, changes in st.session_state.edited_rows.items():
+                        for col, new_value in changes.items():
+                            st.session_state.processed_df.loc[idx, col] = new_value
+                            # If a manual edit is made, the source becomes Atriuum (user input)
+                            st.session_state.processed_df.loc[idx, '_source_data'][col] = "Atriuum"
+                    st.success("Manual edits saved!")
+                    # Transition to next step is handled by on_click
+
+    # --- Step 3: Review and Confirm Data ---
+    if st.session_state.current_step == "review_edits":
+        with st.container():
+            st.header("Step 3: Review and Confirm Data")
+            st.info("Review the final data. Colors indicate the source of the data for each field.")
+
+            # Legend for colors
+            st.markdown("### Data Source Legend:")
+            cols = st.columns(len(SOURCE_COLORS))
+            for i, (source, color) in enumerate(SOURCE_COLORS.items()):
+                cols[i].markdown(f"<span style=\"background-color:{color}; padding: 5px; border-radius: 3px;\">{source}</span>", unsafe_allow_html=True)
+            st.markdown("\n") # Add a newline for spacing
+
+            # Function to apply styling based on source_data
+            def highlight_source(row):
+                style = ['' for _ in row.index]
+                for col_name in LABEL_DISPLAY_COLUMNS:
+                    source = row['_source_data'].get(col_name, "Atriuum") # Default to Atriuum
+                    color = SOURCE_COLORS.get(source, "transparent")
+                    style[row.index.get_loc(col_name)] = f'background-color: {color}'
+                return style
+
+            # Display non-editable table with colored backgrounds
+            st.dataframe(
+                st.session_state.processed_df[LABEL_DISPLAY_COLUMNS].style.apply(highlight_source, axis=1),
+                use_container_width=True,
+                hide_index=True
             )
+
+            if st.button("Proceed to PDF Generation", key="proceed_to_pdf_button", on_click=next_step):
+                pass # Handled by on_click
+
+    # --- Step 4: Generate PDF Labels ---
+    if st.session_state.current_step == "generate_pdf":
+        with st.container():
+            st.header("Step 4: Generate PDF Labels")
+            st.info("Click 'Generate PDF' to create your barcode labels.")
+
+            if st.button("Generate PDF", key="generate_pdf_button"):
+                try:
+                    # Prepare data for PDF generation: remove _source_data column
+                    pdf_data_df = st.session_state.processed_df.drop(columns=['_source_data'], errors='ignore')
+                    pdf_output = generate_pdf_labels(pdf_data_df)
+                    st.session_state.pdf_data = pdf_output
+                    st.success("PDF generated successfully!")
+                except Exception as e:
+                    st.error(f"An error occurred while generating the PDF: {e}")
+                    st.session_state.pdf_data = None
+
+            if 'pdf_data' in st.session_state and st.session_state.pdf_data:
+                st.download_button(
+                    label="Download PDF Labels",
+                    data=st.session_state.pdf_data,
+                    file_name="book_labels.pdf",
+                    mime="application/pdf",
+                    key="pdf-download"
+                )
 
     with st.expander("Debug Log"):
         st.download_button(
