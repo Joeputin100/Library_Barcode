@@ -1,6 +1,6 @@
 import json
 import re
-from external_enricher import clean_call_number, LCC_TO_DDC_MAP, lcc_to_ddc # Import necessary functions
+from external_enricher import clean_call_number
 
 
 def clean_title(title):
@@ -20,8 +20,10 @@ def capitalize_title_mla(title):
         return ""
 
     words = title.lower().split()
-    # List of articles, prepositions, and conjunctions that should not be capitalized unless they are the first or last word.
-    minor_words = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'in', 'of', 'off', 'up', 'so', 'yet']
+    # List of articles, prepositions, and conjunctions that should not be capitalized
+    # unless they are the first or last word.
+    minor_words = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'in', 'of',
+                   'off', 'out', 'up', 'so', 'yet']
 
     capitalized_words = []
     for i, word in enumerate(words):
@@ -66,7 +68,12 @@ def clean_data():
             'title': capitalize_title_mla(clean_title(data.get('title', ''))),
             'author': clean_author(data.get('author', '')),
             'lccn': data.get('lccn'),
-            'call_number': clean_call_number(data.get('call_number', ''), data.get('genres', []), data.get('google_genres', []), title=data.get('title', '')),
+            'call_number': clean_call_number(
+                data.get('call_number', ''),
+                data.get('genres', []),
+                data.get('google_genres', []),
+                title=data.get('title', '')
+            ),
             'series_name': data.get('series_name'),
             'volume_number': data.get('volume_number'),
             'publication_year': extract_year(data.get('publication_year', '')),
