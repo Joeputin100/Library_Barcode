@@ -14,6 +14,7 @@ import sys
 
 INDENT_STEP = 4
 
+
 def repair(path):
     # Backup
     shutil.copy2(path, path + ".bak")
@@ -53,6 +54,7 @@ def repair(path):
         f.writelines(out)
 
     print(f"✔ Repaired and normalized {path} (backup at {path}.bak)")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

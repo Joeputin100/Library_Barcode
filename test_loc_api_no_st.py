@@ -10,15 +10,18 @@ import threading
 SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
 
+
 def load_cache():
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, 'r') as f:
             return json.load(f)
     return {}
 
+
 def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
+
 
 def get_book_metadata(title, author, cache, event):
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:\\]', '', title)
@@ -33,8 +36,8 @@ def get_book_metadata(title, author, cache, event):
     else:
         query = f'bath.title="{safe_title}"'
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None} 
-    
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'error': None}
+
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
         try:
@@ -70,12 +73,14 @@ def get_book_metadata(title, author, cache, event):
     event.set() # Signal completion even on failure
     return metadata
 
+
 def test_api():
     cache = load_cache()
     event = threading.Event()
     metadata = get_book_metadata("A spectacle of corruption.", "Liss, David", cache, event)
-    
+
     save_cache(cache)
+
 
 if __name__ == "__main__":
     test_api()

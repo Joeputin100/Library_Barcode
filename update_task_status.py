@@ -1,6 +1,7 @@
 import json
 import sys
 
+
 def update_task_status(task_id, new_status):
     try:
         with open('project_plan.json', 'r') as f:
@@ -34,11 +35,12 @@ def update_task_status(task_id, new_status):
     except json.JSONDecodeError:
         print("Error decoding project_plan.json.")
 
+
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print("Usage: python update_task_status.py <task_id> <new_status>")
         sys.exit(1)
-    
+
     task_id = sys.argv[1]
     new_status = sys.argv[2]
     update_task_status(task_id, new_status)

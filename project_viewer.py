@@ -3,6 +3,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Header, Footer, Static, Tree, Tabs, Tab, Button
 from textual.containers import Vertical, Container, Horizontal
 
+
 class ProjectViewer(App):
     """A Textual app to view project information."""
 
@@ -80,13 +81,13 @@ class ProjectViewer(App):
                     if task.get("status") == "DONE":
                         last_done_node = task_node
                     if "sub_tasks" in task:
-                        
+
                         for sub_task in task["sub_tasks"]:
                             sub_task_status_emoji = "✅ " if sub_task.get("status") == "DONE" else "⏰ " if sub_task.get("status") == "PROCESSING" else ""
                             sub_task_node = task_node.add(f"{sub_task_status_emoji}{sub_task['task_id']}: {sub_task['task_name']} ({sub_task['status']})")
                             if sub_task.get("status") == "DONE":
                                 last_done_node = sub_task_node
-            
+
             if last_done_node:
                 node = last_done_node
                 while node.parent:
@@ -96,7 +97,6 @@ class ProjectViewer(App):
 
         except (FileNotFoundError, json.JSONDecodeError) as e:
             tree.root.label = f"Could not load project_plan.json: {e}"
-
 
     def load_project_state(self):
         """Load the project state from the JSON file."""
@@ -121,6 +121,7 @@ class ProjectViewer(App):
     def action_quit(self):
         """Quit the application."""
         self.exit()
+
 
 if __name__ == "__main__":
     app = ProjectViewer()

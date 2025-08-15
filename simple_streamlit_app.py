@@ -14,17 +14,22 @@ SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json"
 
 # --- Caching Functions ---
+
+
 def load_cache():
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, 'r') as f:
             return json.load(f)
     return {}
 
+
 def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
 
 # --- Helper Functions ---
+
+
 def clean_call_number(call_num_str, genres):
     if not isinstance(call_num_str, str):
         return ""
@@ -45,6 +50,7 @@ def clean_call_number(call_num_str, genres):
         return match.group(1)
     return cleaned
 
+
 def get_book_metadata(title, author, cache, event):
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.\:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
@@ -56,8 +62,8 @@ def get_book_metadata(title, author, cache, event):
     query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None} 
-    
+    metadata = {'classification': "", 'series_name': "", 'volume_number': "", 'publication_year': "", 'genres': [], 'error': None}
+
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
         try:
@@ -100,39 +106,41 @@ def get_book_metadata(title, author, cache, event):
     event.set() # Signal completion even on failure
     return metadata
 
+
 def main():
     st.title("Simple LOC Processor")
 
     df = pd.read_csv("test_batch.csv", encoding='latin1', dtype=str).fillna('')
     loc_cache = load_cache()
-    
+
     st.write("Processing rows...")
     progress_bar = st.progress(0)
-    
+
     results = []
 
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
-        
+
         for i, future in enumerate(as_completed(futures)):
             row_index = futures[future]
             lc_meta = future.result()
             row = df.iloc[row_index]
             title = row.get('Title', '').strip()
             author = row.get("Author's Name", '').strip()
-            
+
             api_call_number = lc_meta.get('classification', '')
             cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []))
-            
+
             results.append([title, author, api_call_number, cleaned_call_number])
             progress_bar.progress((i + 1) / len(df))
 
     save_cache(loc_cache)
-    
+
     st.write("Processing complete!")
-    
+
     result_df = pd.DataFrame(results, columns=["Title", "Author", "API Call Number", "Cleaned Call Number"])
     st.dataframe(result_df)
+
 
 if __name__ == "__main__":
     main()

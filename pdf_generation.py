@@ -22,8 +22,10 @@ HORIZONTAL_SPACING = 0.125 * inch
 VERTICAL_SPACING = 0.0 * inch
 GRID_SPACING = 0.1 * inch
 
+
 def pad_inventory_number(inventory_num):
     return str(inventory_num).zfill(6)
+
 
 def generate_barcode(inventory_num):
     padded_num = pad_inventory_number(inventory_num)
@@ -32,6 +34,7 @@ def generate_barcode(inventory_num):
     EAN.write(buffer)
     buffer.seek(0)
     return ImageReader(buffer)
+
 
 def generate_qrcode(inventory_num):
     padded_num = pad_inventory_number(inventory_num)
@@ -49,12 +52,13 @@ def generate_qrcode(inventory_num):
     buffer.seek(0)
     return ImageReader(buffer)
 
+
 def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_font_size=10, min_font_size=5, alignment=TA_LEFT):
     styles = getSampleStyleSheet()
     style = styles['Normal']
     style.fontName = font_name
     style.alignment = alignment
-    
+
     optimal_font_size = min_font_size
     text_block_height = 0
 
@@ -81,6 +85,7 @@ def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_fo
 
     return optimal_font_size, text_block_height
 
+
 def create_label(c, x, y, book_data, label_type):
     title = book_data.get('Title', '')
     authors = book_data.get("Author", '')
@@ -106,7 +111,7 @@ def create_label(c, x, y, book_data, label_type):
 
         max_text_width = LABEL_WIDTH - 10
         max_text_height = LABEL_HEIGHT - 10
-        
+
         styles = getSampleStyleSheet()
         style = styles['Normal']
         style.fontName = 'Courier'
@@ -130,7 +135,7 @@ def create_label(c, x, y, book_data, label_type):
                 style.fontName = 'Courier-Bold'
             else:
                 style.fontName = 'Courier'
-            
+
             p = Paragraph(line_text, style)
             width, height = p.wrapOn(c, max_text_width, LABEL_HEIGHT * 2)
             current_y -= height
@@ -144,7 +149,7 @@ def create_label(c, x, y, book_data, label_type):
 
         qr_image = generate_qrcode(inventory_number)
         c.drawImage(qr_image, qr_code_x, qr_code_y, width=qr_code_size, height=qr_code_size)
-        
+
         text_lines = [
             title,
             authors.split(',')[0] if authors else '',
@@ -197,7 +202,7 @@ def create_label(c, x, y, book_data, label_type):
             str(publication_year),
             inventory_number
         ]
-        
+
         line_height = 12
         total_text_height = len(lines) * line_height
         start_y = y + (LABEL_HEIGHT - total_text_height) / 2 + total_text_height - (line_height * 0.8)
@@ -222,7 +227,7 @@ def create_label(c, x, y, book_data, label_type):
             str(publication_year),
             inventory_number
         ]
-        
+
         line_height = 12
         total_text_height = len(lines) * line_height
         start_y = y + (LABEL_HEIGHT - total_text_height) / 2 + total_text_height - (line_height * 0.8)
@@ -239,7 +244,7 @@ def create_label(c, x, y, book_data, label_type):
 
         barcode_image = generate_barcode(inventory_number)
         c.drawImage(barcode_image, barcode_x, barcode_y, width=barcode_width, height=barcode_height)
-        
+
         text_above_barcode_lines = [
             f"{title} by {authors.split(',')[0] if authors else ''}",
         ]
@@ -247,7 +252,7 @@ def create_label(c, x, y, book_data, label_type):
         max_text_above_height = (y + LABEL_HEIGHT) - (barcode_y + barcode_height) - 5
 
         optimal_font_size_above, text_block_height_above = _fit_text_to_box(c, text_above_barcode_lines, 'Courier', max_text_above_width, max_text_above_height, initial_font_size=10, alignment=TA_CENTER)
-        
+
         styles = getSampleStyleSheet()
         style_above = styles['Normal']
         style_above.fontName = 'Courier'
@@ -289,10 +294,10 @@ def create_label(c, x, y, book_data, label_type):
             if series_number and len(series_number) > 1:
                 vertical_offset = (len(series_number) - 1) * GRID_SPACING
             text_origin_y = y + (LABEL_HEIGHT - text_block_height_left) / 2 + text_block_height_left - (0.1 * inch) - (3.5 * GRID_SPACING)
-            
+
             c.translate(text_origin_x, text_origin_y)
             c.rotate(90)
-            
+
             current_rotated_y = 0
             for line in text_left_barcode_lines:
                 p = Paragraph(line, style_left)
@@ -301,6 +306,7 @@ def create_label(c, x, y, book_data, label_type):
                 p.drawOn(c, 0, current_rotated_y)
                 current_rotated_y -= (0.05 * inch)
             c.restoreState()
+
 
 def generate_pdf_labels(df):
     buffer = io.BytesIO()
@@ -324,7 +330,7 @@ def generate_pdf_labels(df):
             c.setDash()
             c.setStrokeColorRGB(0, 0, 0)
             c.setLineWidth(0.5)
-            
+
             if col_num < LABELS_PER_SHEET_WIDTH - 1:
                 c.line(x_pos + LABEL_WIDTH + HORIZONTAL_SPACING / 2, y_pos, x_pos + LABEL_WIDTH + HORIZONTAL_SPACING / 2, y_pos + LABEL_HEIGHT)
 

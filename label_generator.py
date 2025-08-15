@@ -30,9 +30,11 @@ VERTICAL_SPACING = 0.0 * inch # Space between labels vertically (they touch)
 # Debugging grid spacing
 GRID_SPACING = 0.1 * inch
 
+
 def pad_inventory_number(inventory_num):
     """Pads the inventory number with leading zeros to 6 digits."""
     return str(inventory_num).zfill(6)
+
 
 def generate_barcode(inventory_num):
     """Generates a Code 128 barcode image for the given inventory number."""
@@ -43,6 +45,7 @@ def generate_barcode(inventory_num):
     EAN.write(buffer)
     buffer.seek(0)
     return ImageReader(buffer)
+
 
 def generate_qrcode(inventory_num):
     """Generates a QR code image for the given inventory number."""
@@ -62,6 +65,7 @@ def generate_qrcode(inventory_num):
     buffer.seek(0)
     return ImageReader(buffer)
 
+
 def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_font_size=10, min_font_size=5, alignment=TA_LEFT):
     """
     Finds the largest font size that allows all text_lines to fit within max_width and max_height.
@@ -71,7 +75,7 @@ def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_fo
     style = styles['Normal']
     style.fontName = font_name
     style.alignment = alignment
-    
+
     optimal_font_size = min_font_size
     text_block_height = 0
 
@@ -98,6 +102,7 @@ def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_fo
             text_block_height += height + (0.05 * inch)
 
     return optimal_font_size, text_block_height
+
 
 def create_label(c, x, y, book_data, label_type):
     """
@@ -134,7 +139,7 @@ def create_label(c, x, y, book_data, label_type):
         # Dynamic font sizing for Label 1
         max_text_width = LABEL_WIDTH - 10 # 5 units margin on each side
         max_text_height = LABEL_HEIGHT - 10 # 5 units margin on top/bottom
-        
+
         styles = getSampleStyleSheet()
         style = styles['Normal']
         style.fontName = 'Courier'
@@ -163,11 +168,11 @@ def create_label(c, x, y, book_data, label_type):
                 style.fontName = 'Courier-Bold'
             else:
                 style.fontName = 'Courier'
-            
+
             p = Paragraph(line_text, style)
             # Use a very large height to prevent Paragraph from wrapping vertically,
             # as we've already ensured horizontal fit with optimal_font_size_line
-            width, height = p.wrapOn(c, max_text_width, LABEL_HEIGHT * 2) 
+            width, height = p.wrapOn(c, max_text_width, LABEL_HEIGHT * 2)
             current_y -= height # Move down for current line
             p.drawOn(c, x + 5, current_y) # Draw from top down
             current_y -= (0.02 * inch) # Reduced line spacing
@@ -180,7 +185,6 @@ def create_label(c, x, y, book_data, label_type):
 
         qr_image = generate_qrcode(inventory_number)
         c.drawImage(qr_image, qr_code_x, qr_code_y, width=qr_code_size, height=qr_code_size)
-        
 
         text_lines = [
             title,
@@ -242,7 +246,7 @@ def create_label(c, x, y, book_data, label_type):
             str(publication_year),
             inventory_number
         ]
-        
+
         # Calculate vertical position for centered text
         line_height = 12 # Approximate line height for font size 10
         total_text_height = len(lines) * line_height
@@ -276,7 +280,7 @@ def create_label(c, x, y, book_data, label_type):
             str(publication_year),
             inventory_number
         ]
-        
+
         # Calculate vertical position for centered text
         line_height = 12 # Approximate line height for font size 10
         total_text_height = len(lines) * line_height
@@ -296,7 +300,6 @@ def create_label(c, x, y, book_data, label_type):
 
         barcode_image = generate_barcode(inventory_number)
         c.drawImage(barcode_image, barcode_x, barcode_y, width=barcode_width, height=barcode_height)
-        
 
         # Text above barcode (Title, Author)
         text_above_barcode_lines = [
@@ -307,7 +310,7 @@ def create_label(c, x, y, book_data, label_type):
         max_text_above_height = (y + LABEL_HEIGHT) - (barcode_y + barcode_height) - 5 # Space from top of label to top of barcode
 
         optimal_font_size_above, text_block_height_above = _fit_text_to_box(c, text_above_barcode_lines, 'Courier', max_text_above_width, max_text_above_height, initial_font_size=10, alignment=TA_CENTER)
-        
+
         styles = getSampleStyleSheet()
         style_above = styles['Normal']
         style_above.fontName = 'Courier'
@@ -354,20 +357,21 @@ def create_label(c, x, y, book_data, label_type):
             if series_number and len(series_number) > 1:
                 vertical_offset = (len(series_number) - 1) * GRID_SPACING
             text_origin_y = y + (LABEL_HEIGHT - text_block_height_left) / 2 + text_block_height_left - (0.1 * inch) - (3.5 * GRID_SPACING)
-            
+
             c.translate(text_origin_x, text_origin_y)
             c.rotate(90) # Rotate 90 degrees counter-clockwise
-            
+
             # Draw text after rotation and translation
             current_rotated_y = 0 # Relative to new origin
             for line in text_left_barcode_lines:
                 p = Paragraph(line, style_left)
                 # For rotated text, width and height parameters are swapped
-                width, height = p.wrapOn(c, max_text_left_width, max_text_left_height) 
+                width, height = p.wrapOn(c, max_text_left_width, max_text_left_height)
                 current_rotated_y -= height # Move down for current line
                 p.drawOn(c, 0, current_rotated_y) # Draw from new origin
                 current_rotated_y -= (0.05 * inch) # Add line spacing
             c.restoreState()
+
 
 def generate_pdf_sheet(book_data_list):
     """Generates a PDF with multiple sheets of Avery 5160 labels."""
@@ -386,8 +390,6 @@ def generate_pdf_sheet(book_data_list):
             x_pos = LEFT_MARGIN + col * (LABEL_WIDTH + HORIZONTAL_SPACING)
             y_pos = PAGE_HEIGHT - TOP_MARGIN - (row + 1) * (LABEL_HEIGHT + VERTICAL_SPACING)
 
-            
-
             # Draw dotted lines for label edges (perimeter of each label cell) with rounded corners
             c.setDash(1, 2) # Dotted line: 1 unit on, 2 units off
             c.setStrokeColorRGB(0, 0, 0) # Black color
@@ -398,7 +400,7 @@ def generate_pdf_sheet(book_data_list):
             c.setDash() # Solid line
             c.setStrokeColorRGB(0, 0, 0) # Black color
             c.setLineWidth(0.5) # Line thickness
-            
+
             # Vertical solid lines in the horizontal spacing area
             if col < LABELS_PER_SHEET_WIDTH - 1:
                 # Draw a single solid line in the middle of the horizontal spacing

@@ -6,11 +6,12 @@ from textual.containers import Vertical, Container
 from query_parser import parse_query
 from marc_processor import load_marc_records, filter_marc_records, get_field_value
 
+
 class MarcQueryTUI(App):
     """A Textual app to query MARC records."""
 
     CSS_PATH = "project_viewer.css" # Reusing the CSS for now, might rename later
-    
+
     BINDINGS = [
         ("q", "quit", "Quit"),
     ]
@@ -60,7 +61,7 @@ class MarcQueryTUI(App):
             if parsed_query:
                 self.current_parsed_query = parsed_query
                 self.waiting_for_confirmation = True
-                
+
                 confirmation_message = f"You entered: '{query_str}'\n"
                 confirmation_message += f"I understood this as: {parsed_query}\n"
                 confirmation_message += "Is this correct? (Type 'y' to confirm, or 'n' to cancel)"
@@ -75,20 +76,21 @@ class MarcQueryTUI(App):
         """Executes the parsed query and displays results."""
         results_widget = self.query_one("#results", RichLog)
         results_widget.clear()
-        
+
         filtered_records = filter_marc_records(self.all_marc_records, parsed_query)
-        
+
         results_widget.write(f"Found {len(filtered_records)} records.\n\n")
         if filtered_records:
             results_widget.write("Full list of records:\n")
             for i, record in enumerate(filtered_records):
                 barcode = get_field_value(record, 'holding barcode')
                 title = get_field_value(record, 'title')
-                results_widget.write(f"  {i+1}. Barcode: {barcode if barcode else 'N/A'}, Title: {title if title else 'N/A'}\n")
+                results_widget.write(f"  {i + 1}. Barcode: {barcode if barcode else 'N/A'}, Title: {title if title else 'N/A'}\n")
 
     def action_quit(self):
         """Quit the application."""
         self.exit()
+
 
 if __name__ == "__main__":
     app = MarcQueryTUI()

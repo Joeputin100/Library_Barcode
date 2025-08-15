@@ -11,21 +11,24 @@ import os
 SUGGESTION_FLAG = "🐒"
 CACHE_FILE = "loc_cache.json" # This script will still use the cache for efficiency
 
+
 def load_cache():
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, 'r') as f:
             return json.load(f)
     return {}
 
+
 def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
+
 
 def get_raw_loc_response(title, author, cache):
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:\\]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
     cache_key = f"{safe_title}|{safe_author}".lower()
-    
+
     # Check cache first
     if cache_key in cache and 'raw_response' in cache[cache_key]:
         sys.stderr.write(f"DEBUG: Cache hit for {title} by {author}\n")
@@ -36,18 +39,18 @@ def get_raw_loc_response(title, author, cache):
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
     else:
         query = f'bath.title="{safe_title}"'
-    
+
     params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-    
+
     raw_response = ""
-    
+
     retry_delays = [5, 30, 60]
     for i in range(len(retry_delays) + 1):
         try:
             response = requests.get(base_url, params=params, timeout=30)
             response.raise_for_status()
             raw_response = response.content.decode('utf-8')
-            
+
             # Store in cache
             cache[cache_key] = {'raw_response': raw_response, 'query': query}
             return raw_response, query
@@ -60,10 +63,11 @@ def get_raw_loc_response(title, author, cache):
         except Exception as e:
             sys.stderr.write(f"ERROR: An unexpected error occurred for {title} by {author}: {e}\n")
             break
-    
+
     # Store error in cache if all retries fail
     cache[cache_key] = {'raw_response': 'ERROR: ' + str(e), 'query': query}
     return "ERROR: " + str(e), query
+
 
 def main():
     csv_content = '''Line Number,"Title","Author's Name","Call Number","Copyright","Holdings Barcode","Publication Date","Series Title","Series Volume"
@@ -92,19 +96,20 @@ def main():
 23,"The devil's arithmetic","Yolen, Jane","","c1990.","B000178","1990.","",""'''
     csvfile = io.StringIO(csv_content)
     reader = csv.DictReader(csvfile)
-    
+
     cache = load_cache()
 
     for row in reader:
         title = row.get('Title', '').strip()
         author = row.get("Author's Name", '').strip()
-        
+
         sys.stderr.write(f'--- Processing: {title} by {author} ---\n')
         raw_response, query = get_raw_loc_response(title, author, cache)
         sys.stderr.write(f"QUERY: {query}\n")
         sys.stderr.write(f"RAW RESPONSE: {raw_response}\n\n")
-    
+
     save_cache(cache)
+
 
 if __name__ == "__main__":
     main()

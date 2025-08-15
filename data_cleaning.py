@@ -2,6 +2,7 @@ import re
 
 SUGGESTION_FLAG = "🐒"
 
+
 def clean_title(title):
     """Cleans title by moving leading articles to the end."""
     if not isinstance(title, str):
@@ -9,25 +10,29 @@ def clean_title(title):
     articles = ['The ', 'A ', 'An ']
     for article in articles:
         if title.startswith(article):
-            return title[len(article):] + ", " + title[:len(article)-1]
+            return title[len(article):] + ", " + title[:len(article) - 1]
     return title
+
 
 def capitalize_title_mla(title):
     """Capitalizes a title according to MLA standards."""
     if not isinstance(title, str) or not title:
         return ""
-    
+
     words = title.lower().split()
-    minor_words = ['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'in', 'of', 'off', 'out', 'up', 'so', 'yet']
-    
+    minor_words = [
+        'a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'from', 'by', 'in', 'of', 'off', 'out', 'up', 'so', 'yet'
+    ]
+
     capitalized_words = []
     for i, word in enumerate(words):
         if i == 0 or i == len(words) - 1 or word not in minor_words:
             capitalized_words.append(word.capitalize())
         else:
             capitalized_words.append(word)
-            
+
     return " ".join(capitalized_words)
+
 
 def clean_author(author):
     """Cleans author name to Last, First Middle."""
@@ -37,6 +42,7 @@ def clean_author(author):
     if len(parts) == 2:
         return f"{parts[0].strip()}, {parts[1].strip()}"
     return author
+
 
 def lcc_to_ddc(lcc):
     """Converts an LCC call number to a DDC range or 'FIC'."""
@@ -95,13 +101,14 @@ def lcc_to_ddc(lcc):
     for prefix, ddc_range in LCC_TO_DDC_MAP.items():
         if lcc.startswith(prefix):
             return ddc_range.split('-')[0].strip()
-            
+
     return ""
+
 
 def clean_call_number(call_num_str, genres, google_genres=None, title="", is_original_data=False):
     if google_genres is None:
         google_genres = []
-        
+
     if not isinstance(call_num_str, str):
         return ""
 
@@ -109,7 +116,10 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
     if not is_original_data:
         cleaned = cleaned.lstrip(SUGGESTION_FLAG)
 
-    fiction_keywords_all = ["fiction", "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "stories", "a novel", "young adult fiction", "historical fiction", "literary fiction"]
+    fiction_keywords_all = [
+        "fiction", "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "stories",
+        "a novel", "young adult fiction", "historical fiction", "literary fiction"
+    ]
     if any(g.lower() in fiction_keywords_all for g in google_genres) or \
        any(genre.lower() in fiction_keywords_all for genre in genres) or \
        any(keyword in title.lower() for keyword in fiction_keywords_all):
@@ -121,19 +131,23 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
 
     cleaned = re.sub(r'[^a-zA-Z0-9\s\.:]', '', cleaned).strip()
 
-    if cleaned.lower() in ["fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "fiction", "young adult fiction", "historical fiction", "literary fiction"]:
+    if cleaned.lower() in [
+        "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "fiction",
+        "young adult fiction", "historical fiction", "literary fiction"
+    ]:
         return "FIC"
 
     if cleaned.upper().startswith("FIC"):
         return "FIC"
-    
+
     if re.match(r'^\d{3}(\.\d{1,3})?$', cleaned):
         return cleaned
-    
+
     if re.match(r'^[A-Z]{1,3}\d+(\.\d+)?$', cleaned) or re.match(r'^\d+(\.\d+)?$', cleaned):
         return cleaned
 
     return ""
+
 
 def clean_series_number(series_num_str):
     if not isinstance(series_num_str, str):
@@ -158,6 +172,7 @@ def clean_series_number(series_num_str):
     if match:
         return match.group(0)
     return ""
+
 
 def extract_year(date_string):
     if isinstance(date_string, str):

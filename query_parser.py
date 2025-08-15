@@ -1,5 +1,6 @@
 import re
 
+
 def parse_query(query_str):
     """
     Parses a natural language query about MARC records.
@@ -46,6 +47,7 @@ def parse_query(query_str):
             return {"type": "field_query", "field": field, "value": value}
 
     return None
+
 
 if __name__ == '__main__':
     queries = [

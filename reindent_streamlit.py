@@ -10,6 +10,7 @@ indent levels across the entire file.
 import sys
 from lib2to3.refactor import RefactoringTool, get_fixers_from_package
 
+
 def main(path):
     # Only load the reindent fixer
     all_fixers = get_fixers_from_package("lib2to3.fixes")
@@ -21,6 +22,7 @@ def main(path):
     tool = RefactoringTool(reindent_fixer)
     tool.refactor_file(path, write=True)
     print(f"Re-indent complete: {path}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
