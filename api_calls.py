@@ -15,7 +15,7 @@ def get_book_metadata_google_books(title, author, cache):
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
     cache_key = f"google_{safe_title}|{safe_author}".lower()
     if cache_key in cache:
-        return cache[cache_key]
+        return cache[cache_key], True
 
     metadata = {
         'google_genres': [],
@@ -59,7 +59,7 @@ def get_book_metadata_google_books(title, author, cache):
 
         cache[cache_key] = metadata
         save_cache(cache)
-        return metadata
+        return metadata, False
 
     except requests.exceptions.RequestException as e:
         if isinstance(e, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)):
@@ -70,7 +70,7 @@ def get_book_metadata_google_books(title, author, cache):
             save_cache(cache)
     except Exception as e:
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
-    return metadata
+    return metadata, False
 
 
 def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache):
@@ -105,7 +105,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache
 
         cache_key = f"vertex_{full_prompt}".lower()
         if cache_key in cache:
-            return cache[cache_key]
+            return cache[cache_key], True
 
         for i in range(len(retry_delays) + 1):
             try:
@@ -117,12 +117,12 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache
                 classifications = json.loads(response_text)
                 cache[cache_key] = classifications
                 save_cache(cache)
-                return classifications
+                return classifications, False
             except Exception:
                 if i < len(retry_delays):
                     time.sleep(retry_delays[i])
                 else:
-                    return []
+                    return [], False
     finally:
         if os.path.exists(temp_creds_path):
             os.remove(temp_creds_path)
@@ -142,13 +142,15 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
         'error': None
     }
 
-    google_meta = get_book_metadata_google_books(title, author, cache)
+    google_meta, google_cached = get_book_metadata_google_books(title, author, cache)
     metadata.update(google_meta)
 
     loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
+    loc_cached = False
     if loc_cache_key in cache:
         cached_loc_meta = cache[loc_cache_key]
         metadata.update(cached_loc_meta)
+        loc_cached = True
     else:
         base_url = "http://lx2.loc.gov:210/LCDB"
         query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
@@ -209,4 +211,4 @@ def get_book_metadata_initial_pass(title, author, cache, is_blank=False, is_prob
                 metadata['error'] = f"An unexpected error occurred with LOC API: {e}"
                 break
 
-    return metadata
+    return metadata, google_cached, loc_cached
