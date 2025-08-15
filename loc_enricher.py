@@ -3,7 +3,11 @@ import requests
 import time
 import os
 import subprocess
-from external_enricher import get_book_metadata_google_books, get_vertex_ai_classification_batch, clean_call_number, LCC_TO_DDC_MAP, lcc_to_ddc # Import necessary functions
+from external_enricher import (
+    get_book_metadata_google_books,
+    get_vertex_ai_classification_batch,
+    clean_call_number
+)  # Import necessary functions
 
 
 def update_status(task_id, status):
@@ -36,7 +40,7 @@ def enrich_data_with_loc():
     Enriches the extracted data with information from the Library of Congress API,
     Google Books, and Vertex AI.
     """
-    # update_status("2.2.3", "PROCESSING") # Set status to PROCESSING
+    # update_status("2.2.3", "PROCESSING")  # Set status to PROCESSING
 
     with open('extracted_data.json', 'r') as f:
         extracted_data = json.load(f)
@@ -46,7 +50,7 @@ def enrich_data_with_loc():
         with open('enrichment_queue.txt', 'r') as f:
             barcodes_to_process = [line.strip() for line in f]
     else:
-        barcodes_to_process = list(extracted_data.keys()) # Convert to list for iteration
+        barcodes_to_process = list(extracted_data.keys())  # Convert to list for iteration
 
     # Placeholder for Vertex AI credentials
     # In a real scenario, these would be loaded securely (e.g., from environment variables or a config file)
@@ -63,7 +67,7 @@ def enrich_data_with_loc():
     }
 
     # Cache for Google Books and LOC API calls
-    loc_cache = {} # This should ideally be loaded from a file and saved after processing
+    loc_cache = {}  # This should ideally be loaded from a file and saved after processing
 
     # Collect books for batch Vertex AI processing
     unclassified_books_for_vertex_ai = []
@@ -81,7 +85,7 @@ def enrich_data_with_loc():
                 print(f"  -> Found call number from LOC: {call_number}")
             else:
                 print(f"  -> Could not find call number from LOC for LCCN {data['lccn']}")
-            time.sleep(1) # Rate limit for LOC API
+            time.sleep(1)  # Rate limit for LOC API
 
         # Google Books enrichment (always try if title/author available)
         google_meta = get_book_metadata_google_books(data.get('title', ''), data.get('author', ''), loc_cache)
@@ -103,13 +107,13 @@ def enrich_data_with_loc():
             unclassified_books_for_vertex_ai.append({
                 'title': data.get('title', ''),
                 'author': data.get('author', ''),
-                'barcode': barcode, # Keep track of original barcode
-                'lc_meta': data # Pass the current data for merging
+                'barcode': barcode,  # Keep track of original barcode
+                'lc_meta': data  # Pass the current data for merging
             })
 
         # Update extracted_data with potentially new info
         extracted_data[barcode] = data
-        time.sleep(0.1) # Small delay to avoid hammering APIs
+        time.sleep(0.1)  # Small delay to avoid hammering APIs
 
     print(f"Number of unclassified books for Vertex AI: {len(unclassified_books_for_vertex_ai)}")
     # Second pass: Batch process unclassified books with Vertex AI
@@ -120,7 +124,9 @@ def enrich_data_with_loc():
 
         for batch in batches:
             print(f"  Processing batch: {batch}")
-            batch_classifications = get_vertex_ai_classification_batch(batch, vertex_ai_credentials)
+            batch_classifications = get_vertex_ai_classification_batch(
+                batch, vertex_ai_credentials
+            )
             print(f"  Received batch classifications: {batch_classifications}")
 
             if not isinstance(batch_classifications, list):
@@ -130,7 +136,7 @@ def enrich_data_with_loc():
             for book_data, vertex_ai_results in zip(batch, batch_classifications):
                 print(f"    Vertex AI results for {book_data['barcode']}: {vertex_ai_results}")
                 barcode = book_data['barcode']
-                current_data = extracted_data[barcode] # Get the latest data for this barcode
+                current_data = extracted_data[barcode]  # Get the latest data for this barcode
 
                 # Replace "Unknown" with empty string
                 for k, v in vertex_ai_results.items():
@@ -139,7 +145,7 @@ def enrich_data_with_loc():
 
                 # Update the classification in current_data
                 if vertex_ai_results.get('classification') and not current_data.get('call_number'):
-                    current_data['call_number'] = clean_call_number(vertex_ai_results['classification'], current_data.get('genres', []), current_data.get('google_genres', []), title=current_data.get('title', ''))
+                    current_data['call_number'] = clean_call_number(vertex_ai_results['classification'], current_data.get('genres', []), current_data.get('google_genres', []))
                     print(f"      Updated call_number for {barcode}: {current_data.get('call_number')}")
 
                 if vertex_ai_results.get('series_title') and not current_data.get('series_name'):
@@ -148,12 +154,12 @@ def enrich_data_with_loc():
                     current_data['volume_number'] = vertex_ai_results['volume_number']
                 if vertex_ai_results.get('copyright_year') and not current_data.get('publication_year'):
                     current_data['publication_year'] = vertex_ai_results['copyright_year']
-            time.sleep(1) # Rate limit for Vertex AI batches
+            time.sleep(1)  # Rate limit for Vertex AI batches
 
     with open('extracted_data.json', 'w') as f:
         json.dump(extracted_data, f, indent=4)
 
-    # update_status("2.2.3", "DONE") # Set status to DONE
+    # update_status("2.2.3", "DONE")  # Set status to DONE
 
 
 if __name__ == '__main__':

@@ -140,8 +140,9 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
     if cleaned.upper().startswith("FIC"):
         return "FIC"
 
-    if re.match(r'^\d{3}(\.\d{1,3})?$', cleaned):
-        return cleaned
+    match = re.match(r'^(\d{3}(\.\d{1,3})?)', cleaned)
+    if match:
+        return match.group(1)
 
     if re.match(r'^[A-Z]{1,3}\d+(\.\d+)?$', cleaned) or re.match(r'^\d+(\.\d+)?$', cleaned):
         return cleaned

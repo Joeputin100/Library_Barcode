@@ -4,7 +4,6 @@ import json
 import os
 import time
 import logging
-from lxml import etree # For LOC API parsing
 
 # --- Logging Setup ---
 # This logger will be used by the functions extracted from Streamlit app
@@ -16,7 +15,7 @@ ext_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 ext_logger.addHandler(ext_handler)
 
 # --- Constants & Cache (simplified for external use) ---
-SUGGESTION_FLAG = "🐒" # Keep this for consistency if needed for cleaning
+SUGGESTION_FLAG = "🐒"  # Keep this for consistency if needed for cleaning
 # CACHE_FILE is handled externally by loc_enricher.py
 
 # --- Helper Functions (from streamlit_app.py) ---
@@ -114,17 +113,21 @@ def lcc_to_ddc(lcc):
         if lcc.startswith(prefix):
             return ddc_range.split('-')[0].strip()
 
-    return "" # Return empty if no match found
+    return ""  # Return empty if no match found
 
 
 def clean_call_number(call_num_str, genres, google_genres=None, title="", is_original_data=False):
-    ext_logger.debug(f"clean_call_number input: call_num_str='{call_num_str}', genres={genres}, google_genres={google_genres}, title='{title}', is_original_data={is_original_data}")
+    ext_logger.debug(
+        f"clean_call_number input: call_num_str='{call_num_str}', "
+        f"genres={genres}, google_genres={google_genres}, "
+        f"title='{title}', is_original_data={is_original_data}"
+    )
     if google_genres is None:
         google_genres = []
 
     if not isinstance(call_num_str, str):
         ext_logger.debug(f"clean_call_number returning empty string for non-string input: {call_num_str}")
-        return "" # Default for non-string input
+        return ""  # Default for non-string input
 
     cleaned = call_num_str.strip()
     # Only remove suggestion flag if it's not original data
@@ -132,7 +135,11 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
         cleaned = cleaned.lstrip(SUGGESTION_FLAG)
 
     # Prioritize Google Books categories and other genre lists for FIC
-    fiction_keywords_all = ["fiction", "fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "stories", "a novel", "young adult fiction", "historical fiction", "literary fiction"]
+    fiction_keywords_all = [
+        "fiction", "fantasy", "science fiction", "thriller", "mystery",
+        "romance", "horror", "novel", "stories", "a novel",
+        "young adult fiction", "historical fiction", "literary fiction"
+    ]
     if any(g.lower() in fiction_keywords_all for g in google_genres) or \
        any(genre.lower() in fiction_keywords_all for genre in genres) or \
        any(keyword in title.lower() for keyword in fiction_keywords_all):
@@ -150,7 +157,11 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
 
     # If the cleaned string is a known non-numeric genre from Vertex AI, map to FIC
     # This catches cases where Vertex AI directly returns a genre name
-    if cleaned.lower() in ["fantasy", "science fiction", "thriller", "mystery", "romance", "horror", "novel", "fiction", "young adult fiction", "historical fiction", "literary fiction"]:
+    if cleaned.lower() in [
+        "fantasy", "science fiction", "thriller", "mystery", "romance",
+        "horror", "novel", "fiction", "young adult fiction",
+        "historical fiction", "literary fiction"
+    ]:
         ext_logger.debug(f"clean_call_number returning FIC based on cleaned string match: {cleaned}")
         return "FIC"
 
@@ -180,15 +191,25 @@ def get_book_metadata_google_books(title, author, cache):
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
     safe_author = re.sub(r'[^a-zA-Z0-9\s,]', '', author)
     cache_key = f"google_{safe_title}|{safe_author}".lower()
+    metadata = {
+        'google_genres': [],
+        'classification': '',
+        'series_name': '',
+        'volume_number': '',
+        'publication_year': '',
+        'error': None
+    }
     if cache_key in cache:
-        ext_logger.debug(f"Google Books cache hit for '{title}' by '{author}'.")
+        ext_logger.debug(
+            f"Google Books cache hit for '{title}' by '{author}'."
+        )
         return cache[cache_key]
 
-    metadata = {'google_genres': [], 'classification': '', 'series_name': '', 'volume_number': '', 'publication_year': '', 'error': None}
     try:
         query = f'intitle:"{safe_title}"+inauthor:"{safe_author}"'
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1"
-        ext_logger.debug(f"Google Books query for '{title}' by '{author}': {url}")
+        ext_logger.debug("Google Books query initiated")
+        ext_logger.debug(f"Google Books query URL: {url}")
         response = requests.get(url, timeout=15)
         response.raise_for_status()
         data = response.json()
@@ -235,7 +256,7 @@ def get_book_metadata_google_books(title, author, cache):
 def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a batch of books' genres."""
     temp_creds_path = "temp_creds.json"
-    retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
+    retry_delays = [10, 20, 30]  # Increased delays for Vertex AI retries
 
     try:
         credentials_dict = dict(vertex_ai_credentials)
@@ -246,7 +267,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
 
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
 
-        import vertexai # Import here to avoid global import issues if not configured
+        import vertexai  # Import here to avoid global import issues if not configured
         from vertexai.generative_models import GenerativeModel
 
         vertexai.init(project=credentials_dict["project_id"], location="us-central1")
@@ -258,10 +279,13 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             batch_prompts.append(f"Title: {book['title']}, Author: {book['author']}")
 
         full_prompt = (
-            "For each book in the following list, provide its primary genre or Dewey Decimal classification, series title, volume number, and copyright year. "
-            "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
-            "Provide the output as a JSON array of objects, where each object has 'title', 'author', 'classification', 'series_title', 'volume_number', and 'copyright_year' fields. "
-            "If you cannot determine a value for a field, use an empty string ''.\n\n" +
+            "For each book in the following list, provide its primary genre or Dewey Decimal classification, "
+            "series title, volume number, and copyright year. "
+            "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category "
+            "like '300' for Social Sciences, '500' for Science, etc. "
+            "Provide the output as a JSON array of objects, where each object has 'title', 'author', "
+            "'classification', 'series_title', 'volume_number', and 'copyright_year' fields. "
+            "If you cannot determine a value for a field, use an empty string ''.\n\n"
             "Books:\n" + "\n".join(batch_prompts)
         )
         ext_logger.debug(f"Vertex AI full prompt:\n```\n{full_prompt}\n```")
@@ -285,7 +309,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
                     time.sleep(retry_delays[i])
                 else:
                     ext_logger.error(f"Vertex AI batch call failed after multiple retries: {e}")
-                    return [] # Return empty list on failure
+                    return []  # Return empty list on failure
     finally:
         if os.path.exists(temp_creds_path):
             os.remove(temp_creds_path)
@@ -302,8 +326,3 @@ if __name__ == '__main__':
     # vertex_ai_creds = {"project_id": "your-project-id", ...}
     # classifications = get_vertex_ai_classification_batch(sample_books, vertex_ai_creds)
     # print(json.dumps(classifications, indent=4))
-
-    # Example for Google Books
-    # cache = {}
-    # google_meta = get_book_metadata_google_books("The Lord of the Rings", "J.R.R. Tolkien", cache)
-    # print(json.dumps(google_meta, indent=4))
