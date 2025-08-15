@@ -1,50 +1,235 @@
 {
-    "project_name": "Book Label Generator",
-    "output_format": "PDF",
-    "printing_environment": "Acrobat Reader on Windows 10",
-    "label_type": "Avery 5160 (2.625" x 1")",
-    "labels_per_book": 4,
-    "inventory_number_format": "6 digits, padded with leading zeros",
-    "barcode_symbology": "Code 128",
-    "qr_code_content": "Inventory Number Only",
-    "development_environment": "Termux on Android",
-    "plan": [
+    "project_name": "MARC-based Label Generation",
+    "phases": [
         {
-            "phase": "Library Selection",
-            "details": [
-                "Barcode/QR Code: python-barcode (for Code 128), qrcode (for QR codes)",
-                "PDF Generation: reportlab"
+            "phase_name": "Phase 1: Local MARC Parsing and Querying",
+            "tasks": [
+                {
+                    "task_id": "1.1",
+                    "task_name": "Initial MARC Record Analysis & Field Mapping",
+                    "status": "DONE",
+                    "description": "The first step is to understand the structure of your cimb.marc file. I will write a script to extract the first few records and display them in a human-readable format. You will then use your knowledge of the Atriuum system to map the MARC fields to the data we need (e.g., 'Holding Barcode is in tag 952, subfield p').",
+                    "sub_tasks": [
+                        {
+                            "task_id": "1.1.1",
+                            "task_name": "Create debug_marc_query.py script",
+                            "status": "DONE",
+                            "description": "Create a new local script named debug_marc_query.py."
+                        },
+                        {
+                            "task_id": "1.1.2",
+                            "task_name": "Read first 5 MARC records",
+                            "status": "DONE",
+                            "description": "In this script, use the pymarc library to open cimb.marc and read the first 5 records."
+                        },
+                        {
+                            "task_id": "1.1.3",
+                            "task_name": "Print MARC records",
+                            "status": "DONE",
+                            "description": "Print the complete content of these 5 records to the console."
+                        },
+                        {
+                            "task_id": "1.1.4",
+                            "task_name": "Present output for field mapping",
+                            "status": "DONE",
+                            "description": "Present the output to the user for analysis and field mapping."
+                        },
+                        {
+                            "task_id": "1.1.5",
+                            "task_name": "Analyze cimb_bibliographic.marc",
+                            "status": "DONE",
+                            "description": "Analyze cimb_bibliographic.marc to find LCCN and Series Title for barcode 00004478."
+                        },
+                        {
+                            "task_id": "1.1.6",
+                            "task_name": "Compare MARC files",
+                            "status": "DONE",
+                            "description": "Compare cimb.marc and cimb_bibliographic.marc to determine their relationship."
+                        },
+                        {
+                            "task_id": "1.1.7",
+                            "task_name": "Create verified field mapping",
+                            "status": "DONE",
+                            "description": "Create a complete and verified field mapping from both files."
+                        },
+                        {
+                            "task_id": "1.1.8",
+                            "task_name": "Add material type rules to notes",
+                            "status": "DONE",
+                            "description": "Add LDR/06 material type rules to project notes."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "1.2",
+                    "task_name": "Develop Query Parsing Engine",
+                    "status": "DONE",
+                    "description": "I will develop a query parser that can interpret natural language requests from the user. This will be a phased approach.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "1.2.1",
+                            "task_name": "Initial Implementation - Rule-Based",
+                            "status": "DONE",
+                            "description": "Use regular expressions and keyword matching to handle the core queries we've discussed: individual barcodes, barcode ranges, and simple text searches like 'barcodes starting with 5'. This will also handle variations like missing leading zeros."
+                        },
+                        {
+                            "task_id": "1.2.2",
+                            "task_name": "Extended Field Queries",
+                            "status": "DONE",
+                            "description": "Enhance the parser to handle queries against specific MARC fields, using the mapping from Task 1.1. This will support queries like 'all books in the 'Stormlight Archive' series' or 'all books by 'Brandon Sanderson'.'."
+                        },
+                        {
+                            "task_id": "1.2.3",
+                            "task_name": "Future Exploration - NLP",
+                            "status": "TODO",
+                            "description": "For more complex, unstructured queries, I will research and potentially integrate a lightweight NLP library like spaCy to understand user intent more deeply. This is a lower priority and will be addressed after the core functionality is working."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "1.3",
+                    "task_name": "Implement Query Execution and User Feedback",
+                    "status": "DONE",
+                    "description": "Once a query is parsed, the script needs to execute it against the full set of MARC records and provide clear feedback to the user.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "1.3.1",
+                            "task_name": "Implement record filtering",
+                            "status": "DONE",
+                            "description": "Implement the logic to iterate through all records in cimb.marc and filter them based on the parsed query from Task 1.2."
+                        },
+                        {
+                            "task_id": "1.3.2",
+                            "task_name": "Restate query for confirmation",
+                            "status": "DONE",
+                            "description": "Before displaying results, the script will first restate its understanding of the query for user confirmation (e.g., 'You asked for all barcodes starting with 'B' in the range 1-259. Is this correct?')."
+                        },
+                        {
+                            "task_id": "1.3.3",
+                            "task_name": "Display record count",
+                            "status": "DONE",
+                            "description": "After confirmation, the script will display the total count of matching records. (Now displays count in TUI)"
+                        },
+                        {
+                            "task_id": "1.3.4",
+                            "task_name": "Display barcode list",
+                            "status": "DONE",
+                            "description": "The script will provide an option for the user to view the full list of matched barcodes. (Now displays all records in a scrollable TUI area)"
+                        }
+                    ]
+                }
             ]
         },
         {
-            "phase": "Data Structure Definition",
-            "details": "Define a Python dictionary or class for book data (title, authors, publication year, series name, series number, Dewey number, inventory number)."
-        },
-        {
-            "phase": "Label Layout and Content Generation",
-            "details": [
-                "Label 1 (Full Info): Title, authors, publication year, series name (if present), series number (if present), Dewey number, inventory number (text). Standard text, fit all fields.",
-                "Label 2 (QR Code Focus): Title, author, series name (if present), series number (if present), inventory number (text), inventory number (QR code - half label).",
-                "Label 3 (Spine Label): Dewey number, first 3 letters of author's name, publication year, inventory number. Each field on a new line, all text horizontally centered.",
-                "Label 4 (Barcode Focus): Title, author, series name (if present), series number (if present), inventory number (text), inventory number (barcode - 75% of label)."
+            "phase_name": "Phase 2: Data Enrichment and Processing",
+            "tasks": [
+                {
+                    "task_id": "2.1",
+                    "task_name": "Extract Key Information from MARC Records",
+                    "status": "TODO",
+                    "description": "Before fetching external data, I'll first extract all the essential information that is already present in the cimb.marc and cimb_bibliographic.marc files. This includes barcodes, titles, authors, and any existing call numbers. I will create a script to process the entire MARC file and store this information in a structured format, like a CSV or a JSON file. This will be the foundation for the next steps.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "2.1.1",
+                            "task_name": "Create marc_extractor.py script",
+                            "status": "DONE",
+                            "description": "Create a new script to handle the extraction."
+                        },
+                        {
+                            "task_id": "2.1.2",
+                            "task_name": "Define data mapping",
+                            "status": "DONE",
+                            "description": "Based on the previous analysis, define a clear mapping of MARC fields to the desired data points (Title, Author, Barcode, LCCN, etc.)."
+                        },
+                        {
+                            "task_id": "2.1.3",
+                            "task_name": "Process MARC files",
+                            "status": "DONE",
+                            "description": "Read both cimb.marc and cimb_bibliographic.marc files and apply the mapping to extract the data for each record."
+                        },
+                        {
+                            "task_id": "2.1.4",
+                            "task_name": "Store extracted data",
+                            "status": "DONE",
+                            "description": "Save the extracted data into a new file, for example, extracted_data.json. Each record in this file should be indexed by its barcode for easy access."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "2.2",
+                    "task_name": "Data Enrichment using Library of Congress API",
+                    "status": "TODO",
+                    "description": "For records that are missing key information, especially the LC Call Number, I will use the Library of Congress API to fetch this data. I will use the LCCN (Library of Congress Control Number) extracted in the previous task to query the API.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "2.2.1",
+                            "task_name": "Create loc_enricher.py script",
+                            "status": "DONE",
+                            "description": "Create a new script to handle the data enrichment process."
+                        },
+                        {
+                            "task_id": "2.2.2",
+                            "task_name": "Implement LOC API client",
+                            "status": "DONE",
+                            "description": "Write a robust client to interact with the LOC API, including error handling and rate limiting."
+                        },
+                        {
+                            "task_id": "2.2.3.1",
+                            "task_name": "Integrate Google Books and Vertex AI enrichment",
+                            "status": "DONE",
+                            "description": "Extract and integrate the Google Books and Vertex AI enrichment logic from the Streamlit app into the data enrichment pipeline."
+                        },
+                        {
+                            "task_id": "2.2.3",
+                            "task_name": "Process records and enrich data",
+                            "status": "DONE",
+                            "description": "For each record in extracted_data.json, check if the call number is missing. If so, use the LCCN to query the LOC API and retrieve the call number."
+                        },
+                        {
+                            "task_id": "2.2.4",
+                            "task_name": "Update local data",
+                            "status": "DONE",
+                            "description": "Update the extracted_data.json file with the newly fetched call numbers."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "2.3",
+                    "task_name": "Data Cleaning and Normalization",
+                    "status": "TODO",
+                    "description": "The data from both the MARC files and the LOC API might have inconsistencies or require cleaning. This task will focus on normalizing the data to ensure it's suitable for label generation.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "2.3.1",
+                            "task_name": "Create data_cleaner.py script",
+                            "status": "DONE",
+                            "description": "Create a new script for data cleaning."
+                        },
+                        {
+                            "task_id": "2.3.2",
+                            "task_name": "Implement cleaning rules",
+                            "status": "DONE",
+                            "description": "Based on the data, define and apply rules to clean up fields like titles (e.g., removing extra punctuation) and author names (e.g., standardizing format)."
+                        },
+                        {
+                            "task_id": "2.3.3",
+                            "task_name": "Validate call numbers",
+                            "status": "DONE",
+                            "description": "Ensure that the call numbers are in a consistent format."
+                        },
+                        {
+                            "task_id": "2.3.4",
+                            "task_name": "Generate cleaned data file",
+                            "status": "TODO",
+                            "description": "Save the cleaned and normalized data into a new file, cleaned_data.json."
+                        }
+                    ]
+                }
             ]
         },
         {
-            "phase": "Core Script Development (label_generator.py)",
-            "details": [
-                "Function: generate_barcode(inventory_num) -> Code 128 barcode image.",
-                "Function: generate_qrcode(inventory_num) -> QR code image.",
-                "Function: create_label(book_data, label_type) -> Render content for a single label (types 1-4), including padding inventory numbers.",
-                "Function: generate_pdf_sheet(list_of_book_data) -> Arrange 30 labels (Avery 5160 layout) onto a PDF page, generating 4 labels per book.",
-                "Main execution block: Load dummy data, call generate_pdf_sheet, save PDF."
-            ]
-        },
-        {
-            "phase": "Testing Strategy",
-            "details": [
-                "Visually inspect generated PDF for correct layout, content, and centering.",
-                "Scan barcodes and QR codes with a reader app to verify readability."
-            ]
+            "phase_name": "Phase 3: Streamlit Integration and MARC Export",
+            "tasks": []
         }
     ]
 }
