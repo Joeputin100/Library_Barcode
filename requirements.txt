@@ -13,3 +13,4 @@ reportlab
 python-barcode
 qrcode
 beautifulsoup4
+# Trivial change to force redeployment
