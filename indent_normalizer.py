@@ -11,6 +11,7 @@ import shutil
 
 INDENT_STEP = 4
 
+
 def normalize(path):
     # make a backup in case it goes sideways
     shutil.copy2(path, path + ".bak")
@@ -43,6 +44,7 @@ def normalize(path):
     with open(path, "w") as f:
         f.writelines(new_lines)
     print(f"✔ Normalized indentation in {path}  (backup at {path}.bak)")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

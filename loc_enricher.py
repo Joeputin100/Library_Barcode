@@ -5,9 +5,11 @@ import os
 import subprocess
 from external_enricher import get_book_metadata_google_books, get_vertex_ai_classification_batch, clean_call_number, LCC_TO_DDC_MAP, lcc_to_ddc # Import necessary functions
 
+
 def update_status(task_id, status):
     """Helper function to update task status in project_plan.json."""
     subprocess.run(["python", "update_task_status.py", task_id, status])
+
 
 def get_loc_data(lccn):
     """
@@ -28,8 +30,8 @@ def get_loc_data(lccn):
         print(f"Error parsing JSON for LCCN {lccn}")
     return None
 
+
 def enrich_data_with_loc():
-    
     """
     Enriches the extracted data with information from the Library of Congress API,
     Google Books, and Vertex AI.
@@ -45,8 +47,6 @@ def enrich_data_with_loc():
             barcodes_to_process = [line.strip() for line in f]
     else:
         barcodes_to_process = list(extracted_data.keys()) # Convert to list for iteration
-
-    
 
     # Placeholder for Vertex AI credentials
     # In a real scenario, these would be loaded securely (e.g., from environment variables or a config file)
@@ -98,7 +98,7 @@ def enrich_data_with_loc():
 
         # Decide if Vertex AI is needed (if call_number is still missing after LOC and Google Books)
         current_call_number = data.get('call_number')
-        
+
         if not current_call_number or current_call_number == "UNKNOWN":
             unclassified_books_for_vertex_ai.append({
                 'title': data.get('title', ''),
@@ -106,7 +106,7 @@ def enrich_data_with_loc():
                 'barcode': barcode, # Keep track of original barcode
                 'lc_meta': data # Pass the current data for merging
             })
-        
+
         # Update extracted_data with potentially new info
         extracted_data[barcode] = data
         time.sleep(0.1) # Small delay to avoid hammering APIs
@@ -117,12 +117,12 @@ def enrich_data_with_loc():
         print(f"Unclassified books for Vertex AI: {len(unclassified_books_for_vertex_ai)} books")
         BATCH_SIZE = 5
         batches = [unclassified_books_for_vertex_ai[j:j + BATCH_SIZE] for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)]
-        
+
         for batch in batches:
             print(f"  Processing batch: {batch}")
             batch_classifications = get_vertex_ai_classification_batch(batch, vertex_ai_credentials)
             print(f"  Received batch classifications: {batch_classifications}")
-            
+
             if not isinstance(batch_classifications, list):
                 print(f"Vertex AI returned non-list object: {batch_classifications}")
                 continue
@@ -131,7 +131,7 @@ def enrich_data_with_loc():
                 print(f"    Vertex AI results for {book_data['barcode']}: {vertex_ai_results}")
                 barcode = book_data['barcode']
                 current_data = extracted_data[barcode] # Get the latest data for this barcode
-                
+
                 # Replace "Unknown" with empty string
                 for k, v in vertex_ai_results.items():
                     if v == "Unknown":
@@ -141,7 +141,7 @@ def enrich_data_with_loc():
                 if vertex_ai_results.get('classification') and not current_data.get('call_number'):
                     current_data['call_number'] = clean_call_number(vertex_ai_results['classification'], current_data.get('genres', []), current_data.get('google_genres', []), title=current_data.get('title', ''))
                     print(f"      Updated call_number for {barcode}: {current_data.get('call_number')}")
-                
+
                 if vertex_ai_results.get('series_title') and not current_data.get('series_name'):
                     current_data['series_name'] = vertex_ai_results['series_title']
                 if vertex_ai_results.get('volume_number') and not current_data.get('volume_number'):
@@ -152,8 +152,9 @@ def enrich_data_with_loc():
 
     with open('extracted_data.json', 'w') as f:
         json.dump(extracted_data, f, indent=4)
-    
+
     # update_status("2.2.3", "DONE") # Set status to DONE
+
 
 if __name__ == '__main__':
     enrich_data_with_loc()

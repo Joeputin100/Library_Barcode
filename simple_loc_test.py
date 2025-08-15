@@ -1,6 +1,7 @@
 
 import requests
 
+
 def test_loc_api():
     base_url = "http://lx2.loc.gov:210/LCDB"
     query = 'bath.title="A spectacle of corruption." and bath.author="Liss, David"'
@@ -13,6 +14,7 @@ def test_loc_api():
         print(f"API call failed with error: {e}")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
+
 
 if __name__ == "__main__":
     test_loc_api()

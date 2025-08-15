@@ -9,6 +9,7 @@ subsequent line in that block.
 
 import sys
 
+
 def repair_file(path):
     with open(path, 'r') as f:
         lines = f.readlines()

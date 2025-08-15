@@ -1,6 +1,7 @@
 import pymarc
 import json
 
+
 def extract_marc_data():
     """
     Extracts key information from MARC records and saves it to a JSON file.
@@ -32,11 +33,9 @@ def extract_marc_data():
                         author_field = record.get(field_mapping['author'][0])
                         lccn_field = record.get(field_mapping['lccn'][0])
 
-                        
-
                         title = title_field.get_subfields(field_mapping['title'][1])[0] if title_field and title_field.get_subfields(field_mapping['title'][1]) else None
                         author = author_field.get_subfields(field_mapping['author'][1])[0] if author_field and author_field.get_subfields(field_mapping['author'][1]) else None
-                        
+
                         lccn_subfields = lccn_field.get_subfields(field_mapping['lccn'][1]) if lccn_field else []
                         lccn = lccn_subfields[0] if lccn_subfields else None
 
@@ -51,9 +50,9 @@ def extract_marc_data():
                         if not extracted_data[barcode].get('lccn'):
                             extracted_data[barcode]['lccn'] = lccn
 
-
     with open('extracted_data.json', 'w') as f:
         json.dump(extracted_data, f, indent=4)
+
 
 if __name__ == '__main__':
     extract_marc_data()

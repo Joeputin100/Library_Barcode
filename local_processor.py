@@ -30,17 +30,22 @@ MANUAL_CLASSIFICATIONS = {
 }
 
 # --- Caching Functions ---
+
+
 def load_cache():
     if os.path.exists(CACHE_FILE):
         with open(CACHE_FILE, 'r') as f:
             return json.load(f)
     return {}
 
+
 def save_cache(cache):
     with open(CACHE_FILE, 'w') as f:
         json.dump(cache, f, indent=4)
 
 # --- Helper Functions ---
+
+
 def get_book_metadata_google_books(title, author, cache):
     """Fetches book metadata from the Google Books API."""
     safe_title = re.sub(r'[^a-zA-Z0-9\s\.:]', '', title)
@@ -63,7 +68,7 @@ def get_book_metadata_google_books(title, author, cache):
 
             if "categories" in volume_info:
                 metadata['google_genres'].extend(volume_info["categories"])
-            
+
             if "description" in volume_info:
                 description = volume_info["description"]
                 match = re.search(r'Subject: (.*?)(?:\n|$)', description, re.IGNORECASE)
@@ -80,10 +85,11 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
+
 def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     if google_genres is None:
         google_genres = []
-        
+
     if not isinstance(call_num_str, str):
         return ""
     cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
@@ -101,15 +107,16 @@ def clean_call_number(call_num_str, genres, google_genres=None, title=""):
     fiction_genres = ["fiction", "novel", "stories"]
     if any(genre.lower() in fiction_genres for genre in genres):
         return "FIC"
-    
+
     # Fallback to title check
     if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel"]):
         return "FIC"
-        
+
     match = re.match(r'^(\d+(\.\d+)?)', cleaned)
     if match:
         return match.group(1)
     return cleaned
+
 
 def get_book_metadata(title, author, cache, event):
     print(f"**Debug: Entering get_book_metadata for:** {title}")
@@ -121,11 +128,11 @@ def get_book_metadata(title, author, cache, event):
         print(f"**Debug: Found manual classification for {title}.**")
         metadata = {
             'classification': MANUAL_CLASSIFICATIONS[manual_key],
-            'series_name': "", 
-            'volume_number': "", 
-            'publication_year': "", 
-            'genres': [], 
-            'google_genres': [], 
+            'series_name': "",
+            'volume_number': "",
+            'publication_year': "",
+            'genres': [],
+            'google_genres': [],
             'error': None
         }
         event.set()
@@ -146,7 +153,7 @@ def get_book_metadata(title, author, cache, event):
             base_url = "http://lx2.loc.gov:210/LCDB"
             query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
             params = {"version": "1.1", "operation": "searchRetrieve", "query": query, "maximumRecords": "1", "recordSchema": "marcxml"}
-            
+
             retry_delays = [5, 15, 30]
             for i in range(len(retry_delays) + 1):
                 try:
@@ -172,7 +179,7 @@ def get_book_metadata(title, author, cache, event):
                         genre_nodes = root.findall('.//marc:datafield[@tag="655"]/marc:subfield[@code="a"]', ns_marc)
                         if genre_nodes:
                             metadata['genres'] = [g.text.strip().rstrip('.') for g in genre_nodes]
-                        
+
                         cache[loc_cache_key] = metadata
                     break # Exit retry loop on success
                 except requests.exceptions.RequestException as e:
@@ -190,28 +197,30 @@ def get_book_metadata(title, author, cache, event):
     event.set()
     return metadata
 
+
 def main():
     df = pd.read_csv("test2.csv", encoding='latin1', dtype=str).fillna('')
     loc_cache = load_cache()
-    
+
     print("Title\tAuthor\tAPI Call Number\tCleaned Call Number")
 
     with ThreadPoolExecutor(max_workers=5) as executor:
         futures = {executor.submit(get_book_metadata, row.get('Title', '').strip(), row.get("Author's Name", '').strip(), loc_cache, threading.Event()): i for i, row in df.iterrows()}
-        
+
         for future in as_completed(futures):
             i = futures[future]
             lc_meta = future.result()
             row = df.iloc[i]
             title = row.get('Title', '').strip()
             author = row.get("Author's Name", '').strip()
-            
+
             api_call_number = lc_meta.get('classification', '')
             cleaned_call_number = clean_call_number(api_call_number, lc_meta.get('genres', []), lc_meta.get('google_genres', []), title=title)
-            
+
             print(f"{title}\t{author}\t{api_call_number}\t{cleaned_call_number}")
 
     save_cache(loc_cache)
+
 
 if __name__ == "__main__":
     main()

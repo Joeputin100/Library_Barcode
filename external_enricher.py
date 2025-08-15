@@ -20,6 +20,8 @@ SUGGESTION_FLAG = "🐒" # Keep this for consistency if needed for cleaning
 # CACHE_FILE is handled externally by loc_enricher.py
 
 # --- Helper Functions (from streamlit_app.py) ---
+
+
 def clean_title(title):
     """Cleans title by moving leading articles to the end."""
     if not isinstance(title, str):
@@ -27,8 +29,9 @@ def clean_title(title):
     articles = ['The ', 'A ', 'An ']
     for article in articles:
         if title.startswith(article):
-            return title[len(article):] + ", " + title[:len(article)-1]
+            return title[len(article):] + ", " + title[:len(article) - 1]
     return title
+
 
 def clean_author(author):
     """Cleans author name to Last, First Middle."""
@@ -39,6 +42,7 @@ def clean_author(author):
         return f"{parts[0].strip()}, {parts[1].strip()}"
     return author
 
+
 def extract_year(date_string):
     """Extracts the first 4-digit number from a string, assuming it's a year."""
     if isinstance(date_string, str):
@@ -47,6 +51,7 @@ def extract_year(date_string):
         if match:
             return match.group(1)
     return ""
+
 
 LCC_TO_DDC_MAP = {
     'AC': '080-089', 'AE': '030-039', 'AG': '030-039', 'AI': '050-059', 'AM': '060-069',
@@ -91,6 +96,7 @@ LCC_TO_DDC_MAP = {
     'UH': '355-359', 'V': '359', 'VM': '623', 'Z': '010-029'
 }
 
+
 def lcc_to_ddc(lcc):
     """Converts an LCC call number to a DDC range or 'FIC'."""
     if not isinstance(lcc, str) or not lcc:
@@ -107,14 +113,15 @@ def lcc_to_ddc(lcc):
     for prefix, ddc_range in LCC_TO_DDC_MAP.items():
         if lcc.startswith(prefix):
             return ddc_range.split('-')[0].strip()
-            
+
     return "" # Return empty if no match found
+
 
 def clean_call_number(call_num_str, genres, google_genres=None, title="", is_original_data=False):
     ext_logger.debug(f"clean_call_number input: call_num_str='{call_num_str}', genres={genres}, google_genres={google_genres}, title='{title}', is_original_data={is_original_data}")
     if google_genres is None:
         google_genres = []
-        
+
     if not isinstance(call_num_str, str):
         ext_logger.debug(f"clean_call_number returning empty string for non-string input: {call_num_str}")
         return "" # Default for non-string input
@@ -151,12 +158,12 @@ def clean_call_number(call_num_str, genres, google_genres=None, title="", is_ori
     if cleaned.upper().startswith("FIC"):
         ext_logger.debug(f"clean_call_number returning FIC based on explicit FIC: {cleaned}")
         return "FIC"
-    
+
     # Strict check for Dewey Decimal Number format (3 digits, optional decimal and more digits)
     if re.match(r'^\d{3}(\.\d+)?$', cleaned):
         ext_logger.debug(f"clean_call_number returning Dewey Decimal: {cleaned}")
         return cleaned
-    
+
     # If it's a number but not 3 digits, still return it (e.g., from LOC 050 field like "PS3515.E37"), keep it as is
     # This allows for LC call numbers to pass through if they are numeric-like
     if re.match(r'^[A-Z]{1,3}\d+(\.\d+)?$', cleaned) or re.match(r'^\d+(\.\d+)?$', cleaned):
@@ -195,7 +202,7 @@ def get_book_metadata_google_books(title, author, cache):
 
             if "categories" in volume_info:
                 metadata['google_genres'].extend(volume_info["categories"])
-            
+
             if "description" in volume_info:
                 description = volume_info["description"]
                 match = re.search(r'Subject: (.*?)(?:\n|$)', description, re.IGNORECASE)
@@ -224,31 +231,32 @@ def get_book_metadata_google_books(title, author, cache):
         metadata['error'] = f"An unexpected error occurred with Google Books API: {e}"
     return metadata
 
+
 def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
     """Uses a Generative AI model on Vertex AI to classify a batch of books' genres."""
     temp_creds_path = "temp_creds.json"
     retry_delays = [10, 20, 30] # Increased delays for Vertex AI retries
-    
+
     try:
         credentials_dict = dict(vertex_ai_credentials)
         credentials_json = json.dumps(credentials_dict)
-        
+
         with open(temp_creds_path, "w") as f:
             f.write(credentials_json)
 
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
-        
+
         import vertexai # Import here to avoid global import issues if not configured
         from vertexai.generative_models import GenerativeModel
 
         vertexai.init(project=credentials_dict["project_id"], location="us-central1")
         model = GenerativeModel("gemini-2.5-flash")
-        
+
         # Construct a single prompt for the batch
         batch_prompts = []
         for book in batch_books:
             batch_prompts.append(f"Title: {book['title']}, Author: {book['author']}")
-        
+
         full_prompt = (
             "For each book in the following list, provide its primary genre or Dewey Decimal classification, series title, volume number, and copyright year. "
             "If it's fiction, classify as 'FIC'. If non-fiction, provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
@@ -257,7 +265,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
             "Books:\n" + "\n".join(batch_prompts)
         )
         ext_logger.debug(f"Vertex AI full prompt:\n```\n{full_prompt}\n```")
-        
+
         for i in range(len(retry_delays) + 1):
             try:
                 response = model.generate_content(full_prompt)
@@ -267,9 +275,9 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
                 # Clean up markdown code block if present
                 if response_text.startswith("```json") and response_text.endswith("```"):
                     response_text = response_text[7:-3].strip()
-                
+
                 classifications = json.loads(response_text)
-                
+
                 return classifications
             except Exception as e:
                 if i < len(retry_delays):
@@ -281,6 +289,7 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials):
     finally:
         if os.path.exists(temp_creds_path):
             os.remove(temp_creds_path)
+
 
 # Main execution block (for testing purposes)
 if __name__ == '__main__':

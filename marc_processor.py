@@ -1,5 +1,6 @@
 from pymarc import MARCReader
 
+
 def load_marc_records(file_path):
     """
     Loads MARC records from a given MARC file.
@@ -22,6 +23,7 @@ def load_marc_records(file_path):
     except Exception as e:
         print(f"An error occurred while reading MARC file: {e}")
     return records
+
 
 def get_field_value(record, field_name):
     """
@@ -52,6 +54,7 @@ def get_field_value(record, field_name):
         barcode_fields = record.get_fields('852')
         return [f['p'] for f in barcode_fields if 'p' in f]
     return []
+
 
 def filter_marc_records(records, parsed_query):
     """
@@ -103,6 +106,7 @@ def filter_marc_records(records, parsed_query):
                     filtered_records.append(record)
                     break
     return filtered_records
+
 
 if __name__ == '__main__':
     # Example usage

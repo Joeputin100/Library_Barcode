@@ -14,7 +14,8 @@
         "The `marc_processor.py` module has been created to load and filter MARC records based on parsed queries. It correctly extracts holding barcodes from MARC tag 852 subfield 'p'.",
         "The TUI functionality has been separated into two distinct applications:",
         "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
-        "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display."
+        "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display.",
+        "The `streamlit_app.py` has been refactored into smaller modules: `api_calls.py`, `caching.py`, `csv_importer.py`, `data_cleaning.py`, and `pdf_generation.py`."
     ],
-    "current_plan": "Phase 1: Local MARC Parsing and Querying is now complete. The TUI applications have been separated and refined. The next step is to move to Phase 2: Data Enrichment and Processing."
+    "current_plan": "The Streamlit application has been refactored into a modular architecture. The next step is to perform end-to-end testing of the CSV-based workflow, including importing a CSV file, making edits in the data table, and generating and downloading a PDF of labels."
 }

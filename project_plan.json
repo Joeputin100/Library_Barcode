@@ -230,6 +230,125 @@
         {
             "phase_name": "Phase 3: Streamlit Integration and MARC Export",
             "tasks": []
+        },
+        {
+            "phase_name": "Phase 4: Streamlit UI and CSV-based Workflow",
+            "tasks": [
+                {
+                    "task_id": "4.1",
+                    "task_name": "Refactor Streamlit Application",
+                    "status": "DONE",
+                    "description": "Refactor the main Streamlit application into smaller, more manageable modules to improve maintainability and reduce the risk of breaking existing functionality.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "4.1.1",
+                            "task_name": "Create caching module",
+                            "status": "DONE",
+                            "description": "Create a caching.py module to handle loading and saving of the cache."
+                        },
+                        {
+                            "task_id": "4.1.2",
+                            "task_name": "Create data cleaning module",
+                            "status": "DONE",
+                            "description": "Create a data_cleaning.py module to handle all data cleaning and normalization functions."
+                        },
+                        {
+                            "task_id": "4.1.3",
+                            "task_name": "Create API calls module",
+                            "status": "DONE",
+                            "description": "Create an api_calls.py module to handle all interactions with external APIs (Google Books, Library of Congress, Vertex AI)."
+                        },
+                        {
+                            "task_id": "4.1.4",
+                            "task_name": "Create PDF generation module",
+                            "status": "DONE",
+                            "description": "Create a pdf_generation.py module to handle the creation of PDF labels, using the logic from the original label_generator.py script."
+                        },
+                        {
+                            "task_id": "4.1.5",
+                            "task_name": "Create CSV importer module",
+                            "status": "DONE",
+                            "description": "Create a csv_importer.py module to handle the logic for importing and processing the uploaded CSV file."
+                        },
+                        {
+                            "task_id": "4.1.6",
+                            "task_name": "Update main Streamlit app",
+                            "status": "DONE",
+                            "description": "Update the main streamlit_app.py file to import and use the functions from the new modules."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "4.2",
+                    "task_name": "Module Testing",
+                    "status": "DONE",
+                    "description": "Ensure that each of the new modules passes the syntax and style tests specified in gemini.md.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "4.2.1",
+                            "task_name": "Test caching module",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on caching.py."
+                        },
+                        {
+                            "task_id": "4.2.2",
+                            "task_name": "Test data cleaning module",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on data_cleaning.py."
+                        },
+                        {
+                            "task_id": "4.2.3",
+                            "task_name": "Test API calls module",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on api_calls.py."
+                        },
+                        {
+                            "task_id": "4.2.4",
+                            "task_name": "Test PDF generation module",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on pdf_generation.py."
+                        },
+                        {
+                            "task_id": "4.2.5",
+                            "task_name": "Test CSV importer module",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on csv_importer.py."
+                        },
+                        {
+                            "task_id": "4.2.6",
+                            "task_name": "Test main Streamlit app",
+                            "status": "DONE",
+                            "description": "Run flake8 and black on streamlit_app.py."
+                        }
+                    ]
+                },
+                {
+                    "task_id": "4.3",
+                    "task_name": "CSV-based Workflow Testing",
+                    "status": "TODO",
+                    "description": "Perform end-to-end testing of the Streamlit application using a CSV file.",
+                    "sub_tasks": [
+                        {
+                            "task_id": "4.3.1",
+                            "task_name": "Import books.csv",
+                            "status": "TODO",
+                            "description": "Import the books.csv file into the Streamlit application."
+                        },
+                        {
+                            "task_id": "4.3.2",
+                            "task_name": "Edit and save data",
+                            "status": "TODO",
+                            "description": "Make edits to the data in the table and save the changes."
+                        },
+                        {
+                            "task_id": "4.3.3",
+                            "task_name": "Generate and download PDF",
+                            "status": "TODO",
+                            "description": "Generate and download the PDF labels."
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
