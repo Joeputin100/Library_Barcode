@@ -111,10 +111,17 @@ def main():
                 with st.expander("Processing Report", expanded=True):
                     st.write("Processing rows...")
                     steps = ["Extracting data", "Enriching with Google Books", "Enriching with Library of Congress", "Classifying with Vertex AI", "Cleaning data"]
-                    progress_placeholders = {step: st.empty() for step in steps}
+                    progress_placeholders = {step: st.progress(0, text=step) for step in steps}
 
                     def update_progress(step, status):
-                        progress_placeholders[step].write(f"- {step}: {status}")
+                        if status == "Pending":
+                            progress_placeholders[step].progress(0, text=f"{step}: Pending")
+                        elif status == "In progress...":
+                            progress_placeholders[step].progress(50, text=f"{step}: In progress...")
+                        elif status == "Done":
+                            progress_placeholders[step].progress(100, text=f"{step}: Done")
+                        else:
+                            progress_placeholders[step].progress(0, text=f"{step}: {status}")
 
                     for step in steps:
                         update_progress(step, "Pending")
@@ -144,10 +151,28 @@ def main():
                         update_progress("Extracting data", f"Processing row {i+1}/{len(st.session_state.raw_df)}")
                         
                         st_logger.debug(f"Calling get_book_metadata_initial_pass for title='{title}', author='{author}'")
-                        lc_meta = get_book_metadata_initial_pass(
+                        lc_meta, google_cached, loc_cached = get_book_metadata_initial_pass(
                             title, author, loc_cache, is_blank=is_blank_row, is_problematic=is_problematic_row
                         )
-                        st_logger.debug(f"lc_meta after initial pass: {lc_meta}")
+                        st_logger.debug(f"lc_meta after initial pass: {lc_meta}, Google Cached: {google_cached}, LOC Cached: {loc_cached}")
+
+                        if google_cached:
+                            row_sources['Series Info'] = "Google (Cached)"
+                            row_sources['Series Number'] = "Google (Cached)"
+                            row_sources['Copyright Year'] = "Google (Cached)"
+                        else:
+                            if lc_meta.get('series_name'):
+                                row_sources['Series Info'] = "Google"
+                            if lc_meta.get('volume_number'):
+                                row_sources['Series Number'] = "Google"
+                            if lc_meta.get('publication_year'):
+                                row_sources['Copyright Year'] = "Google"
+
+                        if loc_cached:
+                            row_sources['Call Number'] = "LOC (Cached)"
+                        else:
+                            if lc_meta.get('classification'):
+                                row_sources['Call Number'] = "LOC"
 
                         if not lc_meta.get('volume_number'):
                             st_logger.debug(f"lc_meta volume_number empty, calling clean_series_number for title='{title}'")
@@ -253,10 +278,10 @@ def main():
 
                         for batch in batches:
                             st_logger.debug(f"Processing Vertex AI batch: {batch}")
-                            batch_classifications = get_vertex_ai_classification_batch(
+                            batch_classifications, vertex_cached = get_vertex_ai_classification_batch(
                                 batch, st.secrets["vertex_ai"], loc_cache
                             )
-                            st_logger.debug(f"Received Vertex AI batch classifications: {batch_classifications}")
+                            st_logger.debug(f"Received Vertex AI batch classifications: {batch_classifications}, Cached: {vertex_cached}")
 
                             if not isinstance(batch_classifications, list):
                                 st_logger.warning(f"Vertex AI batch classifications not a list: {batch_classifications}")
@@ -306,22 +331,22 @@ def main():
                                 if final_call_number_after_vertex_ai and not results[row_index]['Call Number'].replace(SUGGESTION_FLAG, ''):
                                     st_logger.debug(f"Updating Call Number for row {row_index} with Vertex AI suggestion.")
                                     results[row_index]['Call Number'] = SUGGESTION_FLAG + final_call_number_after_vertex_ai
-                                    results[row_index]['_source_data']['Call Number'] = "Vertex"
+                                    results[row_index]['_source_data']['Call Number'] = "Vertex (Cached)" if vertex_cached else "Vertex"
 
                                 if lc_meta.get('series_name') and not results[row_index]['Series Info'].replace(SUGGESTION_FLAG, ''):
                                     st_logger.debug(f"Updating Series Info for row {row_index} with Vertex AI suggestion.")
                                     results[row_index]['Series Info'] = SUGGESTION_FLAG + lc_meta.get('series_name')
-                                    results[row_index]['_source_data']['Series Info'] = "Vertex"
+                                    results[row_index]['_source_data']['Series Info'] = "Vertex (Cached)" if vertex_cached else "Vertex"
 
                                 if lc_meta.get('volume_number') and not results[row_index]['Series Number'].replace(SUGGESTION_FLAG, ''):
                                     st_logger.debug(f"Updating Series Number for row {row_index} with Vertex AI suggestion.")
                                     results[row_index]['Series Number'] = SUGGESTION_FLAG + str(lc_meta.get('volume_number'))
-                                    results[row_index]['_source_data']['Series Number'] = "Vertex"
+                                    results[row_index]['_source_data']['Series Number'] = "Vertex (Cached)" if vertex_cached else "Vertex"
 
                                 if lc_meta.get('publication_year') and not results[row_index]['Copyright Year'].replace(SUGGESTION_FLAG, ''):
                                     st_logger.debug(f"Updating Copyright Year for row {row_index} with Vertex AI suggestion.")
                                     results[row_index]['Copyright Year'] = SUGGESTION_FLAG + str(lc_meta.get('publication_year'))
-                                    results[row_index]['_source_data']['Copyright Year'] = "Vertex"
+                                    results[row_index]['_source_data']['Copyright Year'] = "Vertex (Cached)" if vertex_cached else "Vertex"
 
                         update_progress("Classifying with Vertex AI", "Done")
 
