@@ -310,9 +310,7 @@ def main():
     if st.session_state.current_step == "upload_csv":
         if "raw_df" in st.session_state and not st.session_state.raw_df.empty:
             st.session_state.current_step = "process_data"
-    elif st.session_state.current_step == "process_data":
-        if st.session_state.processing_done and not st.session_state.processed_df.empty:
-            st.session_state.current_step = "review_edits"
+    
     # No change needed for review_edits or generate_pdf, as they are terminal states for progression
 
     # --- Step 1: Upload CSV ---
@@ -553,7 +551,6 @@ def main():
 
                     st.write("Processing complete!")
                     st.session_state.processing_done = True
-                    st.session_state.current_step = "review_edits"
 
                     st.session_state.processed_df = pd.DataFrame(results)
                     st.session_state.processed_df['_source_data'] = [
@@ -574,6 +571,9 @@ def main():
                     use_container_width=True,
                     hide_index=True,
                 )
+
+                if st.button("Proceed to Final Review", on_click=next_step):
+                    pass
 
     # --- Step 3: Review and Confirm Data ---
     if st.session_state.current_step == "review_edits":
