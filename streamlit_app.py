@@ -637,7 +637,7 @@ def main():
     with st.expander("Debug Log"):
         st.download_button(
             label="Download Full Debug Log",
-            data=log_capture_string.getvalue(),
+            data=st.session_state.log_capture_string.getvalue(),
             file_name="debug_log.txt",
             mime="text/plain",
         )
