@@ -601,8 +601,12 @@ def main():
                 return style
 
             # Display non-editable table with colored backgrounds
+            styler = st.session_state.processed_df.style.apply(highlight_source, axis=1)
+            columns_to_hide = [
+                c for c in st.session_state.processed_df.columns if c not in LABEL_DISPLAY_COLUMNS
+            ]
             st.dataframe(
-                st.session_state.processed_df[LABEL_DISPLAY_COLUMNS].style.apply(highlight_source, axis=1),
+                styler.hide(columns_to_hide, axis="columns"),
                 use_container_width=True,
                 hide_index=True,
             )
