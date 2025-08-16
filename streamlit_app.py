@@ -301,12 +301,16 @@ def main():
         st.session_state.processing_done = False
 
     # Determine the current step based on state
-    if st.session_state.processing_done and not st.session_state.processed_df.empty:
-        st.session_state.current_step = "review_edits"
-    elif st.session_state.raw_df is not None and not st.session_state.raw_df.empty and not st.session_state.processing_done:
-        st.session_state.current_step = "process_data"
-    else:
+    if "current_step" not in st.session_state:
         st.session_state.current_step = "upload_csv"
+
+    if st.session_state.current_step == "upload_csv":
+        if "raw_df" in st.session_state and not st.session_state.raw_df.empty:
+            st.session_state.current_step = "process_data"
+    elif st.session_state.current_step == "process_data":
+        if st.session_state.processing_done and not st.session_state.processed_df.empty:
+            st.session_state.current_step = "review_edits"
+    # No change needed for review_edits or generate_pdf, as they are terminal states for progression
 
     # --- Step 1: Upload CSV ---
     if st.session_state.current_step == "upload_csv":
@@ -353,6 +357,7 @@ def main():
                             progress_placeholders[step].progress(100, text=f"{step}: Done")
                         else:
                             progress_placeholders[step].progress(0, text=f"{step}: {status}")
+                        st.rerun()
 
 
                     for step in steps:
