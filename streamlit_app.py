@@ -92,6 +92,15 @@ def next_step():
 def set_step(step):
     st.session_state.current_step = step
 
+def update_processed_df_from_editor():
+    edited_data = st.session_state.data_editor['edited_rows']
+    for idx, changes in edited_data.items():
+        for col, new_value in changes.items():
+            st.session_state.processed_df.loc[idx, col] = new_value
+            # If a manual edit is made, the source becomes Atriuum (user input)
+            st.session_state.processed_df.loc[idx, '_source_data'][col] = "Atriuum"
+    st.session_state.edited_rows = {} # Clear edited rows after applying
+
 
 
 # --- Main App ---
@@ -535,22 +544,10 @@ def main():
                 st.data_editor(
                     st.session_state.processed_df[LABEL_DISPLAY_COLUMNS],
                     key="data_editor",
-                    on_change=lambda: st.session_state.edited_rows.update(
-                        st.session_state.data_editor['edited_rows']
-                    ),
+                    on_change=update_processed_df_from_editor,
                     use_container_width=True,
                     hide_index=True,
                 )
-
-                if st.button("Save Manual Edits", key="save_manual_edits_button", on_click=next_step):
-                    # Apply manual edits to the processed_df
-                    for idx, changes in st.session_state.edited_rows.items():
-                        for col, new_value in changes.items():
-                            st.session_state.processed_df.loc[idx, col] = new_value
-                            # If a manual edit is made, the source becomes Atriuum (user input)
-                            st.session_state.processed_df.loc[idx, '_source_data'][col] = "Atriuum"
-                    st.success("Manual edits saved!")
-                    # Transition to next step is handled by on_click
 
     # --- Step 3: Review and Confirm Data ---
     if st.session_state.current_step == "review_edits":
