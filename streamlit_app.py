@@ -27,6 +27,8 @@ st_logger.setLevel(logging.DEBUG)
 st_handler = logging.StreamHandler(log_capture_string)
 st_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 st_logger.addHandler(st_handler)
+logging.getLogger('api_calls').setLevel(logging.DEBUG)
+logging.getLogger('data_cleaning').setLevel(logging.DEBUG)
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
@@ -104,6 +106,7 @@ def _process_single_row(
     LABEL_DISPLAY_COLUMNS,
     SUGGESTION_FLAG,
 ):
+    st_logger.info(f"Processing row {i + 1}/{total_rows}: {row.get('Title', '')}")
     # Initialize source tracking for this row
     row_sources = {col: "Atriuum" for col in LABEL_DISPLAY_COLUMNS}
 
@@ -138,6 +141,7 @@ def _process_single_row(
         row_sources['Series Info'] = "Google (Cached)"
         row_sources['Series Number'] = "Google (Cached)"
         row_sources['Copyright Year'] = "Google (Cached)"
+        update_progress("Enriching with Google Books", "Done")
     else:
         if lc_meta.get('series_name'):
             row_sources['Series Info'] = "Google"
@@ -145,12 +149,15 @@ def _process_single_row(
             row_sources['Series Number'] = "Google"
         if lc_meta.get('publication_year'):
             row_sources['Copyright Year'] = "Google"
+        update_progress("Enriching with Google Books", "Done") # Even if no data, mark as done
 
     if loc_cached:
         row_sources['Call Number'] = "LOC (Cached)"
+        update_progress("Enriching with Library of Congress", "Done")
     else:
         if lc_meta.get('classification'):
             row_sources['Call Number'] = "LOC"
+        update_progress("Enriching with Library of Congress", "Done") # Even if no data, mark as done
 
     if not lc_meta.get('volume_number'):
         st_logger.debug(f"lc_meta volume_number empty, calling clean_series_number for title='{title}'")
@@ -261,6 +268,7 @@ def _process_single_row(
 
 
 def main():
+    st_logger.info("Streamlit app main function started.")
     st_logger.debug("Streamlit app main function started.")
 
     if "current_step" not in st.session_state:
@@ -319,6 +327,7 @@ def main():
                             progress_placeholders[step].progress(100, text=f"{step}: Done")
                         else:
                             progress_placeholders[step].progress(0, text=f"{step}: {status}")
+                        st.experimental_rerun()
 
                     for step in steps:
                         update_progress(step, "Pending")
@@ -515,6 +524,8 @@ def main():
                     st.session_state.processed_df['_source_data'] = [
                         r['_source_data'] for r in results
                     ]  # Store source data separately
+                    st.session_state.current_step = "review_edits"
+                    st.experimental_rerun()
 
                 st.write("### Review and Edit Processed Data")
                 st.info(
