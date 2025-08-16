@@ -327,7 +327,7 @@ def main():
                             progress_placeholders[step].progress(100, text=f"{step}: Done")
                         else:
                             progress_placeholders[step].progress(0, text=f"{step}: {status}")
-                        st.experimental_rerun()
+
 
                     for step in steps:
                         update_progress(step, "Pending")
@@ -524,8 +524,7 @@ def main():
                     st.session_state.processed_df['_source_data'] = [
                         r['_source_data'] for r in results
                     ]  # Store source data separately
-                    st.session_state.current_step = "review_edits"
-                    st.experimental_rerun()
+                    
 
                 st.write("### Review and Edit Processed Data")
                 st.info(
