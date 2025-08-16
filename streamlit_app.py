@@ -295,6 +295,8 @@ def main():
         st.session_state.source_data = {}
     if "uploaded_file_hash" not in st.session_state:
         st.session_state.uploaded_file_hash = None
+    if "raw_df" not in st.session_state: 
+        st.session_state.raw_df = pd.DataFrame() 
     if "processing_done" not in st.session_state:
         st.session_state.processing_done = False
 
