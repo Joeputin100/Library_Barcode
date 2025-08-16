@@ -21,11 +21,16 @@ from pdf_generation import generate_pdf_labels
 from csv_importer import import_csv
 
 # --- Logging Setup ---
-log_capture_string = io.StringIO()
+if 'log_capture_string' not in st.session_state:
+    st.session_state.log_capture_string = io.StringIO()
+
 st_logger = logging.getLogger()
 st_logger.setLevel(logging.DEBUG)
-st_handler = logging.StreamHandler(log_capture_string)
+st_handler = logging.StreamHandler(st.session_state.log_capture_string)
 st_handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
+# Remove existing handlers to prevent duplicate logs
+if st_logger.handlers:
+    st_logger.handlers = []
 st_logger.addHandler(st_handler)
 logging.getLogger('api_calls').setLevel(logging.DEBUG)
 logging.getLogger('data_cleaning').setLevel(logging.DEBUG)
@@ -290,6 +295,16 @@ def main():
         st.session_state.source_data = {}
     if "uploaded_file_hash" not in st.session_state:
         st.session_state.uploaded_file_hash = None
+    if "processing_done" not in st.session_state:
+        st.session_state.processing_done = False
+
+    # Determine the current step based on state
+    if st.session_state.processing_done and not st.session_state.processed_df.empty:
+        st.session_state.current_step = "review_edits"
+    elif st.session_state.raw_df is not None and not st.session_state.raw_df.empty and not st.session_state.processing_done:
+        st.session_state.current_step = "process_data"
+    else:
+        st.session_state.current_step = "upload_csv"
 
     # --- Step 1: Upload CSV ---
     if st.session_state.current_step == "upload_csv":
@@ -528,6 +543,8 @@ def main():
                     save_cache(loc_cache)
 
                     st.write("Processing complete!")
+                    st.session_state.processing_done = True
+                    st.session_state.current_step = "review_edits"
 
                     st.session_state.processed_df = pd.DataFrame(results)
                     st.session_state.processed_df['_source_data'] = [
