@@ -1,4 +1,6 @@
 import streamlit as st
+import hashlib
+import os
 import pandas as pd
 import io
 import logging
@@ -37,11 +39,11 @@ logging.getLogger('data_cleaning').setLevel(logging.DEBUG)
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
-st.caption(
-    f"Last updated: {datetime.now(pytz.timezone('US/Pacific')).strftime(
-        '%Y-%m-%d %H:%M:%S %Z%z'
-    )}"
-)
+    # Calculate MD5 hash of the current script file
+    script_path = os.path.abspath(__file__)
+    with open(script_path, "rb") as f:
+        script_hash = hashlib.md5(f.read()).hexdigest()
+    st.caption(f"Script MD5: {script_hash}")
 
 # --- Constants for UI and Data Sourcing ---
 SOURCE_COLORS = {
