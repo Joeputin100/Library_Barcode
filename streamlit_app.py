@@ -42,8 +42,8 @@ st.title("Atriuum Label Generator")
     # Calculate MD5 hash of the current script file
 script_path = os.path.abspath(__file__)
 with open(script_path, "rb") as f:
-script_hash = hashlib.md5(f.read()).hexdigest()
-st.caption(f"Script MD5: {script_hash}")
+    script_hash = hashlib.md5(f.read()).hexdigest()
+    st.caption(f"Script MD5: {script_hash}")
 
 # --- Constants for UI and Data Sourcing ---
 SOURCE_COLORS = {
