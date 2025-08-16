@@ -286,6 +286,7 @@ def _process_single_row(
 def main():
     st_logger.info("Streamlit app main function started.")
     st_logger.debug("Streamlit app main function started.")
+    st_logger.info(f"Script MD5: {script_hash}, Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     if "current_step" not in st.session_state:
         st.session_state.current_step = "upload_csv"
@@ -359,7 +360,6 @@ def main():
                             progress_placeholders[step].progress(100, text=f"{step}: Done")
                         else:
                             progress_placeholders[step].progress(0, text=f"{step}: {status}")
-                        st.rerun()
 
 
                     for step in steps:
