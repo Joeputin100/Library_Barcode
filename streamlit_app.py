@@ -5,8 +5,7 @@ import pandas as pd
 import io
 import logging
 from datetime import datetime
-import pytz
-import re
+
 
 from caching import load_cache, save_cache
 from data_cleaning import (
@@ -39,7 +38,7 @@ logging.getLogger('data_cleaning').setLevel(logging.DEBUG)
 
 # --- Page Title ---
 st.title("Atriuum Label Generator")
-    # Calculate MD5 hash of the current script file
+# Calculate MD5 hash of the current script file
 script_path = os.path.abspath(__file__)
 with open(script_path, "rb") as f:
     script_hash = hashlib.md5(f.read()).hexdigest()
@@ -96,8 +95,10 @@ def next_step():
     elif st.session_state.current_step == "review_edits":
         st.session_state.current_step = "generate_pdf"
 
+
 def set_step(step):
     st.session_state.current_step = step
+
 
 def update_processed_df_from_editor():
     edited_data = st.session_state.data_editor['edited_rows']
@@ -106,8 +107,7 @@ def update_processed_df_from_editor():
             st.session_state.processed_df.loc[idx, col] = new_value
             # If a manual edit is made, the source becomes Atriuum (user input)
             st.session_state.processed_df.loc[idx, '_source_data'][col] = "Atriuum"
-    st.session_state.edited_rows = {} # Clear edited rows after applying
-
+    st.session_state.edited_rows = {}  # Clear edited rows after applying
 
 
 # --- Main App ---
@@ -165,7 +165,7 @@ def _process_single_row(
             row_sources['Series Number'] = "Google"
         if lc_meta.get('publication_year'):
             row_sources['Copyright Year'] = "Google"
-        update_progress("Enriching with Google Books", "Done") # Even if no data, mark as done
+        update_progress("Enriching with Google Books", "Done")  # Even if no data, mark as done
 
     if loc_cached:
         row_sources['Call Number'] = "LOC (Cached)"
@@ -173,21 +173,7 @@ def _process_single_row(
     else:
         if lc_meta.get('classification'):
             row_sources['Call Number'] = "LOC"
-        update_progress("Enriching with Library of Congress", "Done") # Even if no data, mark as done
-
-    if not lc_meta.get('volume_number'):
-        st_logger.debug(f"lc_meta volume_number empty, calling clean_series_number for title='{title}'")
-        lc_meta['volume_number'] = clean_series_number(title)
-        st_logger.debug(f"lc_meta volume_number after clean_series_number: {lc_meta['volume_number']}")
-
-    if not lc_meta.get('volume_number') and any(
-        c.lower() in ['manga', 'comic'] for c in lc_meta.get('genres', [])
-    ):
-        st_logger.debug(f"Attempting to extract trailing number for manga/comic: {title}")
-        trailing_num_match = re.search(r'(\d+)', title)
-        if trailing_num_match:
-            lc_meta['volume_number'] = trailing_num_match.group(1)
-            st_logger.debug(f"Extracted trailing number: {lc_meta['volume_number']}")
+        update_progress("Enriching with Library of Congress", "Done")  # Even if no data, mark as done
 
     original_holding_barcode = row.get('Holdings Barcode', '').strip()
     raw_original_call_number = row.get('Call Number', '').strip()
@@ -234,7 +220,9 @@ def _process_single_row(
     mashed_volume_number = (lc_meta.get('volume_number') or '').strip()
     mashed_publication_year = (lc_meta.get('publication_year') or '').strip()
     st_logger.debug(
-        f"mashed_series_name: {mashed_series_name}, mashed_volume_number: {mashed_volume_number}, mashed_publication_year: {mashed_publication_year}"
+        f"mashed_series_name: {mashed_series_name}, "
+        f"mashed_volume_number: {mashed_volume_number}, "
+        f"mashed_publication_year: {mashed_publication_year}"
     )
 
     current_call_number = cleaned_original_call_number
@@ -298,7 +286,7 @@ def main():
         st.session_state.source_data = {}
     if "uploaded_file_hash" not in st.session_state:
         st.session_state.uploaded_file_hash = None
-    if "raw_df" not in st.session_state: 
+    if "raw_df" not in st.session_state:
         st.session_state.raw_df = pd.DataFrame() 
     if "processing_done" not in st.session_state:
         st.session_state.processing_done = False
@@ -321,10 +309,11 @@ def main():
 
             if uploaded_file:
                 st.session_state.raw_df = import_csv(uploaded_file)
+                st.session_state.processing_done = False # Reset processing status
+                st.session_state.current_step = "process_data" # Immediately move to processing
+                st.rerun() # Rerun to trigger the processing step
                 st.write("### Raw Imported Data (Non-Editable)")
                 st.dataframe(st.session_state.raw_df, use_container_width=True, hide_index=True)
-                if st.button("Proceed to Data Processing", on_click=next_step):
-                    pass  # Handled by on_click
 
     # --- Step 2: Process Data ---
     if st.session_state.current_step == "process_data":
@@ -332,14 +321,11 @@ def main():
             st.header("Step 2: Process and Edit Data")
 
             if not st.session_state.get("processing_done", False):
-                st.info("Click 'Process Data' to enrich and clean your book entries. This may take some time.")
-                st.markdown('<div class="flash-button">', unsafe_allow_html=True)
-                if st.button("Process Data", key="process_data_button"):
-                    st.markdown('</div>', unsafe_allow_html=True)  # Close the div after the button
-                    loc_cache = load_cache()
-                    st.session_state.source_data = {}  # Reset source data for new processing
+                st.info("Processing data...")
+                loc_cache = load_cache()
+                st.session_state.source_data = {}  # Reset source data for new processing
 
-                    with st.expander("Processing Report", expanded=True):
+                with st.expander("Processing Report", expanded=True):
                         st.write("Processing rows...")
                         steps = [
                             "Extracting data",
@@ -461,14 +447,6 @@ def main():
                                 )
                             update_progress("Classifying with Vertex AI", "Done")
 
-                        update_progress("Cleaning data", "In progress...")
-                        for i, row_data in enumerate(results):
-                            for col in LABEL_DISPLAY_COLUMNS:
-                                if isinstance(row_data.get(col), str) and row_data[col].startswith(SUGGESTION_FLAG):
-                                    results[i][col] = row_data[col].lstrip(SUGGESTION_FLAG)
-                            for col in LABEL_DISPLAY_COLUMNS:
-                                if col not in results[i]:
-                                    results[i][col] = ""
                         update_progress("Cleaning data", "Done")
 
                         save_cache(loc_cache)
@@ -538,11 +516,17 @@ def main():
             st.header("Step 4: Generate PDF Labels")
             st.info("Click 'Generate PDF' to create your barcode labels.")
 
+            library_name = st.selectbox(
+                "Select Library Name",
+                ('A', 'B', 'C', 'D'),
+                key="library_name_selector"
+            )
+
             if st.button("Generate PDF", key="generate_pdf_button"):
                 try:
                     # Prepare data for PDF generation: remove _source_data column
                     pdf_data_df = st.session_state.processed_df.drop(columns=['_source_data'], errors='ignore')
-                    pdf_output = generate_pdf_labels(pdf_data_df)
+                    pdf_output = generate_pdf_labels(pdf_data_df, library_name)
                     st.session_state.pdf_data = pdf_output
                     st.success("PDF generated successfully!")
                 except Exception as e:

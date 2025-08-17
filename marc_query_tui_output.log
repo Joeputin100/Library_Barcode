@@ -1,0 +1,1468 @@
+[2025-08-16 16:05:33] App initialized.
+[2025-08-16 16:05:54] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:06:04] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-16 16:06:04] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:06:14] DEBUG: waiting_for_confirmation = True
+[2025-08-16 16:06:14] Query cancelled. Please enter a new query.
+[2025-08-16 16:06:36] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:06:40] Parsed query: {'type': 'barcode_range', 'start': '100', 'end': '105'}
+[2025-08-16 16:06:40] You entered: 'b100-b000105'
+I understood this as: {'type': 'barcode_range', 'start': '100', 'end': '105'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:06:56] DEBUG: waiting_for_confirmation = True
+[2025-08-16 16:06:56] Executing query: {'type': 'barcode_range', 'start': '100', 'end': '105'}
+[2025-08-16 16:06:56] Executing query and clearing results.
+[2025-08-16 16:06:56] Found 0 records.
+
+
+[2025-08-16 16:07:02] action_quit called
+[2025-08-16 16:11:11] App initialized.
+[2025-08-16 16:11:35] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:11:35] DEBUG: Input value (repr): 'bb163-b290'
+[2025-08-16 16:11:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-16 16:11:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:11:39] Parsed query: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+[2025-08-16 16:11:39] You entered: 'bb163-b290'
+I understood this as: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:11:51] DEBUG: waiting_for_confirmation = True
+[2025-08-16 16:11:51] DEBUG: Input value (repr): 'n'
+[2025-08-16 16:11:51] DEBUG: query_str.lower() == 'y': False
+[2025-08-16 16:11:51] DEBUG: query_str.lower() == 'n': True
+[2025-08-16 16:11:51] Query cancelled. Please enter a new query.
+[2025-08-16 16:11:59] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:11:59] DEBUG: Input value (repr): 'b163-b290'
+[2025-08-16 16:11:59] DEBUG: query_str.lower() == 'y': False
+[2025-08-16 16:11:59] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:12:03] Parsed query: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+[2025-08-16 16:12:03] You entered: 'b163-b290'
+I understood this as: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:12:14] DEBUG: waiting_for_confirmation = True
+[2025-08-16 16:12:14] DEBUG: Input value (repr): 'y'
+[2025-08-16 16:12:14] DEBUG: query_str.lower() == 'y': True
+[2025-08-16 16:12:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:12:14] Executing query: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+[2025-08-16 16:12:14] Executing query and clearing results.
+[2025-08-16 16:12:14] Found 0 records.
+
+
+[2025-08-16 16:18:15] action_quit called
+[2025-08-16 16:18:39] App initialized.
+[2025-08-16 16:18:50] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:18:50] DEBUG: Input value (repr): 'b163-b290'
+[2025-08-16 16:18:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-16 16:18:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:18:54] Parsed query: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+[2025-08-16 16:18:54] You entered: 'b163-b290'
+I understood this as: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:19:05] DEBUG: waiting_for_confirmation = True
+[2025-08-16 16:19:05] DEBUG: Input value (repr): 'y'
+[2025-08-16 16:19:05] DEBUG: query_str.lower() == 'y': True
+[2025-08-16 16:19:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:19:05] Executing query: {'type': 'barcode_range', 'start': '163', 'end': '290'}
+[2025-08-16 16:19:05] Executing query and clearing results.
+[2025-08-16 16:19:05] Found 0 records.
+
+
+[2025-08-16 16:19:15] DEBUG: waiting_for_confirmation = False
+[2025-08-16 16:19:15] DEBUG: Input value (repr): 'q'
+[2025-08-16 16:19:15] DEBUG: query_str.lower() == 'y': False
+[2025-08-16 16:19:15] DEBUG: query_str.lower() == 'n': False
+[2025-08-16 16:19:19] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-16 16:19:19] You entered: 'q'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-16 16:22:20] action_quit called
+[2025-08-16 18:03:51] App initialized.
+[2025-08-17 00:10:22] App initialized.
+[2025-08-17 00:10:33] App initialized.
+[2025-08-17 00:10:35] App initialized.
+[2025-08-17 00:10:37] App initialized.
+[2025-08-17 00:10:24] App initialized.
+[2025-08-17 00:10:24] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:10:24] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:10:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:10:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:10:30] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:10:30] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:11:29] App initialized.
+[2025-08-17 00:12:01] App initialized.
+[2025-08-17 00:11:32] App initialized.
+[2025-08-17 00:11:32] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:11:32] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:11:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:11:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:11:37] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:11:37] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:11:39] App initialized.
+[2025-08-17 00:11:40] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:11:40] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:11:40] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:11:40] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:11:45] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:11:45] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:11:46] App initialized.
+[2025-08-17 00:11:46] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:11:46] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:11:46] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:11:46] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:11:58] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:11:58] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:12:46] App initialized.
+[2025-08-17 00:13:17] App initialized.
+[2025-08-17 00:12:48] App initialized.
+[2025-08-17 00:12:48] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:12:48] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:12:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:12:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:12:54] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:12:54] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:12:56] App initialized.
+[2025-08-17 00:12:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:12:57] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:12:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:12:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:13:03] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:13:03] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:13:04] App initialized.
+[2025-08-17 00:13:05] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:13:05] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:13:05] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:13:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:13:14] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:13:14] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:14:01] App initialized.
+[2025-08-17 00:14:36] App initialized.
+[2025-08-17 00:14:03] App initialized.
+[2025-08-17 00:14:03] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:14:03] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:14:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:14:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:14:15] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:14:15] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:14:17] App initialized.
+[2025-08-17 00:14:18] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:14:18] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:14:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:14:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:14:21] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:14:21] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:14:22] App initialized.
+[2025-08-17 00:14:23] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:14:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:14:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:14:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:14:34] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:14:34] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:15:12] App initialized.
+[2025-08-17 00:15:14] App initialized.
+[2025-08-17 00:15:14] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:15:14] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:15:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:15:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:15:20] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:15:20] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:15:22] App initialized.
+[2025-08-17 00:15:23] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:15:23] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:15:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:15:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:15:29] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:15:29] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:16:05] App initialized.
+[2025-08-17 00:16:44] App initialized.
+[2025-08-17 00:16:07] App initialized.
+[2025-08-17 00:16:07] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:16:07] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:16:07] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:16:07] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:16:13] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:16:13] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:16:15] App initialized.
+[2025-08-17 00:16:16] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:16:16] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:16:16] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:16:16] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:16:19] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:16:19] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:16:21] App initialized.
+[2025-08-17 00:16:21] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:16:21] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:16:21] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:16:21] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:16:41] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:16:41] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:17:30] App initialized.
+[2025-08-17 00:17:59] App initialized.
+[2025-08-17 00:17:32] App initialized.
+[2025-08-17 00:17:32] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:17:32] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:17:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:17:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:17:36] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:17:36] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:17:38] App initialized.
+[2025-08-17 00:17:39] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:17:39] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:17:39] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:17:39] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:17:43] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:17:43] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:17:44] App initialized.
+[2025-08-17 00:17:45] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:17:45] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:17:45] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:17:45] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:17:56] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:17:56] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:18:42] App initialized.
+[2025-08-17 00:19:16] App initialized.
+[2025-08-17 00:18:44] App initialized.
+[2025-08-17 00:18:44] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:18:44] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:18:44] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:18:44] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:18:52] Parsed query: {'type': 'barcode', 'value': 'b123'}
+[2025-08-17 00:18:52] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': 'b123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:18:54] App initialized.
+[2025-08-17 00:18:55] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:18:55] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:18:55] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:18:55] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:19:02] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:19:02] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:19:03] App initialized.
+[2025-08-17 00:19:04] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:19:04] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:19:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:19:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:19:13] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:19:13] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:23:11] App initialized.
+[2025-08-17 00:23:33] App initialized.
+[2025-08-17 00:23:13] App initialized.
+[2025-08-17 00:23:13] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:23:13] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:23:13] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:23:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:23:17] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:23:17] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:23:19] App initialized.
+[2025-08-17 00:23:20] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:23:20] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:23:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:23:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:23:24] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:23:24] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:23:26] App initialized.
+[2025-08-17 00:23:26] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:23:26] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:23:26] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:23:26] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:23:30] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:23:30] You entered: 'b1-b290 but not b100'
+I understood this as: {'error': 'Unsupported or ambiguous query'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:24:22] App initialized.
+[2025-08-17 00:24:49] App initialized.
+[2025-08-17 00:24:24] App initialized.
+[2025-08-17 00:24:24] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:24:24] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:24:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:24:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:24:30] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:24:30] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:24:32] App initialized.
+[2025-08-17 00:24:33] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:24:33] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:24:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:24:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:24:39] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:24:39] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:24:41] App initialized.
+[2025-08-17 00:24:42] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:24:42] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:24:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:24:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:24:46] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:24:46] Unsupported or ambiguous query
+[2025-08-17 00:25:42] App initialized.
+[2025-08-17 00:26:07] App initialized.
+[2025-08-17 00:25:44] App initialized.
+[2025-08-17 00:25:44] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:25:44] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:25:44] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:25:44] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:25:48] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:25:48] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:25:50] App initialized.
+[2025-08-17 00:25:50] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:25:50] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:25:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:25:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:25:55] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:25:55] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:25:56] App initialized.
+[2025-08-17 00:25:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:25:57] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:25:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:25:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:26:05] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:26:05] Unsupported or ambiguous query
+[2025-08-17 00:27:04] App initialized.
+[2025-08-17 00:27:31] App initialized.
+[2025-08-17 00:27:07] App initialized.
+[2025-08-17 00:27:07] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:27:07] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:27:07] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:27:07] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:27:12] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:27:12] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:27:14] App initialized.
+[2025-08-17 00:27:15] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:27:15] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:27:15] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:27:15] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:27:21] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:27:21] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:27:23] App initialized.
+[2025-08-17 00:27:23] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:27:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:27:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:27:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:27:28] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:27:28] Unsupported or ambiguous query
+[2025-08-17 00:28:40] App initialized.
+[2025-08-17 00:29:09] App initialized.
+[2025-08-17 00:28:42] App initialized.
+[2025-08-17 00:28:42] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:28:42] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:28:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:28:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:28:46] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:28:46] parsed_query.get('error'): None
+[2025-08-17 00:28:46] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:28:49] App initialized.
+[2025-08-17 00:28:49] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:28:49] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:28:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:28:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:28:57] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:28:57] parsed_query.get('error'): None
+[2025-08-17 00:28:57] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:28:59] App initialized.
+[2025-08-17 00:28:59] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:28:59] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:28:59] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:28:59] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:29:07] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:29:07] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:29:07] Unsupported or ambiguous query
+[2025-08-17 00:30:05] App initialized.
+[2025-08-17 00:30:37] App initialized.
+[2025-08-17 00:30:07] App initialized.
+[2025-08-17 00:30:08] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:30:08] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:30:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:30:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:30:12] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:30:12] parsed_query.get('error'): None
+[2025-08-17 00:30:12] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:30:15] App initialized.
+[2025-08-17 00:30:15] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:30:15] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:30:15] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:30:15] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:30:26] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-17 00:30:26] parsed_query.get('error'): None
+[2025-08-17 00:30:26] You entered: 'all barcodes by Aveyard.'
+I understood this as: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:30:29] App initialized.
+[2025-08-17 00:30:29] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:30:29] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:30:29] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:30:29] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:30:34] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:30:34] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:30:34] Unsupported or ambiguous query
+[2025-08-17 00:31:32] App initialized.
+[2025-08-17 00:32:02] App initialized.
+[2025-08-17 00:31:35] App initialized.
+[2025-08-17 00:31:35] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:31:35] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:31:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:31:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:31:41] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:31:41] parsed_query.get('error'): None
+[2025-08-17 00:31:41] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:31:44] App initialized.
+[2025-08-17 00:31:44] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:31:44] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:31:44] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:31:44] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:31:53] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:31:53] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:31:53] Unsupported or ambiguous query
+[2025-08-17 00:31:55] App initialized.
+[2025-08-17 00:31:56] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:31:56] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:31:56] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:31:56] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:32:00] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:32:00] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:32:00] Unsupported or ambiguous query
+[2025-08-17 00:32:45] App initialized.
+[2025-08-17 00:33:15] App initialized.
+[2025-08-17 00:32:47] App initialized.
+[2025-08-17 00:32:47] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:32:47] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:32:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:32:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:32:54] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:32:54] parsed_query.get('error'): None
+[2025-08-17 00:32:54] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:32:57] App initialized.
+[2025-08-17 00:32:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:32:57] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:32:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:32:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:33:02] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:33:02] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:33:02] Unsupported or ambiguous query
+[2025-08-17 00:33:04] App initialized.
+[2025-08-17 00:33:05] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:33:05] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:33:05] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:33:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:33:13] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:33:13] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:33:13] Unsupported or ambiguous query
+[2025-08-17 00:33:58] App initialized.
+[2025-08-17 00:34:25] App initialized.
+[2025-08-17 00:34:00] App initialized.
+[2025-08-17 00:34:00] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:34:00] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:34:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:34:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:34:04] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:34:04] parsed_query.get('error'): None
+[2025-08-17 00:34:04] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:34:06] App initialized.
+[2025-08-17 00:34:06] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:34:06] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:34:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:34:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:34:12] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:34:12] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:34:12] Unsupported or ambiguous query
+[2025-08-17 00:34:14] App initialized.
+[2025-08-17 00:34:14] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:34:14] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:34:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:34:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:34:22] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:34:22] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:34:22] Unsupported or ambiguous query
+[2025-08-17 00:35:17] App initialized.
+[2025-08-17 00:35:45] App initialized.
+[2025-08-17 00:35:19] App initialized.
+[2025-08-17 00:35:19] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:35:19] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:35:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:35:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:35:22] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:35:22] parsed_query.get('error'): None
+[2025-08-17 00:35:22] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:35:24] App initialized.
+[2025-08-17 00:35:25] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:35:25] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:35:25] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:35:25] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:35:33] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:35:33] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:35:33] Unsupported or ambiguous query
+[2025-08-17 00:35:35] App initialized.
+[2025-08-17 00:35:35] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:35:35] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:35:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:35:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:35:42] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:35:42] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:35:42] Unsupported or ambiguous query
+[2025-08-17 00:36:25] App initialized.
+[2025-08-17 00:36:50] App initialized.
+[2025-08-17 00:36:27] App initialized.
+[2025-08-17 00:36:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:36:27] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:36:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:36:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:36:33] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:36:33] parsed_query.get('error'): None
+[2025-08-17 00:36:33] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:36:35] App initialized.
+[2025-08-17 00:36:36] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:36:36] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:36:36] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:36:36] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:36:41] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:36:41] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:36:41] Unsupported or ambiguous query
+[2025-08-17 00:36:43] App initialized.
+[2025-08-17 00:36:43] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:36:43] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:36:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:36:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:36:48] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:36:48] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:36:48] Unsupported or ambiguous query
+[2025-08-17 00:37:31] App initialized.
+[2025-08-17 00:37:56] App initialized.
+[2025-08-17 00:37:33] App initialized.
+[2025-08-17 00:37:33] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:37:33] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:37:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:37:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:37:37] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:37:37] parsed_query.get('error'): None
+[2025-08-17 00:37:37] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:37:38] App initialized.
+[2025-08-17 00:37:39] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:37:39] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:37:39] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:37:39] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:37:46] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:37:46] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:37:46] Unsupported or ambiguous query
+[2025-08-17 00:37:48] App initialized.
+[2025-08-17 00:37:48] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:37:48] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:37:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:37:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:37:53] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:37:53] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:37:53] Unsupported or ambiguous query
+[2025-08-17 00:38:40] App initialized.
+[2025-08-17 00:39:09] App initialized.
+[2025-08-17 00:38:42] App initialized.
+[2025-08-17 00:38:43] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:38:43] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:38:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:38:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:38:49] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:38:49] parsed_query.get('error'): None
+[2025-08-17 00:38:49] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:38:51] App initialized.
+[2025-08-17 00:38:52] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:38:52] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:38:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:38:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:38:59] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:38:59] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:38:59] Unsupported or ambiguous query
+[2025-08-17 00:39:01] App initialized.
+[2025-08-17 00:39:01] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:39:01] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:39:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:39:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:39:06] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:39:06] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:39:06] Unsupported or ambiguous query
+[2025-08-17 00:39:58] App initialized.
+[2025-08-17 00:40:31] App initialized.
+[2025-08-17 00:40:00] App initialized.
+[2025-08-17 00:40:00] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:40:00] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:40:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:40:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:40:06] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:40:06] parsed_query.get('error'): None
+[2025-08-17 00:40:06] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:40:08] App initialized.
+[2025-08-17 00:40:09] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:40:09] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:40:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:40:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:40:21] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:40:21] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:40:21] Unsupported or ambiguous query
+[2025-08-17 00:40:22] App initialized.
+[2025-08-17 00:40:22] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:40:22] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:40:22] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:40:22] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:40:29] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:40:29] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:40:29] Unsupported or ambiguous query
+[2025-08-17 00:41:08] App initialized.
+[2025-08-17 00:41:35] App initialized.
+[2025-08-17 00:41:11] App initialized.
+[2025-08-17 00:41:11] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:41:11] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:41:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:41:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:41:15] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:41:15] parsed_query.get('error'): None
+[2025-08-17 00:41:15] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:41:17] App initialized.
+[2025-08-17 00:41:18] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:41:18] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:41:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:41:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:41:24] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:41:24] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:41:24] Unsupported or ambiguous query
+[2025-08-17 00:41:26] App initialized.
+[2025-08-17 00:41:26] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:41:26] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:41:26] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:41:26] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:41:33] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:41:33] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:41:33] Unsupported or ambiguous query
+[2025-08-17 00:42:15] App initialized.
+[2025-08-17 00:42:45] App initialized.
+[2025-08-17 00:42:17] App initialized.
+[2025-08-17 00:42:17] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:42:17] DEBUG: Input value (repr): 'b123'
+[2025-08-17 00:42:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:42:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:42:24] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 00:42:24] parsed_query.get('error'): None
+[2025-08-17 00:42:24] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:42:26] App initialized.
+[2025-08-17 00:42:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:42:27] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 00:42:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:42:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:42:36] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:42:36] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:42:36] Unsupported or ambiguous query
+[2025-08-17 00:42:38] App initialized.
+[2025-08-17 00:42:38] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:42:38] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 00:42:38] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:42:38] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:42:43] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 00:42:43] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 00:42:43] Unsupported or ambiguous query
+[2025-08-17 00:54:03] App initialized.
+[2025-08-17 00:54:25] DEBUG: waiting_for_confirmation = False
+[2025-08-17 00:54:25] DEBUG: Input value (repr): 'all barcodes b290 - b300'
+[2025-08-17 00:54:25] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 00:54:25] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:54:32] Parsed query: {'type': 'barcode_range', 'start': '290', 'end': '300'}
+[2025-08-17 00:54:32] parsed_query.get('error'): None
+[2025-08-17 00:54:32] You entered: 'all barcodes b290 - b300'
+I understood this as: {'type': 'barcode_range', 'start': '290', 'end': '300'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 00:54:39] DEBUG: waiting_for_confirmation = True
+[2025-08-17 00:54:39] DEBUG: Input value (repr): 'y'
+[2025-08-17 00:54:39] DEBUG: query_str.lower() == 'y': True
+[2025-08-17 00:54:39] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 00:54:39] Executing query: {'type': 'barcode_range', 'start': '290', 'end': '300'}
+[2025-08-17 00:54:39] Executing query and clearing results.
+[2025-08-17 00:54:40] Found 0 records.
+
+
+[2025-08-17 00:54:44] action_quit called
+[2025-08-17 01:01:48] App initialized.
+[2025-08-17 01:03:29] App initialized.
+[2025-08-17 01:01:50] App initialized.
+[2025-08-17 01:01:50] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:01:50] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:01:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:01:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:02:05] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:02:05] parsed_query.get('error'): None
+[2025-08-17 01:02:05] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:02:07] App initialized.
+[2025-08-17 01:02:08] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:02:08] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:02:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:02:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:02:21] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:02:21] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:02:21] Unsupported or ambiguous query
+[2025-08-17 01:02:23] App initialized.
+[2025-08-17 01:02:23] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:02:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:02:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:02:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:02:28] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:02:28] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:02:28] Unsupported or ambiguous query
+[2025-08-17 01:02:31] App initialized.
+[2025-08-17 01:02:31] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:02:31] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:02:31] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:02:31] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:03:28] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:03:28] parsed_query.get('error'): None
+[2025-08-17 01:03:28] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:04:32] App initialized.
+[2025-08-17 01:04:49] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:04:49] DEBUG: Input value (repr): 'barcodes b1 - b30'
+[2025-08-17 01:04:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:04:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:05:09] Parsed query: {'type': 'barcode_range', 'start': '1', 'end': '30'}
+[2025-08-17 01:05:09] parsed_query.get('error'): None
+[2025-08-17 01:05:09] You entered: 'barcodes b1 - b30'
+I understood this as: {'type': 'barcode_range', 'start': '1', 'end': '30'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:05:13] DEBUG: waiting_for_confirmation = True
+[2025-08-17 01:05:13] DEBUG: Input value (repr): 'y'
+[2025-08-17 01:05:13] DEBUG: query_str.lower() == 'y': True
+[2025-08-17 01:05:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:05:13] Executing query: {'type': 'barcode_range', 'start': '1', 'end': '30'}
+[2025-08-17 01:05:13] Executing query and clearing results.
+[2025-08-17 01:05:14] Found 0 records.
+
+
+[2025-08-17 01:05:18] action_quit called
+[2025-08-17 01:07:43] App initialized.
+[2025-08-17 01:07:56] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:07:56] DEBUG: Input value (repr): 'b1-b30'
+[2025-08-17 01:07:56] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:07:56] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:08:32] Parsed query: {'type': 'barcode_range', 'start': 'b1', 'end': 'b30'}
+[2025-08-17 01:08:32] parsed_query.get('error'): None
+[2025-08-17 01:08:32] You entered: 'b1-b30'
+I understood this as: {'type': 'barcode_range', 'start': 'b1', 'end': 'b30'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:08:47] DEBUG: waiting_for_confirmation = True
+[2025-08-17 01:08:47] DEBUG: Input value (repr): 'y'
+[2025-08-17 01:08:47] DEBUG: query_str.lower() == 'y': True
+[2025-08-17 01:08:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:08:47] Executing query: {'type': 'barcode_range', 'start': 'b1', 'end': 'b30'}
+[2025-08-17 01:08:47] Executing query and clearing results.
+[2025-08-17 01:08:47] Found 23 records.
+
+
+[2025-08-17 01:08:47] Full list of records:
+
+[2025-08-17 01:08:47]   1. Barcode: ['B000018'], Title: ['A polar bear in love, Vol. 1 Koromo ; translation: Taylor Engel ; lettering: Lys Blakeslee']
+
+[2025-08-17 01:08:47]   2. Barcode: ['B000015'], Title: ['A polar bear in love Koromo ; translation: Taylor Engel ; lettering: Lys Blakeslee']
+
+[2025-08-17 01:08:47]   3. Barcode: ['B000005'], Title: ['Homunculus (Omnibus) Vol. 5-6']
+
+[2025-08-17 01:08:47]   4. Barcode: ['B000006'], Title: ['Heavenly Delusion, Volume 1']
+
+[2025-08-17 01:08:47]   5. Barcode: ['B000007'], Title: ['Heavenly Delusion, Volume 2']
+
+[2025-08-17 01:08:47]   6. Barcode: ['B000008'], Title: ['My Hero Academia, Vol. 34']
+
+[2025-08-17 01:08:47]   7. Barcode: ['B000009'], Title: ['My Hero Academia, Vol. 35']
+
+[2025-08-17 01:08:47]   8. Barcode: ['B000010'], Title: ['My Hero Academia, Vol. 36']
+
+[2025-08-17 01:08:47]   9. Barcode: ['B000012'], Title: ['My Hero Academia, Vol. 38']
+
+[2025-08-17 01:08:47]   10. Barcode: ['B000011'], Title: ['My Hero Academia, Vol. 37']
+
+[2025-08-17 01:08:47]   11. Barcode: ['B000014'], Title: ['My Hero Academia, Vol. 40']
+
+[2025-08-17 01:08:47]   12. Barcode: ['B000013'], Title: ['My Hero Academia, Vol. 39']
+
+[2025-08-17 01:08:47]   13. Barcode: ['B000017'], Title: ['Show-Ha Shoten!, Vol. 7']
+
+[2025-08-17 01:08:47]   14. Barcode: ['B000016'], Title: ['Homunculus (Omnibus) Vol. 7-8']
+
+[2025-08-17 01:08:47]   15. Barcode: ['B000019'], Title: ['Magus of the Library, Vol. 1 (Magus of the Library #1)']
+
+[2025-08-17 01:08:47]   16. Barcode: ['B000020'], Title: ['Magus of the Library, Vol. 2 (Magus of the Library #2)']
+
+[2025-08-17 01:08:47]   17. Barcode: ['B000023'], Title: ['Magus of the Library 7']
+
+[2025-08-17 01:08:47]   18. Barcode: ['B000024'], Title: ['Golden kamuy Vol. 1 story and art by Satoru Noda ; translation, Eiji Yasuda ; touch-up art & lettering, Steve Dutra']
+
+[2025-08-17 01:08:47]   19. Barcode: ['B000026'], Title: ['Golden kamuy, Vol. 3 story and art by Satoru Noda ; translation, Eiji Yasuda ; touch-up art & lettering, Steve Dutro ; editor, Mike Montesa']
+
+[2025-08-17 01:08:47]   20. Barcode: ['B000027'], Title: ['Golden Kamuy vol.4']
+
+[2025-08-17 01:08:47]   21. Barcode: ['B000028'], Title: ['Golden Kamuy vol.5']
+
+[2025-08-17 01:08:47]   22. Barcode: ['B000029'], Title: ['One-Punch Man, Vol. 28']
+
+[2025-08-17 01:08:47]   23. Barcode: ['B000030'], Title: ['Mob Psycho 100 Volume 11']
+
+[2025-08-17 01:09:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:09:27] DEBUG: Input value (repr): 'b0150 and 3000-3100'
+[2025-08-17 01:09:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:09:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:09:32] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:09:32] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:09:32] Unsupported or ambiguous query
+[2025-08-17 01:09:50] action_quit called
+[2025-08-17 01:12:15] App initialized.
+[2025-08-17 01:13:32] App initialized.
+[2025-08-17 01:12:17] App initialized.
+[2025-08-17 01:12:18] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:12:18] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:12:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:12:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:12:27] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:12:27] parsed_query.get('error'): None
+[2025-08-17 01:12:27] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:12:29] App initialized.
+[2025-08-17 01:12:30] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:12:30] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:12:30] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:12:30] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:12:44] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:12:44] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:12:44] Unsupported or ambiguous query
+[2025-08-17 01:12:45] App initialized.
+[2025-08-17 01:12:45] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:12:45] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:12:45] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:12:45] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:12:54] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:12:54] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:12:54] Unsupported or ambiguous query
+[2025-08-17 01:12:57] App initialized.
+[2025-08-17 01:12:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:12:57] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:12:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:12:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:13:14] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:13:14] parsed_query.get('error'): None
+[2025-08-17 01:13:14] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:13:16] App initialized.
+[2025-08-17 01:13:16] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:13:16] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:13:16] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:13:16] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:13:28] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:13:28] parsed_query.get('error'): None
+[2025-08-17 01:13:28] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:15:09] App initialized.
+[2025-08-17 01:16:17] App initialized.
+[2025-08-17 01:15:12] App initialized.
+[2025-08-17 01:15:12] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:15:12] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:15:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:15:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:15:24] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:15:24] parsed_query.get('error'): None
+[2025-08-17 01:15:24] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:15:26] App initialized.
+[2025-08-17 01:15:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:15:27] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:15:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:15:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:15:30] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:15:30] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:15:30] Unsupported or ambiguous query
+[2025-08-17 01:15:31] App initialized.
+[2025-08-17 01:15:32] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:15:32] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:15:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:15:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:15:44] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:15:44] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:15:44] Unsupported or ambiguous query
+[2025-08-17 01:15:47] App initialized.
+[2025-08-17 01:15:47] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:15:47] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:15:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:15:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:16:01] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:16:01] parsed_query.get('error'): None
+[2025-08-17 01:16:01] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:16:03] App initialized.
+[2025-08-17 01:16:03] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:16:03] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:16:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:16:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:16:14] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:16:14] parsed_query.get('error'): None
+[2025-08-17 01:16:14] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:17:47] App initialized.
+[2025-08-17 01:19:04] App initialized.
+[2025-08-17 01:17:49] App initialized.
+[2025-08-17 01:17:50] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:17:50] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:17:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:17:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:18:02] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:18:02] parsed_query.get('error'): None
+[2025-08-17 01:18:02] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:18:04] App initialized.
+[2025-08-17 01:18:05] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:18:05] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:18:05] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:18:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:18:19] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:18:19] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:18:19] Unsupported or ambiguous query
+[2025-08-17 01:18:20] App initialized.
+[2025-08-17 01:18:20] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:18:20] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:18:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:18:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:18:28] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:18:28] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:18:28] Unsupported or ambiguous query
+[2025-08-17 01:18:30] App initialized.
+[2025-08-17 01:18:30] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:18:30] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:18:30] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:18:30] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:18:54] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:18:54] parsed_query.get('error'): None
+[2025-08-17 01:18:54] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:18:56] App initialized.
+[2025-08-17 01:18:56] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:18:56] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:18:56] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:18:56] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:19:01] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:19:01] parsed_query.get('error'): None
+[2025-08-17 01:19:01] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:20:57] App initialized.
+[2025-08-17 01:22:20] App initialized.
+[2025-08-17 01:20:59] App initialized.
+[2025-08-17 01:20:59] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:20:59] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:20:59] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:20:59] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:21:12] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:21:12] parsed_query.get('error'): None
+[2025-08-17 01:21:12] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:21:14] App initialized.
+[2025-08-17 01:21:15] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:21:15] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:21:15] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:21:15] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:21:21] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:21:21] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:21:21] Unsupported or ambiguous query
+[2025-08-17 01:21:22] App initialized.
+[2025-08-17 01:21:23] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:21:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:21:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:21:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:21:34] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:21:34] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:21:34] Unsupported or ambiguous query
+[2025-08-17 01:21:37] App initialized.
+[2025-08-17 01:21:37] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:21:37] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:21:37] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:21:37] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:22:09] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:22:09] parsed_query.get('error'): None
+[2025-08-17 01:22:09] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:22:11] App initialized.
+[2025-08-17 01:22:11] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:22:11] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:22:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:22:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:22:17] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:22:17] parsed_query.get('error'): None
+[2025-08-17 01:22:17] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:24:03] App initialized.
+[2025-08-17 01:25:26] App initialized.
+[2025-08-17 01:24:05] App initialized.
+[2025-08-17 01:24:05] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:24:05] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:24:05] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:24:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:24:17] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:24:17] parsed_query.get('error'): None
+[2025-08-17 01:24:17] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:24:19] App initialized.
+[2025-08-17 01:24:20] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:24:20] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:24:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:24:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:24:32] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:24:32] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:24:32] Unsupported or ambiguous query
+[2025-08-17 01:24:33] App initialized.
+[2025-08-17 01:24:33] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:24:33] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:24:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:24:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:24:43] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:24:43] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:24:43] Unsupported or ambiguous query
+[2025-08-17 01:24:45] App initialized.
+[2025-08-17 01:24:46] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:24:46] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:24:46] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:24:46] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:25:15] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:25:15] parsed_query.get('error'): None
+[2025-08-17 01:25:15] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:25:17] App initialized.
+[2025-08-17 01:25:17] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:25:17] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:25:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:25:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:25:22] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:25:22] parsed_query.get('error'): None
+[2025-08-17 01:25:22] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:27:32] App initialized.
+[2025-08-17 01:28:42] App initialized.
+[2025-08-17 01:27:35] App initialized.
+[2025-08-17 01:27:35] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:27:35] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:27:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:27:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:27:47] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:27:47] parsed_query.get('error'): None
+[2025-08-17 01:27:47] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:27:49] App initialized.
+[2025-08-17 01:27:50] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:27:50] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:27:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:27:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:27:56] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:27:56] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:27:56] Unsupported or ambiguous query
+[2025-08-17 01:27:57] App initialized.
+[2025-08-17 01:27:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:27:57] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:27:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:27:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:28:05] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:28:05] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:28:05] Unsupported or ambiguous query
+[2025-08-17 01:28:07] App initialized.
+[2025-08-17 01:28:07] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:28:07] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:28:07] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:28:07] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:28:32] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:28:32] parsed_query.get('error'): None
+[2025-08-17 01:28:32] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:28:34] App initialized.
+[2025-08-17 01:28:34] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:28:34] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:28:34] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:28:34] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:28:39] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:28:39] parsed_query.get('error'): None
+[2025-08-17 01:28:39] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:30:39] App initialized.
+[2025-08-17 01:31:45] App initialized.
+[2025-08-17 01:30:41] App initialized.
+[2025-08-17 01:30:42] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:30:42] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:30:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:30:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:30:55] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:30:55] parsed_query.get('error'): None
+[2025-08-17 01:30:55] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:30:56] App initialized.
+[2025-08-17 01:30:57] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:30:57] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:30:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:30:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:31:04] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:31:04] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:31:04] Unsupported or ambiguous query
+[2025-08-17 01:31:06] App initialized.
+[2025-08-17 01:31:06] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:31:06] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:31:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:31:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:31:10] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:31:10] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:31:10] Unsupported or ambiguous query
+[2025-08-17 01:31:12] App initialized.
+[2025-08-17 01:31:12] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:31:12] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:31:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:31:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:31:36] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:31:36] parsed_query.get('error'): None
+[2025-08-17 01:31:36] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:31:37] App initialized.
+[2025-08-17 01:31:37] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:31:37] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:31:37] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:31:37] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:31:42] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:31:42] parsed_query.get('error'): None
+[2025-08-17 01:31:42] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:36:28] App initialized.
+[2025-08-17 01:36:46] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:36:46] DEBUG: Input value (repr): 'b100 and 3957-4000'
+[2025-08-17 01:36:46] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:36:46] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:36:58] Parsed query: {'queries': [{'type': 'barcode', 'value': '100'}, {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+[2025-08-17 01:36:58] parsed_query.get('error'): None
+[2025-08-17 01:36:58] You entered: 'b100 and 3957-4000'
+I understood this as: {'queries': [{'type': 'barcode', 'value': '100'}, {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:37:35] DEBUG: waiting_for_confirmation = True
+[2025-08-17 01:37:35] DEBUG: Input value (repr): 'y'
+[2025-08-17 01:37:35] DEBUG: query_str.lower() == 'y': True
+[2025-08-17 01:37:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:37:35] Executing query: {'queries': [{'type': 'barcode', 'value': '100'}, {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+[2025-08-17 01:37:35] Executing query and clearing results.
+[2025-08-17 01:37:35] Found 0 records.
+
+
+[2025-08-17 01:37:53] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:37:53] DEBUG: Input value (repr): 'q'
+[2025-08-17 01:37:53] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:37:53] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:38:15] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:38:15] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:38:15] Unsupported or ambiguous query
+[2025-08-17 01:38:24] action_quit called
+[2025-08-17 01:45:24] App initialized.
+[2025-08-17 01:45:27] App initialized.
+[2025-08-17 01:45:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:27] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:45:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:27] Parsed query: None
+[2025-08-17 01:45:27] parsed_query.get('error'): N/A
+[2025-08-17 01:45:27] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:29] App initialized.
+[2025-08-17 01:45:30] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:30] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:45:30] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:30] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:30] Parsed query: None
+[2025-08-17 01:45:30] parsed_query.get('error'): N/A
+[2025-08-17 01:45:30] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:32] App initialized.
+[2025-08-17 01:45:32] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:32] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:45:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:32] Parsed query: None
+[2025-08-17 01:45:32] parsed_query.get('error'): N/A
+[2025-08-17 01:45:32] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:34] App initialized.
+[2025-08-17 01:45:35] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:35] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:45:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:35] Parsed query: None
+[2025-08-17 01:45:35] parsed_query.get('error'): N/A
+[2025-08-17 01:45:35] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:37] App initialized.
+[2025-08-17 01:45:37] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:37] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:45:37] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:37] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:37] Parsed query: None
+[2025-08-17 01:45:37] parsed_query.get('error'): N/A
+[2025-08-17 01:45:37] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:40] App initialized.
+[2025-08-17 01:45:40] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:45:40] DEBUG: Input value (repr): 'b100 and 3957-4000'
+[2025-08-17 01:45:40] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:45:40] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:45:40] Parsed query: None
+[2025-08-17 01:45:40] parsed_query.get('error'): N/A
+[2025-08-17 01:45:40] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:45:42] App initialized.
+[2025-08-17 01:48:00] App initialized.
+[2025-08-17 01:49:38] App initialized.
+[2025-08-17 01:48:03] App initialized.
+[2025-08-17 01:48:03] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:48:03] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:48:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:48:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:48:25] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:48:25] parsed_query.get('error'): None
+[2025-08-17 01:48:25] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:48:27] App initialized.
+[2025-08-17 01:48:28] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:48:28] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:48:28] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:48:28] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:48:39] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:48:39] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:48:39] Unsupported or ambiguous query
+[2025-08-17 01:48:40] App initialized.
+[2025-08-17 01:48:41] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:48:41] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:48:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:48:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:48:46] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:48:46] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:48:46] Unsupported or ambiguous query
+[2025-08-17 01:48:48] App initialized.
+[2025-08-17 01:48:48] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:48:48] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:48:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:48:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:49:16] Parsed query: {'type': 'barcode', 'value': 'b000001'}
+[2025-08-17 01:49:16] parsed_query.get('error'): None
+[2025-08-17 01:49:16] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': 'b000001'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:49:17] App initialized.
+[2025-08-17 01:49:18] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:49:18] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:49:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:49:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:49:23] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:49:23] parsed_query.get('error'): None
+[2025-08-17 01:49:23] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:49:26] App initialized.
+[2025-08-17 01:49:26] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:49:26] DEBUG: Input value (repr): 'b100 and 3957-4000'
+[2025-08-17 01:49:26] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:49:26] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:49:36] Parsed query: {'type': 'barcode_list', 'values': ['b100', {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+[2025-08-17 01:49:36] parsed_query.get('error'): None
+[2025-08-17 01:49:36] You entered: 'b100 and 3957-4000'
+I understood this as: {'type': 'barcode_list', 'values': ['b100', {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:51:45] App initialized.
+[2025-08-17 01:52:50] App initialized.
+[2025-08-17 01:51:47] App initialized.
+[2025-08-17 01:51:48] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:51:48] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:51:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:51:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:03] Parsed query: {'type': 'barcode', 'value': '123'}
+[2025-08-17 01:52:03] parsed_query.get('error'): None
+[2025-08-17 01:52:03] You entered: 'b123'
+I understood this as: {'type': 'barcode', 'value': '123'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:52:05] App initialized.
+[2025-08-17 01:52:06] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:52:06] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:52:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:52:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:12] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:52:12] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:52:12] Unsupported or ambiguous query
+[2025-08-17 01:52:13] App initialized.
+[2025-08-17 01:52:13] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:52:13] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:52:13] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:52:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:18] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-17 01:52:18] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-17 01:52:18] Unsupported or ambiguous query
+[2025-08-17 01:52:20] App initialized.
+[2025-08-17 01:52:20] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:52:20] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:52:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:52:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:24] Parsed query: {'type': 'barcode', 'value': '1'}
+[2025-08-17 01:52:24] parsed_query.get('error'): None
+[2025-08-17 01:52:24] You entered: 'b1'
+I understood this as: {'type': 'barcode', 'value': '1'}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:52:27] App initialized.
+[2025-08-17 01:52:27] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:52:27] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:52:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:52:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:32] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-17 01:52:32] parsed_query.get('error'): None
+[2025-08-17 01:52:32] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:52:35] App initialized.
+[2025-08-17 01:52:35] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:52:35] DEBUG: Input value (repr): 'b100 and 3957-4000'
+[2025-08-17 01:52:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:52:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:52:48] Parsed query: {'type': 'barcode_list', 'values': ['b100', {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+[2025-08-17 01:52:48] parsed_query.get('error'): None
+[2025-08-17 01:52:48] You entered: 'b100 and 3957-4000'
+I understood this as: {'type': 'barcode_list', 'values': ['b100', {'type': 'barcode_range', 'start': '3957', 'end': '4000'}]}
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-17 01:57:58] App initialized.
+[2025-08-17 01:58:01] App initialized.
+[2025-08-17 01:58:01] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:01] DEBUG: Input value (repr): 'b123'
+[2025-08-17 01:58:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:01] Parsed query: None
+[2025-08-17 01:58:01] parsed_query.get('error'): N/A
+[2025-08-17 01:58:01] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:04] App initialized.
+[2025-08-17 01:58:04] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:04] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-17 01:58:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:04] Parsed query: None
+[2025-08-17 01:58:04] parsed_query.get('error'): N/A
+[2025-08-17 01:58:04] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:06] App initialized.
+[2025-08-17 01:58:06] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:06] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-17 01:58:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:06] Parsed query: None
+[2025-08-17 01:58:06] parsed_query.get('error'): N/A
+[2025-08-17 01:58:06] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:08] App initialized.
+[2025-08-17 01:58:09] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:09] DEBUG: Input value (repr): 'b1'
+[2025-08-17 01:58:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:09] Parsed query: None
+[2025-08-17 01:58:09] parsed_query.get('error'): N/A
+[2025-08-17 01:58:09] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:11] App initialized.
+[2025-08-17 01:58:11] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:11] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-17 01:58:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:11] Parsed query: None
+[2025-08-17 01:58:11] parsed_query.get('error'): N/A
+[2025-08-17 01:58:11] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:14] App initialized.
+[2025-08-17 01:58:14] DEBUG: waiting_for_confirmation = False
+[2025-08-17 01:58:14] DEBUG: Input value (repr): 'b100 and 3957-4000'
+[2025-08-17 01:58:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-17 01:58:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-17 01:58:14] Parsed query: None
+[2025-08-17 01:58:14] parsed_query.get('error'): N/A
+[2025-08-17 01:58:14] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-17 01:58:16] App initialized.

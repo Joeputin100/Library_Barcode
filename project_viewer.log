@@ -1,0 +1,11 @@
+--- New Task Request ---
+Description: add line wrapping to the Project Plan Viewer TUI.
+AI Response: {
+  "error": "Unsupported or ambiguous query"
+}
+Parsed AI Response: {'error': 'Unsupported or ambiguous query'}
+Error parsing or processing task: 'phase_name'
+--- New Task Request ---
+Description: replace horizontal scrolling with line wrapping in tbe project viewer.
+AI Response: {"error": "Unsupported or ambiguous query"}
+Parsed AI Response: {'error': 'Unsupported or ambiguous query'}

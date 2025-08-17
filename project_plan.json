@@ -1,5 +1,6 @@
 {
-    "project_name": "MARC-based Label Generation",
+    "project_name": "MARC-based Label Generation and Barcode Generator",
+    "notes": "Use Gemini Pro for tasks marked as 'Pro' until the quota is reached, then switch to Gemini Flash for 'Flash' tasks. The two projects will eventually be merged.",
     "phases": [
         {
             "phase_name": "Phase 1: Local MARC Parsing and Querying",
@@ -8,115 +9,89 @@
                     "task_id": "1.1",
                     "task_name": "Initial MARC Record Analysis & Field Mapping",
                     "status": "DONE",
-                    "description": "The first step is to understand the structure of your cimb.marc file. I will write a script to extract the first few records and display them in a human-readable format. You will then use your knowledge of the Atriuum system to map the MARC fields to the data we need (e.g., 'Holding Barcode is in tag 952, subfield p').",
-                    "sub_tasks": [
-                        {
-                            "task_id": "1.1.1",
-                            "task_name": "Create debug_marc_query.py script",
-                            "status": "DONE",
-                            "description": "Create a new local script named debug_marc_query.py."
-                        },
-                        {
-                            "task_id": "1.1.2",
-                            "task_name": "Read first 5 MARC records",
-                            "status": "DONE",
-                            "description": "In this script, use the pymarc library to open cimb.marc and read the first 5 records."
-                        },
-                        {
-                            "task_id": "1.1.3",
-                            "task_name": "Print MARC records",
-                            "status": "DONE",
-                            "description": "Print the complete content of these 5 records to the console."
-                        },
-                        {
-                            "task_id": "1.1.4",
-                            "task_name": "Present output for field mapping",
-                            "status": "DONE",
-                            "description": "Present the output to the user for analysis and field mapping."
-                        },
-                        {
-                            "task_id": "1.1.5",
-                            "task_name": "Analyze cimb_bibliographic.marc",
-                            "status": "DONE",
-                            "description": "Analyze cimb_bibliographic.marc to find LCCN and Series Title for barcode 00004478."
-                        },
-                        {
-                            "task_id": "1.1.6",
-                            "task_name": "Compare MARC files",
-                            "status": "DONE",
-                            "description": "Compare cimb.marc and cimb_bibliographic.marc to determine their relationship."
-                        },
-                        {
-                            "task_id": "1.1.7",
-                            "task_name": "Create verified field mapping",
-                            "status": "DONE",
-                            "description": "Create a complete and verified field mapping from both files."
-                        },
-                        {
-                            "task_id": "1.1.8",
-                            "task_name": "Add material type rules to notes",
-                            "status": "DONE",
-                            "description": "Add LDR/06 material type rules to project notes."
-                        }
-                    ]
+                    "model": "Flash",
+                    "description": "The first step is to understand the structure of your cimb.marc file. I will write a script to extract the first few records and display them in a human-readable format. You will then use your knowledge of the Atriuum system to map the MARC fields to the data we need (e.g., 'Holding Barcode is in tag 952, subfield p')."
                 },
                 {
                     "task_id": "1.2",
                     "task_name": "Develop Query Parsing Engine",
                     "status": "DONE",
-                    "description": "I will develop a query parser that can interpret natural language requests from the user. This will be a phased approach.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "1.2.1",
-                            "task_name": "Initial Implementation - Rule-Based",
-                            "status": "DONE",
-                            "description": "Use regular expressions and keyword matching to handle the core queries we've discussed: individual barcodes, barcode ranges, and simple text searches like 'barcodes starting with 5'. This will also handle variations like missing leading zeros."
-                        },
-                        {
-                            "task_id": "1.2.2",
-                            "task_name": "Extended Field Queries",
-                            "status": "DONE",
-                            "description": "Enhance the parser to handle queries against specific MARC fields, using the mapping from Task 1.1. This will support queries like 'all books in the 'Stormlight Archive' series' or 'all books by 'Brandon Sanderson'.'."
-                        },
-                        {
-                            "task_id": "1.2.3",
-                            "task_name": "Future Exploration - NLP",
-                            "status": "TODO",
-                            "description": "For more complex, unstructured queries, I will research and potentially integrate a lightweight NLP library like spaCy to understand user intent more deeply. This is a lower priority and will be addressed after the core functionality is working."
-                        }
-                    ]
+                    "model": "Pro",
+                    "description": "I will develop a query parser that can interpret natural language requests from the user. This will be a phased approach."
                 },
                 {
                     "task_id": "1.3",
                     "task_name": "Implement Query Execution and User Feedback",
                     "status": "DONE",
-                    "description": "Once a query is parsed, the script needs to execute it against the full set of MARC records and provide clear feedback to the user.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "1.3.1",
-                            "task_name": "Implement record filtering",
-                            "status": "DONE",
-                            "description": "Implement the logic to iterate through all records in cimb.marc and filter them based on the parsed query from Task 1.2."
-                        },
-                        {
-                            "task_id": "1.3.2",
-                            "task_name": "Restate query for confirmation",
-                            "status": "DONE",
-                            "description": "Before displaying results, the script will first restate its understanding of the query for user confirmation (e.g., 'You asked for all barcodes starting with 'B' in the range 1-259. Is this correct?')."
-                        },
-                        {
-                            "task_id": "1.3.3",
-                            "task_name": "Display record count",
-                            "status": "DONE",
-                            "description": "After confirmation, the script will display the total count of matching records. (Now displays count in TUI)"
-                        },
-                        {
-                            "task_id": "1.3.4",
-                            "task_name": "Display barcode list",
-                            "status": "DONE",
-                            "description": "The script will provide an option for the user to view the full list of matched barcodes. (Now displays all records in a scrollable TUI area)"
-                        }
+                    "model": "Pro",
+                    "description": "Once a query is parsed, the script needs to execute it against the full set of MARC records and provide clear feedback to the user."
+                },
+                {
+                    "task_id": "1.4",
+                    "task_name": "Implement Natural Language Querying on MARC data",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Implement the ability to use natural language to define lists of holding barcodes from the MARC data."
+                },
+                {
+                    "task_id": "1.5",
+                    "task_name": "Enable \"add task\" functionality in project_viewer.py",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Modify project_viewer.py to allow adding new tasks to the project plan.",
+                    "dependencies": [
+                        "1.4"
                     ]
+                },
+                {
+                    "task_id": "1.6",
+                    "task_name": "Refactor Project Viewer UI Layout",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Move action buttons and the \"Add Task\" dialog to the bottom of the `project_viewer.py` pane, and expand the main viewer pane to utilize available space more effectively."
+                },
+                {
+                    "task_id": "1.7",
+                    "task_name": "Implement \"Add New Task\" Confirmation Popup",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Add a modal popup to provide visual confirmation after a new task is added, displaying the rephrased task description and its assigned task ID."
+                },
+                {
+                    "task_id": "1.8",
+                    "task_name": "Implement Dynamic Line Wrapping in Project Viewer",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Enable dynamic line wrapping within the `project_viewer.py` pane, ensuring text reconfigures appropriately based on the terminal window's width, especially for narrow Termux environments."
+                },
+                {
+                    "task_id": "1.9",
+                    "task_name": "Add View Options Menu to Project Viewer",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Implement a menu in `project_viewer.py` for various view options, including filtering (all tasks, completed, incomplete), automatic tree expansion to the last modified leaf (toggleable), and sorting options (tree by task ID, list by task add date, list by task status last modified date)."
+                },
+                {
+                    "task_id": "1.10",
+                    "task_name": "Add Gemini Memory/Preferences Summary Popup",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Add a menu option to `project_viewer.py` to display a modal popup summarizing Gemini's long-term memory and stored preferences relevant to the current project."
+                },
+                {
+                    "task_id": "1.11",
+                    "task_name": "Add Git Status and Commit History Popup",
+                    "status": "ON HOLD",
+                    "model": "Pro",
+                    "description": "Add a menu option to `project_viewer.py` to display a modal popup showing the current `git status` and recent commit history for the project."
+                },
+                {
+                    "task_id": "1.12",
+                    "task_name": "Test Task",
+                    "status": "DONE",
+                    "description": "This is a test task description.",
+                    "model": "Flash",
+                    "dependencies": []
                 }
             ]
         },
@@ -126,104 +101,23 @@
                 {
                     "task_id": "2.1",
                     "task_name": "Extract Key Information from MARC Records",
-                    "status": "TODO",
-                    "description": "Before fetching external data, I'll first extract all the essential information that is already present in the cimb.marc and cimb_bibliographic.marc files. This includes barcodes, titles, authors, and any existing call numbers. I will create a script to process the entire MARC file and store this information in a structured format, like a CSV or a JSON file. This will be the foundation for the next steps.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "2.1.1",
-                            "task_name": "Create marc_extractor.py script",
-                            "status": "DONE",
-                            "description": "Create a new script to handle the extraction."
-                        },
-                        {
-                            "task_id": "2.1.2",
-                            "task_name": "Define data mapping",
-                            "status": "DONE",
-                            "description": "Based on the previous analysis, define a clear mapping of MARC fields to the desired data points (Title, Author, Barcode, LCCN, etc.)."
-                        },
-                        {
-                            "task_id": "2.1.3",
-                            "task_name": "Process MARC files",
-                            "status": "DONE",
-                            "description": "Read both cimb.marc and cimb_bibliographic.marc files and apply the mapping to extract the data for each record."
-                        },
-                        {
-                            "task_id": "2.1.4",
-                            "task_name": "Store extracted data",
-                            "status": "DONE",
-                            "description": "Save the extracted data into a new file, for example, extracted_data.json. Each record in this file should be indexed by its barcode for easy access."
-                        }
-                    ]
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Before fetching external data, I'll first extract all the essential information that is already present in the cimb.marc and cimb_bibliographic.marc files. This includes barcodes, titles, authors, and any existing call numbers. I will create a script to process the entire MARC file and store this information in a structured format, like a CSV or a JSON file. This will be the foundation for the next steps."
                 },
                 {
                     "task_id": "2.2",
                     "task_name": "Data Enrichment using Library of Congress API",
-                    "status": "TODO",
-                    "description": "For records that are missing key information, especially the LC Call Number, I will use the Library of Congress API to fetch this data. I will use the LCCN (Library of Congress Control Number) extracted in the previous task to query the API.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "2.2.1",
-                            "task_name": "Create loc_enricher.py script",
-                            "status": "DONE",
-                            "description": "Create a new script to handle the data enrichment process."
-                        },
-                        {
-                            "task_id": "2.2.2",
-                            "task_name": "Implement LOC API client",
-                            "status": "DONE",
-                            "description": "Write a robust client to interact with the LOC API, including error handling and rate limiting."
-                        },
-                        {
-                            "task_id": "2.2.3.1",
-                            "task_name": "Integrate Google Books and Vertex AI enrichment",
-                            "status": "DONE",
-                            "description": "Extract and integrate the Google Books and Vertex AI enrichment logic from the Streamlit app into the data enrichment pipeline."
-                        },
-                        {
-                            "task_id": "2.2.3",
-                            "task_name": "Process records and enrich data",
-                            "status": "DONE",
-                            "description": "For each record in extracted_data.json, check if the call number is missing. If so, use the LCCN to query the LOC API and retrieve the call number."
-                        },
-                        {
-                            "task_id": "2.2.4",
-                            "task_name": "Update local data",
-                            "status": "DONE",
-                            "description": "Update the extracted_data.json file with the newly fetched call numbers."
-                        }
-                    ]
+                    "status": "ON HOLD",
+                    "model": "Pro",
+                    "description": "For records that are missing key information, especially the LC Call Number, I will use the Library of Congress API to fetch this data. I will use the LCCN (Library of Congress Control Number) extracted in the previous task to query the API."
                 },
                 {
                     "task_id": "2.3",
                     "task_name": "Data Cleaning and Normalization",
-                    "status": "TODO",
-                    "description": "The data from both the MARC files and the LOC API might have inconsistencies or require cleaning. This task will focus on normalizing the data to ensure it's suitable for label generation.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "2.3.1",
-                            "task_name": "Create data_cleaner.py script",
-                            "status": "DONE",
-                            "description": "Create a new script for data cleaning."
-                        },
-                        {
-                            "task_id": "2.3.2",
-                            "task_name": "Implement cleaning rules",
-                            "status": "DONE",
-                            "description": "Based on the data, define and apply rules to clean up fields like titles (e.g., removing extra punctuation) and author names (e.g., standardizing format)."
-                        },
-                        {
-                            "task_id": "2.3.3",
-                            "task_name": "Validate call numbers",
-                            "status": "DONE",
-                            "description": "Ensure that the call numbers are in a consistent format."
-                        },
-                        {
-                            "task_id": "2.3.4",
-                            "task_name": "Generate cleaned data file",
-                            "status": "TODO",
-                            "description": "Save the cleaned and normalized data into a new file, cleaned_data.json."
-                        }
-                    ]
+                    "status": "ON HOLD",
+                    "model": "Pro",
+                    "description": "The data from both the MARC files and the LOC API might have inconsistencies or require cleaning. This task will focus on normalizing the data to ensure it's suitable for label generation."
                 }
             ]
         },
@@ -238,115 +132,118 @@
                     "task_id": "4.1",
                     "task_name": "Refactor Streamlit Application",
                     "status": "DONE",
-                    "description": "Refactor the main Streamlit application into smaller, more manageable modules to improve maintainability and reduce the risk of breaking existing functionality.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "4.1.1",
-                            "task_name": "Create caching module",
-                            "status": "DONE",
-                            "description": "Create a caching.py module to handle loading and saving of the cache."
-                        },
-                        {
-                            "task_id": "4.1.2",
-                            "task_name": "Create data cleaning module",
-                            "status": "DONE",
-                            "description": "Create a data_cleaning.py module to handle all data cleaning and normalization functions."
-                        },
-                        {
-                            "task_id": "4.1.3",
-                            "task_name": "Create API calls module",
-                            "status": "DONE",
-                            "description": "Create an api_calls.py module to handle all interactions with external APIs (Google Books, Library of Congress, Vertex AI)."
-                        },
-                        {
-                            "task_id": "4.1.4",
-                            "task_name": "Create PDF generation module",
-                            "status": "DONE",
-                            "description": "Create a pdf_generation.py module to handle the creation of PDF labels, using the logic from the original label_generator.py script."
-                        },
-                        {
-                            "task_id": "4.1.5",
-                            "task_name": "Create CSV importer module",
-                            "status": "DONE",
-                            "description": "Create a csv_importer.py module to handle the logic for importing and processing the uploaded CSV file."
-                        },
-                        {
-                            "task_id": "4.1.6",
-                            "task_name": "Update main Streamlit app",
-                            "status": "DONE",
-                            "description": "Update the main streamlit_app.py file to import and use the functions from the new modules."
-                        }
-                    ]
+                    "model": "Flash",
+                    "description": "Refactor the main Streamlit application into smaller, more manageable modules to improve maintainability and reduce the risk of breaking existing functionality."
                 },
                 {
                     "task_id": "4.2",
                     "task_name": "Module Testing",
                     "status": "DONE",
-                    "description": "Ensure that each of the new modules passes the syntax and style tests specified in gemini.md.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "4.2.1",
-                            "task_name": "Test caching module",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on caching.py."
-                        },
-                        {
-                            "task_id": "4.2.2",
-                            "task_name": "Test data cleaning module",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on data_cleaning.py."
-                        },
-                        {
-                            "task_id": "4.2.3",
-                            "task_name": "Test API calls module",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on api_calls.py."
-                        },
-                        {
-                            "task_id": "4.2.4",
-                            "task_name": "Test PDF generation module",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on pdf_generation.py."
-                        },
-                        {
-                            "task_id": "4.2.5",
-                            "task_name": "Test CSV importer module",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on csv_importer.py."
-                        },
-                        {
-                            "task_id": "4.2.6",
-                            "task_name": "Test main Streamlit app",
-                            "status": "DONE",
-                            "description": "Run flake8 and black on streamlit_app.py."
-                        }
-                    ]
+                    "model": "Flash",
+                    "description": "Ensure that each of the new modules passes the syntax and style tests specified in gemini.md."
                 },
                 {
                     "task_id": "4.3",
                     "task_name": "CSV-based Workflow Testing",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Perform end-to-end testing of the Streamlit application using a CSV file."
+                },
+                {
+                    "task_id": "4.4",
+                    "task_name": "Replace Horizontal Scrolling with Line Wrapping",
+                    "status": "DONE",
+                    "description": "Replace horizontal scrolling with line wrapping in the Project Viewer to improve readability.",
+                    "model": "Flash",
+                    "dependencies": []
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 5: Barcode Generator Bug Fixes & Improvements",
+            "tasks": [
+                {
+                    "task_id": "5.1",
+                    "task_name": "Fix Streamlit table view resetting on edit",
                     "status": "TODO",
-                    "description": "Perform end-to-end testing of the Streamlit application using a CSV file.",
-                    "sub_tasks": [
-                        {
-                            "task_id": "4.3.1",
-                            "task_name": "Import books.csv",
-                            "status": "TODO",
-                            "description": "Import the books.csv file into the Streamlit application."
-                        },
-                        {
-                            "task_id": "4.3.2",
-                            "task_name": "Edit and save data",
-                            "status": "TODO",
-                            "description": "Make edits to the data in the table and save the changes."
-                        },
-                        {
-                            "task_id": "4.3.3",
-                            "task_name": "Generate and download PDF",
-                            "status": "TODO",
-                            "description": "Generate and download the PDF labels."
-                        }
-                    ]
+                    "model": "Pro",
+                    "description": "Investigate and fix the issue where the table view scrolls to the top after each edit."
+                },
+                {
+                    "task_id": "5.2",
+                    "task_name": "Handle Unicode characters in PDF generation",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Clean out non-plaintext characters from titles and series names before generating the PDF to prevent rendering issues."
+                },
+                {
+                    "task_id": "5.3",
+                    "task_name": "Improve series number cleaning",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Improve the `clean_series_number` function to handle cases like 'bk. 5', '[3]', and 'four'."
+                },
+                {
+                    "task_id": "5.4",
+                    "task_name": "Add Library Name selector to PDF generation",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Add a selector to the 'Generate PDF' card to allow the user to select Library Name ('A', 'B', 'C', or 'D')."
+                },
+                {
+                    "task_id": "5.5",
+                    "task_name": "Fix series number misidentification from title",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Refine the logic for extracting series numbers from titles to avoid misidentifying parts of the title as the series number (e.g., '300 Years')."
+                },
+                {
+                    "task_id": "5.6",
+                    "task_name": "Restore monkey emoji for suggested values",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Bring back the monkey emoji to the editable table to indicate suggested values. The emoji should be for display only."
+                },
+                {
+                    "task_id": "5.7",
+                    "task_name": "Combine 'Proceed' and 'Process' buttons",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Combine the 'Proceed to Data Processing' and 'Process Data' buttons into a single step for a smoother workflow."
+                },
+                {
+                    "task_id": "5.8",
+                    "task_name": "Apply style and syntax rules",
+                    "status": "TODO",
+                    "model": "gemini 2.5 pro",
+                    "description": "Apply the `flake8` and `black` formatting rules as specified in `gemini.md`."
+                },
+                {
+                    "task_id": "5.9",
+                    "task_name": "Resolve grpcio installation issue on Android",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "The `grpcio` package fails to build on Android (Termux). Investigate and implement a solution, such as installing build dependencies or finding a pre-built wheel. The initial recommendation is to fix the installation rather than replacing it with `grpclib`, as it's not a drop-in replacement."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 6: Atriuum Integration and Data Management",
+            "tasks": [
+                {
+                    "task_id": "6.1",
+                    "task_name": "Research and Implement Atriuum MARC Record Update/Overlay",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Research and implement the process for updating existing MARC records in Atriuum via import. This involves understanding Atriuum's overlay options (matching by Control Number, ISBN/UPC, Title, or Title and Author) and configuring the import settings accordingly. The goal is to ensure cleaned MARC data can be re-imported to update existing entries rather than creating duplicates."
+                },
+                {
+                    "task_id": "6.2",
+                    "task_name": "Local MARC DB with Last-Modified-Date Overwrite",
+                    "status": "TODO",
+                    "description": "Maintain a local database of cleaned MARC data, using the record's Last Modified Date to decide whether to overwrite it during a new import.",
+                    "model": "Pro",
+                    "dependencies": []
                 }
             ]
         }

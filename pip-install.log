@@ -1,0 +1,179 @@
+[11:55:39] Warning: swap tools missing; skipping swap
+[11:55:39] Starting pip installs…
+[11:55:39] Installing -r requirements-common.txt
+ERROR: Could not open requirements file: [Errno 2] No such file or directory: ' requirements-common.txt'
+[11:55:41] Warning: swapoff failed
+[11:57:02] Warning: swap tools missing; skipping swap
+[11:57:02] Starting pip installs…
+[11:57:02] Installing -r requirements-common.txt
+ERROR: Could not open requirements file: [Errno 2] No such file or directory: ' requirements-common.txt'
+[11:57:03] Warning: swapoff failed
+[11:58:35] Warning: swap tools missing; skipping swap
+[11:58:35] Starting pip installs…
+[11:58:35] Installing -r requirements-common.txt
+[11:58:35] Debug: pkg=[-r requirements-common.txt]
+ERROR: Could not open requirements file: [Errno 2] No such file or directory: ' requirements-common.txt'
+[11:58:36] Warning: swapoff failed
+[11:59:06] Warning: swap tools missing; skipping swap
+[11:59:06] Starting pip installs…
+[11:59:06] Installing -r requirements-common.txt
+Requirement already satisfied: pandas in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 1)) (2.3.1)
+Requirement already satisfied: requests in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 2)) (2.32.3)
+Requirement already satisfied: lxml in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 3)) (6.0.0)
+Requirement already satisfied: beautifulsoup4 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 4)) (4.13.4)
+Requirement already satisfied: pytz in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 5)) (2025.2)
+Requirement already satisfied: rich in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 6)) (14.0.0)
+WARNING: Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<pip._vendor.urllib3.contrib.socks.SOCKSHTTPSConnection object at 0x7095b1fe00>: Failed to establish a new connection: [Errno 111] Connection refused')': /simple/jsonschema/
+WARNING: Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<pip._vendor.urllib3.contrib.socks.SOCKSHTTPSConnection object at 0x7096164140>: Failed to establish a new connection: [Errno 111] Connection refused')': /simple/jsonschema/
+WARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<pip._vendor.urllib3.contrib.socks.SOCKSHTTPSConnection object at 0x7095b408f0>: Failed to establish a new connection: [Errno 111] Connection refused')': /simple/jsonschema/
+WARNING: Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<pip._vendor.urllib3.contrib.socks.SOCKSHTTPSConnection object at 0x7095b40b30>: Failed to establish a new connection: [Errno 111] Connection refused')': /simple/jsonschema/
+WARNING: Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<pip._vendor.urllib3.contrib.socks.SOCKSHTTPSConnection object at 0x7095b40d10>: Failed to establish a new connection: [Errno 111] Connection refused')': /simple/jsonschema/
+ERROR: Could not find a version that satisfies the requirement jsonschema<4.18.0 (from versions: none)
+ERROR: No matching distribution found for jsonschema<4.18.0
+[11:59:15] Warning: swapoff failed
+[12:01:24] Warning: swap tools missing; skipping swap
+[12:01:24] Starting pip installs…
+[12:01:24] Installing -r requirements-common.txt
+Requirement already satisfied: pandas in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 1)) (2.3.1)
+Requirement already satisfied: requests in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 2)) (2.32.3)
+Requirement already satisfied: lxml in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 3)) (6.0.0)
+Requirement already satisfied: beautifulsoup4 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 4)) (4.13.4)
+Requirement already satisfied: pytz in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 5)) (2025.2)
+Requirement already satisfied: rich in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 6)) (14.0.0)
+Requirement already satisfied: jsonschema<4.18.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 7)) (4.17.3)
+Requirement already satisfied: pymarc in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 8)) (5.3.1)
+Requirement already satisfied: reportlab in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 9)) (4.4.2)
+Requirement already satisfied: python-barcode in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 10)) (0.15.1)
+Requirement already satisfied: qrcode in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from -r requirements-common.txt (line 11)) (8.2)
+Collecting google-auth (from -r requirements-common.txt (line 12))
+  Downloading google_auth-2.40.3-py2.py3-none-any.whl.metadata (6.2 kB)
+Requirement already satisfied: attrs>=17.4.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from jsonschema<4.18.0->-r requirements-common.txt (line 7)) (25.3.0)
+Requirement already satisfied: pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from jsonschema<4.18.0->-r requirements-common.txt (line 7)) (0.20.0)
+Requirement already satisfied: numpy>=1.26.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pandas->-r requirements-common.txt (line 1)) (2.3.2)
+Requirement already satisfied: python-dateutil>=2.8.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pandas->-r requirements-common.txt (line 1)) (2.9.0.post0)
+Requirement already satisfied: tzdata>=2022.7 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pandas->-r requirements-common.txt (line 1)) (2025.2)
+Requirement already satisfied: charset-normalizer<4,>=2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests->-r requirements-common.txt (line 2)) (3.4.2)
+Requirement already satisfied: idna<4,>=2.5 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests->-r requirements-common.txt (line 2)) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests->-r requirements-common.txt (line 2)) (1.26.20)
+Requirement already satisfied: certifi>=2017.4.17 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests->-r requirements-common.txt (line 2)) (2025.8.3)
+Requirement already satisfied: soupsieve>1.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from beautifulsoup4->-r requirements-common.txt (line 4)) (2.7)
+Requirement already satisfied: typing-extensions>=4.0.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from beautifulsoup4->-r requirements-common.txt (line 4)) (4.14.1)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from rich->-r requirements-common.txt (line 6)) (3.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from rich->-r requirements-common.txt (line 6)) (2.19.2)
+Requirement already satisfied: pillow>=9.0.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from reportlab->-r requirements-common.txt (line 9)) (11.3.0)
+Collecting cachetools<6.0,>=2.0.0 (from google-auth->-r requirements-common.txt (line 12))
+  Downloading cachetools-5.5.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting pyasn1-modules>=0.2.1 (from google-auth->-r requirements-common.txt (line 12))
+  Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+Requirement already satisfied: rsa<5,>=3.1.4 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-auth->-r requirements-common.txt (line 12)) (4.9.1)
+Requirement already satisfied: pyasn1>=0.1.3 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from rsa<5,>=3.1.4->google-auth->-r requirements-common.txt (line 12)) (0.6.1)
+Requirement already satisfied: mdurl~=0.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from markdown-it-py>=2.2.0->rich->-r requirements-common.txt (line 6)) (0.1.2)
+Requirement already satisfied: six>=1.5 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from python-dateutil>=2.8.2->pandas->-r requirements-common.txt (line 1)) (1.17.0)
+Downloading google_auth-2.40.3-py2.py3-none-any.whl (216 kB)
+Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
+Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+Installing collected packages: pyasn1-modules, cachetools, google-auth
+
+Successfully installed cachetools-5.5.2 google-auth-2.40.3 pyasn1-modules-0.4.2
+[12:01:36] Installing textual
+Requirement already satisfied: textual in /data/data/com.termux/files/usr/lib/python3.12/site-packages (5.3.0)
+Requirement already satisfied: markdown-it-py>=2.1.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from markdown-it-py[linkify,plugins]>=2.1.0->textual) (3.0.0)
+Requirement already satisfied: platformdirs<5,>=3.6.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from textual) (4.3.8)
+Requirement already satisfied: pygments<3.0.0,>=2.19.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from textual) (2.19.2)
+Requirement already satisfied: rich>=13.3.3 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from textual) (14.0.0)
+Requirement already satisfied: typing-extensions<5.0.0,>=4.4.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from textual) (4.14.1)
+Requirement already satisfied: mdurl~=0.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from markdown-it-py>=2.1.0->markdown-it-py[linkify,plugins]>=2.1.0->textual) (0.1.2)
+Requirement already satisfied: linkify-it-py<3,>=1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from markdown-it-py[linkify,plugins]>=2.1.0->textual) (2.0.3)
+Requirement already satisfied: mdit-py-plugins in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from markdown-it-py[linkify,plugins]>=2.1.0->textual) (0.4.2)
+Requirement already satisfied: uc-micro-py in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from linkify-it-py<3,>=1->markdown-it-py[linkify,plugins]>=2.1.0->textual) (1.0.3)
+[12:01:38] Installing vertexai
+Collecting vertexai
+  Downloading vertexai-1.71.1-py3-none-any.whl.metadata (10 kB)
+Collecting google-cloud-aiplatform==1.71.1 (from google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_cloud_aiplatform-1.71.1-py2.py3-none-any.whl.metadata (32 kB)
+Collecting google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1 (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_api_core-2.25.1-py3-none-any.whl.metadata (3.0 kB)
+Requirement already satisfied: google-auth<3.0.0dev,>=2.14.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.40.3)
+Collecting proto-plus<2.0.0dev,>=1.22.3 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading proto_plus-1.26.1-py3-none-any.whl.metadata (2.2 kB)
+Collecting protobuf!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<6.0.0dev,>=3.20.2 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading protobuf-5.29.5-py3-none-any.whl.metadata (592 bytes)
+Requirement already satisfied: packaging>=14.3 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (25.0)
+Collecting google-cloud-storage<3.0.0dev,>=1.32.0 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_cloud_storage-2.19.0-py2.py3-none-any.whl.metadata (9.1 kB)
+Collecting google-cloud-bigquery!=3.20.0,<4.0.0dev,>=1.15.0 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_cloud_bigquery-3.35.1-py3-none-any.whl.metadata (8.0 kB)
+Collecting google-cloud-resource-manager<3.0.0dev,>=1.3.3 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_cloud_resource_manager-1.14.2-py3-none-any.whl.metadata (9.6 kB)
+Requirement already satisfied: shapely<3.0.0dev in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.1.1)
+Requirement already satisfied: pydantic<3 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.11.7)
+Collecting docstring-parser<1 (from google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading docstring_parser-0.17.0-py3-none-any.whl.metadata (3.5 kB)
+WARNING: google-cloud-aiplatform 1.71.1 does not provide the extra 'all'
+Collecting googleapis-common-protos<2.0.0,>=1.56.2 (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading googleapis_common_protos-1.70.0-py3-none-any.whl.metadata (9.3 kB)
+Requirement already satisfied: requests<3.0.0,>=2.18.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.32.3)
+Requirement already satisfied: grpcio<2.0.0,>=1.33.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (1.74.1)
+Collecting grpcio-status<2.0.0,>=1.33.2 (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading grpcio_status-1.74.0-py3-none-any.whl.metadata (1.1 kB)
+Requirement already satisfied: cachetools<6.0,>=2.0.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-auth<3.0.0dev,>=2.14.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (5.5.2)
+Requirement already satisfied: pyasn1-modules>=0.2.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-auth<3.0.0dev,>=2.14.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (0.4.2)
+Requirement already satisfied: rsa<5,>=3.1.4 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-auth<3.0.0dev,>=2.14.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (4.9.1)
+Collecting google-cloud-core<3.0.0,>=2.4.1 (from google-cloud-bigquery!=3.20.0,<4.0.0dev,>=1.15.0->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl.metadata (2.7 kB)
+Collecting google-resumable-media<3.0.0,>=2.0.0 (from google-cloud-bigquery!=3.20.0,<4.0.0dev,>=1.15.0->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl.metadata (2.2 kB)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.8.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from google-cloud-bigquery!=3.20.0,<4.0.0dev,>=1.15.0->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.9.0.post0)
+Collecting grpc-google-iam-v1<1.0.0,>=0.14.0 (from google-cloud-resource-manager<3.0.0dev,>=1.3.3->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading grpc_google_iam_v1-0.14.2-py3-none-any.whl.metadata (9.1 kB)
+Collecting google-crc32c<2.0dev,>=1.0 (from google-cloud-storage<3.0.0dev,>=1.32.0->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading google_crc32c-1.7.1.tar.gz (14 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+INFO: pip is looking at multiple versions of grpcio-status to determine which version is compatible with other requirements. This could take a while.
+Collecting grpcio-status<2.0.0,>=1.33.2 (from google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai)
+  Downloading grpcio_status-1.73.1-py3-none-any.whl.metadata (1.1 kB)
+  Downloading grpcio_status-1.73.0-py3-none-any.whl.metadata (1.1 kB)
+  Downloading grpcio_status-1.72.2-py3-none-any.whl.metadata (1.1 kB)
+  Downloading grpcio_status-1.72.1-py3-none-any.whl.metadata (1.1 kB)
+  Downloading grpcio_status-1.71.2-py3-none-any.whl.metadata (1.1 kB)
+Requirement already satisfied: annotated-types>=0.6.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pydantic<3->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (0.7.0)
+Requirement already satisfied: pydantic-core==2.33.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pydantic<3->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.33.2)
+Requirement already satisfied: typing-extensions>=4.12.2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pydantic<3->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (4.14.1)
+Requirement already satisfied: typing-inspection>=0.4.0 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from pydantic<3->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (0.4.1)
+Requirement already satisfied: six>=1.5 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from python-dateutil<3.0.0,>=2.8.2->google-cloud-bigquery!=3.20.0,<4.0.0dev,>=1.15.0->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (1.17.0)
+Requirement already satisfied: charset-normalizer<4,>=2 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests<3.0.0,>=2.18.0->google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (3.4.2)
+Requirement already satisfied: idna<4,>=2.5 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests<3.0.0,>=2.18.0->google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (3.10)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests<3.0.0,>=2.18.0->google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (1.26.20)
+Requirement already satisfied: certifi>=2017.4.17 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from requests<3.0.0,>=2.18.0->google-api-core!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,<3.0.0dev,>=1.34.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2025.8.3)
+Requirement already satisfied: pyasn1>=0.1.3 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from rsa<5,>=3.1.4->google-auth<3.0.0dev,>=2.14.1->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (0.6.1)
+Requirement already satisfied: numpy>=1.21 in /data/data/com.termux/files/usr/lib/python3.12/site-packages (from shapely<3.0.0dev->google-cloud-aiplatform==1.71.1->google-cloud-aiplatform[all]==1.71.1->vertexai) (2.3.2)
+Downloading vertexai-1.71.1-py3-none-any.whl (7.3 kB)
+Downloading google_cloud_aiplatform-1.71.1-py2.py3-none-any.whl (6.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 938.7 kB/s  0:00:07
+Downloading docstring_parser-0.17.0-py3-none-any.whl (36 kB)
+Downloading google_api_core-2.25.1-py3-none-any.whl (160 kB)
+Downloading google_cloud_bigquery-3.35.1-py3-none-any.whl (256 kB)
+Downloading google_cloud_core-2.4.3-py2.py3-none-any.whl (29 kB)
+Downloading google_cloud_resource_manager-1.14.2-py3-none-any.whl (394 kB)
+Downloading google_cloud_storage-2.19.0-py2.py3-none-any.whl (131 kB)
+Downloading google_resumable_media-2.7.2-py2.py3-none-any.whl (81 kB)
+Downloading googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
+Downloading grpc_google_iam_v1-0.14.2-py3-none-any.whl (19 kB)
+Downloading grpcio_status-1.71.2-py3-none-any.whl (14 kB)
+Downloading proto_plus-1.26.1-py3-none-any.whl (50 kB)
+Downloading protobuf-5.29.5-py3-none-any.whl (172 kB)
+Building wheels for collected packages: google-crc32c
+  Building wheel for google-crc32c (pyproject.toml): started
+  Building wheel for google-crc32c (pyproject.toml): finished with status 'done'
+  Created wheel for google-crc32c: filename=google_crc32c-1.7.1-py3-none-any.whl size=13241 sha256=c454a2362476d9358e9f37cd80149178069fd315ba9539923cee4a1b99ad0207
+  Stored in directory: /data/data/com.termux/files/usr/tmp/pip-ephem-wheel-cache-yo36za2j/wheels/53/d2/2c/b17b7c197e530a93c16f86f98b749900e039497be263098bc6
+Successfully built google-crc32c
+Installing collected packages: protobuf, google-crc32c, docstring-parser, proto-plus, googleapis-common-protos, google-resumable-media, grpcio-status, google-api-core, grpc-google-iam-v1, google-cloud-core, google-cloud-storage, google-cloud-resource-manager, google-cloud-bigquery, google-cloud-aiplatform, vertexai
+
+Successfully installed docstring-parser-0.17.0 google-api-core-2.25.1 google-cloud-aiplatform-1.71.1 google-cloud-bigquery-3.35.1 google-cloud-core-2.4.3 google-cloud-resource-manager-1.14.2 google-cloud-storage-2.19.0 google-crc32c-1.7.1 google-resumable-media-2.7.2 googleapis-common-protos-1.70.0 grpc-google-iam-v1-0.14.2 grpcio-status-1.71.2 proto-plus-1.26.1 protobuf-5.29.5 vertexai-1.71.1
+[12:02:53] Warning: swapoff failed

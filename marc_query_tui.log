@@ -1,0 +1,8 @@
+--- Input Submitted ---
+Waiting for confirmation: False
+Input value: 'all barcodes between b1 and b53.'
+Parsed query: {'type': 'barcode_range', 'start': 'b1', 'end': 'b53'}
+--- Input Submitted ---
+Waiting for confirmation: False
+Input value: 'all barcodes by Aveyard.'
+Parsed query: {'error': 'Unsupported or ambiguous query'}

@@ -27,6 +27,7 @@ RichLog { /* Added styling for RichLog */
     margin: 1;
     border: solid grey;
     overflow: scroll;
+    width: 100%;
 }
 
 Tree {

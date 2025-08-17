@@ -15,7 +15,12 @@
         "The TUI functionality has been separated into two distinct applications:",
         "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
         "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display.",
-        "The `streamlit_app.py` has been refactored into smaller modules: `api_calls.py`, `caching.py`, `csv_importer.py`, `data_cleaning.py`, and `pdf_generation.py`."
+        "The `streamlit_app.py` has been refactored into smaller modules: `api_calls.py`, `caching.py`, `csv_importer.py`, `data_cleaning.py`, and `pdf_generation.py`.",
+        "The natural language query parser has been significantly improved to handle complex queries, including 'and' conditions and various barcode formats (numeric, alphanumeric, padded zeros).",
+        "The `marc_processor.py` has been updated to correctly handle barcode normalization for comparison, including padded zeros.",
+        "The `marc_query_tui.py` now includes a help screen with query syntax and examples.",
+        "All tests for the TUI are currently passing, ensuring robustness of the parser and UI interactions.",
+        "Atriuum supports updating existing MARC records via import using 'overlay' options, matching by Custom Control Number, ISBN/UPC, Title, or Title and Author."
     ],
-    "current_plan": "The Streamlit application has been refactored into a modular architecture. The next step is to perform end-to-end testing of the CSV-based workflow, including importing a CSV file, making edits in the data table, and generating and downloading a PDF of labels."
+    "current_plan": "All Flash tasks completed. Proceeding with Pro tasks for project_viewer.py enhancements."
 }

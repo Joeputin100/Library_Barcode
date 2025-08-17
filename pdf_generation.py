@@ -11,6 +11,17 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.platypus.flowables import KeepInFrame
 import io
 
+
+def clean_text_for_pdf(text):
+    """
+    Cleans text to ensure it's suitable for PDF generation, removing or replacing
+    characters that might cause rendering issues.
+    """
+    if text is None:
+        return ""
+    # Encode to ASCII, ignoring unencodable characters, then decode back to string
+    return text.encode('ascii', 'ignore').decode('ascii')
+
 LABEL_WIDTH = 2.625 * inch
 LABEL_HEIGHT = 1.0 * inch
 LABELS_PER_SHEET_WIDTH = 3
@@ -86,11 +97,11 @@ def _fit_text_to_box(c, text_lines, font_name, max_width, max_height, initial_fo
     return optimal_font_size, text_block_height
 
 
-def create_label(c, x, y, book_data, label_type):
-    title = book_data.get('Title', '')
+def create_label(c, x, y, book_data, label_type, library_name):
+    title = clean_text_for_pdf(book_data.get('Title', ''))
     authors = book_data.get("Author", '')
     publication_year = book_data.get('Copyright Year', '')
-    series_name = book_data.get('Series Info', '')
+    series_name = clean_text_for_pdf(book_data.get('Series Info', ''))
     series_number = book_data.get('Series Number', '')
     dewey_number = book_data.get('Call Number', '')
     inventory_number = pad_inventory_number(book_data.get('Holdings Barcode', ''))
@@ -222,6 +233,7 @@ def create_label(c, x, y, book_data, label_type):
 
         c.setFont('Courier-Bold', 10)
         lines = [
+            library_name,
             dewey_number,
             authors[:3].upper() if authors else '',
             str(publication_year),
@@ -308,7 +320,7 @@ def create_label(c, x, y, book_data, label_type):
             c.restoreState()
 
 
-def generate_pdf_labels(df):
+def generate_pdf_labels(df, library_name):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
 
@@ -337,7 +349,7 @@ def generate_pdf_labels(df):
             if row_num < LABELS_PER_SHEET_HEIGHT - 1:
                 c.line(x_pos, y_pos - VERTICAL_SPACING / 2, x_pos + LABEL_WIDTH, y_pos - VERTICAL_SPACING / 2)
 
-            create_label(c, x_pos, y_pos, book_data, label_type)
+            create_label(c, x_pos, y_pos, book_data, label_type, library_name)
             label_count += 1
 
             if label_count % (LABELS_PER_SHEET_WIDTH * LABELS_PER_SHEET_HEIGHT) == 0:
