@@ -1,249 +1,247 @@
 {
-    "project_name": "MARC-based Label Generation and Barcode Generator",
-    "notes": "Use Gemini Pro for tasks marked as 'Pro' until the quota is reached, then switch to Gemini Flash for 'Flash' tasks. The two projects will eventually be merged.",
+    "project_name": "Cost-Optimized Natural Language to SQL Query Translator for MARC Records",
+    "notes": "Implement a cost-optimized natural language to SQL query translator for a MARC records database using Google Cloud Storage (GCS), BigQuery, LlamaIndex, and Retrieval-Augmented Generation (RAG) with Vertex AI Gemini, focusing on minimizing costs through caching, serverless execution, and efficient data handling during development and production. Key Priorities: Cost Optimization, Accuracy for Novel Inputs, Scalability and Development Efficiency. Required Tools: Google Cloud Project (GCS, BigQuery, Vertex AI, Cloud Functions, Dataflow), Python libraries (pymarc, google-cloud-bigquery, google-cloud-aiplatform, llama-index, langchain-google-vertexai), Caching (Redis/local file-based), Development Environment (Colab/local with gcloud auth).",
     "phases": [
         {
-            "phase_name": "Phase 1: Local MARC Parsing and Querying",
+            "phase_name": "Phase 1: Data Ingestion and Storage Setup",
+            "description": "Ingest the .marc file into GCS and BigQuery with cost-efficient parsing and schema definition.",
             "tasks": [
                 {
                     "task_id": "1.1",
-                    "task_name": "Initial MARC Record Analysis & Field Mapping",
+                    "task_name": "MARC to JSON Conversion and GCS Upload",
                     "status": "DONE",
                     "model": "Flash",
-                    "description": "The first step is to understand the structure of your cimb.marc file. I will write a script to extract the first few records and display them in a human-readable format. You will then use your knowledge of the Atriuum system to map the MARC fields to the data we need (e.g., 'Holding Barcode is in tag 952, subfield p')."
+                    "description": "Develop a Cloud Function (Python) triggered by GCS uploads to parse .marc using pymarc, convert to NDJSON (flattening key fields like title, author, barcode), and store in GCS. Cache parsed files locally during dev to avoid re-parsing.",
+                    "dependencies": [],
+                    "expected_output": "Cloud Function deployed; NDJSON files in GCS bucket."
                 },
                 {
                     "task_id": "1.2",
-                    "task_name": "Develop Query Parsing Engine",
+                    "task_name": "BigQuery Table Creation and Loading",
                     "status": "DONE",
-                    "model": "Pro",
-                    "description": "I will develop a query parser that can interpret natural language requests from the user. This will be a phased approach."
+                    "model": "Flash",
+                    "description": "Create BigQuery dataset/table with autodetected schema, refined for MARC (e.g., JSON column for variable fields). Load NDJSON from GCS using bq load --autodetect. Enable table expiration or partitioning by ingest date to control storage costs.",
+                    "dependencies": [
+                        "1.1"
+                    ],
+                    "expected_output": "BigQuery table populated; schema documented."
                 },
                 {
                     "task_id": "1.3",
-                    "task_name": "Implement Query Execution and User Feedback",
+                    "task_name": "Schema Embedding for RAG",
                     "status": "DONE",
-                    "model": "Pro",
-                    "description": "Once a query is parsed, the script needs to execute it against the full set of MARC records and provide clear feedback to the user."
+                    "model": "Flash",
+                    "description": "Generate schema description (columns, MARC mappings, examples) and embed using Vertex AI textembedding-gecko. Store embeddings in a simple GCS file or Vector Search index. Cache embeddings to reuse across sessions.",
+                    "dependencies": [
+                        "1.2"
+                    ],
+                    "expected_output": "Embedded schema ready for retrieval."
                 },
                 {
                     "task_id": "1.4",
-                    "task_name": "Implement Natural Language Querying on MARC data",
+                    "task_name": "MARC to JSON Conversion",
                     "status": "DONE",
+                    "description": "Create a script or process to convert raw MARC data into a structured JSON format.",
                     "model": "Pro",
-                    "description": "Implement the ability to use natural language to define lists of holding barcodes from the MARC data."
-                },
-                {
-                    "task_id": "1.5",
-                    "task_name": "Enable \"add task\" functionality in project_viewer.py",
-                    "status": "DONE",
-                    "model": "Pro",
-                    "description": "Modify project_viewer.py to allow adding new tasks to the project plan.",
-                    "dependencies": [
-                        "1.4"
-                    ]
-                },
-                {
-                    "task_id": "1.6",
-                    "task_name": "Refactor Project Viewer UI Layout",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Move action buttons and the \"Add Task\" dialog to the bottom of the `project_viewer.py` pane, and expand the main viewer pane to utilize available space more effectively."
-                },
-                {
-                    "task_id": "1.7",
-                    "task_name": "Implement \"Add New Task\" Confirmation Popup",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Add a modal popup to provide visual confirmation after a new task is added, displaying the rephrased task description and its assigned task ID."
-                },
-                {
-                    "task_id": "1.8",
-                    "task_name": "Implement Dynamic Line Wrapping in Project Viewer",
-                    "status": "DONE",
-                    "model": "Pro",
-                    "description": "Enable dynamic line wrapping within the `project_viewer.py` pane, ensuring text reconfigures appropriately based on the terminal window's width, especially for narrow Termux environments."
-                },
-                {
-                    "task_id": "1.9",
-                    "task_name": "Add View Options Menu to Project Viewer",
-                    "status": "DONE",
-                    "model": "Pro",
-                    "description": "Implement a menu in `project_viewer.py` for various view options, including filtering (all tasks, completed, incomplete), automatic tree expansion to the last modified leaf (toggleable), and sorting options (tree by task ID, list by task add date, list by task status last modified date)."
-                },
-                {
-                    "task_id": "1.10",
-                    "task_name": "Add Gemini Memory/Preferences Summary Popup",
-                    "status": "DONE",
-                    "model": "Pro",
-                    "description": "Add a menu option to `project_viewer.py` to display a modal popup summarizing Gemini's long-term memory and stored preferences relevant to the current project."
-                },
-                {
-                    "task_id": "1.11",
-                    "task_name": "Add Git Status and Commit History Popup",
-                    "status": "ON HOLD",
-                    "model": "Pro",
-                    "description": "Add a menu option to `project_viewer.py` to display a modal popup showing the current `git status` and recent commit history for the project."
-                },
-                {
-                    "task_id": "1.12",
-                    "task_name": "Test Task",
-                    "status": "DONE",
-                    "description": "This is a test task description.",
-                    "model": "Flash",
                     "dependencies": []
                 }
             ]
         },
         {
-            "phase_name": "Phase 2: Data Enrichment and Processing",
+            "phase_name": "Phase 2: NL Query Processing with LlamaIndex and RAG",
+            "description": "Build the text-to-SQL pipeline with caching to minimize Vertex AI calls and BigQuery queries.",
             "tasks": [
                 {
                     "task_id": "2.1",
-                    "task_name": "Extract Key Information from MARC Records",
+                    "task_name": "LlamaIndex Pipeline Setup",
                     "status": "DONE",
-                    "model": "Flash",
-                    "description": "Before fetching external data, I'll first extract all the essential information that is already present in the cimb.marc and cimb_bibliographic.marc files. This includes barcodes, titles, authors, and any existing call numbers. I will create a script to process the entire MARC file and store this information in a structured format, like a CSV or a JSON file. This will be the foundation for the next steps."
+                    "model": "Pro",
+                    "description": "Configure LlamaIndex with BigQuery as backend (via SQLAlchemy). Use VectorStoreIndex for schema embeddings. Implement SQLTableRetrieverQueryEngine to retrieve relevant schema snippets via RAG.",
+                    "dependencies": [
+                        "1.3"
+                    ],
+                    "expected_output": "LlamaIndex engine initialized in a script/module."
                 },
                 {
                     "task_id": "2.2",
-                    "task_name": "Data Enrichment using Library of Congress API",
-                    "status": "ON HOLD",
+                    "task_name": "Prompt Engineering and Gemini Integration",
+                    "status": "DONE",
                     "model": "Pro",
-                    "description": "For records that are missing key information, especially the LC Call Number, I will use the Library of Congress API to fetch this data. I will use the LCCN (Library of Congress Control Number) extracted in the previous task to query the API."
+                    "description": "Define dynamic prompts including retrieved schema, few-shot examples (cached in a file), and safeguards. Integrate Vertex AI Gemini (gemini-1.5-flash for cost efficiency). Cache prompt-response pairs using a dict or Redis to skip API calls for repeated queries.",
+                    "dependencies": [
+                        "2.1"
+                    ],
+                    "expected_output": "nl_to_sql function that generates, validates, and caches SQL."
                 },
                 {
                     "task_id": "2.3",
-                    "task_name": "Data Cleaning and Normalization",
-                    "status": "ON HOLD",
+                    "task_name": "Query Execution and Caching",
+                    "status": "DONE",
                     "model": "Pro",
-                    "description": "The data from both the MARC files and the LOC API might have inconsistencies or require cleaning. This task will focus on normalizing the data to ensure it's suitable for label generation."
+                    "description": "Execute generated SQL on BigQuery, cache results (e.g., via BigQuery Storage API for efficiency). Implement self-correction: If SQL invalid, reprompt (but cache failures to avoid loops). Use materialized views in BigQuery for frequent queries to reduce compute costs.",
+                    "dependencies": [
+                        "2.2"
+                    ],
+                    "expected_output": "End-to-end query flow with caching; test with sample NL inputs."
+                },
+                {
+                    "task_id": "2.4",
+                    "task_name": "Accuracy and Cost Testing",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Benchmark on 50+ novel queries; measure hit rate of cache (>80% during dev). Monitor costs via Billing API; aim for < $0.01 per query post-caching.",
+                    "dependencies": [
+                        "2.3"
+                    ],
+                    "expected_output": "Test suite passing; cost report."
                 }
             ]
         },
         {
-            "phase_name": "Phase 3: Streamlit Integration and MARC Export",
-            "tasks": []
-        },
-        {
-            "phase_name": "Phase 4: Streamlit UI and CSV-based Workflow",
+            "phase_name": "Phase 3: Integration and Reintegration",
+            "description": "Integrate into apps and enable MARC export for Atriuum overlay.",
             "tasks": [
                 {
-                    "task_id": "4.1",
-                    "task_name": "Refactor Streamlit Application",
+                    "task_id": "3.1",
+                    "task_name": "App Integration",
                     "status": "DONE",
                     "model": "Flash",
-                    "description": "Refactor the main Streamlit application into smaller, more manageable modules to improve maintainability and reduce the risk of breaking existing functionality."
+                    "description": "Update streamlit_app.py and marc_query_tui.py to use the new pipeline. Add cache clear button for dev.",
+                    "dependencies": [
+                        "2.3"
+                    ],
+                    "expected_output": "Apps refactored and tested."
                 },
                 {
-                    "task_id": "4.2",
-                    "task_name": "Module Testing",
+                    "task_id": "3.2",
+                    "task_name": "MARC Export for Atriuum",
                     "status": "DONE",
-                    "model": "Flash",
-                    "description": "Ensure that each of the new modules passes the syntax and style tests specified in gemini.md."
+                    "model": "Pro",
+                    "description": "Query BigQuery for enriched data, reconstruct MARC using pymarc, export to .marc in GCS. Include matching fields (ISBN, Title+Author) for overlay. Cache exports for repeated use.",
+                    "dependencies": [
+                        "1.2"
+                    ],
+                    "expected_output": "Export function; documentation on Atriuum import steps."
                 },
                 {
-                    "task_id": "4.3",
-                    "task_name": "CSV-based Workflow Testing",
+                    "task_id": "3.3",
+                    "task_name": "Full Workflow Testing",
                     "status": "DONE",
                     "model": "Flash",
-                    "description": "Perform end-to-end testing of the Streamlit application using a CSV file."
+                    "description": "End-to-end test: Ingest, query NL, enrich, export. Verify cost savings with caching enabled.",
+                    "dependencies": [
+                        "3.2"
+                    ],
+                    "expected_output": "Successful tests; optimized for minimal costs."
                 },
                 {
-                    "task_id": "4.4",
-                    "task_name": "Replace Horizontal Scrolling with Line Wrapping",
+                    "task_id": "3.4",
+                    "task_name": "Implement Loading Indicators in TUIs",
                     "status": "DONE",
-                    "description": "Replace horizontal scrolling with line wrapping in the Project Viewer to improve readability.",
                     "model": "Flash",
-                    "dependencies": []
+                    "description": "Use textual.widgets.LoadingIndicator to show a loading indicator when waiting for API responses in both project_viewer.py and marc_query_tui.py.",
+                    "dependencies": [],
+                    "expected_output": "Loading indicators displayed during API calls in TUIs."
+                },
+                {
+                    "task_id": "3.5",
+                    "task_name": "Maintain Input Focus in MARC Query TUI",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Ensure the input widget in marc_query_tui.py retains focus after user interactions or updates.",
+                    "dependencies": [],
+                    "expected_output": "Input widget in marc_query_tui.py remains focused."
+                },
+                {
+                    "task_id": "3.6",
+                    "task_name": "Add Visual Separators to TUIs",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Use textual.widgets.Rule to visually separate widgets in both project_viewer.py and marc_query_tui.py for improved readability.",
+                    "dependencies": [],
+                    "expected_output": "Visual separators (rules) added to TUIs."
                 }
             ]
         },
         {
-            "phase_name": "Phase 5: Barcode Generator Bug Fixes & Improvements",
+            "phase_name": "Phase 7: Streamlit and MARC Integration",
+            "description": "Integrate MARC handling and querying directly into the Streamlit application.",
             "tasks": [
                 {
-                    "task_id": "5.1",
-                    "task_name": "Fix Streamlit table view resetting on edit",
+                    "task_id": "7.1",
+                    "task_name": "Restate MARC Query in Natural English",
                     "status": "TODO",
                     "model": "Pro",
-                    "description": "Investigate and fix the issue where the table view scrolls to the top after each edit."
+                    "description": "When the MARC query TUI asks for confirmation, have it restate the query in natural English for better user understanding.",
+                    "dependencies": [],
+                    "expected_output": "MARC query TUI shows a natural language version of the query before execution."
                 },
                 {
-                    "task_id": "5.2",
-                    "task_name": "Handle Unicode characters in PDF generation",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Clean out non-plaintext characters from titles and series names before generating the PDF to prevent rendering issues."
-                },
-                {
-                    "task_id": "5.3",
-                    "task_name": "Improve series number cleaning",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Improve the `clean_series_number` function to handle cases like 'bk. 5', '[3]', and 'four'."
-                },
-                {
-                    "task_id": "5.4",
-                    "task_name": "Add Library Name selector to PDF generation",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Add a selector to the 'Generate PDF' card to allow the user to select Library Name ('A', 'B', 'C', or 'D')."
-                },
-                {
-                    "task_id": "5.5",
-                    "task_name": "Fix series number misidentification from title",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Refine the logic for extracting series numbers from titles to avoid misidentifying parts of the title as the series number (e.g., '300 Years')."
-                },
-                {
-                    "task_id": "5.6",
-                    "task_name": "Restore monkey emoji for suggested values",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Bring back the monkey emoji to the editable table to indicate suggested values. The emoji should be for display only."
-                },
-                {
-                    "task_id": "5.7",
-                    "task_name": "Combine 'Proceed' and 'Process' buttons",
-                    "status": "DONE",
-                    "model": "Flash",
-                    "description": "Combine the 'Proceed to Data Processing' and 'Process Data' buttons into a single step for a smoother workflow."
-                },
-                {
-                    "task_id": "5.8",
-                    "task_name": "Apply style and syntax rules",
+                    "task_id": "7.2",
+                    "task_name": "Integrate MARC Import and Query into Streamlit",
                     "status": "TODO",
-                    "model": "gemini 2.5 pro",
-                    "description": "Apply the `flake8` and `black` formatting rules as specified in `gemini.md`."
+                    "model": "Pro",
+                    "description": "In the Streamlit app, provide options to import a MARC or CSV file, or use an existing MARC database, showing a list of available databases.",
+                    "dependencies": [],
+                    "expected_output": "Streamlit app has a new data import step with MARC and CSV options."
                 },
                 {
-                    "task_id": "5.9",
-                    "task_name": "Resolve grpcio installation issue on Android",
-                    "status": "DONE",
+                    "task_id": "7.3",
+                    "task_name": "Use Bibliographic Data for API Queries",
+                    "status": "TODO",
                     "model": "Pro",
-                    "description": "The `grpcio` package fails to build on Android (Termux). Investigate and implement a solution, such as installing build dependencies or finding a pre-built wheel. The initial recommendation is to fix the installation rather than replacing it with `grpclib`, as it's not a drop-in replacement."
+                    "description": "After importing, use data from the bibliographic records (ISBN, LCCN) to query external data sources, with a fallback to author and title if necessary.",
+                    "dependencies": ["7.2"],
+                    "expected_output": "Data enrichment process prioritizes bibliographic data for API queries."
+                },
+                {
+                    "task_id": "7.4",
+                    "task_name": "Confirm Changes Before Saving",
+                    "status": "TODO",
+                    "model": "Flash",
+                    "description": "After the manual row editing step in the Streamlit app, ask the user for confirmation before saving the changes to the database.",
+                    "dependencies": ["7.2"],
+                    "expected_output": "A confirmation dialog appears before saving edits in the Streamlit app."
+                },
+                {
+                    "task_id": "7.5",
+                    "task_name": "Generate MARC Export File for Changed Rows",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "For rows that have been changed (either by API enrichment or manual edits), generate a MARC import file that can be uploaded back to Atriuum.",
+                    "dependencies": ["7.3", "7.4"],
+                    "expected_output": "A .marc file is generated containing only the changed records."
                 }
             ]
         },
         {
-            "phase_name": "Phase 6: Atriuum Integration and Data Management",
+            "phase_name": "Phase 8: BigQuery Migration",
+            "description": "Migrate MARC data processing and enrichment to BigQuery for scalability and performance.",
             "tasks": [
                 {
-                    "task_id": "6.1",
-                    "task_name": "Research and Implement Atriuum MARC Record Update/Overlay",
+                    "task_id": "8.1",
+                    "task_name": "Migrate MARC Data Processing to BigQuery",
                     "status": "TODO",
                     "model": "Pro",
-                    "description": "Research and implement the process for updating existing MARC records in Atriuum via import. This involves understanding Atriuum's overlay options (matching by Control Number, ISBN/UPC, Title, or Title and Author) and configuring the import settings accordingly. The goal is to ensure cleaned MARC data can be re-imported to update existing entries rather than creating duplicates."
-                },
+                    "priority": "High",
+                    "description": "Refactor the data processing pipeline to perform data enrichment and cleaning operations directly within BigQuery using SQL queries and UDFs, leveraging the logic already developed in the local scripts.",
+                    "dependencies": [],
+                    "expected_output": "The Streamlit app will query BigQuery for processed data instead of performing local processing."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 9: Code Quality and Maintenance",
+            "description": "Ensuring code quality and maintainability through automated checks and standards.",
+            "tasks": [
                 {
-                    "task_id": "6.2",
-                    "task_name": "Local MARC DB with Last-Modified-Date Overwrite",
+                    "task_id": "9.1",
+                    "task_name": "Implement and Enforce Linter Checks",
                     "status": "TODO",
-                    "description": "Maintain a local database of cleaned MARC data, using the record's Last Modified Date to decide whether to overwrite it during a new import.",
-                    "model": "Pro",
-                    "dependencies": []
+                    "model": "Flash",
+                    "description": "Configure and apply black and flake8 to the entire codebase to ensure consistent code style and quality. Integrate these checks into a pre-commit hook to automatically enforce standards.",
+                    "dependencies": [],
+                    "expected_output": "A clean and consistently formatted codebase, with automated checks to maintain this standard."
                 }
             ]
         }

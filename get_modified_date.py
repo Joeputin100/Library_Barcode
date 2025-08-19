@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from zoneinfo import ZoneInfo # Python 3.9+
+from zoneinfo import ZoneInfo  # Python 3.9+
 
 file_path = "/data/data/com.termux/files/home/projects/barcode/streamlit_app.py"
 timestamp = os.path.getmtime(file_path)

@@ -1,8 +1,14 @@
-import json
 import datetime
-from textual.app import App, ComposeResult
-from textual.widgets import Header, Footer, Input, Static, RichLog, Markdown
-from textual.containers import Vertical, Container
+from textual.app import App, ComposeResult, events, events, events, events, events, events, events, events
+from textual.widgets import (
+    Header,
+    Footer,
+    Input,
+    RichLog,
+    Markdown,
+    LoadingIndicator,
+)
+from textual.containers import Vertical
 from textual.screen import ModalScreen
 
 from query_parser import parse_query
@@ -14,7 +20,8 @@ class HelpScreen(ModalScreen):
 
     def compose(self) -> ComposeResult:
         yield Vertical(
-            Markdown("""
+            Markdown(
+                """
 # MARC Query TUI Help
 
 ## Query Syntax
@@ -50,7 +57,8 @@ The query parser understands the following nouns and operators:
 *   `call number: F SAN`
 *   `holding barcode: 31234567890123`
 *   `author: brandon sanderson and series: stormlight archive`
-            """),
+            """
+            ),
             id="help-container",
         )
 
@@ -58,10 +66,40 @@ The query parser understands the following nouns and operators:
         if event.key == "escape":
             self.app.pop_screen()
 
+
+def generate_natural_language_query(parsed_query):
+    if not parsed_query:
+        return "An empty query."
+
+    # Handle combined queries first
+    if "queries" in parsed_query and "operator" in parsed_query:
+        
+        sub_queries = [
+            generate_natural_language_query(q).replace("a search for ", "")
+            for q in parsed_query["queries"]
+        ]
+        return f"a search for records that match all of the following: {', '.join(sub_queries)}"
+
+    # Handle single queries
+    query_type = parsed_query.get("type")
+    if query_type == "barcode_range":
+        return f"a search for barcodes between {parsed_query.get('start')} and {parsed_query.get('end')}"
+    elif query_type == "barcode_prefix":
+        return f"a search for barcodes starting with '{parsed_query.get('prefix')}'"
+    elif query_type == "field_query":
+        field = parsed_query.get("field")
+        value = parsed_query.get("value")
+        return f"a search for {field} containing '{value}'"
+    elif query_type == "barcode":
+        return f"a search for barcode '{parsed_query.get('value')}'"
+    else:
+        return "an unknown query type."
+
+
 class MarcQueryTUI(App):
     """A Textual app to query MARC records."""
 
-    CSS_PATH = "project_viewer.css" # Reusing the CSS for now, might rename later
+    CSS_PATH = "project_viewer.css"  # Reusing the CSS for now, might rename later
 
     BINDINGS = [
         ("q", "quit", "Quit"),
@@ -78,8 +116,8 @@ class MarcQueryTUI(App):
         self.load_initial_data()
         self.current_parsed_query = None
         self.waiting_for_confirmation = False
-        self.log_file = open("marc_query_tui_output.log", "a") # Open log file
-        self._log_message("App initialized.") # Log app initialization
+        self.log_file = open("marc_query_tui_output.log", "a")  # Open log file
+        self._log_message("App initialized.")  # Log app initialization
 
     def _log_message(self, message):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -87,31 +125,44 @@ class MarcQueryTUI(App):
 
     def load_initial_data(self):
         """Load all MARC records when the app starts."""
-        self.all_marc_records = load_marc_records('cimb_bibliographic.marc')
+        self.all_marc_records = load_marc_records("cimb_bibliographic.marc")
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
         yield Header()
         with Vertical():
             yield Input(placeholder="Enter your query", id="query-input")
+            yield LoadingIndicator(
+                id="loading-indicator", classes="hidden"
+            )  # Add LoadingIndicator, initially hidden
             yield RichLog(id="results", wrap=True)
         yield Footer()
 
     def on_input_submitted(self, event: Input.Submitted):
         """Handle input submission."""
         results_widget = self.query_one("#results", RichLog)
-        self._log_message(f"DEBUG: waiting_for_confirmation = {self.waiting_for_confirmation}")
-        results_widget.write(f"DEBUG: waiting_for_confirmation = {self.waiting_for_confirmation}")
+        loading_indicator = self.query_one("#loading-indicator", LoadingIndicator)
+
+        self._log_message(
+            f"DEBUG: waiting_for_confirmation = {self.waiting_for_confirmation}"
+        )
+        results_widget.write(
+            f"DEBUG: waiting_for_confirmation = {self.waiting_for_confirmation}"
+        )
 
         query_str = event.value.strip()
         query_input = self.query_one("#query-input", Input)
 
         self._log_message(f"DEBUG: Input value (repr): {repr(query_str)}")
-        self._log_message(f"DEBUG: query_str.lower() == 'y': {query_str.lower() == 'y'}")
-        self._log_message(f"DEBUG: query_str.lower() == 'n': {query_str.lower() == 'n'}")
+        self._log_message(
+            f"DEBUG: query_str.lower() == 'y': {query_str.lower() == 'y'}"
+        )
+        self._log_message(
+            f"DEBUG: query_str.lower() == 'n': {query_str.lower() == 'n'}"
+        )
 
         if self.waiting_for_confirmation:
-            if query_str.lower() == 'y':
+            if query_str.lower() == "y":
                 self.waiting_for_confirmation = False
                 if self.current_parsed_query:
                     self._log_message(f"Executing query: {self.current_parsed_query}")
@@ -119,38 +170,59 @@ class MarcQueryTUI(App):
                 else:
                     self._log_message("Error: No query to execute.")
                     results_widget.write("Error: No query to execute.")
-            elif query_str.lower() == 'n':
+            elif query_str.lower() == "n":
                 self.waiting_for_confirmation = False
                 self.current_parsed_query = None
                 self._log_message("Query cancelled. Please enter a new query.")
                 results_widget.write("Query cancelled. Please enter a new query.")
             else:
-                self._log_message("Invalid input. Type 'y' to confirm or 'n' to cancel.")
-                results_widget.write("Invalid input. Type 'y' to confirm or 'n' to cancel.")
-            query_input.value = "" # Clear input after confirmation attempt
-            query_input.blur() # Unfocus the input
+                self._log_message(
+                    "Invalid input. Type 'y' to confirm or 'n' to cancel."
+                )
+                results_widget.write(
+                    "Invalid input. Type 'y' to confirm or 'n' to cancel."
+                )
+            query_input.value = ""  # Clear input after confirmation attempt
+            query_input.blur()  # Unfocus the input
         else:
+            loading_indicator.remove_class("hidden")  # Show loading indicator
             parsed_query = parse_query(query_str)
+            loading_indicator.add_class("hidden")  # Hide loading indicator
+
             self._log_message(f"Parsed query: {parsed_query}")
-            self._log_message(f"parsed_query.get('error'): {parsed_query.get('error') if parsed_query else 'N/A'}")
-            if parsed_query and not parsed_query.get('error'):
+            self._log_message(
+                f"parsed_query.get('error'): {parsed_query.get('error') if parsed_query else 'N/A'}"
+            )
+            if parsed_query and not parsed_query.get("error"):
                 self.current_parsed_query = parsed_query
                 self.waiting_for_confirmation = True
 
+                natural_language_query = generate_natural_language_query(parsed_query)
                 confirmation_message = f"You entered: '{query_str}'\n"
-                confirmation_message += f"I understood this as: {parsed_query}\n"
-                confirmation_message += "Is this correct? (Type 'y' to confirm, or 'n' to cancel)"
+                confirmation_message += (
+                    f"I understood this as: {natural_language_query}\n"
+                )
+                confirmation_message += (
+                    "Is this correct? (Type 'y' to confirm, or 'n' to cancel)"
+                )
                 self._log_message(confirmation_message)
                 results_widget.write(confirmation_message)
-                query_input.value = "" # Clear input after displaying confirmation
-                query_input.blur() # Unfocus the input
+                query_input.value = ""  # Clear input after displaying confirmation
+                query_input.blur()  # Unfocus the input
             else:
                 self.current_parsed_query = None
-                error_message = parsed_query.get('error', "Could not parse query. Try 'barcode 123', 'author: John Doe', etc.") if parsed_query else "Could not parse query. Try 'barcode 123', 'author: John Doe', etc."
+                error_message = (
+                    parsed_query.get(
+                        "error",
+                        "Could not parse query. Try 'barcode 123', 'author: John Doe', etc.",
+                    )
+                    if parsed_query
+                    else "Could not parse query. Try 'barcode 123', 'author: John Doe', etc."
+                )
                 self._log_message(error_message)
                 results_widget.write(error_message)
-                query_input.value = "" # Clear input after invalid query
-                query_input.blur() # Unfocus the input
+                query_input.value = ""  # Clear input after invalid query
+                query_input.blur()  # Unfocus the input
 
     def execute_query(self, parsed_query):
         """Executes the parsed query and displays results."""
@@ -166,8 +238,8 @@ class MarcQueryTUI(App):
             self._log_message("Full list of records:\n")
             results_widget.write("Full list of records:\n")
             for i, record in enumerate(filtered_records):
-                barcode = get_field_value(record, 'holding barcode')
-                title = get_field_value(record, 'title')
+                barcode = get_field_value(record, "holding barcode")
+                title = get_field_value(record, "title")
                 message = f"  {i + 1}. Barcode: {barcode if barcode else 'N/A'}, Title: {title if title else 'N/A'}\n"
                 self._log_message(message)
                 results_widget.write(message)
@@ -176,7 +248,7 @@ class MarcQueryTUI(App):
         """Quit the application."""
         self.bell()
         self._log_message("action_quit called")
-        self.log_file.close() # Close the log file on exit
+        self.log_file.close()  # Close the log file on exit
         self.exit()
 
 

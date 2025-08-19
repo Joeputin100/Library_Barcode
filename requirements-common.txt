@@ -10,3 +10,5 @@ reportlab
 python-barcode
 qrcode
 google-auth
+pytest
+pytest-asyncio

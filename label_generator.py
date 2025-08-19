@@ -8,10 +8,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from reportlab.platypus.flowables import KeepInFrame
 import io
-import shutil
-import csv
 import os
 
 # Avery 5160 label dimensions (approximate, for layout)
@@ -353,7 +350,7 @@ def create_label(c, x, y, book_data, label_type):
             # Translate to the bottom-left of the text area, then rotate
             text_origin_x = x + 5 # Start 5 units from left edge
             # Move down by 1 GRID_SPACING for every character after the first in series_number
-            vertical_offset = 0
+            
             if series_number and len(series_number) > 1:
                 vertical_offset = (len(series_number) - 1) * GRID_SPACING
             text_origin_y = y + (LABEL_HEIGHT - text_block_height_left) / 2 + text_block_height_left - (0.1 * inch) - (3.5 * GRID_SPACING)

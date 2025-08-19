@@ -1,26 +1,12 @@
 {
-    "overall_goal": "To process book data, extract metadata from LOC, Google Books, and Vertex AI APIs, and generate barcode and QR code labels.",
+    "overall_goal": "Create a TUI application to process a list of books (ISBNs or title/author), enrich the data using various APIs, and generate a MARC file for import into Atriuum.",
     "key_knowledge": [
-        "The project is `barcode` and is focused on processing book data.",
-        "It uses LOC API, Google Books API, and Vertex AI for metadata extraction.",
-        "The `streamlit_app.py` script is the main application.",
-        "The `get_book_metadata_google_books` function now extracts `mainCategory` and `seriesInfo`.",
-        "A `google_category_to_dewey_map` has been created for estimating DDNs from Google Books categories.",
-        "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback.",
-        "Vertex AI is used as a final fallback for classification.",
-        "The `streamlit_app.py` has been modified to display debug logs within an `st.expander` and provide a download button for full logs.",
-        "Identified issues: Missing Series Title/Number, 'No genre' from Google Books, and ignored Vertex AI responses.",
-        "The `query_parser.py` has been extended to handle individual barcodes, barcode ranges, barcodes starting with a prefix, and field-specific queries (author, title, series, ISBN, call number, holding barcode).",
-        "The `marc_processor.py` module has been created to load and filter MARC records based on parsed queries. It correctly extracts holding barcodes from MARC tag 852 subfield 'p'.",
-        "The TUI functionality has been separated into two distinct applications:",
-        "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
-        "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display.",
-        "The `streamlit_app.py` has been refactored into smaller modules: `api_calls.py`, `caching.py`, `csv_importer.py`, `data_cleaning.py`, and `pdf_generation.py`.",
-        "The natural language query parser has been significantly improved to handle complex queries, including 'and' conditions and various barcode formats (numeric, alphanumeric, padded zeros).",
-        "The `marc_processor.py` has been updated to correctly handle barcode normalization for comparison, including padded zeros.",
-        "The `marc_query_tui.py` now includes a help screen with query syntax and examples.",
-        "All tests for the TUI are currently passing, ensuring robustness of the parser and UI interactions.",
-        "Atriuum supports updating existing MARC records via import using 'overlay' options, matching by Custom Control Number, ISBN/UPC, Title, or Title and Author."
+        "Input is a text file with one book identifier per line.",
+        "Data is enriched using LoC, Google Books, and Vertex AI.",
+        "Data is stored in BigQuery.",
+        "The output is an Atriuum-compatible MARC file.",
+        "The TUI is built with Textual.",
+        "OhioLink Z39.50 Innopac Service (olc1.ohiolink.edu:210, database \"INNOPAC\") will be integrated as an additional data source."
     ],
-    "current_plan": "All Flash tasks completed. Proceeding with Pro tasks for project_viewer.py enhancements."
+    "current_plan": "All tasks in the new project plan are complete."
 }

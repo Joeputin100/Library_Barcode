@@ -1,0 +1,5 @@
+google-cloud-bigquery
+requests
+lxml
+google-cloud-aiplatform
+vertexai

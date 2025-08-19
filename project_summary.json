@@ -1,0 +1,362 @@
+
+{
+  "project_summary": {
+    "overall_goal": "To process book data, extract metadata from LOC, Google Books, and Vertex AI APIs, and generate barcode and QR code labels.",
+    "key_knowledge": [
+      "The project is `barcode` and is focused on processing book data.",
+      "It uses LOC API, Google Books API, and Vertex AI for metadata extraction.",
+      "The `streamlit_app.py` script is the main application.",
+      "The `get_book_metadata_google_books` function now extracts `mainCategory` and `seriesInfo`.",
+      "A `google_category_to_dewey_map` has been created for estimating DDNs from Google Books categories.",
+      "The `clean_call_number` function now incorporates this Google Books DDN estimation as a fallback.",
+      "Vertex AI is used as a final fallback for classification.",
+      "The `streamlit_app.py` has been modified to display debug logs within an `st.expander` and provide a download button for full logs.",
+      "Identified issues: Missing Series Title/Number, 'No genre' from Google Books, and ignored Vertex AI responses.",
+      "The `query_parser.py` has been extended to handle individual barcodes, barcode ranges, barcodes starting with a prefix, and field-specific queries (author, title, series, ISBN, call number, holding barcode).",
+      "The `marc_processor.py` module has been created to load and filter MARC records based on parsed queries. It correctly extracts holding barcodes from MARC tag 852 subfield 'p'.",
+      "The TUI functionality has been separated into two distinct applications:",
+      "  - `project_viewer.py`: A TUI for viewing project status (plan, state, context).",
+      "  - `marc_query_tui.py`: A TUI for querying MARC records, including query confirmation and full result display.",
+      "The `streamlit_app.py` has been refactored into smaller modules: `api_calls.py`, `caching.py`, `csv_importer.py`, `data_cleaning.py`, and `pdf_generation.py`.",
+      "The natural language query parser has been significantly improved to handle complex queries, including 'and' conditions and various barcode formats (numeric, alphanumeric, padded zeros).",
+      "The `marc_processor.py` has been updated to correctly handle barcode normalization for comparison, including padded zeros.",
+      "The `marc_query_tui.py` now includes a help screen with query syntax and examples.",
+      "All tests for the TUI are currently passing, ensuring robustness of the parser and UI interactions.",
+      "Atriuum supports updating existing MARC records via import using 'overlay' options, matching by Custom Control Number, ISBN/UPC, Title, or Title and Author."
+    ],
+    "current_status": "All Flash tasks completed. Proceeding with Pro tasks for project_viewer.py enhancements."
+  },
+  "development_phases": [
+    {
+      "phase_name": "Phase 1: Local MARC Parsing and Querying",
+      "tasks": [
+        {
+          "task_id": "1.1",
+          "task_name": "Initial MARC Record Analysis & Field Mapping",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "The first step is to understand the structure of your cimb.marc file. I will write a script to extract the first few records and display them in a human-readable format. You will then use your knowledge of the Atriuum system to map the MARC fields to the data we need (e.g., 'Holding Barcode is in tag 952, subfield p').",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.2",
+          "task_name": "Develop Query Parsing Engine",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "I will develop a query parser that can interpret natural language requests from the user. This will be a phased approach.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.3",
+          "task_name": "Implement Query Execution and User Feedback",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Once a query is parsed, the script needs to execute it against the full set of MARC records and provide clear feedback to the user.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.4",
+          "task_name": "Implement Natural Language Querying on MARC data",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Implement the ability to use natural language to define lists of holding barcodes from the MARC data.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.5",
+          "task_name": "Enable "add task" functionality in project_viewer.py",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Modify project_viewer.py to allow adding new tasks to the project plan.",
+          "dependencies": ["1.4"]
+        },
+        {
+          "task_id": "1.6",
+          "task_name": "Refactor Project Viewer UI Layout",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Move action buttons and the "Add Task" dialog to the bottom of the `project_viewer.py` pane, and expand the main viewer pane to utilize available space more effectively.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.7",
+          "task_name": "Implement "Add New Task" Confirmation Popup",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Add a modal popup to provide visual confirmation after a new task is added, displaying the rephrased task description and its assigned task ID.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.8",
+          "task_name": "Implement Dynamic Line Wrapping in Project Viewer",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Enable dynamic line wrapping within the `project_viewer.py` pane, ensuring text reconfigures appropriately based on the terminal window's width, especially for narrow Termux environments.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.9",
+          "task_name": "Add View Options Menu to Project Viewer",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Implement a menu in `project_viewer.py` for various view options, including filtering (all tasks, completed, incomplete), automatic tree expansion to the last modified leaf (toggleable), and sorting options (tree by task ID, list by task add date, list by task status last modified date).",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.10",
+          "task_name": "Add Gemini Memory/Preferences Summary Popup",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "Add a menu option to `project_viewer.py` to display a modal popup summarizing Gemini's long-term memory and stored preferences relevant to the current project.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.11",
+          "task_name": "Add Git Status and Commit History Popup",
+          "status": "ON HOLD",
+          "model": "Pro",
+          "description": "Add a menu option to `project_viewer.py` to display a modal popup showing the current `git status` and recent commit history for the project.",
+          "dependencies": []
+        },
+        {
+          "task_id": "1.12",
+          "task_name": "Test Task",
+          "status": "DONE",
+          "description": "This is a test task description.",
+          "model": "Flash",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 2: Data Enrichment and Processing",
+      "tasks": [
+        {
+          "task_id": "2.1",
+          "task_name": "Extract Key Information from MARC Records",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Before fetching external data, I'll first extract all the essential information that is already present in the cimb.marc and cimb_bibliographic.marc files. This includes barcodes, titles, authors, and any existing call numbers. I will create a script to process the entire MARC file and store this information in a structured format, like a CSV or a JSON file. This will be the foundation for the next steps.",
+          "dependencies": []
+        },
+        {
+          "task_id": "2.2",
+          "task_name": "Data Enrichment using Library of Congress API",
+          "status": "ON HOLD",
+          "model": "Pro",
+          "description": "For records that are missing key information, especially the LC Call Number, I will use the Library of Congress API to fetch this data. I will use the LCCN (Library of Congress Control Number) extracted in the previous task to query the API.",
+          "dependencies": []
+        },
+        {
+          "task_id": "2.3",
+          "task_name": "Data Cleaning and Normalization",
+          "status": "ON HOLD",
+          "model": "Pro",
+          "description": "The data from both the MARC files and the LOC API might have inconsistencies or require cleaning. This task will focus on normalizing the data to ensure it's suitable for label generation.",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 3: Streamlit Integration and MARC Export",
+      "tasks": []
+    },
+    {
+      "phase_name": "Phase 4: Streamlit UI and CSV-based Workflow",
+      "tasks": [
+        {
+          "task_id": "4.1",
+          "task_name": "Refactor Streamlit Application",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Refactor the main Streamlit application into smaller, more manageable modules to improve maintainability and reduce the risk of breaking existing functionality.",
+          "dependencies": []
+        },
+        {
+          "task_id": "4.2",
+          "task_name": "Module Testing",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Ensure that each of the new modules passes the syntax and style tests specified in gemini.md.",
+          "dependencies": []
+        },
+        {
+          "task_id": "4.3",
+          "task_name": "CSV-based Workflow Testing",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Perform end-to-end testing of the Streamlit application using a CSV file.",
+          "dependencies": []
+        },
+        {
+          "task_id": "4.4",
+          "task_name": "Replace Horizontal Scrolling with Line Wrapping",
+          "status": "DONE",
+          "description": "Replace horizontal scrolling with line wrapping in the Project Viewer to improve readability.",
+          "model": "Flash",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 5: Barcode Generator Bug Fixes & Improvements",
+      "tasks": [
+        {
+          "task_id": "5.1",
+          "task_name": "Fix Streamlit table view resetting on edit",
+          "status": "TODO",
+          "model": "Pro",
+          "description": "Investigate and fix the issue where the table view scrolls to the top after each edit.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.2",
+          "task_name": "Handle Unicode characters in PDF generation",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Clean out non-plaintext characters from titles and series names before generating the PDF to prevent rendering issues.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.3",
+          "task_name": "Improve series number cleaning",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Improve the `clean_series_number` function to handle cases like 'bk. 5', '[3]', and 'four'.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.4",
+          "task_name": "Add Library Name selector to PDF generation",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Add a selector to the 'Generate PDF' card to allow the user to select Library Name ('A', 'B', 'C', or 'D').",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.5",
+          "task_name": "Fix series number misidentification from title",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Refine the logic for extracting series numbers from titles to avoid misidentifying parts of the title as the series number (e.g., '300 Years').",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.6",
+          "task_name": "Restore monkey emoji for suggested values",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Bring back the monkey emoji to the editable table to indicate suggested values. The emoji should be for display only.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.7",
+          "task_name": "Combine 'Proceed' and 'Process' buttons",
+          "status": "DONE",
+          "model": "Flash",
+          "description": "Combine the 'Proceed to Data Processing' and 'Process Data' buttons into a single step for a smoother workflow.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.8",
+          "task_name": "Apply style and syntax rules",
+          "status": "TODO",
+          "model": "gemini 2.5 pro",
+          "description": "Apply the `flake8` and `black` formatting rules as specified in `gemini.md`.",
+          "dependencies": []
+        },
+        {
+          "task_id": "5.9",
+          "task_name": "Resolve grpcio installation issue on Android",
+          "status": "DONE",
+          "model": "Pro",
+          "description": "The `grpcio` package fails to build on Android (Termux). Investigate and implement a solution, such as installing build dependencies or finding a pre-built wheel. The initial recommendation is to fix the installation rather than replacing it with `grpclib`, as it's not a drop-in replacement.",
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 6: Atriuum Integration and Data Management",
+      "tasks": [
+        {
+          "task_id": "6.1",
+          "task_name": "Research and Implement Atriuum MARC Record Update/Overlay",
+          "status": "TODO",
+          "model": "Pro",
+          "description": "Research and implement the process for updating existing MARC records in Atriuum via import. This involves understanding Atriuum's overlay options (matching by Control Number, ISBN/UPC, Title, or Title and Author) and configuring the import settings accordingly. The goal is to ensure cleaned MARC data can be re-imported to update existing entries rather than creating duplicates.",
+          "dependencies": []
+        },
+        {
+          "task_id": "6.2",
+          "task_name": "Local MARC DB with Last-Modified-Date Overwrite",
+          "status": "TODO",
+          "description": "Maintain a local database of cleaned MARC data, using the record's Last Modified Date to decide whether to overwrite it during a new import.",
+          "model": "Pro",
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "detailed_components": {
+    "marc_processing": {
+      "description": "The project involves comprehensive processing of MARC (Machine-Readable Cataloging) data, which is a standard format for bibliographic information. This includes importing MARC records, parsing them to extract relevant metadata, enriching the data with external API calls, and cleaning/normalizing it for consistency and usability. Finally, the cleaned data is intended to be re-integrated into the Atriuum library system.",
+      "sub_components": [
+        {
+          "name": "MARC Import",
+          "details": "Initial MARC records are imported from files like `cimb.marc` and `cimb_bibliographic.marc`. The system needs to handle both new record imports and updates to existing records in the Atriuum system. Atriuum supports 'overlay' imports for updates, using matching criteria such as Custom Control Number, ISBN/UPC, Title, or Title and Author."
+        },
+        {
+          "name": "MARC Parsing",
+          "details": "A core component is the ability to parse MARC records to extract key information. This involves identifying specific MARC tags and subfields (e.g., holding barcode from tag 852, subfield 'p') and transforming them into a structured format (e.g., CSV or JSON) for further processing."
+        },
+        {
+          "name": "Data Enrichment (LOC API)",
+          "details": "For records lacking essential information, particularly LC Call Numbers, the Library of Congress (LOC) API is used. The LCCN (Library of Congress Control Number) extracted during parsing is used to query the LOC API and fetch missing data."
+        },
+        {
+          "name": "Data Cleaning and Normalization",
+          "details": "Data obtained from MARC files and external APIs often contains inconsistencies. This sub-component focuses on normalizing and cleaning this data to ensure uniformity and suitability for label generation. This includes handling Unicode characters, improving series number cleaning (e.g., 'bk. 5', '[3]', 'four'), and refining logic for extracting series numbers from titles to avoid misidentification."
+        },
+        {
+          "name": "Atriuum MARC Record Update/Overlay",
+          "details": "A critical aspect is the ability to import cleaned MARC data back into the Atriuum system, specifically to update existing records rather than creating duplicates. This involves understanding and utilizing Atriuum's native overlay import options and matching criteria."
+        },
+        {
+          "name": "Local MARC DB with Last-Modified-Date Overwrite",
+          "details": "To manage cleaned MARC data locally, a database is maintained. The Last Modified Date of records is used to determine whether to overwrite existing entries during new imports, ensuring data integrity and efficiency."
+        }
+      ]
+    },
+    "nlp_query_generator": {
+      "description": "The project incorporates Natural Language Processing (NLP) to allow users to query MARC data using natural language. This involves a sophisticated query parsing engine that integrates with external AI services.",
+      "integration_details": [
+        {
+          "name": "Duet AI (Vertex AI)",
+          "details": "Duet AI, powered by Vertex AI, is used as the primary NLP engine to convert natural language queries into structured JSON objects. This involves sending user queries to the Duet AI API and processing its responses."
+        },
+        {
+          "name": "LOC API",
+          "details": "The LOC API is integrated for data enrichment, specifically to fetch missing LC Call Numbers using LCCNs extracted from MARC records. This is a crucial step in ensuring complete bibliographic data."
+        },
+        {
+          "name": "Google Books API",
+          "details": "The Google Books API is utilized for metadata extraction, including `mainCategory` and `seriesInfo`. A `google_category_to_dewey_map` is used to estimate Dewey Decimal Numbers (DDNs) from Google Books categories, serving as a fallback for call number estimation."
+        },
+        {
+          "name": "Vertex AI (Classification Fallback)",
+          "details": "Beyond Duet AI, Vertex AI is used as a final fallback for classification tasks, particularly when other methods fail to provide sufficient data or categorization."
+        }
+      ],
+      "problems_encountered_with_duet_pipeline": [
+        {
+          "issue": "f-string syntax errors in duet_api.py",
+          "details": "Repeatedly encountered `ValueError: Invalid format specifier` and `SyntaxError: f-string: single '}' is not allowed` due to incorrect escaping of literal curly braces within example JSON outputs embedded in multi-line f-strings in `duet_api.py`. This required refactoring the prompt string to define JSON examples as separate string variables and then interpolating them into the main f-string."
+        },
+        {
+          "issue": "ImportError for Menu and MenuItem in textual.widgets",
+          "details": "Encountered `ImportError: cannot import name 'Menu' from 'textual.widgets'`. Investigation revealed that `Menu` and `MenuItem` are not directly part of the core Textual library in the current version, but likely belong to a third-party library (e.g., `zandev-textual-widgets`). This task is currently ON HOLD and assigned to Pro, as it requires either installing a new dependency or refactoring the UI to use Textual's built-in `OptionList`."
+        }
+      ]
+    }
+  }
+}

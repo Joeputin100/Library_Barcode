@@ -14,7 +14,7 @@ def load_marc_records(file_path):
     """
     records = []
     try:
-        with open(file_path, 'rb') as fh:
+        with open(file_path, "rb") as fh:
             reader = MARCReader(fh, force_utf8=True)
             for record in reader:
                 if record:
@@ -32,29 +32,34 @@ def get_field_value(record, field_name):
     """
     if field_name == "author":
         # 100: Main Entry - Personal Name, 700: Added Entry - Personal Name
-        author_fields = record.get_fields('100', '700')
+        author_fields = record.get_fields("100", "700")
         return [f.format_field() for f in author_fields]
     elif field_name == "title":
         # 245: Title Statement
-        title_field = record.get_fields('245')
+        title_field = record.get_fields("245")
         return [f.format_field() for f in title_field]
     elif field_name == "series":
         # 490: Series Statement, 830: Series Added Entry - Uniform Title
-        series_fields = record.get_fields('490', '830')
+        series_fields = record.get_fields("490", "830")
         return [f.format_field() for f in series_fields]
     elif field_name == "isbn":
         # 020: International Standard Book Number
-        isbn_fields = record.get_fields('020')
-        return [f['a'] for f in isbn_fields if 'a' in f]
+        isbn_fields = record.get_fields("020")
+        return [f["a"] for f in isbn_fields if "a" in f]
+    elif field_name == "lccn":
+        # 010: Library of Congress Control Number
+        lccn_fields = record.get_fields("010")
+        return [f["a"] for f in lccn_fields if "a" in f]
     elif field_name == "call number":
         # 050: Library of Congress Call Number, 090: Local Call Number
-        call_number_fields = record.get_fields('050', '090')
+        call_number_fields = record.get_fields("050", "090")
         return [f.format_field() for f in call_number_fields]
     elif field_name == "holding barcode":
         # 852: Location and Access (common for barcode in subfield p)
-        barcode_fields = record.get_fields('852')
-        return [f['p'] for f in barcode_fields if 'p' in f]
+        barcode_fields = record.get_fields("852")
+        return [f["p"] for f in barcode_fields if "p" in f]
     return []
+
 
 def _normalize_barcode_for_comparison(barcode_str):
     """
@@ -70,7 +75,7 @@ def _normalize_barcode_for_comparison(barcode_str):
         # Pad the numeric part to 7 digits with leading zeros
         padded_number = number_str.zfill(7)
         return (prefix, padded_number)
-    return (barcode_str.lower(), "") # Fallback for purely non-numeric or unparseable
+    return (barcode_str.lower(), "")  # Fallback for purely non-numeric or unparseable
 
 
 def _apply_single_query(records, query):
@@ -96,16 +101,23 @@ def _apply_single_query(records, query):
             start_norm = _normalize_barcode_for_comparison(query.get("start", "0"))
             end_norm = _normalize_barcode_for_comparison(query.get("end", "0"))
 
-            print(f"DEBUG: Barcode Range Query - Start: {query.get('start')}, End: {query.get('end')}")
+            print(
+                f"DEBUG: Barcode Range Query - Start: {query.get('start')}, End: {query.get('end')}"
+            )
             print(f"DEBUG: Normalized Start: {start_norm}, Normalized End: {end_norm}")
 
             for barcode_str in holding_barcodes:
                 current_norm = _normalize_barcode_for_comparison(barcode_str)
-                print(f"DEBUG: Checking barcode: {barcode_str}, Normalized: {current_norm}")
-                
+                print(
+                    f"DEBUG: Checking barcode: {barcode_str}, Normalized: {current_norm}"
+                )
+
                 # Check if prefixes match and numeric part is within range
-                if (current_norm[0] == start_norm[0] and current_norm[0] == end_norm[0] and
-                    start_norm[1] <= current_norm[1] <= end_norm[1]):
+                if (
+                    current_norm[0] == start_norm[0]
+                    and current_norm[0] == end_norm[0]
+                    and start_norm[1] <= current_norm[1] <= end_norm[1]
+                ):
                     filtered_records.append(record)
                     print(f"DEBUG: Match found for {barcode_str}")
                     break
@@ -123,18 +135,26 @@ def _apply_single_query(records, query):
                     holding_barcodes = get_field_value(record, "holding barcode")
                     query_value_norm = _normalize_barcode_for_comparison(value)
                     for barcode_str in holding_barcodes:
-                        if _normalize_barcode_for_comparison(barcode_str) == query_value_norm:
+                        if (
+                            _normalize_barcode_for_comparison(barcode_str)
+                            == query_value_norm
+                        ):
                             filtered_records.append(record)
                             break
                 elif isinstance(value, dict) and value.get("type") == "barcode_range":
                     # Barcode range
                     holding_barcodes = get_field_value(record, "holding barcode")
-                    start_norm = _normalize_barcode_for_comparison(value.get("start", "0"))
+                    start_norm = _normalize_barcode_for_comparison(
+                        value.get("start", "0")
+                    )
                     end_norm = _normalize_barcode_for_comparison(value.get("end", "0"))
                     for barcode_str in holding_barcodes:
                         current_norm = _normalize_barcode_for_comparison(barcode_str)
-                        if (current_norm[0] == start_norm[0] and current_norm[0] == end_norm[0] and
-                            start_norm[1] <= current_norm[1] <= end_norm[1]):
+                        if (
+                            current_norm[0] == start_norm[0]
+                            and current_norm[0] == end_norm[0]
+                            and start_norm[1] <= current_norm[1] <= end_norm[1]
+                        ):
                             filtered_records.append(record)
                             break
         elif query_type == "field_query":
@@ -148,6 +168,7 @@ def _apply_single_query(records, query):
                     filtered_records.append(record)
                     break
     return filtered_records
+
 
 def filter_marc_records(records, parsed_query):
     """
@@ -167,9 +188,10 @@ def filter_marc_records(records, parsed_query):
         # Single query
         return _apply_single_query(records, parsed_query)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # Example usage
-    marc_file = 'cimb_bibliographic.marc'
+    marc_file = "cimb_bibliographic.marc"
     all_records = load_marc_records(marc_file)
     print(f"Loaded {len(all_records)} records from {marc_file}")
 
@@ -181,11 +203,11 @@ if __name__ == '__main__':
         "barcodes starting with 000022",
         "author: Adams, Will",
         "title: Alexander Cipher",
-        "series: BookSysInc", # This is a placeholder, actual series might be different
+        "series: BookSysInc",  # This is a placeholder, actual series might be different
         "isbn: 978-0-446-40470-9",
         "call number: FIC",
         "holding barcode: 00002274",
-        "find books by brandon sanderson in the stormlight archive series"
+        "find books by brandon sanderson in the stormlight archive series",
     ]
 
     for q_str in test_queries:
@@ -193,7 +215,9 @@ if __name__ == '__main__':
         if parsed:
             filtered = filter_marc_records(all_records, parsed)
             print(f"\nQuery: '{q_str}' -> Found {len(filtered)} records.")
-            for rec in filtered[:3]: # Print first 3 records for brevity
-                print(f"  - Barcode: {get_field_value(rec, 'holding barcode')}, Title: {get_field_value(rec, 'title')}")
+            for rec in filtered[:3]:  # Print first 3 records for brevity
+                print(
+                    f"  - Barcode: {get_field_value(rec, 'holding barcode')}, Title: {get_field_value(rec, 'title')}"
+                )
         else:
             print(f"\nQuery: '{q_str}' -> Could not parse query.")

@@ -1,0 +1,133 @@
+{
+    "project_name": "Atriuum MARC Import Generator",
+    "phases": [
+        {
+            "phase_name": "Phase 1: Project Setup and Analysis",
+            "tasks": [
+                {
+                    "task_id": "1.1",
+                    "task_name": "Analyze Existing Atriuum MARC File",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Analyze the `cimb_bibliographic.marc` file to identify all used MARC fields and subfields to ensure the generated MARC file is as complete as possible.",
+                    "dependencies": [],
+                    "expected_output": "A JSON file containing a list of all used MARC fields and subfields."
+                },
+                {
+                    "task_id": "1.2",
+                    "task_name": "Design BigQuery Schema",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Design and create a BigQuery schema to store the raw input data, enriched data from APIs, and the final processed data.",
+                    "dependencies": ["1.1"],
+                    "expected_output": "A SQL script to create the BigQuery table and UDFs."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 2: Data Ingestion and Enrichment",
+            "tasks": [
+                {
+                    "task_id": "2.1",
+                    "task_name": "Implement Input File Reader",
+                    "status": "TODO",
+                    "model": "Flash",
+                    "description": "Create a function to read the input text file containing ISBNs and title/author combinations.",
+                    "dependencies": [],
+                    "expected_output": "A function that returns a list of book identifiers."
+                },
+                {
+                    "task_id": "2.2",
+                    "task_name": "Implement Data Enrichment Pipeline",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Create a pipeline to enrich the input data by querying the Library of Congress and Google Books APIs. Use Vertex AI for gap-filling, especially for cost/price information. Cache all API calls.",
+                    "dependencies": ["1.2", "2.1"],
+                    "expected_output": "A function that takes a list of book identifiers and returns a list of enriched book data."
+                },
+                {
+                    "task_id": "2.2.1",
+                    "task_name": "Integrate OhioLink Z39.50 Data Source",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Add OhioLink Z39.50 Innopac Service (olc1.ohiolink.edu:210, database \"INNOPAC\") as an additional data source for MARC data. This integration should occur after LoC enrichment but before Google Books enrichment in the data processing pipeline.",
+                    "dependencies": ["2.2"],
+                    "expected_output": "Enriched book data will include information from OhioLink when available."
+                },
+                {
+                    "task_id": "2.3",
+                    "task_name": "Implement BigQuery Data Insertion",
+                    "status": "TODO",
+                    "model": "Flash",
+                    "description": "Create a function to insert the enriched data into the BigQuery table.",
+                    "dependencies": ["2.2"],
+                    "expected_output": "A function that inserts a list of book data into BigQuery."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 3: TUI Development",
+            "tasks": [
+                {
+                    "task_id": "3.1",
+                    "task_name": "Implement TUI Framework",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Set up the basic Textual TUI framework with tabs for different sections.",
+                    "dependencies": [],
+                    "expected_output": "A basic TUI with tabs."
+                },
+                {
+                    "task_id": "3.2",
+                    "task_name": "Implement Input & Processing Tab",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Implement the UI for file selection, processing button, progress bars, and sparklines.",
+                    "dependencies": ["3.1"],
+                    "expected_output": "A functional 'Input & Processing' tab."
+                },
+                {
+                    "task_id": "3.3",
+                    "task_name": "Implement Review & Edit Tab",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Implement an editable DataTable for reviewing and editing bibliographic records.",
+                    "dependencies": ["3.1"],
+                    "expected_output": "A functional 'Review & Edit' tab."
+                },
+                {
+                    "task_id": "3.4",
+                    "task_name": "Implement MARC Records Tab",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Implement a Tree view to display bibliographic and holding records.",
+                    "dependencies": ["3.1"],
+                    "expected_output": "A functional 'MARC Records' tab."
+                },
+                {
+                    "task_id": "3.5",
+                    "task_name": "Implement MARC Export Tab",
+                    "status": "TODO",
+                    "model": "Flash",
+                    "description": "Implement a button to generate and download the final MARC file.",
+                    "dependencies": ["3.1"],
+                    "expected_output": "A functional 'MARC Export' tab."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 4: MARC Generation",
+            "tasks": [
+                {
+                    "task_id": "4.1",
+                    "task_name": "Implement MARC Generation Logic",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Create the logic to convert the processed data from BigQuery into Atriuum-compatible MARC records, including bibliographic and holding records.",
+                    "dependencies": ["1.1", "2.3"],
+                    "expected_output": "A function that generates a MARC file from BigQuery data."
+                }
+            ]
+        }
+    ]
+}

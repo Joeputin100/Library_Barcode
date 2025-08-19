@@ -37,3 +37,53 @@ Tree {
 .hidden {
     display: none;
 }
+
+Screen {
+    align: center middle;
+}
+
+.container {
+    height: auto;
+    width: auto;
+}
+
+Switch {
+    height: auto;
+    width: auto;
+}
+
+.label {
+    height: 3;
+    content-align: center middle;
+    width: auto;
+}
+
+#custom-design {
+    background: darkslategrey;
+}
+
+#custom-design > .switch--slider {
+    color: dodgerblue;
+    background: darkslateblue;
+}
+
+.switch-container {
+    width: auto;
+    height: auto;
+    align: center middle;
+    padding: 1;
+}
+
+.static-label {
+    width: 15;
+}
+
+.auto-expand-switch {
+    width: 10;
+}
+
+.modal-dialog {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}

@@ -1,0 +1,144 @@
+{
+  "project_description": {
+    "overall_goal": "Implement a cost-optimized natural language to SQL query translator for a MARC records database using Google Cloud Storage (GCS), BigQuery, LlamaIndex, and Retrieval-Augmented Generation (RAG) with Vertex AI Gemini, focusing on minimizing costs through caching, serverless execution, and efficient data handling during development and production.",
+    "key_priorities": [
+      "Cost Optimization: Leverage serverless services (Cloud Functions, Dataflow) to pay only for usage; implement caching for queries, responses, and API calls to avoid redundant computations during multiple runs on the same dataset.",
+      "Accuracy for Novel Inputs: Use RAG with LlamaIndex to dynamically retrieve schema and examples, combined with Gemini's prompting for high accuracy on complex, unseen queries without extensive custom rules.",
+      "Scalability and Development Efficiency: Enable easy iteration with cached intermediates; support reintegration of enriched data back into Atriuum via MARC exports."
+    ]
+  },
+  "current_status": "Migrating to a new natural language to SQL query translator for MARC records using Google Cloud services, LlamaIndex, and Vertex AI Gemini. Starting with Phase 1: Data Ingestion and Storage Setup.",
+  "development_steps": [
+    {
+      "phase_name": "Phase 1: Data Ingestion and Storage Setup",
+      "description": "Ingest the .marc file into GCS and BigQuery with cost-efficient parsing and schema definition.",
+      "tasks": [
+        {
+          "task_id": "1.1",
+          "task_name": "MARC to JSON Conversion and GCS Upload",
+          "status": "TODO",
+          "model": "Flash",
+          "dependencies": [],
+          "expected_output": "Cloud Function deployed; NDJSON files in GCS bucket."
+        },
+        {
+          "task_id": "1.2",
+          "task_name": "BigQuery Table Creation and Loading",
+          "status": "TODO",
+          "model": "Flash",
+          "dependencies": ["1.1"],
+          "expected_output": "BigQuery table populated; schema documented."
+        },
+        {
+          "task_id": "1.3",
+          "task_name": "Schema Embedding for RAG",
+          "status": "TODO",
+          "model": "Flash",
+          "dependencies": ["1.2"],
+          "expected_output": "Embedded schema ready for retrieval."
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 2: NL Query Processing with LlamaIndex and RAG",
+      "description": "Build the text-to-SQL pipeline with caching to minimize Vertex AI calls and BigQuery queries.",
+      "tasks": [
+        {
+          "task_id": "2.1",
+          "task_name": "LlamaIndex Pipeline Setup",
+          "status": "TODO",
+          "model": "Pro",
+          "dependencies": ["1.3"],
+          "expected_output": "LlamaIndex engine initialized in a script/module."
+        },
+        {
+          "task_id": "2.2",
+          "task_name": "Prompt Engineering and Gemini Integration",
+          "status": "TODO",
+          "model": "Pro",
+          "dependencies": ["2.1"],
+          "expected_output": "nl_to_sql function that generates, validates, and caches SQL."
+        },
+        {
+          "task_id": "2.3",
+          "task_name": "Query Execution and Caching",
+          "status": "TODO",
+          "model": "Pro",
+          "dependencies": ["2.2"],
+          "expected_output": "End-to-end query flow with caching; test with sample NL inputs."
+        },
+        {
+          "task_id": "2.4",
+          "task_name": "Accuracy and Cost Testing",
+          "status": "TODO",
+          "model": "Pro",
+          "dependencies": ["2.3"],
+          "expected_output": "Test suite passing; cost report."
+        }
+      ]
+    },
+    {
+      "phase_name": "Phase 3: Integration and Reintegration",
+      "description": "Integrate into apps and enable MARC export for Atriuum overlay.",
+      "tasks": [
+        {
+          "task_id": "3.1",
+          "task_name": "App Integration",
+          "status": "TODO",
+          "model": "Flash",
+          "dependencies": ["2.3"],
+          "expected_output": "Apps refactored and tested."
+        },
+        {
+          "task_id": "3.2",
+          "task_name": "MARC Export for Atriuum",
+          "status": "TODO",
+          "model": "Pro",
+          "dependencies": ["1.2"],
+          "expected_output": "Export function; documentation on Atriuum import steps."
+        },
+        {
+          "task_id": "3.3",
+          "task_name": "Full Workflow Testing",
+          "status": "TODO",
+          "model": "Flash",
+          "dependencies": ["3.2"],
+          "expected_output": "Successful tests; optimized for minimal costs."
+        }
+      ]
+    }
+  ],
+  "task_structure": "Tasks are organized into sequential phases. Each task has a unique ID, name, status (TODO, ON HOLD, DONE), assigned model (Flash, Pro), description, and a list of task ID dependencies. This structure allows for clear tracking of progress and inter-task relationships.",
+  "final_goals": {
+    "cost": "Track via Google Cloud Billing; ensure caching reduces Vertex calls by 90%+ in dev; use gemini-1.5-flash for lower pricing.",
+    "accuracy": "95%+ on novel queries via RAG; manual review of SQL outputs.",
+    "reintegration": "Test export import in Atriuum sandbox; confirm no duplicates via overlay."
+  },
+  "marc_processing": {
+    "marc_import": "Initial MARC records are imported from files like `cimb.marc` and `cimb_bibliographic.marc`. The system needs to handle both new record imports and updates to existing records in the Atriuum system. Atriuum supports 'overlay' imports for updates, using matching criteria such as Custom Control Number, ISBN/UPC, Title, or Title and Author.",
+    "marc_parsing": "A core component is the ability to parse MARC records to extract key information. This involves identifying specific MARC tags and subfields (e.g., holding barcode from tag 852, subfield 'p') and transforming them into a structured format (e.g., CSV or JSON) for further processing.",
+    "data_enrichment": "For records lacking essential information, particularly LC Call Numbers, the Library of Congress (LOC) API is used. The LCCN (Library of Congress Control Number) extracted during parsing is used to query the LOC API and fetch missing data.",
+    "data_cleaning_normalization": "Data obtained from MARC files and external APIs often contains inconsistencies. This sub-component focuses on normalizing and cleaning this data to ensure uniformity and suitability for label generation. This includes handling Unicode characters, improving series number cleaning (e.g., 'bk. 5', '[3]', 'four'), and refining logic for extracting series numbers from titles to avoid misidentification.",
+    "atriuum_marc_record_update_overlay": "A critical aspect is the ability to import cleaned MARC data back into the Atriuum system, specifically to update existing records rather than creating duplicates. This involves understanding and utilizing Atriuum's native overlay import options and matching criteria.",
+    "local_marc_db_with_last_modified_date_overwrite": "To manage cleaned MARC data locally, a database is maintained. The Last Modified Date of records is used to determine whether to overwrite existing entries during new imports, ensuring data integrity and efficiency."
+  },
+  "nlp_query_generator": {
+    "description": "The project incorporates Natural Language Processing (NLP) to allow users to query MARC data using natural language. This involves a sophisticated query parsing engine that integrates with external AI services.",
+    "integration_details": {
+      "duet_ai_vertex_ai": "Duet AI, powered by Vertex AI, was previously used as the primary NLP engine to convert natural language queries into structured JSON objects. This involved sending user queries to the Duet AI API and processing its responses. This component is being migrated away from.",
+      "loc_api": "The LOC API is integrated for data enrichment, specifically to fetch missing LC Call Numbers using LCCNs extracted from MARC records. This is a crucial step in ensuring complete bibliographic data.",
+      "google_books_api": "The Google Books API is utilized for metadata extraction, including `mainCategory` and `seriesInfo`. A `google_category_to_dewey_map` is used to estimate Dewey Decimal Numbers (DDNs) from Google Books categories, serving as a fallback for call number estimation.",
+      "vertex_ai_classification_fallback": "Beyond Duet AI, Vertex AI is used as a final fallback for classification tasks, particularly when other methods fail to provide sufficient data or categorization."
+    },
+    "problems_encountered_with_duet_pipeline": [
+      {
+        "issue": "f-string syntax errors in duet_api.py",
+        "details": "Repeatedly encountered `ValueError: Invalid format specifier` and `SyntaxError: f-string: single '}' is not allowed` due to incorrect escaping of literal curly braces within example JSON outputs embedded in multi-line f-strings in `duet_api.py`. This required refactoring the prompt string to define JSON examples as separate string variables and then interpolating them into the main f-string."
+      },
+      {
+        "issue": "ImportError for Menu and MenuItem in textual.widgets",
+        "details": "Encountered `ImportError: cannot import name 'Menu' from 'textual.widgets'`. Investigation revealed that `Menu` and `MenuItem` are not directly part of the core Textual library in the current version, but likely belong to a third-party library (e.g., `zandev-textual-widgets`). This task is currently ON HOLD and assigned to Pro, as it requires either installing a new dependency or refactoring the UI to use Textual's built-in `OptionList`."
+      }
+    ]
+  }
+}
