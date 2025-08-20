@@ -110,7 +110,7 @@
   ],
   "task_structure": "Tasks are organized into sequential phases. Each task has a unique ID, name, status (TODO, ON HOLD, DONE), assigned model (Flash, Pro), description, and a list of task ID dependencies. This structure allows for clear tracking of progress and inter-task relationships.",
   "final_goals": {
-    "cost": "Track via Google Cloud Billing; ensure caching reduces Vertex calls by 90%+ in dev; use gemini-1.5-flash for lower pricing.",
+    "cost": "Track via Google Cloud Billing; ensure caching reduces Vertex calls by 90%+ in dev; use gemini-2.5-flash for lower pricing.",
     "accuracy": "95%+ on novel queries via RAG; manual review of SQL outputs.",
     "reintegration": "Test export import in Atriuum sandbox; confirm no duplicates via overlay."
   },

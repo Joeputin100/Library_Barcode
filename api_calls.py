@@ -44,7 +44,9 @@ def get_book_metadata_google_books(title, author, isbn, cache):
 
             if "description" in volume_info:
                 description = volume_info["description"]
-                match = re.search(r"Subject: (.*?)(?:\n|$)", description, re.IGNORECASE)
+                match = re.search(
+                    r"Subject: (.*?)(?:\n|$)", description, re.IGNORECASE
+                )
                 if match:
                     subjects = [s.strip() for s in match.group(1).split(",")]
                     metadata["google_genres"].extend(subjects)
@@ -57,10 +59,14 @@ def get_book_metadata_google_books(title, author, isbn, cache):
             if "seriesInfo" in volume_info:
                 series_info = volume_info["seriesInfo"]
                 if "bookDisplayNumber" in series_info:
-                    metadata["volume_number"] = series_info["bookDisplayNumber"]
+                    metadata["volume_number"] = series_info[
+                        "bookDisplayNumber"
+                    ]
                 if "series" in series_info and series_info["series"]:
                     if "title" in series_info["series"][0]:
-                        metadata["series_name"] = series_info["series"][0]["title"]
+                        metadata["series_name"] = series_info["series"][0][
+                            "title"
+                        ]
 
         cache[cache_key] = metadata
         save_cache(cache)
@@ -68,19 +74,28 @@ def get_book_metadata_google_books(title, author, isbn, cache):
 
     except requests.exceptions.RequestException as e:
         if isinstance(
-            e, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)
+            e,
+            (requests.exceptions.Timeout, requests.exceptions.ConnectionError),
         ):
-            metadata["error"] = f"Temporary Google Books API request failed: {e}"
+            metadata["error"] = (
+                f"Temporary Google Books API request failed: {e}"
+            )
         else:
-            metadata["error"] = f"Permanent Google Books API request failed: {e}"
+            metadata["error"] = (
+                f"Permanent Google Books API request failed: {e}"
+            )
             cache[cache_key] = metadata
             save_cache(cache)
     except Exception as e:
-        metadata["error"] = f"An unexpected error occurred with Google Books API: {e}"
+        metadata["error"] = (
+            f"An unexpected error occurred with Google Books API: {e}"
+        )
     return metadata, False
 
 
-def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache):
+def get_vertex_ai_classification_batch(
+    batch_books, vertex_ai_credentials, cache
+):
     temp_creds_path = "temp_creds.json"
     retry_delays = [10, 20, 30]
 
@@ -93,12 +108,16 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache
 
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_creds_path
 
-        vertexai.init(project=credentials_dict["project_id"], location="us-central1")
+        vertexai.init(
+            project=credentials_dict["project_id"], location="us-central1"
+        )
         model = GenerativeModel("gemini-2.5-flash")
 
         batch_prompts = []
         for book in batch_books:
-            batch_prompts.append(f"Title: {book['title']}, Author: {book['author']}")
+            batch_prompts.append(
+                f"Title: {book['title']}, Author: {book['author']}"
+            )
 
         full_prompt = (
             "For each book in the following list, provide its primary genre or Dewey Decimal classification, "
@@ -118,9 +137,9 @@ def get_vertex_ai_classification_batch(batch_books, vertex_ai_credentials, cache
             try:
                 response = model.generate_content(full_prompt)
                 response_text = response.text.strip()
-                if response_text.startswith("```json") and response_text.endswith(
-                    "```"
-                ):
+                if response_text.startswith(
+                    "```json"
+                ) and response_text.endswith("```"):
                     response_text = response_text[7:-3].strip()
 
                 classifications = json.loads(response_text)
@@ -153,7 +172,9 @@ def get_book_metadata_initial_pass(
         "error": None,
     }
 
-    google_meta, google_cached = get_book_metadata_google_books(title, author, cache)
+    google_meta, google_cached = get_book_metadata_google_books(
+        title, author, isbn, cache
+    )
     metadata.update(google_meta)
 
     loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
@@ -169,7 +190,9 @@ def get_book_metadata_initial_pass(
         elif lccn:
             query = f'bath.lccn="{lccn}"'
         else:
-            query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+            query = (
+                f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+            )
         params = {
             "version": "1.1",
             "operation": "searchRetrieve",
@@ -198,13 +221,17 @@ def get_book_metadata_initial_pass(
                         ns_marc,
                     )
                     if classification_node is not None:
-                        metadata["classification"] = classification_node.text.strip()
+                        metadata["classification"] = (
+                            classification_node.text.strip()
+                        )
                     series_node = root.find(
                         './/marc:datafield[@tag="490"]/marc:subfield[@code="a"]',
                         ns_marc,
                     )
                     if series_node is not None:
-                        metadata["series_name"] = series_node.text.strip().rstrip(" ;")
+                        metadata["series_name"] = (
+                            series_node.text.strip().rstrip(" ;")
+                        )
                     volume_node = root.find(
                         './/marc:datafield[@tag="490"]/marc:subfield[@code="v"]',
                         ns_marc,
@@ -221,7 +248,9 @@ def get_book_metadata_initial_pass(
                             ns_marc,
                         )
                     if pub_year_node is not None and pub_year_node.text:
-                        years = re.findall(r"(1[7-9]\d{2}|20\d{2})", pub_year_node.text)
+                        years = re.findall(
+                            r"(1[7-9]\d{2}|20\d{2})", pub_year_node.text
+                        )
                         if years:
                             metadata["publication_year"] = str(
                                 min([int(y) for y in years])
@@ -243,9 +272,13 @@ def get_book_metadata_initial_pass(
                 if i < len(retry_delays):
                     time.sleep(retry_delays[i])
                     continue
-                metadata["error"] = f"LOC API request failed after retries: {e}"
+                metadata["error"] = (
+                    f"LOC API request failed after retries: {e}"
+                )
             except Exception as e:
-                metadata["error"] = f"An unexpected error occurred with LOC API: {e}"
+                metadata["error"] = (
+                    f"An unexpected error occurred with LOC API: {e}"
+                )
                 break
 
     return metadata, google_cached, loc_cached

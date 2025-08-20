@@ -1,2 +1,6 @@
-__pycache__/
-vertex ai key static-webbing-461904-c4-aa8f7ec18c62.json
+
+google-cloud-cli-*-linux-aarch64.tar.gz
+google-cloud-cli-linux-arm.tar.gz
+google-cloud-sdk/
+install.sh
+install_google_cloud_sdk.sh

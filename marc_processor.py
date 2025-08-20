@@ -75,7 +75,10 @@ def _normalize_barcode_for_comparison(barcode_str):
         # Pad the numeric part to 7 digits with leading zeros
         padded_number = number_str.zfill(7)
         return (prefix, padded_number)
-    return (barcode_str.lower(), "")  # Fallback for purely non-numeric or unparseable
+    return (
+        barcode_str.lower(),
+        "",
+    )  # Fallback for purely non-numeric or unparseable
 
 
 def _apply_single_query(records, query):
@@ -91,20 +94,29 @@ def _apply_single_query(records, query):
         if query_type == "barcode":
             holding_barcodes = get_field_value(record, "holding barcode")
             # Case-insensitive and leading zero insensitive comparison
-            query_value_norm = _normalize_barcode_for_comparison(query.get("value"))
+            query_value_norm = _normalize_barcode_for_comparison(
+                query.get("value")
+            )
             for barcode_str in holding_barcodes:
-                if _normalize_barcode_for_comparison(barcode_str) == query_value_norm:
+                if (
+                    _normalize_barcode_for_comparison(barcode_str)
+                    == query_value_norm
+                ):
                     filtered_records.append(record)
                     break
         elif query_type == "barcode_range":
             holding_barcodes = get_field_value(record, "holding barcode")
-            start_norm = _normalize_barcode_for_comparison(query.get("start", "0"))
+            start_norm = _normalize_barcode_for_comparison(
+                query.get("start", "0")
+            )
             end_norm = _normalize_barcode_for_comparison(query.get("end", "0"))
 
             print(
                 f"DEBUG: Barcode Range Query - Start: {query.get('start')}, End: {query.get('end')}"
             )
-            print(f"DEBUG: Normalized Start: {start_norm}, Normalized End: {end_norm}")
+            print(
+                f"DEBUG: Normalized Start: {start_norm}, Normalized End: {end_norm}"
+            )
 
             for barcode_str in holding_barcodes:
                 current_norm = _normalize_barcode_for_comparison(barcode_str)
@@ -132,7 +144,9 @@ def _apply_single_query(records, query):
             for value in query.get("values", []):
                 if isinstance(value, str):
                     # Single barcode
-                    holding_barcodes = get_field_value(record, "holding barcode")
+                    holding_barcodes = get_field_value(
+                        record, "holding barcode"
+                    )
                     query_value_norm = _normalize_barcode_for_comparison(value)
                     for barcode_str in holding_barcodes:
                         if (
@@ -141,15 +155,24 @@ def _apply_single_query(records, query):
                         ):
                             filtered_records.append(record)
                             break
-                elif isinstance(value, dict) and value.get("type") == "barcode_range":
+                elif (
+                    isinstance(value, dict)
+                    and value.get("type") == "barcode_range"
+                ):
                     # Barcode range
-                    holding_barcodes = get_field_value(record, "holding barcode")
+                    holding_barcodes = get_field_value(
+                        record, "holding barcode"
+                    )
                     start_norm = _normalize_barcode_for_comparison(
                         value.get("start", "0")
                     )
-                    end_norm = _normalize_barcode_for_comparison(value.get("end", "0"))
+                    end_norm = _normalize_barcode_for_comparison(
+                        value.get("end", "0")
+                    )
                     for barcode_str in holding_barcodes:
-                        current_norm = _normalize_barcode_for_comparison(barcode_str)
+                        current_norm = _normalize_barcode_for_comparison(
+                            barcode_str
+                        )
                         if (
                             current_norm[0] == start_norm[0]
                             and current_norm[0] == end_norm[0]

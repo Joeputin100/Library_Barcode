@@ -2887,3 +2887,2155 @@ Is this correct? (Type 'y' to confirm, or 'n' to cancel)
 I understood this as: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
 Is this correct? (Type 'y' to confirm, or 'n' to cancel)
 [2025-08-17 23:45:43] App initialized.
+[2025-08-20 10:04:40] App initialized.
+[2025-08-20 10:05:42] App initialized.
+[2025-08-20 10:04:41] App initialized.
+[2025-08-20 10:04:42] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:04:42] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:04:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:04:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:05:01] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:05:01] parsed_query.get('error'): None
+[2025-08-20 10:05:01] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:05:04] App initialized.
+[2025-08-20 10:05:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:05:04] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:05:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:05:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:05:09] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:05:09] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:05:09] Unsupported or ambiguous query
+[2025-08-20 10:05:12] App initialized.
+[2025-08-20 10:05:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:05:12] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:05:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:05:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:05:16] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:05:16] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:05:16] Unsupported or ambiguous query
+[2025-08-20 10:05:17] App initialized.
+[2025-08-20 10:05:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:05:18] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:05:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:05:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:05:30] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:05:30] parsed_query.get('error'): None
+[2025-08-20 10:05:30] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:05:32] App initialized.
+[2025-08-20 10:05:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:05:33] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:05:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:05:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:05:40] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:05:40] parsed_query.get('error'): None
+[2025-08-20 10:05:40] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:05:45] App initialized.
+[2025-08-20 10:05:45] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:05:45] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:05:45] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:05:45] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:06:01] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:06:01] parsed_query.get('error'): None
+[2025-08-20 10:06:01] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:06:03] App initialized.
+[2025-08-20 10:06:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:06:03] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:06:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:06:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:06:08] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:06:08] parsed_query.get('error'): None
+[2025-08-20 10:06:08] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:06:12] App initialized.
+[2025-08-20 10:06:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:06:12] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:06:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:06:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:06:16] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:06:16] parsed_query.get('error'): None
+[2025-08-20 10:06:16] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:06:19] App initialized.
+[2025-08-20 10:06:19] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:06:19] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:06:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:06:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:07:01] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:07:01] parsed_query.get('error'): None
+[2025-08-20 10:07:01] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:07:03] App initialized.
+[2025-08-20 10:07:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:07:04] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:07:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:07:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:07:17] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:07:17] parsed_query.get('error'): None
+[2025-08-20 10:07:17] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:12:41] App initialized.
+[2025-08-20 10:13:51] App initialized.
+[2025-08-20 10:12:42] App initialized.
+[2025-08-20 10:12:43] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:12:43] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:12:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:12:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:01] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:13:01] parsed_query.get('error'): None
+[2025-08-20 10:13:01] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:13:04] App initialized.
+[2025-08-20 10:13:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:13:04] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:13:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:13:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:09] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:13:09] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:13:09] Unsupported or ambiguous query
+[2025-08-20 10:13:12] App initialized.
+[2025-08-20 10:13:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:13:12] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:13:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:13:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:17] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:13:17] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:13:17] Unsupported or ambiguous query
+[2025-08-20 10:13:18] App initialized.
+[2025-08-20 10:13:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:13:18] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:13:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:13:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:34] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:13:34] parsed_query.get('error'): None
+[2025-08-20 10:13:34] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:13:37] App initialized.
+[2025-08-20 10:13:43] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:13:43] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:13:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:13:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:49] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:13:49] parsed_query.get('error'): None
+[2025-08-20 10:13:49] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:13:54] App initialized.
+[2025-08-20 10:13:54] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:13:54] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:13:54] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:13:54] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:13:59] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:13:59] parsed_query.get('error'): None
+[2025-08-20 10:13:59] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:14:02] App initialized.
+[2025-08-20 10:14:02] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:14:02] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:14:02] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:14:02] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:14:06] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:14:06] parsed_query.get('error'): None
+[2025-08-20 10:14:06] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:14:10] App initialized.
+[2025-08-20 10:14:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:14:10] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:14:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:14:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:14:14] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:14:14] parsed_query.get('error'): None
+[2025-08-20 10:14:14] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:14:16] App initialized.
+[2025-08-20 10:14:17] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:14:17] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:14:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:14:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:15:01] Parsed query: {'type': 'barcode_list', 'values': ['0000035', '0000163', {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:15:01] parsed_query.get('error'): None
+[2025-08-20 10:15:01] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:15:03] App initialized.
+[2025-08-20 10:15:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:15:04] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:15:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:15:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:15:18] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:15:18] parsed_query.get('error'): None
+[2025-08-20 10:15:18] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:17:41] App initialized.
+[2025-08-20 10:19:20] App initialized.
+[2025-08-20 10:17:42] App initialized.
+[2025-08-20 10:17:43] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:17:43] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:17:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:17:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:18:10] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:18:10] parsed_query.get('error'): None
+[2025-08-20 10:18:10] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:18:13] App initialized.
+[2025-08-20 10:18:14] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:18:14] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:18:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:18:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:18:20] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:18:20] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:18:20] Unsupported or ambiguous query
+[2025-08-20 10:18:22] App initialized.
+[2025-08-20 10:18:23] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:18:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:18:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:18:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:18:27] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:18:27] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:18:27] Unsupported or ambiguous query
+[2025-08-20 10:18:29] App initialized.
+[2025-08-20 10:18:29] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:18:29] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:18:29] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:18:29] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:19:08] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:19:08] parsed_query.get('error'): None
+[2025-08-20 10:19:08] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:19:10] App initialized.
+[2025-08-20 10:19:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:19:10] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:19:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:19:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:19:18] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:19:18] parsed_query.get('error'): None
+[2025-08-20 10:19:18] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:19:32] App initialized.
+[2025-08-20 10:19:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:19:32] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:19:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:19:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:19:39] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:19:39] parsed_query.get('error'): None
+[2025-08-20 10:19:39] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:19:41] App initialized.
+[2025-08-20 10:19:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:19:41] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:19:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:19:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:19:47] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:19:47] parsed_query.get('error'): None
+[2025-08-20 10:19:47] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:19:49] App initialized.
+[2025-08-20 10:19:49] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:19:49] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:19:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:19:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:19:54] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:19:54] parsed_query.get('error'): None
+[2025-08-20 10:19:54] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:19:58] App initialized.
+[2025-08-20 10:19:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:19:58] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:19:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:19:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:20:31] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:20:31] parsed_query.get('error'): None
+[2025-08-20 10:20:31] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:20:33] App initialized.
+[2025-08-20 10:20:34] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:20:34] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:20:34] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:20:34] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:20:39] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:20:39] parsed_query.get('error'): None
+[2025-08-20 10:20:39] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:23:01] App initialized.
+[2025-08-20 10:23:03] App initialized.
+[2025-08-20 10:23:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:03] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:23:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:03] Parsed query: None
+[2025-08-20 10:23:03] parsed_query.get('error'): N/A
+[2025-08-20 10:23:03] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:06] App initialized.
+[2025-08-20 10:23:07] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:07] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:23:07] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:07] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:07] Parsed query: None
+[2025-08-20 10:23:07] parsed_query.get('error'): N/A
+[2025-08-20 10:23:07] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:09] App initialized.
+[2025-08-20 10:23:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:09] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:23:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:09] Parsed query: None
+[2025-08-20 10:23:09] parsed_query.get('error'): N/A
+[2025-08-20 10:23:09] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:12] App initialized.
+[2025-08-20 10:23:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:12] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:23:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:12] Parsed query: None
+[2025-08-20 10:23:12] parsed_query.get('error'): N/A
+[2025-08-20 10:23:12] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:14] App initialized.
+[2025-08-20 10:23:15] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:15] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:23:15] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:15] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:15] Parsed query: None
+[2025-08-20 10:23:15] parsed_query.get('error'): N/A
+[2025-08-20 10:23:15] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:16] App initialized.
+[2025-08-20 10:23:33] App initialized.
+[2025-08-20 10:23:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:33] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:23:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:33] Parsed query: None
+[2025-08-20 10:23:33] parsed_query.get('error'): N/A
+[2025-08-20 10:23:33] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:23:39] App initialized.
+[2025-08-20 10:23:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:23:41] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:23:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:23:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:23:41] Parsed query: None
+[2025-08-20 10:23:41] parsed_query.get('error'): N/A
+[2025-08-20 10:23:41] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:24:02] App initialized.
+[2025-08-20 10:24:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:24:03] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:24:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:24:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:24:03] Parsed query: None
+[2025-08-20 10:24:03] parsed_query.get('error'): N/A
+[2025-08-20 10:24:03] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:24:21] App initialized.
+[2025-08-20 10:24:24] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:24:24] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:24:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:24:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:24:24] Parsed query: None
+[2025-08-20 10:24:24] parsed_query.get('error'): N/A
+[2025-08-20 10:24:24] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:24:27] App initialized.
+[2025-08-20 10:24:27] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:24:27] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:24:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:24:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:24:27] Parsed query: None
+[2025-08-20 10:24:27] parsed_query.get('error'): N/A
+[2025-08-20 10:24:27] Could not parse query. Try 'barcode 123', 'author: John Doe', etc.
+[2025-08-20 10:26:08] App initialized.
+[2025-08-20 10:26:54] App initialized.
+[2025-08-20 10:26:09] App initialized.
+[2025-08-20 10:26:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:09] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:26:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:26:15] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:26:15] parsed_query.get('error'): None
+[2025-08-20 10:26:15] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:26:19] App initialized.
+[2025-08-20 10:26:19] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:19] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:26:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:26:24] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:26:24] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:26:24] Unsupported or ambiguous query
+[2025-08-20 10:26:26] App initialized.
+[2025-08-20 10:26:27] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:27] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:26:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:26:35] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:26:35] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:26:35] Unsupported or ambiguous query
+[2025-08-20 10:26:36] App initialized.
+[2025-08-20 10:26:37] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:37] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:26:37] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:37] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:26:42] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:26:42] parsed_query.get('error'): None
+[2025-08-20 10:26:42] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:26:45] App initialized.
+[2025-08-20 10:26:45] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:45] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:26:45] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:45] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:26:52] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:26:52] parsed_query.get('error'): None
+[2025-08-20 10:26:52] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:26:57] App initialized.
+[2025-08-20 10:26:57] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:26:57] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:26:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:26:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:27:03] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:27:03] parsed_query.get('error'): None
+[2025-08-20 10:27:03] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:27:05] App initialized.
+[2025-08-20 10:27:05] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:27:05] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:27:05] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:27:05] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:27:09] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:27:09] parsed_query.get('error'): None
+[2025-08-20 10:27:09] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:27:13] App initialized.
+[2025-08-20 10:27:13] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:27:13] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:27:13] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:27:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:27:18] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:27:18] parsed_query.get('error'): None
+[2025-08-20 10:27:18] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:27:20] App initialized.
+[2025-08-20 10:27:20] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:27:20] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:27:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:27:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:27:30] Parsed query: {'type': 'barcode_list', 'values': ['0000035', '0000163', {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:27:30] parsed_query.get('error'): None
+[2025-08-20 10:27:30] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:27:32] App initialized.
+[2025-08-20 10:27:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:27:32] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:27:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:27:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:27:38] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:27:38] parsed_query.get('error'): None
+[2025-08-20 10:27:38] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:30:45] App initialized.
+[2025-08-20 10:31:27] App initialized.
+[2025-08-20 10:30:47] App initialized.
+[2025-08-20 10:30:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:30:47] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:30:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:30:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:30:53] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:30:53] parsed_query.get('error'): None
+[2025-08-20 10:30:53] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:30:55] App initialized.
+[2025-08-20 10:30:55] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:30:55] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:30:55] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:30:55] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:00] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:31:00] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:31:00] Unsupported or ambiguous query
+[2025-08-20 10:31:03] App initialized.
+[2025-08-20 10:31:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:03] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:31:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:08] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:31:08] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:31:08] Unsupported or ambiguous query
+[2025-08-20 10:31:09] App initialized.
+[2025-08-20 10:31:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:09] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:31:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:15] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:31:15] parsed_query.get('error'): None
+[2025-08-20 10:31:15] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:31:18] App initialized.
+[2025-08-20 10:31:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:18] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:31:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:25] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:31:25] parsed_query.get('error'): None
+[2025-08-20 10:31:25] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:31:30] App initialized.
+[2025-08-20 10:31:31] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:31] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:31:31] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:31] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:38] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:31:38] parsed_query.get('error'): None
+[2025-08-20 10:31:38] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:31:41] App initialized.
+[2025-08-20 10:31:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:41] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:31:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:44] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:31:44] parsed_query.get('error'): None
+[2025-08-20 10:31:44] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:31:48] App initialized.
+[2025-08-20 10:31:48] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:48] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:31:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:31:51] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:31:51] parsed_query.get('error'): None
+[2025-08-20 10:31:51] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:31:53] App initialized.
+[2025-08-20 10:31:54] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:31:54] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:31:54] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:31:54] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:32:07] Parsed query: {'type': 'barcode_list', 'values': ['0000035', '0000163', {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:32:07] parsed_query.get('error'): None
+[2025-08-20 10:32:07] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:32:09] App initialized.
+[2025-08-20 10:32:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:32:09] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:32:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:32:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:32:16] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:32:16] parsed_query.get('error'): None
+[2025-08-20 10:32:16] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:34:22] App initialized.
+[2025-08-20 10:35:06] App initialized.
+[2025-08-20 10:34:24] App initialized.
+[2025-08-20 10:34:24] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:34:24] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:34:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:34:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:34:30] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:34:30] parsed_query.get('error'): None
+[2025-08-20 10:34:30] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:34:33] App initialized.
+[2025-08-20 10:34:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:34:33] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:34:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:34:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:34:39] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:34:39] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:34:39] Unsupported or ambiguous query
+[2025-08-20 10:34:42] App initialized.
+[2025-08-20 10:34:42] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:34:42] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:34:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:34:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:34:47] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:34:47] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:34:47] Unsupported or ambiguous query
+[2025-08-20 10:34:48] App initialized.
+[2025-08-20 10:34:49] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:34:49] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:34:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:34:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:34:54] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:34:54] parsed_query.get('error'): None
+[2025-08-20 10:34:54] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:34:57] App initialized.
+[2025-08-20 10:34:57] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:34:57] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:34:57] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:34:57] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:03] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:35:03] parsed_query.get('error'): None
+[2025-08-20 10:35:03] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:35:09] App initialized.
+[2025-08-20 10:35:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:35:10] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:35:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:35:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:15] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:35:15] parsed_query.get('error'): None
+[2025-08-20 10:35:15] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:35:18] App initialized.
+[2025-08-20 10:35:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:35:18] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:35:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:35:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:23] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:35:23] parsed_query.get('error'): None
+[2025-08-20 10:35:23] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:35:26] App initialized.
+[2025-08-20 10:35:27] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:35:27] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:35:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:35:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:30] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:35:30] parsed_query.get('error'): None
+[2025-08-20 10:35:30] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:35:32] App initialized.
+[2025-08-20 10:35:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:35:32] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:35:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:35:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:51] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:35:51] parsed_query.get('error'): None
+[2025-08-20 10:35:51] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:35:53] App initialized.
+[2025-08-20 10:35:53] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:35:53] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:35:53] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:35:53] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:35:59] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:35:59] parsed_query.get('error'): None
+[2025-08-20 10:35:59] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:37:33] App initialized.
+[2025-08-20 10:38:18] App initialized.
+[2025-08-20 10:37:35] App initialized.
+[2025-08-20 10:37:35] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:37:35] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:37:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:37:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:37:42] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:37:42] parsed_query.get('error'): None
+[2025-08-20 10:37:42] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:37:45] App initialized.
+[2025-08-20 10:37:45] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:37:45] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:37:45] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:37:45] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:37:50] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:37:50] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:37:50] Unsupported or ambiguous query
+[2025-08-20 10:37:53] App initialized.
+[2025-08-20 10:37:53] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:37:53] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:37:53] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:37:53] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:37:57] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:37:57] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:37:57] Unsupported or ambiguous query
+[2025-08-20 10:37:59] App initialized.
+[2025-08-20 10:37:59] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:37:59] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:37:59] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:37:59] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:38:05] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:38:05] parsed_query.get('error'): None
+[2025-08-20 10:38:05] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:38:08] App initialized.
+[2025-08-20 10:38:08] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:38:08] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:38:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:38:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:38:16] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:38:16] parsed_query.get('error'): None
+[2025-08-20 10:38:16] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:38:31] App initialized.
+[2025-08-20 10:38:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:38:32] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:38:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:38:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:38:37] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:38:37] parsed_query.get('error'): None
+[2025-08-20 10:38:37] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:38:39] App initialized.
+[2025-08-20 10:38:40] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:38:40] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:38:40] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:38:40] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:38:44] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:38:44] parsed_query.get('error'): None
+[2025-08-20 10:38:44] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:38:48] App initialized.
+[2025-08-20 10:38:48] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:38:48] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:38:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:38:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:38:52] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:38:52] parsed_query.get('error'): None
+[2025-08-20 10:38:52] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:38:54] App initialized.
+[2025-08-20 10:38:55] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:38:55] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:38:55] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:38:55] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:39:05] Parsed query: {'type': 'barcode_list', 'values': ['0000035', '0000163', {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:39:05] parsed_query.get('error'): None
+[2025-08-20 10:39:05] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:39:08] App initialized.
+[2025-08-20 10:39:08] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:39:08] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:39:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:39:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:39:15] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:39:15] parsed_query.get('error'): None
+[2025-08-20 10:39:15] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:45:51] App initialized.
+[2025-08-20 10:46:43] App initialized.
+[2025-08-20 10:45:53] App initialized.
+[2025-08-20 10:45:53] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:45:53] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:45:53] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:45:53] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:45:59] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:45:59] parsed_query.get('error'): None
+[2025-08-20 10:45:59] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:46:01] App initialized.
+[2025-08-20 10:46:02] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:02] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:46:02] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:02] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:06] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:46:06] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:46:06] Unsupported or ambiguous query
+[2025-08-20 10:46:09] App initialized.
+[2025-08-20 10:46:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:09] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:46:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:24] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:46:24] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:46:24] Unsupported or ambiguous query
+[2025-08-20 10:46:26] App initialized.
+[2025-08-20 10:46:26] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:26] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:46:26] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:26] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:32] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:46:32] parsed_query.get('error'): None
+[2025-08-20 10:46:32] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:46:35] App initialized.
+[2025-08-20 10:46:35] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:35] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:46:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:41] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:46:41] parsed_query.get('error'): None
+[2025-08-20 10:46:41] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:46:47] App initialized.
+[2025-08-20 10:46:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:47] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:46:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:53] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:46:53] parsed_query.get('error'): None
+[2025-08-20 10:46:53] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:46:55] App initialized.
+[2025-08-20 10:46:55] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:46:55] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:46:55] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:46:55] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:46:59] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:46:59] parsed_query.get('error'): None
+[2025-08-20 10:46:59] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:47:03] App initialized.
+[2025-08-20 10:47:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:47:03] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:47:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:47:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:47:06] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:47:06] parsed_query.get('error'): None
+[2025-08-20 10:47:06] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:47:08] App initialized.
+[2025-08-20 10:47:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:47:09] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:47:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:47:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:47:17] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 10:47:17] parsed_query.get('error'): None
+[2025-08-20 10:47:17] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:47:20] App initialized.
+[2025-08-20 10:47:20] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:47:20] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:47:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:47:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:47:30] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:47:30] parsed_query.get('error'): None
+[2025-08-20 10:47:30] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:49:54] App initialized.
+[2025-08-20 10:50:57] App initialized.
+[2025-08-20 10:49:56] App initialized.
+[2025-08-20 10:49:56] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:49:56] DEBUG: Input value (repr): 'b123'
+[2025-08-20 10:49:56] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:49:56] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:50:02] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 10:50:02] parsed_query.get('error'): None
+[2025-08-20 10:50:02] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:50:05] App initialized.
+[2025-08-20 10:50:06] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:50:06] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 10:50:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:50:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:50:11] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 10:50:11] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 10:50:11] Unsupported or ambiguous query
+[2025-08-20 10:50:14] App initialized.
+[2025-08-20 10:50:14] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:50:14] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 10:50:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:50:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:50:37] Parsed query: {'queries': [{'type': 'barcode_range', 'start': '0000001', 'end': '0000099'}, {'type': 'barcode_range', 'start': '0000101', 'end': '0000290'}]}
+[2025-08-20 10:50:37] parsed_query.get('error'): None
+[2025-08-20 10:50:37] You entered: 'b1-b290 but not b100'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:50:40] App initialized.
+[2025-08-20 10:50:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:50:41] DEBUG: Input value (repr): 'b1'
+[2025-08-20 10:50:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:50:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:50:45] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 10:50:45] parsed_query.get('error'): None
+[2025-08-20 10:50:45] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:50:48] App initialized.
+[2025-08-20 10:50:49] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:50:49] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 10:50:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:50:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:50:55] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 10:50:55] parsed_query.get('error'): None
+[2025-08-20 10:50:55] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:51:01] App initialized.
+[2025-08-20 10:51:01] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:51:01] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 10:51:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:51:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:51:07] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:51:07] parsed_query.get('error'): None
+[2025-08-20 10:51:07] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:51:09] App initialized.
+[2025-08-20 10:51:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:51:09] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 10:51:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:51:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:51:13] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 10:51:13] parsed_query.get('error'): None
+[2025-08-20 10:51:13] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:51:17] App initialized.
+[2025-08-20 10:51:17] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:51:17] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 10:51:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:51:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:51:24] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 10:51:24] parsed_query.get('error'): None
+[2025-08-20 10:51:24] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:51:27] App initialized.
+[2025-08-20 10:51:28] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:51:28] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 10:51:28] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:51:28] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:51:39] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '00003957', 'end': '00003960'}]}
+[2025-08-20 10:51:39] parsed_query.get('error'): None
+[2025-08-20 10:51:39] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:51:42] App initialized.
+[2025-08-20 10:51:42] DEBUG: waiting_for_confirmation = False
+[2025-08-20 10:51:42] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 10:51:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 10:51:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 10:51:48] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 10:51:48] parsed_query.get('error'): None
+[2025-08-20 10:51:48] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 10:58:45] App initialized.
+[2025-08-20 10:59:35] App initialized.
+[2025-08-20 11:15:21] App initialized.
+[2025-08-20 11:16:39] App initialized.
+[2025-08-20 11:15:22] App initialized.
+[2025-08-20 11:15:23] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:15:23] DEBUG: Input value (repr): 'b123'
+[2025-08-20 11:15:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:15:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:15:29] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 11:15:29] parsed_query.get('error'): None
+[2025-08-20 11:15:29] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:15:32] App initialized.
+[2025-08-20 11:15:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:15:32] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 11:15:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:15:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:15:38] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:15:38] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:15:38] Unsupported or ambiguous query
+[2025-08-20 11:15:40] App initialized.
+[2025-08-20 11:15:40] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:15:40] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 11:15:40] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:15:40] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:16:18] Parsed query: {'queries': [{'type': 'barcode_range', 'start': '0000001', 'end': '0000099'}, {'type': 'barcode_range', 'start': '0000101', 'end': '0000290'}]}
+[2025-08-20 11:16:18] parsed_query.get('error'): None
+[2025-08-20 11:16:18] You entered: 'b1-b290 but not b100'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:16:21] App initialized.
+[2025-08-20 11:16:21] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:16:21] DEBUG: Input value (repr): 'b1'
+[2025-08-20 11:16:21] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:16:21] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:16:27] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 11:16:27] parsed_query.get('error'): None
+[2025-08-20 11:16:27] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:16:30] App initialized.
+[2025-08-20 11:16:30] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:16:30] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 11:16:30] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:16:30] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:16:37] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 11:16:37] parsed_query.get('error'): None
+[2025-08-20 11:16:37] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:16:42] App initialized.
+[2025-08-20 11:16:42] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:16:42] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 11:16:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:16:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:16:49] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:16:49] parsed_query.get('error'): None
+[2025-08-20 11:16:49] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:16:51] App initialized.
+[2025-08-20 11:16:51] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:16:51] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 11:16:51] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:16:51] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:16:58] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 11:16:58] parsed_query.get('error'): None
+[2025-08-20 11:16:58] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:17:02] App initialized.
+[2025-08-20 11:17:02] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:17:02] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 11:17:02] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:17:02] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:17:09] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 11:17:09] parsed_query.get('error'): None
+[2025-08-20 11:17:09] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:17:11] App initialized.
+[2025-08-20 11:17:11] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:17:11] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 11:17:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:17:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:17:24] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 11:17:24] parsed_query.get('error'): None
+[2025-08-20 11:17:24] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:17:26] App initialized.
+[2025-08-20 11:17:26] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:17:26] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 11:17:26] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:17:26] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:17:34] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:17:34] parsed_query.get('error'): None
+[2025-08-20 11:17:34] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:19:39] App initialized.
+[2025-08-20 11:20:56] App initialized.
+[2025-08-20 11:19:41] App initialized.
+[2025-08-20 11:19:42] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:19:42] DEBUG: Input value (repr): 'b123'
+[2025-08-20 11:19:42] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:19:42] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:19:47] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 11:19:47] parsed_query.get('error'): None
+[2025-08-20 11:19:47] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:19:51] App initialized.
+[2025-08-20 11:19:51] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:19:51] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 11:19:51] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:19:51] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:19:57] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:19:57] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:19:57] Unsupported or ambiguous query
+[2025-08-20 11:20:00] App initialized.
+[2025-08-20 11:20:00] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:20:00] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 11:20:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:20:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:20:33] Parsed query: {'queries': [{'type': 'barcode_range', 'start': '0000001', 'end': '0000099'}, {'type': 'barcode_range', 'start': '0000101', 'end': '0000290'}]}
+[2025-08-20 11:20:33] parsed_query.get('error'): None
+[2025-08-20 11:20:33] You entered: 'b1-b290 but not b100'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:20:36] App initialized.
+[2025-08-20 11:20:36] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:20:36] DEBUG: Input value (repr): 'b1'
+[2025-08-20 11:20:36] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:20:36] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:20:43] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 11:20:43] parsed_query.get('error'): None
+[2025-08-20 11:20:43] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:20:46] App initialized.
+[2025-08-20 11:20:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:20:47] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 11:20:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:20:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:20:54] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 11:20:54] parsed_query.get('error'): None
+[2025-08-20 11:20:54] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:21:00] App initialized.
+[2025-08-20 11:21:00] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:21:00] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 11:21:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:21:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:21:06] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:21:06] parsed_query.get('error'): None
+[2025-08-20 11:21:06] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:21:08] App initialized.
+[2025-08-20 11:21:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:21:09] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 11:21:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:21:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:21:15] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 11:21:15] parsed_query.get('error'): None
+[2025-08-20 11:21:15] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:21:19] App initialized.
+[2025-08-20 11:21:20] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:21:20] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 11:21:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:21:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:21:26] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 11:21:26] parsed_query.get('error'): None
+[2025-08-20 11:21:26] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:21:29] App initialized.
+[2025-08-20 11:21:29] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:21:29] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 11:21:29] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:21:29] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:21:44] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 11:21:44] parsed_query.get('error'): None
+[2025-08-20 11:21:44] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:21:47] App initialized.
+[2025-08-20 11:21:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:21:47] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 11:21:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:21:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:21:55] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:21:55] parsed_query.get('error'): None
+[2025-08-20 11:21:55] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:24:46] App initialized.
+[2025-08-20 11:25:47] App initialized.
+[2025-08-20 11:24:50] App initialized.
+[2025-08-20 11:24:50] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:24:50] DEBUG: Input value (repr): 'b123'
+[2025-08-20 11:24:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:24:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:24:59] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 11:24:59] parsed_query.get('error'): None
+[2025-08-20 11:24:59] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:25:02] App initialized.
+[2025-08-20 11:25:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:25:03] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 11:25:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:25:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:25:07] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:25:07] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:25:07] Unsupported or ambiguous query
+[2025-08-20 11:25:10] App initialized.
+[2025-08-20 11:25:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:25:10] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 11:25:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:25:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:25:26] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:25:26] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:25:26] Unsupported or ambiguous query
+[2025-08-20 11:25:28] App initialized.
+[2025-08-20 11:25:29] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:25:29] DEBUG: Input value (repr): 'b1'
+[2025-08-20 11:25:29] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:25:29] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:25:34] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 11:25:34] parsed_query.get('error'): None
+[2025-08-20 11:25:34] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:25:37] App initialized.
+[2025-08-20 11:25:38] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:25:38] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 11:25:38] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:25:38] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:25:44] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 11:25:44] parsed_query.get('error'): None
+[2025-08-20 11:25:44] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:25:51] App initialized.
+[2025-08-20 11:25:52] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:25:52] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 11:25:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:25:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:25:58] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:25:58] parsed_query.get('error'): None
+[2025-08-20 11:25:58] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:26:01] App initialized.
+[2025-08-20 11:26:01] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:26:01] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 11:26:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:26:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:26:04] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 11:26:04] parsed_query.get('error'): None
+[2025-08-20 11:26:04] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:26:09] App initialized.
+[2025-08-20 11:26:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:26:09] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 11:26:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:26:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:26:16] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 11:26:16] parsed_query.get('error'): None
+[2025-08-20 11:26:16] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:26:18] App initialized.
+[2025-08-20 11:26:19] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:26:19] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 11:26:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:26:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:26:29] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 11:26:29] parsed_query.get('error'): None
+[2025-08-20 11:26:29] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:26:32] App initialized.
+[2025-08-20 11:26:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:26:32] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 11:26:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:26:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:26:36] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:26:36] parsed_query.get('error'): None
+[2025-08-20 11:26:36] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:32:46] App initialized.
+[2025-08-20 11:33:31] App initialized.
+[2025-08-20 11:32:48] App initialized.
+[2025-08-20 11:32:48] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:32:48] DEBUG: Input value (repr): 'b123'
+[2025-08-20 11:32:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:32:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:32:54] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 11:32:54] parsed_query.get('error'): None
+[2025-08-20 11:32:54] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:32:57] App initialized.
+[2025-08-20 11:32:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:32:58] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 11:32:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:32:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:03] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:33:03] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:33:03] Unsupported or ambiguous query
+[2025-08-20 11:33:05] App initialized.
+[2025-08-20 11:33:06] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:06] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 11:33:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:12] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:33:12] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:33:12] Unsupported or ambiguous query
+[2025-08-20 11:33:14] App initialized.
+[2025-08-20 11:33:14] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:14] DEBUG: Input value (repr): 'b1'
+[2025-08-20 11:33:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:20] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 11:33:20] parsed_query.get('error'): None
+[2025-08-20 11:33:20] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:33:23] App initialized.
+[2025-08-20 11:33:23] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:23] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 11:33:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:29] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 11:33:29] parsed_query.get('error'): None
+[2025-08-20 11:33:29] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:33:34] App initialized.
+[2025-08-20 11:33:35] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:35] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 11:33:35] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:35] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:40] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:33:40] parsed_query.get('error'): None
+[2025-08-20 11:33:40] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:33:42] App initialized.
+[2025-08-20 11:33:43] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:43] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 11:33:43] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:43] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:46] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 11:33:46] parsed_query.get('error'): None
+[2025-08-20 11:33:46] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:33:51] App initialized.
+[2025-08-20 11:33:52] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:33:52] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 11:33:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:33:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:33:56] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 11:33:56] parsed_query.get('error'): None
+[2025-08-20 11:33:56] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:33:59] App initialized.
+[2025-08-20 11:34:00] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:34:00] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 11:34:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:34:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:34:20] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 11:34:20] parsed_query.get('error'): None
+[2025-08-20 11:34:20] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:34:23] App initialized.
+[2025-08-20 11:34:23] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:34:23] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 11:34:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:34:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:34:29] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:34:29] parsed_query.get('error'): None
+[2025-08-20 11:34:29] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:35:59] App initialized.
+[2025-08-20 11:36:47] App initialized.
+[2025-08-20 11:36:01] App initialized.
+[2025-08-20 11:36:01] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:01] DEBUG: Input value (repr): 'b123'
+[2025-08-20 11:36:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:10] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 11:36:10] parsed_query.get('error'): None
+[2025-08-20 11:36:10] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:36:13] App initialized.
+[2025-08-20 11:36:13] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:13] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 11:36:13] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:18] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:36:18] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:36:18] Unsupported or ambiguous query
+[2025-08-20 11:36:21] App initialized.
+[2025-08-20 11:36:21] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:21] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 11:36:21] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:21] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:29] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 11:36:29] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 11:36:29] Unsupported or ambiguous query
+[2025-08-20 11:36:30] App initialized.
+[2025-08-20 11:36:31] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:31] DEBUG: Input value (repr): 'b1'
+[2025-08-20 11:36:31] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:31] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:36] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 11:36:36] parsed_query.get('error'): None
+[2025-08-20 11:36:36] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:36:39] App initialized.
+[2025-08-20 11:36:39] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:39] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 11:36:39] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:39] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:45] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 11:36:45] parsed_query.get('error'): None
+[2025-08-20 11:36:45] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:36:50] App initialized.
+[2025-08-20 11:36:50] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:50] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 11:36:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:36:55] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:36:55] parsed_query.get('error'): None
+[2025-08-20 11:36:55] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:36:58] App initialized.
+[2025-08-20 11:36:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:36:58] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 11:36:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:36:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:37:01] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 11:37:01] parsed_query.get('error'): None
+[2025-08-20 11:37:01] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:37:08] App initialized.
+[2025-08-20 11:37:08] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:37:08] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 11:37:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:37:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:37:11] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 11:37:11] parsed_query.get('error'): None
+[2025-08-20 11:37:11] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:37:14] App initialized.
+[2025-08-20 11:37:14] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:37:14] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 11:37:14] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:37:14] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:37:24] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 11:37:24] parsed_query.get('error'): None
+[2025-08-20 11:37:24] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 11:37:27] App initialized.
+[2025-08-20 11:37:27] DEBUG: waiting_for_confirmation = False
+[2025-08-20 11:37:27] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 11:37:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 11:37:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 11:37:37] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 11:37:37] parsed_query.get('error'): None
+[2025-08-20 11:37:37] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:01:07] App initialized.
+[2025-08-20 12:02:05] App initialized.
+[2025-08-20 12:01:09] App initialized.
+[2025-08-20 12:01:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:01:09] DEBUG: Input value (repr): 'b123'
+[2025-08-20 12:01:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:01:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:01:16] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 12:01:16] parsed_query.get('error'): None
+[2025-08-20 12:01:16] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:01:19] App initialized.
+[2025-08-20 12:01:19] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:01:19] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 12:01:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:01:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:01:29] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:01:29] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:01:29] Unsupported or ambiguous query
+[2025-08-20 12:01:31] App initialized.
+[2025-08-20 12:01:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:01:32] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 12:01:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:01:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:01:44] Parsed query: {'queries': [{'type': 'barcode_range', 'start': '0000001', 'end': '0000099'}, {'type': 'barcode_range', 'start': '0000101', 'end': '0000290'}]}
+[2025-08-20 12:01:44] parsed_query.get('error'): None
+[2025-08-20 12:01:44] You entered: 'b1-b290 but not b100'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:01:46] App initialized.
+[2025-08-20 12:01:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:01:47] DEBUG: Input value (repr): 'b1'
+[2025-08-20 12:01:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:01:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:01:52] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 12:01:52] parsed_query.get('error'): None
+[2025-08-20 12:01:52] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:01:55] App initialized.
+[2025-08-20 12:01:56] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:01:56] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 12:01:56] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:01:56] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:03] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 12:02:03] parsed_query.get('error'): None
+[2025-08-20 12:02:03] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:02:08] App initialized.
+[2025-08-20 12:02:09] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:02:09] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 12:02:09] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:02:09] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:15] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:02:15] parsed_query.get('error'): None
+[2025-08-20 12:02:15] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:02:18] App initialized.
+[2025-08-20 12:02:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:02:18] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 12:02:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:02:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:23] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 12:02:23] parsed_query.get('error'): None
+[2025-08-20 12:02:23] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:02:28] App initialized.
+[2025-08-20 12:02:28] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:02:28] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 12:02:28] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:02:28] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:34] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 12:02:34] parsed_query.get('error'): None
+[2025-08-20 12:02:34] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:02:37] App initialized.
+[2025-08-20 12:02:38] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:02:38] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 12:02:38] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:02:38] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:49] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 12:02:49] parsed_query.get('error'): None
+[2025-08-20 12:02:49] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:02:52] App initialized.
+[2025-08-20 12:02:52] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:02:52] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 12:02:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:02:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:02:59] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:02:59] parsed_query.get('error'): None
+[2025-08-20 12:02:59] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:05:28] App initialized.
+[2025-08-20 12:06:20] App initialized.
+[2025-08-20 12:05:30] App initialized.
+[2025-08-20 12:05:30] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:05:30] DEBUG: Input value (repr): 'b123'
+[2025-08-20 12:05:30] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:05:30] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:05:37] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 12:05:37] parsed_query.get('error'): None
+[2025-08-20 12:05:37] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:05:40] App initialized.
+[2025-08-20 12:05:40] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:05:40] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 12:05:40] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:05:40] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:05:47] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:05:47] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:05:47] Unsupported or ambiguous query
+[2025-08-20 12:05:50] App initialized.
+[2025-08-20 12:05:50] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:05:50] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 12:05:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:05:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:01] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:06:01] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:06:01] Unsupported or ambiguous query
+[2025-08-20 12:06:04] App initialized.
+[2025-08-20 12:06:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:04] DEBUG: Input value (repr): 'b1'
+[2025-08-20 12:06:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:09] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 12:06:09] parsed_query.get('error'): None
+[2025-08-20 12:06:09] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:06:12] App initialized.
+[2025-08-20 12:06:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:12] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 12:06:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:19] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 12:06:19] parsed_query.get('error'): None
+[2025-08-20 12:06:19] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:06:24] App initialized.
+[2025-08-20 12:06:24] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:24] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 12:06:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:35] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:06:35] parsed_query.get('error'): None
+[2025-08-20 12:06:35] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:06:38] App initialized.
+[2025-08-20 12:06:38] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:38] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 12:06:38] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:38] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:44] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 12:06:44] parsed_query.get('error'): None
+[2025-08-20 12:06:44] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:06:49] App initialized.
+[2025-08-20 12:06:49] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:49] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 12:06:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:06:55] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 12:06:55] parsed_query.get('error'): None
+[2025-08-20 12:06:55] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:06:58] App initialized.
+[2025-08-20 12:06:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:06:58] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 12:06:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:06:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:07:09] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 12:07:09] parsed_query.get('error'): None
+[2025-08-20 12:07:09] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:07:12] App initialized.
+[2025-08-20 12:07:12] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:07:12] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 12:07:12] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:07:12] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:07:21] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:07:21] parsed_query.get('error'): None
+[2025-08-20 12:07:21] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:09:32] App initialized.
+[2025-08-20 12:10:37] App initialized.
+[2025-08-20 12:09:35] App initialized.
+[2025-08-20 12:09:36] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:09:36] DEBUG: Input value (repr): 'b123'
+[2025-08-20 12:09:36] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:09:36] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:09:44] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 12:09:44] parsed_query.get('error'): None
+[2025-08-20 12:09:44] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:09:47] App initialized.
+[2025-08-20 12:09:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:09:47] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 12:09:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:09:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:09:59] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:09:59] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:09:59] Unsupported or ambiguous query
+[2025-08-20 12:10:03] App initialized.
+[2025-08-20 12:10:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:03] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 12:10:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:10:17] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:10:17] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:10:17] Unsupported or ambiguous query
+[2025-08-20 12:10:19] App initialized.
+[2025-08-20 12:10:19] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:19] DEBUG: Input value (repr): 'b1'
+[2025-08-20 12:10:19] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:19] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:10:24] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 12:10:24] parsed_query.get('error'): None
+[2025-08-20 12:10:24] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:10:27] App initialized.
+[2025-08-20 12:10:28] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:28] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 12:10:28] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:28] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:10:35] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 12:10:35] parsed_query.get('error'): None
+[2025-08-20 12:10:35] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:10:41] App initialized.
+[2025-08-20 12:10:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:41] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 12:10:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:10:46] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:10:46] parsed_query.get('error'): None
+[2025-08-20 12:10:46] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:10:49] App initialized.
+[2025-08-20 12:10:50] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:50] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 12:10:50] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:50] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:10:53] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 12:10:53] parsed_query.get('error'): None
+[2025-08-20 12:10:53] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:10:58] App initialized.
+[2025-08-20 12:10:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:10:58] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 12:10:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:10:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:11:00] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 12:11:00] parsed_query.get('error'): None
+[2025-08-20 12:11:00] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:11:04] App initialized.
+[2025-08-20 12:11:04] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:11:04] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 12:11:04] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:11:04] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:11:14] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 12:11:14] parsed_query.get('error'): None
+[2025-08-20 12:11:14] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:11:17] App initialized.
+[2025-08-20 12:11:17] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:11:17] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 12:11:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:11:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:11:30] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:11:30] parsed_query.get('error'): None
+[2025-08-20 12:11:30] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:53:57] App initialized.
+[2025-08-20 12:54:42] App initialized.
+[2025-08-20 12:53:58] App initialized.
+[2025-08-20 12:53:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:53:58] DEBUG: Input value (repr): 'b123'
+[2025-08-20 12:53:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:53:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:05] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 12:54:05] parsed_query.get('error'): None
+[2025-08-20 12:54:05] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:54:08] App initialized.
+[2025-08-20 12:54:08] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:08] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 12:54:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:13] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:54:13] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:54:13] Unsupported or ambiguous query
+[2025-08-20 12:54:15] App initialized.
+[2025-08-20 12:54:16] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:16] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 12:54:16] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:16] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:22] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 12:54:22] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 12:54:22] Unsupported or ambiguous query
+[2025-08-20 12:54:24] App initialized.
+[2025-08-20 12:54:25] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:25] DEBUG: Input value (repr): 'b1'
+[2025-08-20 12:54:25] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:25] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:30] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 12:54:30] parsed_query.get('error'): None
+[2025-08-20 12:54:30] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:54:33] App initialized.
+[2025-08-20 12:54:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:33] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 12:54:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:40] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 12:54:40] parsed_query.get('error'): None
+[2025-08-20 12:54:40] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:54:47] App initialized.
+[2025-08-20 12:54:47] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:47] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 12:54:47] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:47] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:54:52] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:54:52] parsed_query.get('error'): None
+[2025-08-20 12:54:52] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:54:55] App initialized.
+[2025-08-20 12:54:55] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:54:55] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 12:54:55] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:54:55] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:55:01] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 12:55:01] parsed_query.get('error'): None
+[2025-08-20 12:55:01] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:55:06] App initialized.
+[2025-08-20 12:55:06] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:55:06] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 12:55:06] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:55:06] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:55:10] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 12:55:10] parsed_query.get('error'): None
+[2025-08-20 12:55:10] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:55:13] App initialized.
+[2025-08-20 12:55:13] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:55:13] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 12:55:13] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:55:13] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:55:28] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 12:55:28] parsed_query.get('error'): None
+[2025-08-20 12:55:28] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 12:55:32] App initialized.
+[2025-08-20 12:55:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 12:55:33] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 12:55:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 12:55:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 12:55:37] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 12:55:37] parsed_query.get('error'): None
+[2025-08-20 12:55:37] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:36:01] App initialized.
+[2025-08-20 13:36:49] App initialized.
+[2025-08-20 13:36:03] App initialized.
+[2025-08-20 13:36:03] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:03] DEBUG: Input value (repr): 'b123'
+[2025-08-20 13:36:03] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:03] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:08] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 13:36:08] parsed_query.get('error'): None
+[2025-08-20 13:36:08] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:36:11] App initialized.
+[2025-08-20 13:36:11] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:11] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 13:36:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:14] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 13:36:14] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 13:36:14] Unsupported or ambiguous query
+[2025-08-20 13:36:17] App initialized.
+[2025-08-20 13:36:17] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:17] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 13:36:17] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:17] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:29] Parsed query: {'queries': [{'type': 'barcode_range', 'start': '0000001', 'end': '0000099'}, {'type': 'barcode_range', 'start': '0000101', 'end': '0000290'}]}
+[2025-08-20 13:36:29] parsed_query.get('error'): None
+[2025-08-20 13:36:29] You entered: 'b1-b290 but not b100'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:36:32] App initialized.
+[2025-08-20 13:36:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:32] DEBUG: Input value (repr): 'b1'
+[2025-08-20 13:36:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:38] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 13:36:38] parsed_query.get('error'): None
+[2025-08-20 13:36:38] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:36:41] App initialized.
+[2025-08-20 13:36:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:41] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 13:36:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:47] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 13:36:47] parsed_query.get('error'): None
+[2025-08-20 13:36:47] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:36:52] App initialized.
+[2025-08-20 13:36:52] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:36:52] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 13:36:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:36:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:36:58] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:36:58] parsed_query.get('error'): None
+[2025-08-20 13:36:58] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:37:01] App initialized.
+[2025-08-20 13:37:01] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:37:01] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 13:37:01] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:37:01] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:37:06] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 13:37:06] parsed_query.get('error'): None
+[2025-08-20 13:37:06] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:37:11] App initialized.
+[2025-08-20 13:37:11] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:37:11] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 13:37:11] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:37:11] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:37:17] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 13:37:17] parsed_query.get('error'): None
+[2025-08-20 13:37:17] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:37:19] App initialized.
+[2025-08-20 13:37:20] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:37:20] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 13:37:20] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:37:20] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:37:31] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 13:37:31] parsed_query.get('error'): None
+[2025-08-20 13:37:31] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:37:34] App initialized.
+[2025-08-20 13:37:34] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:37:34] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 13:37:34] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:37:34] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:37:44] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:37:44] parsed_query.get('error'): None
+[2025-08-20 13:37:44] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:40:14] App initialized.
+[2025-08-20 13:41:05] App initialized.
+[2025-08-20 13:40:15] App initialized.
+[2025-08-20 13:40:16] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:40:16] DEBUG: Input value (repr): 'b123'
+[2025-08-20 13:40:16] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:40:16] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:40:21] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 13:40:21] parsed_query.get('error'): None
+[2025-08-20 13:40:21] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:40:24] App initialized.
+[2025-08-20 13:40:24] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:40:24] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 13:40:24] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:40:24] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:40:29] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 13:40:29] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 13:40:29] Unsupported or ambiguous query
+[2025-08-20 13:40:32] App initialized.
+[2025-08-20 13:40:32] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:40:32] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 13:40:32] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:40:32] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:40:46] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 13:40:46] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 13:40:46] Unsupported or ambiguous query
+[2025-08-20 13:40:48] App initialized.
+[2025-08-20 13:40:49] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:40:49] DEBUG: Input value (repr): 'b1'
+[2025-08-20 13:40:49] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:40:49] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:40:54] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 13:40:54] parsed_query.get('error'): None
+[2025-08-20 13:40:54] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:40:57] App initialized.
+[2025-08-20 13:40:58] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:40:58] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 13:40:58] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:40:58] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:03] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 13:41:03] parsed_query.get('error'): None
+[2025-08-20 13:41:03] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:41:08] App initialized.
+[2025-08-20 13:41:08] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:41:08] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 13:41:08] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:41:08] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:15] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:41:15] parsed_query.get('error'): None
+[2025-08-20 13:41:15] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:41:17] App initialized.
+[2025-08-20 13:41:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:41:18] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 13:41:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:41:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:22] Parsed query: {'type': 'field_query', 'value': 'Aveyard', 'field': 'author'}
+[2025-08-20 13:41:22] parsed_query.get('error'): None
+[2025-08-20 13:41:22] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:41:27] App initialized.
+[2025-08-20 13:41:27] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:41:27] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 13:41:27] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:41:27] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:33] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 13:41:33] parsed_query.get('error'): None
+[2025-08-20 13:41:33] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:41:36] App initialized.
+[2025-08-20 13:41:36] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:41:36] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 13:41:36] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:41:36] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:45] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 13:41:45] parsed_query.get('error'): None
+[2025-08-20 13:41:45] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:41:48] App initialized.
+[2025-08-20 13:41:48] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:41:48] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 13:41:48] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:41:48] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:41:52] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:41:52] parsed_query.get('error'): None
+[2025-08-20 13:41:52] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:44:00] App initialized.
+[2025-08-20 13:44:48] App initialized.
+[2025-08-20 13:44:01] App initialized.
+[2025-08-20 13:44:02] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:02] DEBUG: Input value (repr): 'b123'
+[2025-08-20 13:44:02] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:02] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:07] Parsed query: {'type': 'barcode', 'value': '0000123'}
+[2025-08-20 13:44:07] parsed_query.get('error'): None
+[2025-08-20 13:44:07] You entered: 'b123'
+I understood this as: a search for barcode '0000123'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:44:10] App initialized.
+[2025-08-20 13:44:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:10] DEBUG: Input value (repr): 'all barcodes by Aveyard.'
+[2025-08-20 13:44:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:20] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 13:44:20] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 13:44:20] Unsupported or ambiguous query
+[2025-08-20 13:44:22] App initialized.
+[2025-08-20 13:44:23] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:23] DEBUG: Input value (repr): 'b1-b290 but not b100'
+[2025-08-20 13:44:23] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:23] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:31] Parsed query: {'error': 'Unsupported or ambiguous query'}
+[2025-08-20 13:44:31] parsed_query.get('error'): Unsupported or ambiguous query
+[2025-08-20 13:44:31] Unsupported or ambiguous query
+[2025-08-20 13:44:32] App initialized.
+[2025-08-20 13:44:33] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:33] DEBUG: Input value (repr): 'b1'
+[2025-08-20 13:44:33] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:33] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:38] Parsed query: {'type': 'barcode', 'value': '0000001'}
+[2025-08-20 13:44:38] parsed_query.get('error'): None
+[2025-08-20 13:44:38] You entered: 'b1'
+I understood this as: a search for barcode '0000001'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:44:41] App initialized.
+[2025-08-20 13:44:41] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:41] DEBUG: Input value (repr): 'author: brandon sanderson and series: stormlight archive'
+[2025-08-20 13:44:41] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:41] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:47] Parsed query: {'queries': [{'type': 'field_query', 'field': 'author', 'value': 'brandon sanderson'}, {'type': 'field_query', 'field': 'series', 'value': 'stormlight archive'}]}
+[2025-08-20 13:44:47] parsed_query.get('error'): None
+[2025-08-20 13:44:47] You entered: 'author: brandon sanderson and series: stormlight archive'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:44:52] App initialized.
+[2025-08-20 13:44:52] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:44:52] DEBUG: Input value (repr): 'b100-b105'
+[2025-08-20 13:44:52] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:44:52] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:44:57] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:44:57] parsed_query.get('error'): None
+[2025-08-20 13:44:57] You entered: 'b100-b105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:45:00] App initialized.
+[2025-08-20 13:45:00] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:45:00] DEBUG: Input value (repr): 'author: Aveyard'
+[2025-08-20 13:45:00] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:45:00] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:45:05] Parsed query: {'type': 'field_query', 'field': 'author', 'value': 'Aveyard'}
+[2025-08-20 13:45:05] parsed_query.get('error'): None
+[2025-08-20 13:45:05] You entered: 'author: Aveyard'
+I understood this as: a search for author containing 'Aveyard'
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:45:10] App initialized.
+[2025-08-20 13:45:10] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:45:10] DEBUG: Input value (repr): 'barcodes beginning with lp'
+[2025-08-20 13:45:10] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:45:10] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:45:15] Parsed query: {'type': 'barcode_starts_with', 'prefix': 'lp'}
+[2025-08-20 13:45:15] parsed_query.get('error'): None
+[2025-08-20 13:45:15] You entered: 'barcodes beginning with lp'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:45:18] App initialized.
+[2025-08-20 13:45:18] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:45:18] DEBUG: Input value (repr): 'lp35, b163, 3957-3960'
+[2025-08-20 13:45:18] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:45:18] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:45:28] Parsed query: {'queries': [{'type': 'barcode', 'value': '0000035'}, {'type': 'barcode', 'value': '0000163'}, {'type': 'barcode_range', 'start': '0003957', 'end': '0003960'}]}
+[2025-08-20 13:45:28] parsed_query.get('error'): None
+[2025-08-20 13:45:28] You entered: 'lp35, b163, 3957-3960'
+I understood this as: an unknown query type.
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)
+[2025-08-20 13:45:30] App initialized.
+[2025-08-20 13:45:31] DEBUG: waiting_for_confirmation = False
+[2025-08-20 13:45:31] DEBUG: Input value (repr): 'B000100 to B000105'
+[2025-08-20 13:45:31] DEBUG: query_str.lower() == 'y': False
+[2025-08-20 13:45:31] DEBUG: query_str.lower() == 'n': False
+[2025-08-20 13:45:39] Parsed query: {'type': 'barcode_range', 'start': '0000100', 'end': '0000105'}
+[2025-08-20 13:45:39] parsed_query.get('error'): None
+[2025-08-20 13:45:39] You entered: 'B000100 to B000105'
+I understood this as: a search for barcodes between 0000100 and 0000105
+Is this correct? (Type 'y' to confirm, or 'n' to cancel)

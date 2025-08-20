@@ -67,7 +67,7 @@
                     "task_name": "Prompt Engineering and Gemini Integration",
                     "status": "DONE",
                     "model": "Pro",
-                    "description": "Define dynamic prompts including retrieved schema, few-shot examples (cached in a file), and safeguards. Integrate Vertex AI Gemini (gemini-1.5-flash for cost efficiency). Cache prompt-response pairs using a dict or Redis to skip API calls for repeated queries.",
+                    "description": "Define dynamic prompts including retrieved schema, few-shot examples (cached in a file), and safeguards. Integrate Vertex AI Gemini (gemini-2.5-flash for cost efficiency). Cache prompt-response pairs using a dict or Redis to skip API calls for repeated queries.",
                     "dependencies": [
                         "2.1"
                     ],
@@ -170,7 +170,7 @@
                 {
                     "task_id": "7.1",
                     "task_name": "Restate MARC Query in Natural English",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Pro",
                     "description": "When the MARC query TUI asks for confirmation, have it restate the query in natural English for better user understanding.",
                     "dependencies": [],
@@ -179,7 +179,7 @@
                 {
                     "task_id": "7.2",
                     "task_name": "Integrate MARC Import and Query into Streamlit",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Pro",
                     "description": "In the Streamlit app, provide options to import a MARC or CSV file, or use an existing MARC database, showing a list of available databases.",
                     "dependencies": [],
@@ -188,7 +188,7 @@
                 {
                     "task_id": "7.3",
                     "task_name": "Use Bibliographic Data for API Queries",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Pro",
                     "description": "After importing, use data from the bibliographic records (ISBN, LCCN) to query external data sources, with a fallback to author and title if necessary.",
                     "dependencies": ["7.2"],
@@ -197,7 +197,7 @@
                 {
                     "task_id": "7.4",
                     "task_name": "Confirm Changes Before Saving",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Flash",
                     "description": "After the manual row editing step in the Streamlit app, ask the user for confirmation before saving the changes to the database.",
                     "dependencies": ["7.2"],
@@ -206,7 +206,7 @@
                 {
                     "task_id": "7.5",
                     "task_name": "Generate MARC Export File for Changed Rows",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Pro",
                     "description": "For rows that have been changed (either by API enrichment or manual edits), generate a MARC import file that can be uploaded back to Atriuum.",
                     "dependencies": ["7.3", "7.4"],
@@ -221,7 +221,7 @@
                 {
                     "task_id": "8.1",
                     "task_name": "Migrate MARC Data Processing to BigQuery",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Pro",
                     "priority": "High",
                     "description": "Refactor the data processing pipeline to perform data enrichment and cleaning operations directly within BigQuery using SQL queries and UDFs, leveraging the logic already developed in the local scripts.",
@@ -237,11 +237,35 @@
                 {
                     "task_id": "9.1",
                     "task_name": "Implement and Enforce Linter Checks",
-                    "status": "TODO",
+                    "status": "DONE",
                     "model": "Flash",
                     "description": "Configure and apply black and flake8 to the entire codebase to ensure consistent code style and quality. Integrate these checks into a pre-commit hook to automatically enforce standards.",
                     "dependencies": [],
                     "expected_output": "A clean and consistently formatted codebase, with automated checks to maintain this standard."
+                },
+                {
+                    "task_id": "9.2",
+                    "task_name": "Fix Project Viewer Tree Auto-Collapse",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Removed automatic tree reloading in project_viewer.py to prevent auto-collapse and added a manual refresh button.",
+                    "dependencies": [],
+                    "expected_output": "Project viewer tree remains expanded as left by user."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 10: Deployment and Configuration",
+            "description": "Tasks related to deploying the application and configuring the environment.",
+            "tasks": [
+                {
+                    "task_id": "10.1",
+                    "task_name": "Configure Application Default Credentials (ADC)",
+                    "status": "DONE",
+                    "model": "Flash",
+                    "description": "Create a step-by-step guide or a script to help the user configure Application Default Credentials (ADC) in their Termux environment, so the application can authenticate with Google Cloud services.",
+                    "dependencies": [],
+                    "expected_output": "A clear guide or script that allows the user to successfully authenticate the application."
                 }
             ]
         }

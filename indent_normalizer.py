@@ -7,6 +7,7 @@ Backs up your original to streamlit_app.py.bak and rewrites the file in place.
 """
 
 import sys
+import shutil
 
 INDENT_STEP = 4
 

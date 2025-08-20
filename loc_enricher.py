@@ -107,7 +107,9 @@ def enrich_data_with_loc():
             data["series_name"] = google_meta["series_name"]
         if google_meta.get("volume_number") and not data.get("volume_number"):
             data["volume_number"] = google_meta["volume_number"]
-        if google_meta.get("publication_year") and not data.get("publication_year"):
+        if google_meta.get("publication_year") and not data.get(
+            "publication_year"
+        ):
             data["publication_year"] = google_meta["publication_year"]
 
         # Decide if Vertex AI is needed (if call_number is still missing after LOC and Google Books)
@@ -137,8 +139,10 @@ def enrich_data_with_loc():
         )
         BATCH_SIZE = 5
         batches = [
-            unclassified_books_for_vertex_ai[j:j + BATCH_SIZE]
-            for j in range(0, len(unclassified_books_for_vertex_ai), BATCH_SIZE)
+            unclassified_books_for_vertex_ai[j: j + BATCH_SIZE]
+            for j in range(
+                0, len(unclassified_books_for_vertex_ai), BATCH_SIZE
+            )
         ]
 
         for batch in batches:
@@ -149,10 +153,14 @@ def enrich_data_with_loc():
             print(f"  Received batch classifications: {batch_classifications}")
 
             if not isinstance(batch_classifications, list):
-                print(f"Vertex AI returned non-list object: {batch_classifications}")
+                print(
+                    f"Vertex AI returned non-list object: {batch_classifications}"
+                )
                 continue
 
-            for book_data, vertex_ai_results in zip(batch, batch_classifications):
+            for book_data, vertex_ai_results in zip(
+                batch, batch_classifications
+            ):
                 print(
                     f"    Vertex AI results for {book_data['barcode']}: {vertex_ai_results}"
                 )
@@ -167,9 +175,9 @@ def enrich_data_with_loc():
                         vertex_ai_results[k] = ""
 
                 # Update the classification in current_data
-                if vertex_ai_results.get("classification") and not current_data.get(
-                    "call_number"
-                ):
+                if vertex_ai_results.get(
+                    "classification"
+                ) and not current_data.get("call_number"):
                     current_data["call_number"] = clean_call_number(
                         vertex_ai_results["classification"],
                         current_data.get("genres", []),
@@ -179,17 +187,21 @@ def enrich_data_with_loc():
                         f"      Updated call_number for {barcode}: {current_data.get('call_number')}"
                     )
 
-                if vertex_ai_results.get("series_title") and not current_data.get(
-                    "series_name"
-                ):
-                    current_data["series_name"] = vertex_ai_results["series_title"]
-                if vertex_ai_results.get("volume_number") and not current_data.get(
+                if vertex_ai_results.get(
+                    "series_title"
+                ) and not current_data.get("series_name"):
+                    current_data["series_name"] = vertex_ai_results[
+                        "series_title"
+                    ]
+                if vertex_ai_results.get(
                     "volume_number"
-                ):
-                    current_data["volume_number"] = vertex_ai_results["volume_number"]
-                if vertex_ai_results.get("copyright_year") and not current_data.get(
-                    "publication_year"
-                ):
+                ) and not current_data.get("volume_number"):
+                    current_data["volume_number"] = vertex_ai_results[
+                        "volume_number"
+                    ]
+                if vertex_ai_results.get(
+                    "copyright_year"
+                ) and not current_data.get("publication_year"):
                     current_data["publication_year"] = vertex_ai_results[
                         "copyright_year"
                     ]

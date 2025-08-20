@@ -114,7 +114,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
     series_name = clean_text_for_pdf(book_data.get("Series Info", ""))
     series_number = book_data.get("Series Number", "")
     dewey_number = book_data.get("Call Number", "")
-    inventory_number = pad_inventory_number(book_data.get("Holdings Barcode", ""))
+    inventory_number = pad_inventory_number(
+        book_data.get("Holdings Barcode", "")
+    )
 
     if label_type == 1 or label_type == 2:
         if len(title) > 26:
@@ -128,7 +130,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
         ]
         if series_name:
             text_lines.append(
-                f"{series_name} {series_number}" if series_number else series_name
+                f"{series_name} {series_number}"
+                if series_number
+                else series_name
             )
         text_lines.append(f"<b>{inventory_number}</b> - <b>{dewey_number}</b>")
 
@@ -176,7 +180,11 @@ def create_label(c, x, y, book_data, label_type, library_name):
 
         qr_image = generate_qrcode(inventory_number)
         c.drawImage(
-            qr_image, qr_code_x, qr_code_y, width=qr_code_size, height=qr_code_size
+            qr_image,
+            qr_code_x,
+            qr_code_y,
+            width=qr_code_size,
+            height=qr_code_size,
         )
 
         text_lines = [
@@ -185,7 +193,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
         ]
         if series_name:
             text_lines.append(
-                f"{series_name} #{series_number}" if series_number else series_name
+                f"{series_name} #{series_number}"
+                if series_number
+                else series_name
             )
         text_lines.append(inventory_number)
 
@@ -203,7 +213,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
             width, height = p.wrapOn(c, max_text_width, max_text_height)
             total_text_height += height + (0.05 * inch)
 
-        current_y = y + (LABEL_HEIGHT - total_text_height) / 2 + total_text_height
+        current_y = (
+            y + (LABEL_HEIGHT - total_text_height) / 2 + total_text_height
+        )
 
         for line_idx, line_text in enumerate(text_lines):
             line_offset_y = 0
@@ -284,7 +296,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
         for i, line in enumerate(lines):
             text_width = c.stringWidth(line, "Courier-Bold", 10)
             c.drawString(
-                x + (LABEL_WIDTH - text_width) / 2, start_y - (i * line_height), line
+                x + (LABEL_WIDTH - text_width) / 2,
+                start_y - (i * line_height),
+                line,
             )
 
     elif label_type == 4:
@@ -308,7 +322,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
             f"{title} by {authors.split(',')[0] if authors else ''}",
         ]
         max_text_above_width = LABEL_WIDTH - 10
-        max_text_above_height = (y + LABEL_HEIGHT) - (barcode_y + barcode_height) - 5
+        max_text_above_height = (
+            (y + LABEL_HEIGHT) - (barcode_y + barcode_height) - 5
+        )
 
         optimal_font_size_above, text_block_height_above = _fit_text_to_box(
             c,
@@ -330,7 +346,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
         current_y_above = y + LABEL_HEIGHT - 5
         for line in text_above_barcode_lines:
             p = Paragraph(line, style_above)
-            width, height = p.wrapOn(c, max_text_above_width, max_text_above_height)
+            width, height = p.wrapOn(
+                c, max_text_above_width, max_text_above_height
+            )
             p.drawOn(c, x + 5, current_y_above - height)
             current_y_above -= height + (0.05 * inch)
 
@@ -367,7 +385,7 @@ def create_label(c, x, y, book_data, label_type, library_name):
         if text_left_barcode_lines:
             c.saveState()
             text_origin_x = x + 5
-                vertical_offset = (len(series_number) - 1) * GRID_SPACING
+
             text_origin_y = (
                 y
                 + (LABEL_HEIGHT - text_block_height_left) / 2
@@ -382,7 +400,9 @@ def create_label(c, x, y, book_data, label_type, library_name):
             current_rotated_y = 0
             for line in text_left_barcode_lines:
                 p = Paragraph(line, style_left)
-                width, height = p.wrapOn(c, max_text_left_width, max_text_left_height)
+                width, height = p.wrapOn(
+                    c, max_text_left_width, max_text_left_height
+                )
                 current_rotated_y -= height
                 p.drawOn(c, 0, current_rotated_y)
                 current_rotated_y -= 0.05 * inch
@@ -397,7 +417,9 @@ def generate_pdf_labels(df, library_name):
     for index, row in df.iterrows():
         book_data = row.to_dict()
         for label_type in range(1, 5):
-            row_num = (label_count // LABELS_PER_SHEET_WIDTH) % LABELS_PER_SHEET_HEIGHT
+            row_num = (
+                label_count // LABELS_PER_SHEET_WIDTH
+            ) % LABELS_PER_SHEET_HEIGHT
             col_num = label_count % LABELS_PER_SHEET_WIDTH
 
             x_pos = LEFT_MARGIN + col_num * (LABEL_WIDTH + HORIZONTAL_SPACING)
@@ -435,7 +457,11 @@ def generate_pdf_labels(df, library_name):
             create_label(c, x_pos, y_pos, book_data, label_type, library_name)
             label_count += 1
 
-            if label_count % (LABELS_PER_SHEET_WIDTH * LABELS_PER_SHEET_HEIGHT) == 0:
+            if (
+                label_count
+                % (LABELS_PER_SHEET_WIDTH * LABELS_PER_SHEET_HEIGHT)
+                == 0
+            ):
                 c.showPage()
                 c.setFont("Courier", 8)
 

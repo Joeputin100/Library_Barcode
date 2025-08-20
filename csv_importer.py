@@ -10,7 +10,9 @@ def import_csv(uploaded_file):
         or st.session_state.uploaded_file_hash is None
         or st.session_state.uploaded_file_hash != uploaded_file_hash
     ):
-        df = pd.read_csv(uploaded_file, encoding="latin1", dtype=str).fillna("")
+        df = pd.read_csv(uploaded_file, encoding="latin1", dtype=str).fillna(
+            ""
+        )
         df.rename(columns={"Author's Name": "Author"}, inplace=True)
         st.session_state.processed_df = df
         st.session_state.uploaded_file_hash = uploaded_file_hash

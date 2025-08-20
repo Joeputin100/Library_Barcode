@@ -24,10 +24,14 @@ def extract_and_save_marc_data(marc_file_path, output_json_path):
     with open(output_json_path, "w") as f:
         json.dump(extracted_data, f, indent=4)
 
-    print(f"Extracted {len(extracted_data)} records and saved to {output_json_path}")
+    print(
+        f"Extracted {len(extracted_data)} records and saved to {output_json_path}"
+    )
 
 
 if __name__ == "__main__":
-    marc_file = "cimb_bibliographic.marc"  # Assuming this is the primary MARC file
+    marc_file = (
+        "cimb_bibliographic.marc"  # Assuming this is the primary MARC file
+    )
     output_file = "extracted_marc_data.json"
     extract_and_save_marc_data(marc_file, output_file)

@@ -597,5 +597,51 @@
         "google_genres": [],
         "classification": "",
         "error": null
+    },
+    "google_||9780765326355": {
+        "google_genres": [
+            "Fiction"
+        ],
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2010",
+        "error": null
+    },
+    "loc_|": {
+        "classification": "813/.6",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2010",
+        "genres": [
+            "Fantasy fiction"
+        ],
+        "google_genres": [
+            "Fiction"
+        ],
+        "error": null
+    },
+    "google_the way of kings|brandon sanderson|": {
+        "google_genres": [
+            "Fiction"
+        ],
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2010",
+        "error": null
+    },
+    "loc_the way of kings|brandon sanderson": {
+        "classification": "813/.6",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "2010",
+        "genres": [
+            "Fantasy fiction"
+        ],
+        "google_genres": [
+            "Fiction"
+        ],
+        "error": null
     }
 }

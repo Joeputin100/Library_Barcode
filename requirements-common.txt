@@ -12,3 +12,4 @@ qrcode
 google-auth
 pytest
 pytest-asyncio
+pytest-textual-snapshot

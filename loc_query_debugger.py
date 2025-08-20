@@ -5,10 +5,13 @@ import requests
 import time
 import json
 import os
+import csv
 
 # --- Constants & Cache (simplified for this debugger script) ---
 SUGGESTION_FLAG = "🐒"
-CACHE_FILE = "loc_cache.json"  # This script will still use the cache for efficiency
+CACHE_FILE = (
+    "loc_cache.json"  # This script will still use the cache for efficiency
+)
 
 
 def load_cache():
@@ -25,13 +28,15 @@ def save_cache(cache):
 
 def get_raw_loc_response(title, author, cache):
     safe_title = re.sub(r"[^a-zA-Z0-9\s\.:\\]", "", title)
-    safe_author = re.sub(r"[^a-zA-Z0-9\s,]", "", author)
+    safe_author = re.sub(r"[^a-zA-Z0-9\s, ]", "", author)
     cache_key = f"{safe_title}|{safe_author}".lower()
 
     # Check cache first
     if cache_key in cache and "raw_response" in cache[cache_key]:
         sys.stderr.write(f"DEBUG: Cache hit for {title} by {author}\n")
-        return cache[cache_key]["raw_response"], cache[cache_key].get("query", "N/A")
+        return cache[cache_key]["raw_response"], cache[cache_key].get(
+            "query", "N/A"
+        )
 
     base_url = "http://lx2.loc.gov:210/LCDB"
     if safe_author:
@@ -68,37 +73,43 @@ def get_raw_loc_response(title, author, cache):
             else:
                 break
         except requests.exceptions.RequestException as e:
-            error_message = f"An unexpected error occurred for {title} by {author}: {e}"
-            sys.stderr.write(
-                f"ERROR: {error_message}\n"
+            error_message = (
+                f"An unexpected error occurred for {title} by {author}: {e}"
             )
+            sys.stderr.write(f"ERROR: {error_message}\n")
             break
 
     # Store error in cache if all retries fail
-    cache[cache_key] = {"raw_response": "ERROR: " + error_message, "query": query}
+    cache[cache_key] = {
+        "raw_response": "ERROR: " + error_message,
+        "query": query,
+    }
     return "ERROR: " + error_message, query
 
 
-
-5,"The girl from Playa Blanca","Lachtman, Ofelia Dumas","","c1995.","B000177","1995.","",""
-6,"A spectacle of corruption.","Liss, David","","c2004.","B000179","2004.","Benjamin Weaver","2"
-7,"Huésped","Meyer, Stephenie","","c2008.","B000171","2008.","",""
-8,"Jack & Jill (Alex Cross)","Patterson, James","","c1997.","B000183","1997-11.","Alex Cross","3"
-9,"Slow Bullets","Reynolds, Alastair","","c2015.","B000180","2015.","",""
-10,"Nonviolent communication : a language of life","Rosenberg, Marshall B.","","c2015.","B000169","2015.","",""
-11,"Rhythm of War: Book Four of the Stormlight Archive","Sanderson, Brandon","","c2021.","B000170","Oct.","The Stormlight Archive","4"
-12,"The Way of Kings: Book One of the Stormlight Archive","Sanderson, Brandon","","c2014.","B000185","March.","The Storm light Archive","1"
-13,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey How About Treason?), Vol. 3","Toba, Toru","","c2020.","B000163","2020.","The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","3"
-14,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 4","Toba, Toru","","c2020.","B000164","2020.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","4"
-15,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5","Toba, Toru","","c2020.","B000165","2020.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","5"
-16,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 6","Toba, Toru","","c2021.","B000166","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","6"
-17,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 7","Toba, Toru","","c2021.","B000167","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","7"
-18,"Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How about Treason?), Vol. 8 (light Novel)","Toba, Toru","","c2021.","B000168","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","8"
-19,"The power of now : a guide to spiritual enlightenment","Tolle, Eckhart","","c2004.","B000181","2004.","",""
-20,"Trauma-Informed Approach to Library Services","Tolley, Rebecca","","c2020.","B000182","2020.","",""
-21,"Beneath Devil's Bridge : a novel","White, Loreth Anne","","c2021.","B000175","May.","",""
-22,"In the Deep","White, Loreth Anne","","c2020.","B000176","2020.","",""
-23,"The devil's arithmetic","Yolen, Jane","","c1990.","B000178","1990.","",""'''
+def main():
+    csv_content = '''"ID","Title","Author's Name","Illustrator's Name","Copyright Date","Barcode","Date Acquired","Series Title","Series Volume"
+1,"Bonji Yagkanatu Paperback","","","c2024.","B000172","2024.","",""
+2,"The old man and the sea","Hemingway, Ernest","","c1952.","B000173","1952.","",""
+3,"The girl from Playa Blanca","Lachtman, Ofelia Dumas","","c1995.","B000177","1995.","",""
+4,"A spectacle of corruption.","Liss, David","","c2004.","B000179","2004.","Benjamin Weaver","2"
+5,"Huésped","Meyer, Stephenie","","c2008.","B000171","2008.","",""
+6,"Jack & Jill (Alex Cross)","Patterson, James","","c1997.","B000183","1997-11.","Alex Cross","3"
+7,"Slow Bullets","Reynolds, Alastair","","c2015.","B000180","2015.","",""
+8,"Nonviolent communication : a language of life","Rosenberg, Marshall B.","","c2015.","B000169","2015.","",""
+9,"Rhythm of War: Book Four of the Stormlight Archive","Sanderson, Brandon","","c2021.","B000170","Oct.","The Stormlight Archive","4"
+10,"The Way of Kings: Book One of the Stormlight Archive","Sanderson, Brandon","","c2014.","B000185","March.","The Storm light Archive","1"
+11,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey How About Treason?), Vol. 3","Toba, Toru","","c2020.","B000163","2020.","The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","3"
+12,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 4","Toba, Toru","","c2020.","B000164","2020.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","4"
+13,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 5","Toba, Toru","","c2020.","B000165","2020.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","5"
+14,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 6","Toba, Toru","","c2021.","B000166","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","6"
+15,"The Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How About Treason?), Vol. 7","Toba, Toru","","c2021.","B000167","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","7"
+16,"Genius Prince's Guide to Raising a Nation Out of Debt (Hey, How about Treason?), Vol. 8 (light Novel)","Toba, Toru","","c2021.","B000168","2021.","The Genius Princes Guide to Raising a Nation Out of Debt (Hey, How About Treason?)","8"
+17,"The power of now : a guide to spiritual enlightenment","Tolle, Eckhart","","c2004.","B000181","2004.","",""
+18,"Trauma-Informed Approach to Library Services","Tolley, Rebecca","","c2020.","B000182","2020.","",""
+19,"Beneath Devil's Bridge : a novel","White, Loreth Anne","","c2021.","B000175","May.","",""
+20,"In the Deep","White, Loreth Anne","","c2020.","B000176","2020.","",""
+21,"The devil's arithmetic","Yolen, Jane","","c1990.","B000178","1990.","",""'''
     csvfile = io.StringIO(csv_content)
     reader = csv.DictReader(csvfile)
 
@@ -108,10 +119,15 @@ def get_raw_loc_response(title, author, cache):
         title = row.get("Title", "").strip()
         author = row.get("Author's Name", "").strip()
 
-        sys.stderr.write(f"--- Processing: {title} by {author} ---\n")
+        sys.stderr.write(
+            "--- Processing: {} by {} ---\
+".format(
+                title, author
+            )
+        )
         raw_response, query = get_raw_loc_response(title, author, cache)
-        sys.stderr.write(f"QUERY: {query}\n")
-        sys.stderr.write(f"RAW RESPONSE: {raw_response}\n\n")
+        sys.stderr.write("QUERY: {}\\n".format(query))
+        sys.stderr.write("RAW RESPONSE: {}\\n".format(raw_response)) + "\n"
 
     save_cache(cache)
 

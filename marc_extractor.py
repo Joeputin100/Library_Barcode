@@ -25,7 +25,9 @@ def extract_marc_data():
 
                 barcode_field = record.get(field_mapping["barcode"][0])
                 if barcode_field:
-                    barcodes = barcode_field.get_subfields(field_mapping["barcode"][1])
+                    barcodes = barcode_field.get_subfields(
+                        field_mapping["barcode"][1]
+                    )
                     if barcodes:
                         barcode = barcodes[0]
 
@@ -34,15 +36,23 @@ def extract_marc_data():
                         lccn_field = record.get(field_mapping["lccn"][0])
 
                         title = (
-                            title_field.get_subfields(field_mapping["title"][1])[0]
+                            title_field.get_subfields(
+                                field_mapping["title"][1]
+                            )[0]
                             if title_field
-                            and title_field.get_subfields(field_mapping["title"][1])
+                            and title_field.get_subfields(
+                                field_mapping["title"][1]
+                            )
                             else None
                         )
                         author = (
-                            author_field.get_subfields(field_mapping["author"][1])[0]
+                            author_field.get_subfields(
+                                field_mapping["author"][1]
+                            )[0]
                             if author_field
-                            and author_field.get_subfields(field_mapping["author"][1])
+                            and author_field.get_subfields(
+                                field_mapping["author"][1]
+                            )
                             else None
                         )
 

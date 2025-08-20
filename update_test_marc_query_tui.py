@@ -1,6 +1,8 @@
 import re
 
-file_path = "/data/data/com.termux/files/home/projects/barcode/test_marc_query_tui.py"
+file_path = (
+    "/data/data/com.termux/files/home/projects/barcode/test_marc_query_tui.py"
+)
 
 with open(file_path, "r") as f:
     content = f.read()

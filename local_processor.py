@@ -71,7 +71,9 @@ def get_book_metadata_google_books(title, author, cache):
 
             if "description" in volume_info:
                 description = volume_info["description"]
-                match = re.search(r"Subject: (.*?)(?:\n|$)", description, re.IGNORECASE)
+                match = re.search(
+                    r"Subject: (.*?)(?:\n|$)", description, re.IGNORECASE
+                )
                 if match:
                     subjects = [s.strip() for s in match.group(1).split(",")]
                     metadata["google_genres"].extend(subjects)
@@ -82,40 +84,23 @@ def get_book_metadata_google_books(title, author, cache):
     except requests.exceptions.RequestException as e:
         metadata["error"] = f"Google Books API request failed: {e}"
     except Exception as e:
-        metadata["error"] = f"An unexpected error occurred with Google Books API: {e}"
+        metadata["error"] = (
+            f"An unexpected error occurred with Google Books API: {e}"
+        )
     return metadata
 
 
-def clean_call_number(call_num_str, genres, google_genres=None, title=""):
-    if google_genres is None:
-        google_genres = []
+import pandas as pd
+import re
+import requests
+from lxml import etree
+import time
+import json
+import os
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from data_transformers import clean_call_number
 
-    if not isinstance(call_num_str, str):
-        return ""
-    cleaned = call_num_str.strip().lstrip(SUGGESTION_FLAG)
-    cleaned = cleaned.replace("/", "")
-
-    # Prioritize Google Books categories
-    if any("fiction" in g.lower() for g in google_genres):
-        return "FIC"
-
-    if cleaned.upper().startswith("FIC"):
-        return "FIC"
-    if re.match(r"^8\\d{2}\\.\\5\\d*$", cleaned):
-        return "FIC"
-    # Check for fiction genres
-    fiction_genres = ["fiction", "novel", "stories"]
-    if any(genre.lower() in fiction_genres for genre in genres):
-        return "FIC"
-
-    # Fallback to title check
-    if any(keyword in title.lower() for keyword in ["novel", "stories", "a novel"]):
-        return "FIC"
-
-    match = re.match(r"^(\d+(\.\d+)?)", cleaned)
-    if match:
-        return match.group(1)
-    return cleaned
 
 
 def get_book_metadata(title, author, cache, event):
@@ -152,14 +137,18 @@ def get_book_metadata(title, author, cache, event):
     metadata.update(google_meta)
 
     if not metadata.get("google_genres"):
-        print(f"**Debug: No genres in Google Books for {title}. Querying LOC.**")
+        print(
+            f"**Debug: No genres in Google Books for {title}. Querying LOC.**"
+        )
         loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
         if loc_cache_key in cache:
             cached_loc_meta = cache[loc_cache_key]
             metadata.update(cached_loc_meta)
         else:
             base_url = "http://lx2.loc.gov:210/LCDB"
-            query = f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+            query = (
+                f'bath.title="{safe_title}" and bath.author="{safe_author}"'
+            )
             params = {
                 "version": "1.1",
                 "operation": "searchRetrieve",
@@ -171,13 +160,19 @@ def get_book_metadata(title, author, cache, event):
             retry_delays = [5, 15, 30]
             for i in range(len(retry_delays) + 1):
                 try:
-                    response = requests.get(base_url, params=params, timeout=20)
+                    response = requests.get(
+                        base_url, params=params, timeout=20
+                    )
                     response.raise_for_status()
                     root = etree.fromstring(response.content)
-                    ns_diag = {"diag": "http://www.loc.gov/zing/srw/diagnostic/"}
+                    ns_diag = {
+                        "diag": "http://www.loc.gov/zing/srw/diagnostic/"
+                    }
                     error_message = root.find(".//diag:message", ns_diag)
                     if error_message is not None:
-                        metadata["error"] = f"LOC API Error: {error_message.text}"
+                        metadata["error"] = (
+                            f"LOC API Error: {error_message.text}"
+                        )
                     else:
                         ns_marc = {"marc": "http://www.loc.gov/MARC21/slim"}
                         classification_node = root.find(
@@ -193,15 +188,17 @@ def get_book_metadata(title, author, cache, event):
                             ns_marc,
                         )
                         if series_node is not None:
-                            metadata["series_name"] = series_node.text.strip().rstrip(
-                                " ;"
+                            metadata["series_name"] = (
+                                series_node.text.strip().rstrip(" ;")
                             )
                         volume_node = root.find(
                             './/marc:datafield[@tag="490"]/marc:subfield[@code="v"]',
                             ns_marc,
                         )
                         if volume_node is not None:
-                            metadata["volume_number"] = volume_node.text.strip()
+                            metadata["volume_number"] = (
+                                volume_node.text.strip()
+                            )
                         pub_year_node = root.find(
                             './/marc:datafield[@tag="264"]/marc:subfield[@code="c"]',
                             ns_marc,
@@ -235,8 +232,12 @@ def get_book_metadata(title, author, cache, event):
                         )
                         time.sleep(retry_delays[i])
                         continue
-                    metadata["error"] = f"LOC API request failed after retries: {e}"
-                    print(f"**Debug: LOC failed for {title}, returning what we have.**")
+                    metadata["error"] = (
+                        f"LOC API request failed after retries: {e}"
+                    )
+                    print(
+                        f"**Debug: LOC failed for {title}, returning what we have.**"
+                    )
                 except Exception as e:
                     metadata["error"] = (
                         f"An unexpected error occurred with LOC API: {e}"
@@ -283,7 +284,9 @@ def main():
                 title=title,
             )
 
-            print(f"{title}\t{author}\t{api_call_number}\t{cleaned_call_number}")
+            print(
+                f"{title}\t{author}\t{api_call_number}\t{cleaned_call_number}"
+            )
 
     save_cache(loc_cache)
 

@@ -1,5 +1,9 @@
 import datetime
-from textual.app import App, ComposeResult, events, events, events, events, events, events, events, events
+from textual.app import (
+    App,
+    ComposeResult,
+    events,
+)
 from textual.widgets import (
     Header,
     Footer,
@@ -12,7 +16,11 @@ from textual.containers import Vertical
 from textual.screen import ModalScreen
 
 from query_parser import parse_query
-from marc_processor import load_marc_records, filter_marc_records, get_field_value
+from marc_processor import (
+    load_marc_records,
+    filter_marc_records,
+    get_field_value,
+)
 
 
 class HelpScreen(ModalScreen):
@@ -73,7 +81,7 @@ def generate_natural_language_query(parsed_query):
 
     # Handle combined queries first
     if "queries" in parsed_query and "operator" in parsed_query:
-        
+
         sub_queries = [
             generate_natural_language_query(q).replace("a search for ", "")
             for q in parsed_query["queries"]
@@ -99,7 +107,9 @@ def generate_natural_language_query(parsed_query):
 class MarcQueryTUI(App):
     """A Textual app to query MARC records."""
 
-    CSS_PATH = "project_viewer.css"  # Reusing the CSS for now, might rename later
+    CSS_PATH = (
+        "project_viewer.css"  # Reusing the CSS for now, might rename later
+    )
 
     BINDINGS = [
         ("q", "quit", "Quit"),
@@ -141,7 +151,9 @@ class MarcQueryTUI(App):
     def on_input_submitted(self, event: Input.Submitted):
         """Handle input submission."""
         results_widget = self.query_one("#results", RichLog)
-        loading_indicator = self.query_one("#loading-indicator", LoadingIndicator)
+        loading_indicator = self.query_one(
+            "#loading-indicator", LoadingIndicator
+        )
 
         self._log_message(
             f"DEBUG: waiting_for_confirmation = {self.waiting_for_confirmation}"
@@ -165,7 +177,9 @@ class MarcQueryTUI(App):
             if query_str.lower() == "y":
                 self.waiting_for_confirmation = False
                 if self.current_parsed_query:
-                    self._log_message(f"Executing query: {self.current_parsed_query}")
+                    self._log_message(
+                        f"Executing query: {self.current_parsed_query}"
+                    )
                     self.execute_query(self.current_parsed_query)
                 else:
                     self._log_message("Error: No query to execute.")
@@ -174,7 +188,9 @@ class MarcQueryTUI(App):
                 self.waiting_for_confirmation = False
                 self.current_parsed_query = None
                 self._log_message("Query cancelled. Please enter a new query.")
-                results_widget.write("Query cancelled. Please enter a new query.")
+                results_widget.write(
+                    "Query cancelled. Please enter a new query."
+                )
             else:
                 self._log_message(
                     "Invalid input. Type 'y' to confirm or 'n' to cancel."
@@ -197,7 +213,9 @@ class MarcQueryTUI(App):
                 self.current_parsed_query = parsed_query
                 self.waiting_for_confirmation = True
 
-                natural_language_query = generate_natural_language_query(parsed_query)
+                natural_language_query = generate_natural_language_query(
+                    parsed_query
+                )
                 confirmation_message = f"You entered: '{query_str}'\n"
                 confirmation_message += (
                     f"I understood this as: {natural_language_query}\n"
@@ -207,7 +225,9 @@ class MarcQueryTUI(App):
                 )
                 self._log_message(confirmation_message)
                 results_widget.write(confirmation_message)
-                query_input.value = ""  # Clear input after displaying confirmation
+                query_input.value = (
+                    ""  # Clear input after displaying confirmation
+                )
                 query_input.blur()  # Unfocus the input
             else:
                 self.current_parsed_query = None
@@ -230,7 +250,9 @@ class MarcQueryTUI(App):
         results_widget.clear()
         self._log_message("Executing query and clearing results.")
 
-        filtered_records = filter_marc_records(self.all_marc_records, parsed_query)
+        filtered_records = filter_marc_records(
+            self.all_marc_records, parsed_query
+        )
 
         self._log_message(f"Found {len(filtered_records)} records.\n\n")
         results_widget.write(f"Found {len(filtered_records)} records.\n\n")
