@@ -3,11 +3,8 @@ import requests
 import time
 import os
 import subprocess
-from external_enricher import (
-    get_book_metadata_google_books,
-    get_vertex_ai_classification_batch,
-    clean_call_number,
-)  # Import necessary functions
+from api_calls import get_book_metadata_google_books, get_vertex_ai_classification_batch
+from data_transformers import clean_call_number
 
 
 def update_status(task_id, status):

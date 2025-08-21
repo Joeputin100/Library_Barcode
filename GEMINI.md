@@ -59,3 +59,10 @@ Use pytest with pytest-asyncio for async support. Optionally, integrate pytest-t
   }
 }
 ```
+
+- **Command Substitution Limitation:** The `run_shell_command` tool does not support command substitution (e.g., using `$` or backticks `` ` ``) within its `command` argument, even when escaped. This is a security measure. Avoid using such constructs directly in the `command` string.
+
+# User Preferences
+
+- Do not flatter the user.
+- Do not apologize for mistakes. It's just extra text the user has to read every time and he finds it annoying.

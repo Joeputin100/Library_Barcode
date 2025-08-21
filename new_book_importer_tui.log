@@ -1,0 +1,5 @@
+DEBUG: DEBUG: MainScreen.on_button_pressed called. Count: 1
+DEBUG: Selected file: /data/data/com.termux/files/home/projects/barcode/isbns_to_be_entered_2025088.txt
+DEBUG: DEBUG: MainScreen.on_button_pressed called. Count: 2
+DEBUG: Error loading data from BigQuery: Please install the 'db-dtypes' package to use this function.
+DEBUG: Error loading data from BigQuery: Please install the 'db-dtypes' package to use this function.

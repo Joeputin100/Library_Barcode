@@ -87,3 +87,7 @@ Switch {
     height: 100%;
     overflow: auto;
 }
+
+.sparkline_widget {
+    width: 1fr;
+}

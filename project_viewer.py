@@ -80,10 +80,12 @@ class ProjectViewer(App):
                 yield Tab("Project Plan")
                 yield Tab("Project State")
                 yield Tab("Context")
+                yield Tab("New Book Importer Plan")
             with Container(id="content-container"):
                 yield Tree("Project Plan", id="plan-tree")
                 yield Static(id="project-state-view", classes="hidden")
                 yield Static(id="context-view", classes="hidden")
+                yield Tree("New Book Importer Plan", id="new-importer-plan-tree", classes="hidden")
 
         with Horizontal(id="buttons"):
             yield Input(
@@ -104,6 +106,7 @@ class ProjectViewer(App):
         self.query_one("#plan-tree").add_class("hidden")
         self.query_one("#project-state-view").add_class("hidden")
         self.query_one("#context-view").add_class("hidden")
+        self.query_one("#new-importer-plan-tree").add_class("hidden") # Hide new tree
 
         if event.tab.label == "Project Plan":
             self.query_one("#plan-tree").remove_class("hidden")
@@ -114,6 +117,9 @@ class ProjectViewer(App):
         elif event.tab.label == "Context":
             self.query_one("#context-view").remove_class("hidden")
             self.load_context()
+        elif event.tab.label == "New Book Importer Plan": # New condition
+            self.query_one("#new-importer-plan-tree").remove_class("hidden")
+            self.load_new_book_importer_plan()
 
     def send_notification(self, title, content):
         try:
@@ -366,6 +372,128 @@ class ProjectViewer(App):
             context_view.update(json.dumps(context, indent=4))
         except (FileNotFoundError, json.JSONDecodeError) as e:
             context_view.update(f"Could not load context.json: {e}")
+
+    def load_context(self):
+        """Load the context from the JSON ile."""
+        context_view = self.query_one("#context-view", Static)
+        try:
+            with open("context.json") as f:
+                context = json.load(f)
+            context_view.update(json.dumps(context, indent=4))
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            context_view.update(f"Could not load context.json: {e}")
+
+    def load_new_book_importer_plan(self):
+        print(
+            f"[DEBUG] Loading new book importer plan. auto_expand_tree: {self.auto_expand_tree}"
+        )
+        """Load the new book importer plan from the JSON file."""
+        tree = self.query_one("#new-importer-plan-tree", Tree)
+        tree.clear()
+        last_done_node = None
+        try:
+            with open("new_book_importer_plan.json") as f:
+                self.new_importer_plan = json.load(f)
+
+            root = tree.root
+            root.label = self.new_importer_plan["project_name"]
+
+            for phase in self.new_importer_plan["phases"]:
+                phase_node = root.add(phase["phase_name"])
+                if phase.get("status") == "DONE":
+                    last_done_node = phase_node
+
+                # Filter tasks
+                filtered_tasks = []
+                for task in phase["tasks"]:
+                    if self.current_filter == "all":
+                        filtered_tasks.append(task)
+                    elif (
+                        self.current_filter == "completed"
+                        and task.get("status") == "DONE"
+                    ):
+                        filtered_tasks.append(task)
+                    elif (
+                        self.current_filter == "incomplete"
+                        and task.get("status") != "DONE"
+                    ):
+                        filtered_tasks.append(task)
+
+                # Sort tasks (simple sort for now, more complex sorts might need custom keys)
+                if self.current_sort == "id":
+                    filtered_tasks.sort(key=lambda t: t["task_id"])
+                # Add more sorting logic here for 'add_date' and 'status_date' if available in task data
+
+                for (
+                    task
+                ) in filtered_tasks:  # Iterate over filtered and sorted tasks
+                    status_emoji = (
+                        "✅ "
+                        if task.get("status") == "DONE"
+                        else (
+                            "⏰ "
+                            if task.get("status") == "PROCESSING"
+                            else (
+                                "🚧 "
+                                if task.get("status") == "IN PROGRESS"
+                                else ""
+                            )
+                        )
+                    )
+                    task_node = phase_node.add(
+                        f"{status_emoji}{task['task_id']}: "
+                        f"{task['task_name']} ({task['status']})"
+                    )
+                    if "dependencies" in task and task["dependencies"]:
+                        task_node.add(
+                            f"Dependencies: {', '.join(task['dependencies'])}"
+                        )
+                    if task.get("status") == "DONE":
+                        last_done_node = task_node
+                    if "sub_tasks" in task:
+                        for sub_task in task["sub_tasks"]:
+                            sub_task_status_emoji = (
+                                "✅ "
+                                if sub_task.get("status") == "DONE"
+                                else (
+                                    "⏰ "
+                                    if sub_task.get("status") == "PROCESSING"
+                                    else (
+                                        "🚧 "
+                                        if sub_task.get("status")
+                                        == "IN PROGRESS"
+                                        else ""
+                                    )
+                                )
+                            )
+                            sub_task_node = task_node.add(
+                                f"{sub_task_status_emoji}{sub_task['task_id']}: "
+                                f"{sub_task['task_name']} "
+                                f"({sub_task['status']})"
+                            )
+                            if (
+                                "dependencies" in sub_task
+                                and sub_task["dependencies"]
+                            ):
+                                sub_task_node.add(
+                                    "Dependencies: "
+                                    f"{', '.join(sub_task['dependencies'])}"
+                                )
+                            if sub_task.get("status") == "DONE":
+                                last_done_node = sub_task_node
+
+            if (
+                self.auto_expand_tree and last_done_node
+            ):  # Apply auto-expand based on attribute
+                node = last_done_node
+                while node.parent:
+                    node.parent.expand()
+                    node = node.parent
+                last_done_node.expand()
+
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"Error loading new_book_importer_plan.json: {e}")
+            tree.root.label = f"Could not load new_book_importer_plan.json: {e}"
 
     def action_quit(self):
         """Quit the application."""

@@ -1,8 +1,7 @@
 import re
-from google.cloud import bigquery
-from api_calls import get_book_metadata_initial_pass
+from api_calls import get_book_metadata_initial_pass, get_vertex_ai_classification_batch
 from caching import load_cache, save_cache
-from data_cleaning import (
+from data_transformers import (
     clean_title,
     capitalize_title_mla,
     clean_author,
@@ -19,41 +18,28 @@ def read_input_file(file_path):
         return [line.strip() for line in f]
 
 
-def enrich_book_data(book_identifiers):
+def enrich_book_data(book_identifiers, cache):
     """Enriches a list of book identifiers with data from various APIs."""
-    loc_cache = load_cache()
-    enriched_data = []
-
     for identifier in book_identifiers:
-        # Determine if the identifier is an ISBN or a title/author combo
         if re.match(r"^\d{10}(\d{3})?$", identifier):
             isbn = identifier
-            title = ""
-            author = ""
-            lccn = ""
+            title, author, lccn = "", "", ""
         else:
             isbn = ""
             parts = identifier.split(" - ")
-            if len(parts) == 2:
-                title = parts[0]
-                author = parts[1]
-            else:
-                title = identifier
-                author = ""
+            title = parts[0] if parts else identifier
+            author = parts[1] if len(parts) > 1 else ""
             lccn = ""
 
-        # Get data from LOC
         if lccn:
             call_number = get_loc_data(lccn)
         else:
             call_number = ""
 
-        # Get data from Google Books and LOC
-        google_meta, _, _ = get_book_metadata_initial_pass(
-            title, author, isbn, lccn, loc_cache
+        google_meta, google_cached, loc_cached, google_success, loc_success = get_book_metadata_initial_pass(
+            title, author, isbn, lccn, cache
         )
 
-        # Combine data
         data = {
             "input_identifier": identifier,
             "isbn": isbn,
@@ -70,8 +56,7 @@ def enrich_book_data(book_identifiers):
             "description": google_meta.get("description", ""),
             "summary": "",
             "subject_headings": ", ".join(
-                google_meta.get("google_genres", [])
-                + google_meta.get("genres", [])
+                google_meta.get("google_genres", []) + google_meta.get("genres", [])
             ),
             "notes": "",
             "dust_jacket_url": "",
@@ -81,7 +66,6 @@ def enrich_book_data(book_identifiers):
             "last_modified": None,
         }
 
-        # Clean data
         data["title"] = capitalize_title_mla(clean_title(data["title"]))
         data["author"] = clean_author(data["author"])
         data["call_number"] = clean_call_number(
@@ -93,37 +77,114 @@ def enrich_book_data(book_identifiers):
         data["series_number"] = clean_series_number(data["series_number"])
         data["copyright_year"] = extract_year(data["copyright_year"])
 
-        enriched_data.append(data)
+        key_fields = ["call_number", "series_title", "copyright_year", "subject_headings"]
+        completeness_score = sum(1 for field in key_fields if data.get(field)) / len(key_fields)
 
-    # Use Vertex AI for gap-filling
-    # This part will be implemented later
+        metrics = {
+            "google_cached": google_cached,
+            "loc_cached": loc_cached,
+            "google_success": google_success,
+            "loc_success": loc_success,
+            "completeness_score": completeness_score,
+        }
 
-    save_cache(loc_cache)
-    return enriched_data
+        yield data, metrics
+
+
+def enrich_with_vertex_ai(books, cache):
+    """Enriches a list of books with missing info using Vertex AI in batches."""
+    books_to_process = [book for book in books if not book.get("call_number")]
+    if not books_to_process:
+        yield len(books), books # Yield total and final list
+        return
+
+    BATCH_SIZE = 5
+    for i in range(0, len(books_to_process), BATCH_SIZE):
+        batch = books_to_process[i:i + BATCH_SIZE]
+        classifications, _ = get_vertex_ai_classification_batch(batch, cache)
+        # Merge results back into the original list
+        for book in batch:
+            for classification in classifications:
+                if book["title"] == classification["title"] and book["author"] == classification["author"]:
+                    if not book.get("call_number") and classification.get("classification"):
+                        book["call_number"] = classification["classification"]
+                    if not book.get("series_title") and classification.get("series_title"):
+                        book["series_title"] = classification["series_title"]
+                    if not book.get("volume_number") and classification.get("volume_number"):
+                        book["volume_number"] = classification["volume_number"]
+                    if not book.get("copyright_year") and classification.get("copyright_year"):
+                        book["copyright_year"] = classification["copyright_year"]
+        yield len(batch), books
 
 
 def insert_books_to_bigquery(books, client):
     """Inserts a list of book data into the BigQuery table."""
+    from google.cloud import bigquery
+    from google.api_core import exceptions
 
-    table_id = (
-        "barcode.new_books"  # Replace with your project and dataset if needed
-    )
+    dataset_id = f"{client.project}.barcode"
+    table_id = f"{dataset_id}.new_books"
+
+    try:
+        client.get_dataset(dataset_id)
+    except exceptions.NotFound:
+        print(f"Dataset {dataset_id} not found. Creating it.")
+        dataset = bigquery.Dataset(dataset_id)
+        dataset.location = "US"
+        client.create_dataset(dataset, timeout=30)
+
+    try:
+        client.get_table(table_id)
+    except exceptions.NotFound:
+        print(f"Table {table_id} not found. Creating it.")
+        schema = [
+            bigquery.SchemaField("input_identifier", "STRING"),
+            bigquery.SchemaField("isbn", "STRING"),
+            bigquery.SchemaField("lccn", "STRING"),
+            bigquery.SchemaField("title", "STRING"),
+            bigquery.SchemaField("author", "STRING"),
+            bigquery.SchemaField("call_number", "STRING"),
+            bigquery.SchemaField("series_title", "STRING"),
+            bigquery.SchemaField("series_number", "STRING"),
+            bigquery.SchemaField("copyright_year", "STRING"),
+            bigquery.SchemaField("publication_date", "STRING"),
+            bigquery.SchemaField("cost", "FLOAT"),
+            bigquery.SchemaField("price", "FLOAT"),
+            bigquery.SchemaField("description", "STRING"),
+            bigquery.SchemaField("summary", "STRING"),
+            bigquery.SchemaField("subject_headings", "STRING"),
+            bigquery.SchemaField("notes", "STRING"),
+            bigquery.SchemaField("dust_jacket_url", "STRING"),
+            bigquery.SchemaField("raw_marc", "STRING"),
+            bigquery.SchemaField("enriched_marc", "STRING"),
+            bigquery.SchemaField("status", "STRING"),
+            bigquery.SchemaField("last_modified", "TIMESTAMP"),
+        ]
+        table = bigquery.Table(table_id, schema=schema)
+        client.create_table(table)
+
+    if not books:
+        print("No books to insert.")
+        return
 
     errors = client.insert_rows_json(table_id, books)
-    if errors == []:
+    if not errors:
         print("New books have been added to BigQuery.")
     else:
-        print("Encountered errors while inserting rows: {}".format(errors))
+        print(f"Encountered errors while inserting rows: {errors}")
 
 
 if __name__ == "__main__":
-    # This is for testing purposes
+    from google.cloud import bigquery
+
     with open("book_list.txt", "w") as f:
         f.write("9780765326355\n")
         f.write("The Way of Kings - Brandon Sanderson\n")
 
+    cache = load_cache()
     book_identifiers = read_input_file("book_list.txt")
-    enriched_books = enrich_book_data(book_identifiers)
+    enriched_books = [book for book, metrics in enrich_book_data(book_identifiers, cache)]
+    save_cache(cache)
     client = bigquery.Client()
     insert_books_to_bigquery(enriched_books, client)
     print("Done.")
