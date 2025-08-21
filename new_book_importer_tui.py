@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 from textual.app import App, ComposeResult
 from textual.containers import Center, Container, Horizontal, Vertical
+from textual.message import Message
 from textual.screen import ModalScreen, Screen
 from textual.worker import Worker, WorkerState
 from textual.widgets import (
@@ -32,6 +33,26 @@ tui_handler = logging.StreamHandler(tui_log_capture_string)
 tui_handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
 if not tui_logger.handlers:
     tui_logger.addHandler(tui_handler)
+
+
+# --- Custom Messages ---
+
+class ProgressUpdate(Message):
+    def __init__(self, progress: tuple) -> None:
+        self.progress = progress
+        super().__init__()
+
+class MetricsUpdate(Message):
+    def __init__(self, metrics: dict, i: int) -> None:
+        self.metrics = metrics
+        self.i = i
+        super().__init__()
+
+class VertexStatusUpdate(Message):
+    def __init__(self, status: str, progress: tuple = None) -> None:
+        self.status = status
+        self.progress = progress
+        super().__init__()
 
 
 # --- Screens ---
@@ -84,6 +105,16 @@ class FileSelectionScreen(ModalScreen):
 
 class MainScreen(Screen):
     """The main screen of the application."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cache_hits = 0
+        self.google_successes = 0
+        self.loc_successes = 0
+        self.completeness_scores = []
+        self.cache_performance_data = []
+        self.google_api_success_data = []
+        self.loc_api_success_data = []
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
@@ -224,6 +255,65 @@ class MainScreen(Screen):
 
             self.app.push_screen(FileSelectionScreen(), select_file_callback)
 
+    def on_progress_update(self, message: ProgressUpdate) -> None:
+        self.app.log(f"UI: Received progress update: {message.progress}")
+        self.query_one("#progress_status_label", Label).update(f"Processing {message.progress[0]} of {message.progress[1]}...")
+        self.query_one("#progress_bar", ProgressBar).advance(1)
+
+    def on_metrics_update(self, message: MetricsUpdate) -> None:
+        self.app.log(f"UI: Received metrics update: {message.metrics}")
+        metrics = message.metrics
+        i = message.i
+
+        if metrics.get("google_cached") or metrics.get("loc_cached"):
+            self.cache_hits += 1
+            self.cache_performance_data.append(1)
+        else:
+            self.cache_performance_data.append(0)
+        
+        if metrics.get("google_success", False):
+            self.google_successes += 1
+            self.google_api_success_data.append(1)
+        else:
+            self.google_api_success_data.append(0)
+
+        if metrics.get("loc_success", False):
+            self.loc_successes += 1
+            self.loc_api_success_data.append(1)
+        else:
+            self.loc_api_success_data.append(0)
+
+        self.completeness_scores.append(metrics["completeness_score"])
+        avg_completeness = (sum(self.completeness_scores) / len(self.completeness_scores)) * 100
+
+        self.query_one("#cache_stats_label", Label).update(f"Hits: {self.cache_hits} / {i} ({self.cache_hits/i:.1%})")
+        self.query_one("#cache_sparkline", Sparkline).data = self.cache_performance_data
+        self.query_one("#completeness_stats_label", Label).update(f"Avg: {avg_completeness:.1f}%")
+        self.query_one("#completeness_sparkline", Sparkline).data = self.completeness_scores
+        self.query_one("#google_api_stats_label", Label).update(f"Success: {self.google_successes} / {i} ({self.google_successes/i:.1%})")
+        self.query_one("#google_api_sparkline", Sparkline).data = self.google_api_success_data
+        self.query_one("#loc_api_stats_label", Label).update(f"Success: {self.loc_successes} / {i} ({self.loc_successes/i:.1%})")
+        self.query_one("#loc_api_sparkline", Sparkline).data = self.loc_api_success_data
+
+    def on_vertex_status_update(self, message: VertexStatusUpdate) -> None:
+        self.app.log(f"UI: Received vertex status update: {message.status}")
+        vertex_status_title = self.query_one("#vertex_status_title", Label)
+        vertex_status_label = self.query_one("#vertex_status_label", Label)
+        vertex_progress_bar = self.query_one("#vertex_progress_bar", ProgressBar)
+
+        if message.status == "start":
+            vertex_status_title.remove_class("hidden")
+            vertex_status_label.remove_class("hidden")
+            vertex_progress_bar.remove_class("hidden")
+            vertex_status_label.update("Processing with Vertex AI...")
+        elif message.status == "progress":
+            total = message.progress[1]
+            advance = message.progress[0]
+            vertex_progress_bar.total = total
+            vertex_progress_bar.advance(advance)
+        elif message.status == "complete":
+            vertex_status_label.update("Vertex AI processing complete.")
+
     def load_data_to_table(self):
         """Load data from BigQuery into the DataTable."""
         table = self.query_one(DataTable)
@@ -253,7 +343,6 @@ class MainScreen(Screen):
 
     async def process_books(self):
         """Process the selected input file in a worker."""
-        self.app.log("Starting book processing worker...")
         from book_importer import (
             enrich_book_data,
             enrich_with_vertex_ai,
@@ -263,105 +352,25 @@ class MainScreen(Screen):
 
         book_identifiers = read_input_file(self.app.selected_input_file)
         total_books = len(book_identifiers)
-        self.app.log(f"Found {total_books} books to process.")
         
-        # UI Widgets
-        progress_bar = self.query_one("#progress_bar", ProgressBar)
-        status_label = self.query_one("#progress_status_label", Label)
-        cache_stats_label = self.query_one("#cache_stats_label", Label)
-        cache_sparkline = self.query_one("#cache_sparkline", Sparkline)
-        completeness_stats_label = self.query_one("#completeness_stats_label", Label)
-        completeness_sparkline = self.query_one("#completeness_sparkline", Sparkline)
-        google_api_stats_label = self.query_one("#google_api_stats_label", Label)
-        google_api_sparkline = self.query_one("#google_api_sparkline", Sparkline)
-        loc_api_stats_label = self.query_one("#loc_api_stats_label", Label)
-        loc_api_sparkline = self.query_one("#loc_api_sparkline", Sparkline)
-        vertex_status_title = self.query_one("#vertex_status_title", Label)
-        vertex_status_label = self.query_one("#vertex_status_label", Label)
-        vertex_progress_bar = self.query_one("#vertex_progress_bar", ProgressBar)
-
-        # Metric trackers
-        cache_hits = 0
-        google_successes = 0
-        loc_successes = 0
-        completeness_scores = []
-        cache_performance_data = []
-        google_api_success_data = []
-        loc_api_success_data = []
-
-        self.app.call_from_thread(progress_bar.update, total=total_books)
+        self.app.post_message(ProgressUpdate((0, total_books)))
 
         enriched_books = []
-        self.app.log("Starting per-book enrichment...")
         for i, (book_data, metrics) in enumerate(enrich_book_data(book_identifiers, self.app.cache), start=1):
-            self.app.log(f"WORKER: Processing book {i}, Metrics: {metrics}")
             enriched_books.append(book_data)
+            self.app.post_message(ProgressUpdate((i, total_books)))
+            self.app.post_message(MetricsUpdate(metrics, i))
 
-            # Update metrics
-            if metrics.get("google_cached") or metrics.get("loc_cached"):
-                cache_hits += 1
-                cache_performance_data.append(1)
-            else:
-                cache_performance_data.append(0)
-            
-            if metrics.get("google_success", False):
-                google_successes += 1
-                google_api_success_data.append(1)
-            else:
-                google_api_success_data.append(0)
-
-            if metrics.get("loc_success", False):
-                loc_successes += 1
-                loc_api_success_data.append(1)
-            else:
-                loc_api_success_data.append(0)
-
-            completeness_scores.append(metrics["completeness_score"])
-            avg_completeness = (sum(completeness_scores) / len(completeness_scores)) * 100
-
-            # Update UI from thread
-            self.app.call_from_thread(status_label.update, f"Processing {i} of {total_books}...")
-            self.app.call_from_thread(progress_bar.advance, 1)
-            
-            self.app.call_from_thread(cache_stats_label.update, f"Hits: {cache_hits} / {i} ({cache_hits/i:.1%})")
-            cache_sparkline.data = cache_performance_data
-            self.app.call_from_thread(cache_sparkline.refresh)
-
-            self.app.call_from_thread(completeness_stats_label.update, f"Avg: {avg_completeness:.1f}%")
-            completeness_sparkline.data = completeness_scores
-            self.app.call_from_thread(completeness_sparkline.refresh)
-
-            self.app.call_from_thread(google_api_stats_label.update, f"Success: {google_successes} / {i} ({google_successes/i:.1%})")
-            google_api_sparkline.data = google_api_success_data
-            self.app.call_from_thread(google_api_sparkline.refresh)
-
-            self.app.call_from_thread(loc_api_stats_label.update, f"Success: {loc_successes} / {i} ({loc_successes/i:.1%})")
-            loc_api_sparkline.data = loc_api_success_data
-            self.app.call_from_thread(loc_api_sparkline.refresh)
-
-        self.app.log("Finished per-book enrichment.")
-
-        # Vertex AI Processing
-        self.app.log("Starting Vertex AI processing...")
-        self.app.call_from_thread(vertex_status_title.remove_class, "hidden")
-        self.app.call_from_thread(vertex_status_label.remove_class, "hidden")
-        self.app.call_from_thread(vertex_progress_bar.remove_class, "hidden")
-        self.app.call_from_thread(vertex_status_label.update, "Processing with Vertex AI...")
+        self.app.post_message(VertexStatusUpdate("start"))
         
-        vertex_processed_count = 0
         final_books = []
         for processed_count, books in enrich_with_vertex_ai(enriched_books, self.app.cache):
             final_books = books
-            vertex_processed_count += processed_count
-            self.app.call_from_thread(vertex_progress_bar.update, total=len(enriched_books), advance=vertex_processed_count)
-            self.app.refresh()
+            self.app.post_message(VertexStatusUpdate("progress", (processed_count, len(enriched_books))))
 
-        self.app.call_from_thread(vertex_status_label.update, "Vertex AI processing complete.")
-        self.app.log("Finished Vertex AI processing.")
+        self.app.post_message(VertexStatusUpdate("complete"))
 
-        self.app.log("Inserting books into BigQuery...")
         insert_books_to_bigquery(final_books, self.app.client)
-        self.app.log("Finished inserting books.")
 
     def generate_marc_export(self):
         """Generate a MARC export file from the data in BigQuery."""
