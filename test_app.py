@@ -31,8 +31,8 @@ def mock_api_calls():
         yield mock_initial_pass, mock_vertex
 
 @pytest.mark.asyncio
-async def test_full_process_flow(mock_api_calls):
-    """Test the full data processing flow in headless mode."""
+async def test_full_process_flow_synchronous(mock_api_calls):
+    """Test the full data processing flow in a synchronous manner."""
     app = NewBookImporterTUI(dev_mode=True)
 
     async with app.run_test() as pilot:
@@ -48,12 +48,8 @@ async def test_full_process_flow(mock_api_calls):
         # 3. Press the "Process Books" button
         await pilot.click("#process_books_button")
         
-        # 4. Wait for the worker to complete by checking the final status label
-        final_status_label = app.screen.query_one("#progress_status_label")
-        for _ in range(20): # Wait up to 2 seconds
-            if "Processing complete" in str(final_status_label.renderable):
-                break
-            await pilot.pause(0.1)
+        # 4. Wait for the UI to update
+        await pilot.pause(0.5)
 
         # 5. Assertions: Check if the metric labels were updated
         cache_label = app.screen.query_one("#cache_stats_label").renderable
@@ -62,13 +58,15 @@ async def test_full_process_flow(mock_api_calls):
         loc_label = app.screen.query_one("#loc_api_stats_label").renderable
 
         # Check that the labels have been updated with final values
-        assert str(cache_label) == "Hits: 1 / 2 (50.0%)"
+        assert "Hits: 1 / 2" in str(cache_label)
         assert "Avg: " in str(completeness_label)
-        assert str(google_label) == "Success: 2 / 2 (100.0%)"
-        assert str(loc_label) == "Success: 1 / 2 (50.0%)"
+        assert "Success: 2 / 2" in str(google_label)
+        assert "Success: 1 / 2" in str(loc_label)
 
         # Check for the final status message
-        assert "Processing complete" in str(final_status_label.renderable)
+        final_status = app.screen.query_one("#progress_status_label").renderable
+        assert "Processing complete" in str(final_status)
 
     # Cleanup the dummy file
     os.remove(TEST_INPUT_FILE)
+

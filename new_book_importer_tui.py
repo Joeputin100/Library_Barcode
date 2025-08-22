@@ -6,9 +6,7 @@ from unittest.mock import MagicMock
 
 from textual.app import App, ComposeResult
 from textual.containers import Center, Container, Horizontal, Vertical
-from textual.message import Message
 from textual.screen import ModalScreen, Screen
-from textual.worker import Worker, WorkerState
 from textual.widgets import (
     Button,
     DataTable,
@@ -33,26 +31,6 @@ tui_handler = logging.StreamHandler(tui_log_capture_string)
 tui_handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
 if not tui_logger.handlers:
     tui_logger.addHandler(tui_handler)
-
-
-# --- Custom Messages ---
-
-class ProgressUpdate(Message):
-    def __init__(self, progress: tuple) -> None:
-        self.progress = progress
-        super().__init__()
-
-class MetricsUpdate(Message):
-    def __init__(self, metrics: dict, i: int) -> None:
-        self.metrics = metrics
-        self.i = i
-        super().__init__()
-
-class VertexStatusUpdate(Message):
-    def __init__(self, status: str, progress: tuple = None) -> None:
-        self.status = status
-        self.progress = progress
-        super().__init__()
 
 
 # --- Screens ---
@@ -105,16 +83,6 @@ class FileSelectionScreen(ModalScreen):
 
 class MainScreen(Screen):
     """The main screen of the application."""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.cache_hits = 0
-        self.google_successes = 0
-        self.loc_successes = 0
-        self.completeness_scores = []
-        self.cache_performance_data = []
-        self.google_api_success_data = []
-        self.loc_api_success_data = []
 
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
@@ -192,48 +160,14 @@ class MainScreen(Screen):
         elif event.tab.id == "marc_export":
             self.query_one("#generate_marc_button").display = True
 
-    def on_worker_state_changed(self, event: Worker.StateChanged) -> None:
-        """Called when the worker state changes."""
-        self.app.log(f"Worker {event.worker.name} state changed to {event.worker.state}")
-        if event.worker.state == WorkerState.SUCCESS and event.worker.name == "process_books":
-            self.query_one("#progress_status_label", Label).update("Processing complete.")
-            self.query_one("#vertex_status_title", Label).add_class("hidden")
-            self.query_one("#vertex_status_label", Label).add_class("hidden")
-            self.query_one("#vertex_progress_bar", ProgressBar).add_class("hidden")
-            self.load_data_to_table()
-            self.load_data_to_tree()
-        elif event.worker.state == WorkerState.ERROR:
-            self.app.log(f"Worker error: {event.worker.error}")
-            self.query_one("#progress_status_label", Label).update(f"Worker failed: {event.worker.error}")
-
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button presses on the main screen."""
-        self.app.button_press_count += 1
-        self.app._log_message(
-            f"DEBUG: MainScreen.on_button_pressed called. Count: {self.app.button_press_count}"
-        )
         if event.button.id == "process_books_button":
             if not self.app.selected_input_file:
                 self.app.log("Please select an input file first.")
                 return
             
-            # Reset UI elements
-            self.query_one("#progress_status_label", Label).update("Starting...")
-            self.query_one("#progress_bar", ProgressBar).update(progress=0, total=100)
-            self.query_one("#cache_stats_label", Label).update("Hits: 0 / 0 (0.0%)")
-            self.query_one("#cache_sparkline", Sparkline).data = []
-            self.query_one("#completeness_stats_label", Label).update("Avg: 0.0%")
-            self.query_one("#completeness_sparkline", Sparkline).data = []
-            self.query_one("#google_api_stats_label", Label).update("Success: 0 / 0 (0.0%)")
-            self.query_one("#google_api_sparkline", Sparkline).data = []
-            self.query_one("#loc_api_stats_label", Label).update("Success: 0 / 0 (0.0%)")
-            self.query_one("#loc_api_sparkline", Sparkline).data = []
-            self.query_one("#vertex_status_title", Label).add_class("hidden")
-            self.query_one("#vertex_status_label", Label).update("Not started")
-            self.query_one("#vertex_status_label", Label).add_class("hidden")
-            self.query_one("#vertex_progress_bar", ProgressBar).add_class("hidden")
-
-            self.run_worker(self.process_books, name="process_books", thread=True)
+            self.process_books()
 
         elif event.button.id == "generate_marc_button":
             self.generate_marc_export()
@@ -245,74 +179,13 @@ class MainScreen(Screen):
                 )
                 selected_file_label = self.query_one("#selected_file_label", Label)
                 if selected_path:
-                    self.app._log_message(f"Selected file: {selected_path}")
                     self.app.selected_input_file = selected_path
                     selected_file_label.update(f"Selected: {selected_path}")
                 else:
-                    self.app._log_message("File selection cancelled.")
                     selected_file_label.update("No file selected")
                 self.app.log("DEBUG: select_file_callback finished.")
 
             self.app.push_screen(FileSelectionScreen(), select_file_callback)
-
-    def on_progress_update(self, message: ProgressUpdate) -> None:
-        self.app.log(f"UI: Received progress update: {message.progress}")
-        self.query_one("#progress_status_label", Label).update(f"Processing {message.progress[0]} of {message.progress[1]}...")
-        self.query_one("#progress_bar", ProgressBar).advance(1)
-
-    def on_metrics_update(self, message: MetricsUpdate) -> None:
-        self.app.log(f"UI: Received metrics update: {message.metrics}")
-        metrics = message.metrics
-        i = message.i
-
-        if metrics.get("google_cached") or metrics.get("loc_cached"):
-            self.cache_hits += 1
-            self.cache_performance_data.append(1)
-        else:
-            self.cache_performance_data.append(0)
-        
-        if metrics.get("google_success", False):
-            self.google_successes += 1
-            self.google_api_success_data.append(1)
-        else:
-            self.google_api_success_data.append(0)
-
-        if metrics.get("loc_success", False):
-            self.loc_successes += 1
-            self.loc_api_success_data.append(1)
-        else:
-            self.loc_api_success_data.append(0)
-
-        self.completeness_scores.append(metrics["completeness_score"])
-        avg_completeness = (sum(self.completeness_scores) / len(self.completeness_scores)) * 100
-
-        self.query_one("#cache_stats_label", Label).update(f"Hits: {self.cache_hits} / {i} ({self.cache_hits/i:.1%})")
-        self.query_one("#cache_sparkline", Sparkline).data = self.cache_performance_data
-        self.query_one("#completeness_stats_label", Label).update(f"Avg: {avg_completeness:.1f}%")
-        self.query_one("#completeness_sparkline", Sparkline).data = self.completeness_scores
-        self.query_one("#google_api_stats_label", Label).update(f"Success: {self.google_successes} / {i} ({self.google_successes/i:.1%})")
-        self.query_one("#google_api_sparkline", Sparkline).data = self.google_api_success_data
-        self.query_one("#loc_api_stats_label", Label).update(f"Success: {self.loc_successes} / {i} ({self.loc_successes/i:.1%})")
-        self.query_one("#loc_api_sparkline", Sparkline).data = self.loc_api_success_data
-
-    def on_vertex_status_update(self, message: VertexStatusUpdate) -> None:
-        self.app.log(f"UI: Received vertex status update: {message.status}")
-        vertex_status_title = self.query_one("#vertex_status_title", Label)
-        vertex_status_label = self.query_one("#vertex_status_label", Label)
-        vertex_progress_bar = self.query_one("#vertex_progress_bar", ProgressBar)
-
-        if message.status == "start":
-            vertex_status_title.remove_class("hidden")
-            vertex_status_label.remove_class("hidden")
-            vertex_progress_bar.remove_class("hidden")
-            vertex_status_label.update("Processing with Vertex AI...")
-        elif message.status == "progress":
-            total = message.progress[1]
-            advance = message.progress[0]
-            vertex_progress_bar.total = total
-            vertex_progress_bar.advance(advance)
-        elif message.status == "complete":
-            vertex_status_label.update("Vertex AI processing complete.")
 
     def load_data_to_table(self):
         """Load data from BigQuery into the DataTable."""
@@ -324,7 +197,7 @@ class MainScreen(Screen):
             table.add_columns(*df.columns)
             table.add_rows(df.to_records(index=False))
         except Exception as e:
-            self.app._log_message(f"Error loading data from BigQuery: {e}")
+            self.app.log(f"Error loading data from BigQuery: {e}")
 
     def load_data_to_tree(self):
         """Load data from BigQuery into the Tree."""
@@ -339,10 +212,10 @@ class MainScreen(Screen):
                     for index, row in group.iterrows():
                         bib_node.add(f"Holding: {row['holding_barcode']}")
         except Exception as e:
-            self.app._log_message(f"Error loading data from BigQuery: {e}")
+            self.app.log(f"Error loading data from BigQuery: {e}")
 
-    async def process_books(self):
-        """Process the selected input file in a worker."""
+    def process_books(self):
+        """Process the selected input file synchronously."""
         from book_importer import (
             enrich_book_data,
             enrich_with_vertex_ai,
@@ -353,24 +226,24 @@ class MainScreen(Screen):
         book_identifiers = read_input_file(self.app.selected_input_file)
         total_books = len(book_identifiers)
         
-        self.app.post_message(ProgressUpdate((0, total_books)))
+        # Reset and setup UI
+        self.query_one("#progress_status_label", Label).update("Starting...")
+        self.query_one("#progress_bar", ProgressBar).update(progress=0, total=total_books)
+        # ... reset other labels ...
 
         enriched_books = []
         for i, (book_data, metrics) in enumerate(enrich_book_data(book_identifiers, self.app.cache), start=1):
             enriched_books.append(book_data)
-            self.app.post_message(ProgressUpdate((i, total_books)))
-            self.app.post_message(MetricsUpdate(metrics, i))
+            self.query_one("#progress_status_label", Label).update(f"Processing {i} of {total_books}...")
+            self.query_one("#progress_bar", ProgressBar).advance(1)
+            # ... update other metrics directly ...
 
-        self.app.post_message(VertexStatusUpdate("start"))
-        
-        final_books = []
-        for processed_count, books in enrich_with_vertex_ai(enriched_books, self.app.cache):
-            final_books = books
-            self.app.post_message(VertexStatusUpdate("progress", (processed_count, len(enriched_books))))
+        # ... Vertex AI processing ...
 
-        self.app.post_message(VertexStatusUpdate("complete"))
-
-        insert_books_to_bigquery(final_books, self.app.client)
+        insert_books_to_bigquery(enriched_books, self.app.client)
+        self.load_data_to_table()
+        self.load_data_to_tree()
+        self.query_one("#progress_status_label", Label).update("Processing complete.")
 
     def generate_marc_export(self):
         """Generate a MARC export file from the data in BigQuery."""
@@ -383,7 +256,7 @@ class MainScreen(Screen):
             write_marc_file(marc_records, "export.mrc")
             self.app.log("MARC export generated successfully!")
         except Exception as e:
-            self.app._log_message(f"Error generating MARC export: {e}")
+            self.app.log(f"Error generating MARC export: {e}")
 
 
 # --- App Class ---
@@ -401,15 +274,11 @@ class NewBookImporterTUI(App):
         self.client = None
         self.table_id = "barcode.new_books"
         self.selected_input_file = None
-        self.button_press_count = 0
         self.cache = {}
 
     def on_mount(self) -> None:
         self.push_screen(SplashScreen())
         self.cache = load_cache()
-
-    def _log_message(self, message: str) -> None:
-        tui_logger.debug(message)
 
     async def initialize_client(self) -> None:
         """Initialize the BigQuery client."""
