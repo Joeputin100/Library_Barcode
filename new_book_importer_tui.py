@@ -16,7 +16,6 @@ from textual.widgets import (
     Label,
     Input,
     ProgressBar,
-    Sparkline,
     Tab,
     Tabs,
     Tree,
@@ -105,30 +104,6 @@ class MainScreen(Screen):
                 yield Button("Process Books", id="process_books_button")
                 yield Label(id="progress_status_label")
                 yield ProgressBar(id="progress_bar")
-                
-                yield Label("Cache Performance:")
-                with Horizontal():
-                    yield Label("Hits: 0 / 0 (0.0%)", id="cache_stats_label")
-                    yield Sparkline([], id="cache_sparkline", classes="sparkline_widget")
-
-                yield Label("Data Completeness Score:")
-                with Horizontal():
-                    yield Label("Avg: 0.0%", id="completeness_stats_label")
-                    yield Sparkline([], id="completeness_sparkline", classes="sparkline_widget")
-
-                yield Label("Google Books API Health:")
-                with Horizontal():
-                    yield Label("Success: 0 / 0 (0.0%)", id="google_api_stats_label")
-                    yield Sparkline([], id="google_api_sparkline", classes="sparkline_widget")
-                
-                yield Label("Library of Congress API Health:")
-                with Horizontal():
-                    yield Label("Success: 0 / 0 (0.0%)", id="loc_api_stats_label")
-                    yield Sparkline([], id="loc_api_sparkline", classes="sparkline_widget")
-
-                yield Label("Vertex AI Batch Status:", id="vertex_status_title", classes="hidden")
-                yield Label("Not started", id="vertex_status_label", classes="hidden")
-                yield ProgressBar(id="vertex_progress_bar", classes="hidden")
 
             yield DataTable(id="data_table", classes="hidden")
             yield Tree("MARC Records", id="marc_tree", classes="hidden")
@@ -226,24 +201,27 @@ class MainScreen(Screen):
         book_identifiers = read_input_file(self.app.selected_input_file)
         total_books = len(book_identifiers)
         
-        # Reset and setup UI
-        self.query_one("#progress_status_label", Label).update("Starting...")
-        self.query_one("#progress_bar", ProgressBar).update(progress=0, total=total_books)
-        # ... reset other labels ...
+        status_label = self.query_one("#progress_status_label", Label)
+        progress_bar = self.query_one("#progress_bar", ProgressBar)
+
+        status_label.update("Starting...")
+        progress_bar.update(progress=0, total=total_books)
 
         enriched_books = []
         for i, (book_data, metrics) in enumerate(enrich_book_data(book_identifiers, self.app.cache), start=1):
             enriched_books.append(book_data)
-            self.query_one("#progress_status_label", Label).update(f"Processing {i} of {total_books}...")
-            self.query_one("#progress_bar", ProgressBar).advance(1)
-            # ... update other metrics directly ...
+            status_label.update(f"Processing {i} of {total_books}...")
+            progress_bar.advance(1)
 
-        # ... Vertex AI processing ...
+        status_label.update("Processing with Vertex AI...")
+        final_books = enrich_with_vertex_ai(enriched_books, self.app.cache)
 
-        insert_books_to_bigquery(enriched_books, self.app.client)
+        status_label.update("Inserting books into BigQuery...")
+        insert_books_to_bigquery(final_books, self.app.client)
+        
         self.load_data_to_table()
         self.load_data_to_tree()
-        self.query_one("#progress_status_label", Label).update("Processing complete.")
+        status_label.update("Processing complete.")
 
     def generate_marc_export(self):
         """Generate a MARC export file from the data in BigQuery."""
