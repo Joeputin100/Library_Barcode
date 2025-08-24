@@ -8,6 +8,6 @@
         "The TUI is built with Textual.",
         "OhioLink Z39.50 Innopac Service (olc1.ohiolink.edu:210, database \"INNOPAC\") will be integrated as an additional data source."
     ],
-    "current_plan": "Tasks 10.1, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, and bug fix 9.2 are complete."
+    "current_plan": "Tasks 10.1, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, and bug fixes 9.2 and Edit button ID sanitization are complete."
 
 }

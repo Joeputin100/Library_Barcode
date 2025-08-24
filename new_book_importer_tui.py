@@ -2,6 +2,7 @@ import argparse
 import io
 import logging
 import os
+import re
 from unittest.mock import MagicMock
 
 from textual.app import App, ComposeResult
@@ -15,7 +16,6 @@ from textual.widgets import (
     Header,
     Label,
     Input,
-    ProgressBar,
     Tab,
     Tabs,
     Tree,
@@ -23,13 +23,17 @@ from textual.widgets import (
 from caching import load_cache, save_cache
 
 # --- Logging Setup ---
-tui_log_capture_string = io.StringIO()
+log_file = "new_book_importer_tui.log"
+# Clear the log file at the start of the script
+with open(log_file, "w") as f:
+    f.write("")
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    filename=log_file,
+    filemode="a",
+)
 tui_logger = logging.getLogger(__name__)
-tui_logger.setLevel(logging.DEBUG)
-tui_handler = logging.StreamHandler(tui_log_capture_string)
-tui_handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
-if not tui_logger.handlers:
-    tui_logger.addHandler(tui_handler)
 
 
 # --- Screens ---
@@ -79,6 +83,32 @@ class FileSelectionScreen(ModalScreen):
             self.dismiss(None)
             event.stop()
 
+class EditScreen(ModalScreen):
+    """A modal screen for editing a row of data."""
+
+    def __init__(self, row_data, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.row_data = row_data
+
+    def compose(self) -> ComposeResult:
+        """Create child widgets for the modal dialog."""
+        with Vertical():
+            for key, value in self.row_data.items():
+                yield Label(key)
+                yield Input(value=str(value), id=f"edit_{key}")
+            with Horizontal():
+                yield Button("Save", id="save_button")
+                yield Button("Cancel", id="cancel_button")
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle button presses in the modal dialog."""
+        if event.button.id == "save_button":
+            new_data = {}
+            for key in self.row_data.keys():
+                new_data[key] = self.query_one(f"#edit_{key}", Input).value
+            self.dismiss(new_data)
+        elif event.button.id == "cancel_button":
+            self.dismiss(None)
 
 class MainScreen(Screen):
     """The main screen of the application."""
@@ -103,9 +133,10 @@ class MainScreen(Screen):
                 yield Label("2. Process the books to enrich the data.")
                 yield Button("Process Books", id="process_books_button")
                 yield Label(id="progress_status_label")
-                yield ProgressBar(id="progress_bar")
 
             yield DataTable(id="data_table", classes="hidden")
+            yield Button("Refresh", id="refresh_button", classes="hidden")
+            yield Button("View BigQuery Data", id="view_bigquery_button", classes="hidden")
             yield Tree("MARC Records", id="marc_tree", classes="hidden")
             yield Button(
                 "Generate MARC Export",
@@ -115,14 +146,14 @@ class MainScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        if self.app.dev_mode:
-            self.load_data_to_table()
-            self.load_data_to_tree()
+        pass
 
     def on_tabs_tab_activated(self, event: Tabs.TabActivated) -> None:
         """Handle tab changes."""
         self.query_one("#input-processing-content").display = False
         self.query_one("#data_table").display = False
+        self.query_one("#refresh_button").display = False
+        self.query_one("#view_bigquery_button").display = False
         self.query_one("#marc_tree").display = False
         self.query_one("#generate_marc_button").display = False
 
@@ -130,8 +161,12 @@ class MainScreen(Screen):
             self.query_one("#input-processing-content").display = True
         elif event.tab.id == "review_edit":
             self.query_one("#data_table").display = True
+            self.query_one("#refresh_button").display = True
+            self.query_one("#view_bigquery_button").display = True
+            self.load_data_to_table()
         elif event.tab.id == "marc_records":
             self.query_one("#marc_tree").display = True
+            self.load_data_to_tree()
         elif event.tab.id == "marc_export":
             self.query_one("#generate_marc_button").display = True
 
@@ -141,8 +176,20 @@ class MainScreen(Screen):
             if not self.app.selected_input_file:
                 self.app.log("Please select an input file first.")
                 return
-            
-            self.process_books()
+
+            button = self.query_one("#process_books_button", Button)
+            button.disabled = True
+
+            def reenable_button():
+                button.disabled = False
+                status_label = self.query_one("#progress_status_label", Label)
+                self.app.call_from_thread(status_label.update, "Processing complete.")
+
+            self.app.log("Starting process_books worker...")
+            try:
+                self.run_worker(self.process_books, thread=True, callback=reenable_button)
+            except Exception as e:
+                self.app.log(f"Error starting worker: {e}")
 
         elif event.button.id == "generate_marc_button":
             self.generate_marc_export()
@@ -161,18 +208,52 @@ class MainScreen(Screen):
                 self.app.log("DEBUG: select_file_callback finished.")
 
             self.app.push_screen(FileSelectionScreen(), select_file_callback)
+        elif event.button.id.startswith("edit_"):
+            # Extract the original row key from the button's data attribute
+            table = self.query_one(DataTable)
+            button = event.button
+            row_key = button.data if hasattr(button, 'data') else button.id.split("_", 1)[1]
+            row_data = table.get_row(row_key)
+            self.app.push_screen(EditScreen(row_data), self.update_row)
+        elif event.button.id == "refresh_button":
+            self.load_data_to_table()
+
+    def update_row(self, new_data):
+        """Updates a row in the DataTable and BigQuery table."""
+        if new_data:
+            table = self.query_one(DataTable)
+            table.update_row(new_data["input_identifier"], **new_data)
+
+            # Update the BigQuery table
+            errors = self.app.client.update_rows(self.app.table_id, [new_data], ["input_identifier"])
+            if not errors:
+                self.app.log("Row updated successfully in BigQuery.")
+            else:
+                self.app.log(f"Error updating row in BigQuery: {errors}")
 
     def load_data_to_table(self):
         """Load data from BigQuery into the DataTable."""
+        tui_logger.info("Loading data to table...")
         table = self.query_one(DataTable)
         query = f"SELECT * FROM `{self.app.table_id}`"
         try:
-            df = self.app.client.query(query).to_dataframe()
+            query_job = self.app.client.query(query)
+            rows = query_job.result()
             table.clear(columns=True)
-            table.add_columns(*df.columns)
-            table.add_rows(df.to_records(index=False))
+            if rows.total_rows > 0:
+                schema = [field.name for field in rows.schema]
+                table.add_columns(*schema)
+                table.add_column("Edit", key="edit_button")
+                for row in rows:
+                    sanitized_id = re.sub(r'[^a-zA-Z0-9_-]', '_', row[0])
+                    edit_button_id = f"edit_{sanitized_id}"
+                    edit_button = Button("Edit", id=edit_button_id)
+                    edit_button.data = row[0]  # Store original row key for event handling
+                    table.add_row(*row.values(), edit_button, key=row[0])
+            tui_logger.info("Data loaded to table successfully.")
         except Exception as e:
             self.app.log(f"Error loading data from BigQuery: {e}")
+            tui_logger.error(f"Error loading data from BigQuery: {e}", exc_info=True)
 
     def load_data_to_tree(self):
         """Load data from BigQuery into the Tree."""
@@ -180,48 +261,79 @@ class MainScreen(Screen):
         tree.clear()
         query = f"SELECT * FROM `{self.app.table_id}`"
         try:
-            df = self.app.client.query(query).to_dataframe()
-            if not df.empty:
-                for (title, author), group in df.groupby(["title", "author"]):
+            query_job = self.app.client.query(query)
+            rows = query_job.result()
+            if rows.total_rows > 0:
+                for row in rows:
+                    # Assuming 'title' and 'author' are the first two columns
+                    title = row[0]
+                    author = row[1]
                     bib_node = tree.root.add(f"{title} - {author}")
-                    for index, row in group.iterrows():
-                        bib_node.add(f"Holding: {row['holding_barcode']}")
+                    # Assuming 'holding_barcode' is the third column
+                    bib_node.add(f"Holding: {row[2]}")
         except Exception as e:
             self.app.log(f"Error loading data from BigQuery: {e}")
 
     def process_books(self):
-        """Process the selected input file synchronously."""
+        """The synchronous part of processing books."""
+        status_label = self.query_one("#progress_status_label", Label)
+        self.app.call_from_thread(status_label.update, "Starting...")
+
+        tui_logger.info("process_books started.")
         from book_importer import (
             enrich_book_data,
             enrich_with_vertex_ai,
             insert_books_to_bigquery,
             read_input_file,
         )
+        tui_logger.info("book_importer modules imported.")
 
+        tui_logger.info(f"Reading input file: {self.app.selected_input_file}")
         book_identifiers = read_input_file(self.app.selected_input_file)
+        tui_logger.info(f"{len(book_identifiers)} book identifiers read.")
         total_books = len(book_identifiers)
-        
-        status_label = self.query_one("#progress_status_label", Label)
-        progress_bar = self.query_one("#progress_bar", ProgressBar)
 
-        status_label.update("Starting...")
-        progress_bar.update(progress=0, total=total_books)
-
+        self.app.call_from_thread(status_label.update, "Enriching books...")
+        tui_logger.info("Starting book enrichment loop.")
         enriched_books = []
         for i, (book_data, metrics) in enumerate(enrich_book_data(book_identifiers, self.app.cache), start=1):
             enriched_books.append(book_data)
-            status_label.update(f"Processing {i} of {total_books}...")
-            progress_bar.advance(1)
+            if i % 10 == 0: # Update every 10 books to avoid too many UI updates
+                self.app.call_from_thread(status_label.update, f"Processing {i} of {total_books}...")
+        tui_logger.info("Book enrichment loop finished.")
 
-        status_label.update("Processing with Vertex AI...")
-        final_books = enrich_with_vertex_ai(enriched_books, self.app.cache)
+        self.app.call_from_thread(status_label.update, "Enriching with Vertex AI...")
+        tui_logger.info("Enriching with Vertex AI.")
+        for classification, cached in enrich_with_vertex_ai(enriched_books, self.app.cache):
+            for i, book in enumerate(enriched_books):
+                if book['title'] == classification['title'] and book['author'] == classification['author']:
+                    if not book.get("call_number") and classification.get("classification"):
+                        enriched_books[i]["call_number"] = classification["classification"]
+                    if not book.get("series_title") and classification.get("series_title"):
+                        enriched_books[i]["series_title"] = classification["series_title"]
+                    if not book.get("volume_number") and classification.get("volume_number"):
+                        enriched_books[i]["volume_number"] = classification["volume_number"]
+                    if not book.get("copyright_year") and classification.get("copyright_year"):
+                        enriched_books[i]["copyright_year"] = classification["copyright_year"]
+        tui_logger.info("Enrichment with Vertex AI finished.")
 
-        status_label.update("Inserting books into BigQuery...")
+        final_books = enriched_books
+
+        tui_logger.info(f"Final books: {final_books}")
+        self.app.call_from_thread(status_label.update, "Inserting books into BigQuery...")
+        tui_logger.info("Inserting books into BigQuery.")
         insert_books_to_bigquery(final_books, self.app.client)
-        
-        self.load_data_to_table()
-        self.load_data_to_tree()
-        status_label.update("Processing complete.")
+
+        self.app.call_from_thread(status_label.update, "Loading data to UI...")
+        tui_logger.info("Loading data into table and tree.")
+        self.app.call_from_thread(self.load_data_to_table)
+        self.app.call_from_thread(self.load_data_to_tree)
+        tui_logger.info("Finished loading data into table and tree.")
+
+        self.app.call_from_thread(status_label.update, "Processing complete.")
+        tui_logger.info("process_books finished.")
+
+    
 
     def generate_marc_export(self):
         """Generate a MARC export file from the data in BigQuery."""
@@ -260,8 +372,10 @@ class NewBookImporterTUI(App):
 
     async def initialize_client(self) -> None:
         """Initialize the BigQuery client."""
+        tui_logger.info("Initializing BigQuery client...")
         if self.dev_mode:
             import pandas as pd
+            tui_logger.info("Running in dev mode.")
 
             self.client = MagicMock()
             mock_query_job = MagicMock()
@@ -274,17 +388,25 @@ class NewBookImporterTUI(App):
             )
             mock_query_job.to_dataframe.return_value = mock_df
             self.client.query.return_value = mock_query_job
+            tui_logger.info("Mock BigQuery client created.")
         else:
+            tui_logger.info("Running in normal mode.")
             from google.cloud import bigquery
+            
+            try:
+                tui_logger.info("Attempting to create BigQuery client...")
+                self.client = bigquery.Client(project='static-webbing-461904-c4')
+                tui_logger.info("BigQuery client created successfully.")
+            except Exception as e:
+                tui_logger.error(f"Error creating BigQuery client: {e}", exc_info=True)
+                self.exit()
 
-            self.client = bigquery.Client()
-
+        tui_logger.info("Pushing MainScreen...")
         self.push_screen(MainScreen())
+        tui_logger.info("MainScreen pushed.")
 
     def action_quit(self) -> None:
         save_cache(self.cache)
-        with open("new_book_importer_tui.log", "w") as f:
-            f.write(tui_log_capture_string.getvalue())
         self.exit()
 
 
