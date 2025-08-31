@@ -4,3 +4,21 @@ google-cloud-cli-linux-arm.tar.gz
 google-cloud-sdk/
 install.sh
 install_google_cloud_sdk.sh
+
+# API secrets and sensitive data
+wikimedia_secrets.json
+*.secrets.json
+secrets/*
+.env
+.env.local
+.env.production
+
+# Cache and state files
+*.cache.json
+*_cache.json
+enrichment_state.json
+current_enrichment_state.json
+
+# Logs
+*.log
+logs/*

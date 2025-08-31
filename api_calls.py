@@ -10,7 +10,6 @@ from caching import save_cache
 from data_transformers import extract_year
 import google.auth
 
-
 def get_book_metadata_google_books(title, author, isbn, cache):
     safe_title = re.sub(r"[^a-zA-Z0-9\s\.:]", "", title)
     safe_author = re.sub(r"[^a-zA-Z0-9\s, ]", "", author)
@@ -31,7 +30,8 @@ def get_book_metadata_google_books(title, author, isbn, cache):
             query = f"isbn:{isbn}"
         else:
             query = f'intitle:"{safe_title}"+inauthor:"{safe_author}"'
-        url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1"
+        api_key = os.environ.get("GOOGLE_API_KEY", "")
+        url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1&key={api_key}"
         response = requests.get(url, timeout=15)
         response.raise_for_status()
         data = response.json()
@@ -98,6 +98,78 @@ def get_book_metadata_google_books(title, author, isbn, cache):
     success = metadata["error"] is None
     return metadata, False, success
 
+def get_book_metadata_open_library(title, author, isbn, cache):
+    """Gets book metadata from the Open Library API."""
+    safe_title = re.sub(r"[^a-zA-Z0-9\s\.:]", "", title)
+    safe_author = re.sub(r"[^a-zA-Z0-9\s, ]", "", author)
+    cache_key = f"openlibrary_{safe_title}|{safe_author}|{isbn}".lower()
+    if cache_key in cache:
+        return cache[cache_key], True, True
+
+    metadata = {
+        "classification": "",
+        "series_name": "",
+        "volume_number": "",
+        "publication_year": "",
+        "genres": [],
+        "error": None,
+    }
+
+    try:
+        if isbn:
+            url = f"https://openlibrary.org/isbn/{isbn}.json"
+            response = requests.get(url, timeout=15)
+            response.raise_for_status()
+            data = response.json()
+        else:
+            query = f'{safe_title} {safe_author}'.strip()
+            url = f"http://openlibrary.org/search.json?q={query}"
+            response = requests.get(url, timeout=15)
+            response.raise_for_status()
+            search_data = response.json()
+            if "docs" in search_data and search_data["docs"]:
+                # Assume the first result is the most relevant
+                data = search_data["docs"][0]
+            else:
+                data = {}
+
+        if "publish_date" in data:
+            metadata["publication_year"] = extract_year(data["publish_date"])
+
+        if "subjects" in data:
+            metadata["genres"].extend(data["subjects"])
+
+        if "series" in data:
+            metadata["series_name"] = data["series"][0]
+
+        cache[cache_key] = metadata
+        save_cache(cache)
+        success = metadata["error"] is None
+        return metadata, False, success
+
+    except requests.exceptions.RequestException as e:
+        if isinstance(
+            e,
+            (
+                requests.exceptions.Timeout,
+                requests.exceptions.ConnectionError,
+            ),
+        ):
+            metadata["error"] = (
+                f"Temporary Open Library API request failed: {e}"
+            )
+        else:
+            metadata["error"] = (
+                f"Permanent Open Library API request failed: {e}"
+            )
+            cache[cache_key] = metadata
+            save_cache(cache)
+    except Exception as e:
+        metadata["error"] = (
+            f"An unexpected error occurred with Open Library API: {e}"
+        )
+    success = metadata["error"] is None
+    return metadata, False, success
 
 def get_vertex_ai_classification_batch(batch_books, cache):
     retry_delays = [10, 20, 30]
@@ -114,12 +186,27 @@ def get_vertex_ai_classification_batch(batch_books, cache):
             )
 
         full_prompt = (
-            "For each book in the following list, provide its primary genre or Dewey Decimal classification, "
-            "series title, volume number, and copyright year. If it's fiction, classify as 'FIC'. If non-fiction, "
-            "provide a general Dewey Decimal category like '300' for Social Sciences, '500' for Science, etc. "
-            "Provide the output as a JSON array of objects, where each object has 'title', 'author', 'classification', "
-            "'series_title', 'volume_number', and 'copyright_year' fields. "
-            "If you cannot determine a value for a field, use an empty string ''.\n\n"
+            "For each book in the following list, perform comprehensive agentic web search to find: "
+            "1. Primary genre or Dewey Decimal classification (use 'FIC' for fiction, Dewey categories for non-fiction)"
+            "2. Series title and volume number if part of a series"
+            "3. Copyright year and original publication year"
+            "4. Source URLs where you found this information"
+            "5. Confidence score (0.0-1.0) for each data point"
+            "6. Review text snippets from credible sources"
+            "7. Notes for human reviewer about data quality and sources"
+            "\n"
+            "Provide the output as a JSON array of objects with these fields:"
+            "- title, author (for reference)"
+            "- classification (genre/Dewey)"
+            "- series_title, volume_number"
+            "- copyright_year, original_year"
+            "- source_urls: array of URLs used for verification"
+            "- confidence_scores: object with scores for each field (0.0-1.0)"
+            "- review_snippets: array of review excerpts from credible sources"
+            "- reviewer_notes: notes about data quality and verification process"
+            "\n"
+            "IMPORTANT: Always include source URLs and confidence scores. If you cannot verify information, "
+            "set confidence to 0.0 and provide notes explaining why.\n\n"
             "Books:\n" + "\n".join(batch_prompts)
         )
 
@@ -139,7 +226,7 @@ def get_vertex_ai_classification_batch(batch_books, cache):
                 classifications = json.loads(response_text)
                 cache[cache_key] = classifications
                 save_cache(cache)
-                return classifications, False
+                return [(c, False) for c in classifications]
             except Exception:
                 if i < len(retry_delays):
                     time.sleep(retry_delays[i])
@@ -148,7 +235,6 @@ def get_vertex_ai_classification_batch(batch_books, cache):
     except Exception as e:
         print(f"Vertex AI initialization failed: {e}")
         return [], False
-
 
 def get_book_metadata_initial_pass(
     title, author, isbn, lccn, cache, is_blank=False, is_problematic=False
@@ -170,6 +256,11 @@ def get_book_metadata_initial_pass(
         title, author, isbn, cache
     )
     metadata.update(google_meta)
+
+    openlibrary_meta, openlibrary_cached, openlibrary_success = get_book_metadata_open_library(
+        title, author, isbn, cache
+    )
+    metadata.update(openlibrary_meta)
 
     loc_cache_key = f"loc_{safe_title}|{safe_author}".lower()
     loc_cached = False
@@ -270,4 +361,4 @@ def get_book_metadata_initial_pass(
                 loc_success = False
                 break
 
-    return metadata, google_cached, loc_cached, google_success, loc_success
+    return metadata, google_cached, loc_cached, openlibrary_success, loc_success
