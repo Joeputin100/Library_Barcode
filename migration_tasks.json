@@ -1,0 +1,86 @@
+{
+  "current_tasks": [
+    {
+      "task_id": "VISUALIZER_FIX_001",
+      "name": "Fix Mangle Visualizer Record Count",
+      "description": "Update visualizer to show correct record count (369 B barcodes + 440 ISBN entries = 809 total) instead of full MARC export",
+      "status": "completed",
+      "priority": "high",
+      "assigned_to": "Code Manager Agent",
+      "due_date": "2025-08-31",
+      "completion_date": "2025-08-31",
+      "dependencies": []
+    },
+    {
+      "task_id": "DEEP_RESEARCH_002", 
+      "name": "Complete Deep Research Integration",
+      "description": "Update Vertex AI calls with Deep Research prompts for confidence scoring and discrepancy analysis",
+      "status": "completed",
+      "priority": "high",
+      "assigned_to": "Deep Research Agent",
+      "due_date": "2025-08-31",
+      "dependencies": ["VISUALIZER_FIX_001"]
+    },
+    {
+      "task_id": "MANGLE_SETUP_003",
+      "name": "Complete Mangle Library Setup",
+      "description": "Finish Mangle library installation and basic rule translation from Python logic",
+      "status": "completed", 
+      "priority": "high",
+      "assigned_to": "Code Manager Agent",
+      "due_date": "2025-08-31",
+      "completion_date": "2025-09-01",
+      "dependencies": ["DEEP_RESEARCH_002"]
+    },
+    {
+      "task_id": "BIGQUERY_MIGRATION_004",
+      "name": "BigQuery Integration with Mangle, Vertex AI, and DeepQuery",
+      "description": "Migrate data storage to BigQuery for seamless integration with Mangle architecture, Vertex AI Deep Research, and DeepQuery. Create optimized schemas for agentic data processing and real-time analytics.",
+      "status": "in_progress",
+      "priority": "high",
+      "assigned_to": "Code Manager Agent",
+      "due_date": "2025-09-01",
+      "dependencies": ["MANGLE_SETUP_003"],
+      "subtasks": [
+        "Design BigQuery schema optimized for Mangle declarative rules",
+        "Create tables for enriched book data with source provenance tracking",
+        "Implement real-time data streaming from Vertex AI Deep Research",
+        "Set up BigQuery ML integration for confidence scoring optimization",
+        "Configure DeepQuery to use BigQuery as backend data store",
+        "Implement data validation and quality checks in BigQuery",
+        "Create materialized views for frequently accessed enrichment results"
+      ]
+    },
+    {
+      "task_id": "MLE_STAR_OPTIMIZATION_005",
+      "name": "MLE-STAR Agent Optimization",
+      "description": "Use MLE-STAR agent to optimize Mangle rules and integration code for efficiency and accuracy",
+      "status": "not_started",
+      "priority": "medium", 
+      "assigned_to": "MLE-STAR Agent",
+      "due_date": "2025-09-01",
+      "dependencies": ["BIGQUERY_MIGRATION_004"]
+    },
+    {
+      "task_id": "TESTING_006",
+      "name": "Comprehensive Testing",
+      "description": "Run end-to-end tests on all 809 records to ensure data integrity and system functionality",
+      "status": "not_started",
+      "priority": "medium",
+      "assigned_to": "Code Manager Agent",
+      "due_date": "2025-09-02",
+      "dependencies": ["MLE_STAR_OPTIMIZATION_005"]
+    }
+  ],
+  "completed_tasks": [
+    {
+      "task_id": "ARCHITECTURE_PLAN_000",
+      "name": "Architectural Planning Completed",
+      "description": "Defined Mangle declarative rules and data model for the new architecture",
+      "completion_date": "2025-08-31",
+      "assigned_to": "Code Manager Agent"
+    }
+  ],
+  "created_date": "2025-08-31",
+  "last_updated": "2025-09-01T20:00:00Z"
+}

@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-08-31T21:48:42.480394",
+  "total_records": 809,
+  "records_with_confidence": 0,
+  "average_confidence": 0,
+  "source_counts": {
+    "GOOGLE_BOOKS": 1,
+    "VERTEX_AI": 0,
+    "MARC_ONLY": 4384,
+    "COMBINED": 0
+  },
+  "confidence_coverage": 0.0
+}
