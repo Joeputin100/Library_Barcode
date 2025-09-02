@@ -2,12 +2,13 @@
     "overall_goal": "Create a TUI application to process a list of books (ISBNs or title/author), enrich the data using various APIs, and generate a MARC file for import into Atriuum.",
     "key_knowledge": [
         "Input is a text file with one book identifier per line.",
-        "Data is enriched using LoC, Google Books, and Vertex AI.",
+        "Data is enriched using 8 sources: LoC, Google Books, Open Library, Goodreads, LibraryThing, Wikipedia, ISBNdb, and Vertex AI.",
+        "Goodreads integration uses web search approach (API no longer available).",
         "Data is stored in BigQuery.",
         "The output is an Atriuum-compatible MARC file.",
         "The TUI is built with Textual.",
         "OhioLink Z39.50 Innopac Service (olc1.ohiolink.edu:210, database \"INNOPAC\") will be integrated as an additional data source."
     ],
-    "current_plan": "Tasks 10.1, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, and bug fixes 9.2 and Edit button ID sanitization are complete."
+    "current_plan": "Multi-source enrichment with all 8 APIs implemented. Enhanced visualizer with screen clearing. Goodreads updated for API unavailability. Tasks 10.1, 7.1, 7.2, 7.3, 7.4, 7.5, 8.1, and bug fixes 9.2 and Edit button ID sanitization are complete."
 
 }

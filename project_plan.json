@@ -268,6 +268,125 @@
                     "expected_output": "A clear guide or script that allows the user to successfully authenticate the application."
                 }
             ]
+        },
+        {
+            "phase_name": "Phase 11: End-to-End Testing and Refinement",
+            "description": "Conduct a complete end-to-end test of the MARC import workflow to identify and resolve any remaining issues, ensuring a successful run from start to finish.",
+            "tasks": [
+                {
+                    "task_id": "11.1",
+                    "task_name": "Execute Full MARC Import Workflow",
+                    "status": "IN PROGRESS",
+                    "model": "Pro",
+                    "description": "Run the entire process, from providing an input file to generating the final MARC export.",
+                    "dependencies": [],
+                    "expected_output": "A complete log of the execution run."
+                },
+                {
+                    "task_id": "11.2",
+                    "task_name": "Identify and Document Errors",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Carefully log any errors, crashes, or incorrect outputs encountered during the test run.",
+                    "dependencies": [
+                        "11.1"
+                    ],
+                    "expected_output": "A detailed list of issues found."
+                },
+                {
+                    "task_id": "11.3",
+                    "task_name": "Debug and Resolve Issues",
+                    "status": "DONE",
+                    "model": "Pro",
+                    "description": "Systematically investigate and fix the root causes of the identified problems.",
+                    "dependencies": [
+                        "11.2"
+                    ],
+                    "expected_output": "Code changes that address the identified issues."
+                },
+                {
+                    "task_id": "11.4",
+                    "task_name": "Validate Final MARC Output",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Manually inspect the generated MARC file to confirm it is well-formed and contains the correct, enriched data, ready for Atriuum import.",
+                    "dependencies": [
+                        "11.3"
+                    ],
+                    "expected_output": "Confirmation that the output file is correct."
+                },
+                {
+                    "task_id": "11.5",
+                    "task_name": "Final User Acceptance Testing",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "User to perform a final review and confirm the process meets all requirements.",
+                    "dependencies": [
+                        "11.4"
+                    ],
+                    "expected_output": "User approval of the final process."
+                }
+            ]
+        },
+        {
+            "phase_name": "Phase 12: Optimization and Enhanced Enrichment",
+            "description": "Implement batch processing optimizations and add comprehensive enrichment sources for improved data quality.",
+            "tasks": [
+                {
+                    "task_id": "12.1",
+                    "task_name": "Implement Batch Processing for Google Books API",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Apply Google Gemini API batch mode optimization to Google Books API calls, grouping multiple ISBN queries into single batch requests to reduce API calls and improve performance.",
+                    "dependencies": [],
+                    "expected_output": "Batch processing implemented with 50% reduction in API calls"
+                },
+                {
+                    "task_id": "12.2",
+                    "task_name": "Implement Batch Processing for Vertex AI",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Apply batch processing to Vertex AI API calls for natural language processing and data enrichment tasks, grouping similar requests to optimize costs and performance.",
+                    "dependencies": [],
+                    "expected_output": "Vertex AI batch processing with 40% cost reduction"
+                },
+                {
+                    "task_id": "12.3",
+                    "task_name": "Add Awards and Professional Reviews Enrichment",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Integrate additional data sources for book awards (Pulitzer, National Book Award, etc.) and professional reviews from sources like Kirkus, Publisher's Weekly, and Library Journal.",
+                    "dependencies": [],
+                    "expected_output": "Awards and reviews data added to enrichment pipeline"
+                },
+                {
+                    "task_id": "12.4",
+                    "task_name": "Add GoodReads Integration for Recommendations",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Integrate GoodReads API to fetch reader ratings, reviews, and recommendation data to enhance book metadata with crowd-sourced insights.",
+                    "dependencies": [],
+                    "expected_output": "GoodReads data integrated into enrichment process"
+                },
+                {
+                    "task_id": "12.5",
+                    "task_name": "Add Comprehensive Subject and Keyword Enrichment",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Enhance subject classification and keyword extraction using multiple sources including BISAC, Library of Congress Subject Headings, and automated keyword generation.",
+                    "dependencies": [],
+                    "expected_output": "Enhanced subject and keyword metadata"
+                },
+                {
+                    "task_id": "12.6",
+                    "task_name": "Add Missing Data Fields Enrichment",
+                    "status": "TODO",
+                    "model": "Pro",
+                    "description": "Add enrichment for missing data fields including page counts, media formats, dimensions, and other physical book characteristics from multiple sources.",
+                    "dependencies": [],
+                    "expected_output": "Complete physical book metadata enrichment"
+                }
+            ]
         }
     ]
 }
