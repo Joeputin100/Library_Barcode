@@ -540,7 +540,7 @@ def get_book_metadata_initial_pass(
             # Call Vertex AI for deep research
             vertex_results, vertex_ai_cached = get_vertex_ai_classification_batch(book_data, cache)
             
-            if vertex_results and not vertex_ai_cached:
+            if vertex_results:
                 vertex_result = vertex_results[0]  # Get first result from batch
                 vertex_ai_meta.update({
                     "vertex_ai_classification": vertex_result.get("classification", ""),
@@ -548,7 +548,7 @@ def get_book_metadata_initial_pass(
                     "vertex_ai_confidence": vertex_result.get("confidence_level", "low"),
                     "vertex_ai_alternative_classifications": vertex_result.get("alternative_classifications", [])
                 })
-                vertex_ai_success = True
+                vertex_ai_success = True  # Success if we have results, regardless of caching
                 
                 # Update main metadata with Vertex AI results
                 metadata.update(vertex_ai_meta)
