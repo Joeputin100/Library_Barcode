@@ -209,8 +209,8 @@ def update_enrichment_state(processed_count, source_usage=None):
         if source_usage:
             for source, count in source_usage.items():
                 if source in state["source_counts"]:
-                    # Accumulate counts instead of overwriting
-                    state["source_counts"][source] += count
+                    # Set current run counts (don't accumulate - cumulative tracker handles that)
+                    state["source_counts"][source] = count
         
         # Calculate NO_ENRICHMENT based on actual enriched records
         total_enriched = sum(state["source_counts"].get(source, 0) for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"])

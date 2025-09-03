@@ -2,11 +2,11 @@
   "timestamp": "2025-09-03T00:20:43.353971",
   "total_records": 369,
   "source_counts": {
-    "LIBRARY_OF_CONGRESS": 3663,
-    "GOOGLE_BOOKS": 7366,
+    "LIBRARY_OF_CONGRESS": 140,
+    "GOOGLE_BOOKS": 300,
     "VERTEX_AI": 0,
     "OPEN_LIBRARY": 0,
-    "NO_ENRICHMENT": -10220
+    "NO_ENRICHMENT": 369
   },
   "overall_progress": 45.611866501854145
 }

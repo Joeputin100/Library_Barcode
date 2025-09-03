@@ -86,67 +86,60 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
         # no_enrich_percentage = (no_enrich_count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
         # output_lines.append(f"   {'No Enrichment':20}: {no_enrich_count:5} records ({no_enrich_percentage:.1f}%)")
         
-        # Add vertical bar graph
-        output_lines.append("\n   📊 SOURCE UTILIZATION:")
-        max_bar_height = 8  # Maximum height of bars in lines
+        # Add source utilization table (replaces bar chart)
+        output_lines.append("\n   📊 SOURCE UTILIZATION TABLE:")
         
-        # Calculate bar heights and get appropriate block characters
-        bar_heights = {}
-        bar_blocks = {}
-        for source in sources_to_display:
-            count = source_counts.get(source, 0)
-            percentage = (count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
-            height = int((count / TARGET_RECORDS) * max_bar_height) if TARGET_RECORDS > 0 else 0
-            # Ensure at least 1 block is shown for any non-zero count
-            if count > 0 and height == 0:
-                height = 1
-            bar_heights[source] = min(height, max_bar_height)
-            
-            # Determine appropriate block character based on percentage
-            if percentage == 0:
-                bar_blocks[source] = " "  # Empty space for 0%
-            elif percentage <= 50.0:
-                bar_blocks[source] = "░"  # Light shade for 0.1%-50.0%
-            elif percentage < 100.0:
-                bar_blocks[source] = "▒"  # Medium shade for 50.1%-99.9%
-            else:
-                bar_blocks[source] = "▓"  # Full block for 100%
+        # Create a clean table format
+        table_header = "   Source              Records    % of Target"
+        table_separator = "   ------------------ ---------- ------------"
         
-        # Display names for sources (3-character abbreviations for alignment)
+        output_lines.append(table_header)
+        output_lines.append(table_separator)
+        
+        # Display names for sources
         display_names = {
-            "LIBRARY_OF_CONGRESS": "LOC",
-            "GOOGLE_BOOKS": "GBK",
-            "VERTEX_AI": "VAI",
-            "OPEN_LIBRARY": "OLB"
+            "LIBRARY_OF_CONGRESS": "Library of Congress",
+            "GOOGLE_BOOKS": "Google Books",
+            "VERTEX_AI": "Vertex AI",
+            "OPEN_LIBRARY": "Open Library"
         }
         
-        # Print vertical bars from top to bottom
-        for level in range(max_bar_height, 0, -1):
-            line = "   "
-            for source in sources_to_display:
-                short_name = display_names.get(source, source[:6])
-                if bar_heights[source] >= level:
-                    line += f" {bar_blocks[source]} "  # Use appropriate block character
-                else:
-                    line += "   "  # Empty space
-            output_lines.append(line)
+        # Calculate records with complete enrichment from ALL 4 sources
+        # This requires analyzing the actual enriched data file
+        completely_enriched_records = 0
+        try:
+            with open("enriched_data_combined_mangle.json", "r") as f:
+                enriched_data = json.load(f)
+            
+            for record in enriched_data:
+                source_data = record.get("source_data", {})
+                # Check if ALL 4 sources have contributed data
+                if (bool(source_data.get("loc", {})) and 
+                    bool(source_data.get("google_books", {})) and 
+                    bool(source_data.get("vertex_ai", {})) and 
+                    bool(source_data.get("open_library", {}))):
+                    completely_enriched_records += 1
+                    
+        except Exception as e:
+            # Fallback: use the difference method if we can't read the enriched file
+            completely_enriched_records = source_counts.get("total_records", 0) - source_counts.get("NO_ENRICHMENT", 0)
         
-        # Print source labels (aligned with bars - 3 characters per source)
-        labels_line = "   "
-        for source in sources_to_display:
-            short_name = display_names.get(source, source[:3])  # Limit to 3 chars for alignment
-            labels_line += f" {short_name:3} "
-        output_lines.append(labels_line)
-        
-        # Print count/percentage information on separate line (3 chars per source)
-        counts_line = "   "
         for source in sources_to_display:
             count = source_counts.get(source, 0)
             percentage = (count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
-            counts_line += f" {count:2}/{percentage:2.0f}%"
-        output_lines.append(counts_line)
+            display_name = display_names.get(source, source.replace("_", " ").title())
+            output_lines.append(f"   {display_name:18} {count:7}     {percentage:6.1f}%")
         
-        output_lines.append(f"   {'Total:':6} {sum(source_counts.get(source, 0) for source in sources_to_display):3}/{TARGET_RECORDS}")
+        # Display No Enrichment
+        no_enrich_count = source_counts.get("NO_ENRICHMENT", 0)
+        no_enrich_percentage = (no_enrich_count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
+        output_lines.append(table_separator)
+        output_lines.append(f"   {'No Enrichment':18} {no_enrich_count:7}     {no_enrich_percentage:6.1f}%")
+        
+        # Total line - shows records with COMPLETE enrichment from ALL 4 sources
+        output_lines.append(table_separator)
+        output_lines.append(f"   {'COMPLETE':18} {completely_enriched_records:7}     {(completely_enriched_records / TARGET_RECORDS) * 100:6.1f}%")
+        output_lines.append(f"   {'TARGET':18} {TARGET_RECORDS:7}     100.0%")
             
     else:
         output_lines.append("   No source data available yet.")
@@ -200,21 +193,8 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
     
     return output_lines
 
-def save_state(source_counts, total_records):
-    """Save current state to JSON file"""
-    # Calculate NO_ENRICHMENT based on actual enriched records
-    total_enriched = sum(source_counts.get(source, 0) for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"])
-    
-    state = {
-        "timestamp": datetime.now().isoformat(),
-        "total_records": total_records,
-        "source_counts": source_counts,
-        "overall_progress": (total_records / 809) * 100 if total_records > 0 else 0
-    }
-    state["source_counts"]["NO_ENRICHMENT"] = 809 - total_enriched
-    
-    with open("mangle_enrichment_state.json", "w") as f:
-        json.dump(state, f, indent=2)
+# Note: Visualizer should only READ state files, not write to them
+# State writing is handled by the parallel processor to prevent corruption
 
 def main():
     """Main function for persistent monitoring"""
