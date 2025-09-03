@@ -22,6 +22,26 @@ loc_rate_limit_state = {
     "current_rate_limit_reset": None,
 }
 
+# Global rate limiting state for Google Books API
+# Google Books limits: 1,000 requests per 100 seconds per user
+google_books_rate_limit_state = {
+    "request_times": deque(),
+    "last_request_time": 0,
+    "max_requests_per_100s": 1000,    # Google Books limit
+    "min_request_interval": 0.1,      # Minimum 100ms between requests
+    "current_rate_limit_remaining": None,
+    "current_rate_limit_reset": None,
+}
+
+# Global rate limiting state for Open Library API
+# Open Library: No strict limits, but polite usage (recommend 5 requests/second max)
+open_library_rate_limit_state = {
+    "request_times": deque(),
+    "last_request_time": 0,
+    "max_requests_per_second": 5,      # Polite usage: 5 requests per second
+    "min_request_interval": 0.2,       # Minimum 200ms between requests
+}
+
 def check_loc_rate_limit():
     """Check if we can make a request to LOC API based on rate limits"""
     current_time = time.time()
@@ -51,6 +71,70 @@ def record_loc_request():
     current_time = time.time()
     loc_rate_limit_state["request_times"].append(current_time)
     loc_rate_limit_state["last_request_time"] = current_time
+
+
+def check_google_books_rate_limit():
+    """Check if we can make a request to Google Books API based on rate limits"""
+    current_time = time.time()
+    
+    # Remove requests older than 100 seconds
+    hundred_seconds_ago = current_time - 100
+    while (google_books_rate_limit_state["request_times"] and 
+           google_books_rate_limit_state["request_times"][0] < hundred_seconds_ago):
+        google_books_rate_limit_state["request_times"].popleft()
+    
+    # Check 100-second limit
+    if len(google_books_rate_limit_state["request_times"]) >= google_books_rate_limit_state["max_requests_per_100s"]:
+        oldest_request = google_books_rate_limit_state["request_times"][0]
+        wait_time = (oldest_request + 100) - current_time
+        return False, max(wait_time, 0)
+    
+    # Check minimum interval
+    last_request_time = google_books_rate_limit_state["last_request_time"]
+    if current_time - last_request_time < google_books_rate_limit_state["min_request_interval"]:
+        wait_time = google_books_rate_limit_state["min_request_interval"] - (current_time - last_request_time)
+        return False, wait_time
+    
+    return True, 0
+
+
+def record_google_books_request():
+    """Record a successful Google Books API request for rate limiting"""
+    current_time = time.time()
+    google_books_rate_limit_state["request_times"].append(current_time)
+    google_books_rate_limit_state["last_request_time"] = current_time
+
+
+def check_open_library_rate_limit():
+    """Check if we can make a request to Open Library API based on polite usage guidelines"""
+    current_time = time.time()
+    
+    # Remove requests older than 1 second for per-second limiting
+    one_second_ago = current_time - 1
+    while (open_library_rate_limit_state["request_times"] and 
+           open_library_rate_limit_state["request_times"][0] < one_second_ago):
+        open_library_rate_limit_state["request_times"].popleft()
+    
+    # Check per-second limit (polite usage)
+    if len(open_library_rate_limit_state["request_times"]) >= open_library_rate_limit_state["max_requests_per_second"]:
+        oldest_request = open_library_rate_limit_state["request_times"][0]
+        wait_time = (oldest_request + 1) - current_time
+        return False, max(wait_time, 0)
+    
+    # Check minimum interval
+    last_request_time = open_library_rate_limit_state["last_request_time"]
+    if current_time - last_request_time < open_library_rate_limit_state["min_request_interval"]:
+        wait_time = open_library_rate_limit_state["min_request_interval"] - (current_time - last_request_time)
+        return False, wait_time
+    
+    return True, 0
+
+
+def record_open_library_request():
+    """Record a successful Open Library API request for rate limiting"""
+    current_time = time.time()
+    open_library_rate_limit_state["request_times"].append(current_time)
+    open_library_rate_limit_state["last_request_time"] = current_time
 
 def update_loc_rate_limit_headers(response):
     """Update rate limiting state from LOC API response headers"""
@@ -147,6 +231,12 @@ def get_book_metadata_google_books(title, author, isbn, cache):
         "error": None,
     }
     try:
+        # Check Google Books rate limiting
+        can_request, wait_time = check_google_books_rate_limit()
+        if not can_request:
+            print(f"Google Books API rate limited: waiting {wait_time:.2f} seconds")
+            time.sleep(wait_time)
+        
         if isbn:
             query = f"isbn:{isbn}"
         else:
@@ -155,6 +245,10 @@ def get_book_metadata_google_books(title, author, isbn, cache):
         url = f"https://www.googleapis.com/books/v1/volumes?q={query}&maxResults=1&key={api_key}"
         response = requests.get(url, timeout=15)
         response.raise_for_status()
+        
+        # Record successful request for rate limiting
+        record_google_books_request()
+        
         data = response.json()
         print(f"Google Books API response: {data}")
 
@@ -244,6 +338,12 @@ def get_book_metadata_open_library(title, author, isbn, cache):
     }
 
     try:
+        # Check Open Library rate limiting (polite usage)
+        can_request, wait_time = check_open_library_rate_limit()
+        if not can_request:
+            print(f"Open Library API rate limited: waiting {wait_time:.2f} seconds")
+            time.sleep(wait_time)
+        
         if isbn:
             url = f"https://openlibrary.org/isbn/{isbn}.json"
             response = requests.get(url, timeout=15)
@@ -255,6 +355,11 @@ def get_book_metadata_open_library(title, author, isbn, cache):
             response = requests.get(url, timeout=15)
             response.raise_for_status()
             search_data = response.json()
+        
+        # Record successful request for rate limiting
+        record_open_library_request()
+        
+        if not isbn:
             if "docs" in search_data and search_data["docs"]:
                 # Assume the first result is the most relevant
                 data = search_data["docs"][0]
@@ -286,6 +391,18 @@ def get_book_metadata_open_library(title, author, isbn, cache):
             metadata["error"] = (
                 f"Temporary Open Library API request failed: {e}"
             )
+        elif isinstance(e, requests.exceptions.HTTPError):
+            # Handle HTTP errors (like 429 rate limiting)
+            if e.response.status_code == 429:
+                metadata["error"] = "Open Library API rate limited (HTTP 429)"
+                # Wait before potentially retrying
+                time.sleep(2)
+            else:
+                metadata["error"] = (
+                    f"Permanent Open Library API request failed: {e}"
+                )
+                cache[cache_key] = metadata
+                save_cache(cache)
         else:
             metadata["error"] = (
                 f"Permanent Open Library API request failed: {e}"
