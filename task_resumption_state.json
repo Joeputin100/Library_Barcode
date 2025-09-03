@@ -1,0 +1,81 @@
+{
+  "timestamp": "2025-09-02T17:25:00.000000",
+  "project": "barcode_enrichment_engine",
+  "current_status": "PAUSED_FOR_TERMUX_RESTART",
+  "last_commit": "45e496c",
+  "resume_instructions": {
+    "primary_command": "python parallel_mangle_processor.py",
+    "monitoring_command": "python mangle_persistent_visualizer.py",
+    "memory_monitor_command": "python memory_monitor.py",
+    "tmux_session": "enrichment_engine"
+  },
+  "processing_state": {
+    "total_records_processed": 369,
+    "target_records": 809,
+    "completion_percentage": 45.6,
+    "current_worker_count": 1,
+    "last_processed_batch": "batch_369",
+    "next_record_to_process": 370
+  },
+  "enrichment_sources_state": {
+    "LIBRARY_OF_CONGRESS": {
+      "cumulative_count": 3803,
+      "current_run_count": 3663,
+      "rate_limiting_active": true,
+      "min_interval_ms": 500,
+      "max_requests_per_hour": 125
+    },
+    "GOOGLE_BOOKS": {
+      "cumulative_count": 7666,
+      "current_run_count": 7366,
+      "rate_limiting_active": false
+    },
+    "VERTEX_AI": {
+      "cumulative_count": 0,
+      "current_run_count": 0,
+      "rate_limiting_active": false
+    },
+    "OPEN_LIBRARY": {
+      "cumulative_count": 0,
+      "current_run_count": 0,
+      "rate_limiting_active": false
+    }
+  },
+  "system_configuration": {
+    "memory_monitoring": true,
+    "visualizer_active": true,
+    "state_persistence": true,
+    "api_rate_limiting": true,
+    "error_handling": "robust"
+  },
+  "recent_improvements": [
+    "Memory_stability_1_worker",
+    "LOC_API_rate_limiting",
+    "Visualizer_display_fixes",
+    "Cumulative_state_tracking",
+    "Unicode_to_ASCII_conversion"
+  ],
+  "pending_tasks": [
+    "Horizontal_bar_chart_implementation",
+    "Total_calculation_fix",
+    "Google_Cloud_migration",
+    "Continue_processing_records_370_809"
+  ],
+  "critical_files": [
+    "parallel_mangle_processor.py",
+    "api_calls.py",
+    "mangle_persistent_visualizer.py",
+    "cumulative_tracker.py",
+    "memory_monitor.py",
+    "enriched_data_combined_mangle.json",
+    "loc_cache.json",
+    "cumulative_enrichment_state.json",
+    "mangle_enrichment_state.json"
+  ],
+  "git_status": {
+    "last_commit": "45e496c",
+    "branch": "master",
+    "remote": "origin",
+    "push_required": true
+  }
+}
