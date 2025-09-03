@@ -4,8 +4,8 @@
   "source_counts_cumulative": {
     "LIBRARY_OF_CONGRESS": 140,
     "GOOGLE_BOOKS": 300,
-    "VERTEX_AI": 0,
-    "OPEN_LIBRARY": 0,
+    "VERTEX_AI": 10,
+    "OPEN_LIBRARY": 10,
     "NO_ENRICHMENT": 369
   },
   "runs_completed": 4,
