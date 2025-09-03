@@ -24,15 +24,20 @@ def create_progress_bar(percentage, width=40):
     return f"{bar} {percentage:.1f}%"
 
 def analyze_enrichment_sources():
-    """Analyze enrichment source usage from state file"""
+    """Analyze enrichment source usage from cumulative state file"""
     try:
-        with open("mangle_enrichment_state.json", "r") as f:
-            state = json.load(f)
-        return state.get("source_counts", {}), state.get("total_records", 0)
-    except FileNotFoundError:
-        return {}, 0
-    except json.JSONDecodeError:
-        return {}, 0
+        # Try to load cumulative state first
+        with open("cumulative_enrichment_state.json", "r") as f:
+            cumulative_state = json.load(f)
+        return cumulative_state.get("source_counts_cumulative", {}), cumulative_state.get("total_records_processed", 0)
+    except (FileNotFoundError, json.JSONDecodeError):
+        # Fallback to current run state
+        try:
+            with open("mangle_enrichment_state.json", "r") as f:
+                state = json.load(f)
+            return state.get("source_counts", {}), state.get("total_records", 0)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}, 0
 
 def display_mangle_dashboard(source_counts, total_records, previous_output_lines=None):
     """Display the Mangle enrichment dashboard with ANSI rewrite to reduce flickering"""
@@ -73,14 +78,13 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
                 "VERTEX_AI": "Vertex Ai",
                 "OPEN_LIBRARY": "Open Library"
             }
-            display_name = display_names.get(source, source.replace("_", " ").title())
-            
-            output_lines.append(f"   {display_name:20}: {count:5} records ({percentage:.1f}%)")
+            # display_name = display_names.get(source, source.replace("_", " ").title())
+            # output_lines.append(f"   {display_name:20}: {count:5} records ({percentage:.1f}%)")
         
-        # Display No Enrichment separately
-        no_enrich_count = source_counts.get("NO_ENRICHMENT", 0)
-        no_enrich_percentage = (no_enrich_count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
-        output_lines.append(f"   {'No Enrichment':20}: {no_enrich_count:5} records ({no_enrich_percentage:.1f}%)")
+        # Display No Enrichment separately (now integrated into bar chart)
+        # no_enrich_count = source_counts.get("NO_ENRICHMENT", 0)
+        # no_enrich_percentage = (no_enrich_count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
+        # output_lines.append(f"   {'No Enrichment':20}: {no_enrich_count:5} records ({no_enrich_percentage:.1f}%)")
         
         # Add vertical bar graph
         output_lines.append("\n   📊 SOURCE UTILIZATION:")
@@ -93,24 +97,27 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
             count = source_counts.get(source, 0)
             percentage = (count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
             height = int((count / TARGET_RECORDS) * max_bar_height) if TARGET_RECORDS > 0 else 0
+            # Ensure at least 1 block is shown for any non-zero count
+            if count > 0 and height == 0:
+                height = 1
             bar_heights[source] = min(height, max_bar_height)
             
             # Determine appropriate block character based on percentage
             if percentage == 0:
-                bar_blocks[source] = "⬛"  # Empty block for 0%
+                bar_blocks[source] = " "  # Empty space for 0%
             elif percentage <= 50.0:
-                bar_blocks[source] = "▫️"  # Small white square for 0.1%-50.0%
+                bar_blocks[source] = "░"  # Light shade for 0.1%-50.0%
             elif percentage < 100.0:
-                bar_blocks[source] = "◻️"  # Medium white square for 50.1%-99.9%
+                bar_blocks[source] = "▒"  # Medium shade for 50.1%-99.9%
             else:
-                bar_blocks[source] = "⬜"  # Full white square for 100%
+                bar_blocks[source] = "▓"  # Full block for 100%
         
-        # Display names for sources
+        # Display names for sources (3-character abbreviations for alignment)
         display_names = {
             "LIBRARY_OF_CONGRESS": "LOC",
-            "GOOGLE_BOOKS": "Google",
-            "VERTEX_AI": "Vertex",
-            "OPEN_LIBRARY": "OpenLib"
+            "GOOGLE_BOOKS": "GBK",
+            "VERTEX_AI": "VAI",
+            "OPEN_LIBRARY": "OLB"
         }
         
         # Print vertical bars from top to bottom
@@ -124,18 +131,22 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
                     line += "   "  # Empty space
             output_lines.append(line)
         
-        # Print source labels and counts
+        # Print source labels (aligned with bars - 3 characters per source)
         labels_line = "   "
+        for source in sources_to_display:
+            short_name = display_names.get(source, source[:3])  # Limit to 3 chars for alignment
+            labels_line += f" {short_name:3} "
+        output_lines.append(labels_line)
+        
+        # Print count/percentage information on separate line (3 chars per source)
         counts_line = "   "
         for source in sources_to_display:
-            short_name = display_names.get(source, source[:6])
             count = source_counts.get(source, 0)
-            labels_line += f" {short_name:4} "
-            counts_line += f" {count:3}  "
-        
-        output_lines.append(labels_line)
+            percentage = (count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
+            counts_line += f" {count:2}/{percentage:2.0f}%"
         output_lines.append(counts_line)
-        output_lines.append(f"   {'Total:':6} {sum(bar_heights.values()):3}/{TARGET_RECORDS}")
+        
+        output_lines.append(f"   {'Total:':6} {sum(source_counts.get(source, 0) for source in sources_to_display):3}/{TARGET_RECORDS}")
             
     else:
         output_lines.append("   No source data available yet.")
@@ -191,12 +202,17 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
 
 def save_state(source_counts, total_records):
     """Save current state to JSON file"""
+    # Calculate NO_ENRICHMENT based on actual enriched records
+    total_enriched = sum(source_counts.get(source, 0) for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"])
+    
     state = {
         "timestamp": datetime.now().isoformat(),
         "total_records": total_records,
         "source_counts": source_counts,
         "overall_progress": (total_records / 809) * 100 if total_records > 0 else 0
     }
+    state["source_counts"]["NO_ENRICHMENT"] = 809 - total_enriched
+    
     with open("mangle_enrichment_state.json", "w") as f:
         json.dump(state, f, indent=2)
 
@@ -204,7 +220,7 @@ def main():
     """Main function for persistent monitoring"""
     print("🚀 Starting Mangle Persistent Enrichment Monitor...")
     print("📡 Monitoring Mangle-based enrichment architecture")
-    print("💾 State will be saved to mangle_enrichment_state.json")
+    print("👀 Displaying cumulative enrichment progress")
     print("Press Ctrl+C to exit\n")
     
     # Clear screen initially
@@ -216,7 +232,7 @@ def main():
         while True:
             source_counts, total_records = analyze_enrichment_sources()
             previous_output_lines = display_mangle_dashboard(source_counts, total_records, previous_output_lines)
-            save_state(source_counts, total_records)
+            # save_state(source_counts, total_records)  # Disabled to prevent state corruption
             time.sleep(5)
             
     except KeyboardInterrupt:

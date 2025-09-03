@@ -11,6 +11,7 @@ from datetime import datetime
 from simple_mangle_integration import run_mangle_enrichment
 from caching import load_cache, save_cache
 from api_calls import get_book_metadata_initial_pass
+from cumulative_tracker import update_cumulative_state
 
 logger = logging.getLogger(__name__)
 
@@ -208,9 +209,12 @@ def update_enrichment_state(processed_count, source_usage=None):
         if source_usage:
             for source, count in source_usage.items():
                 if source in state["source_counts"]:
-                    state["source_counts"][source] = count
+                    # Accumulate counts instead of overwriting
+                    state["source_counts"][source] += count
         
-        state["source_counts"]["NO_ENRICHMENT"] = 809 - processed_count
+        # Calculate NO_ENRICHMENT based on actual enriched records
+        total_enriched = sum(state["source_counts"].get(source, 0) for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"])
+        state["source_counts"]["NO_ENRICHMENT"] = 809 - total_enriched
         state["overall_progress"] = (processed_count / 809) * 100
         
         with open("mangle_enrichment_state.json", "w") as f:
@@ -237,10 +241,10 @@ def main():
         logger.error("No records found to process")
         return
     
-    logger.info(f"Found {len(records)} records to process with 4 parallel workers")
+    logger.info(f"Found {len(records)} records to process with 1 worker (reduced for stability)")
     
-    # Process records in parallel
-    results, processed, failed, source_usage = process_batch_parallel(records, max_workers=4)
+    # Process records in parallel (reduced to 1 worker for stability)
+    results, processed, failed, source_usage = process_batch_parallel(records, max_workers=1)
     
     # Save results
     try:
@@ -256,6 +260,15 @@ def main():
     
     # Update final state
     update_enrichment_state(processed, source_usage)
+    
+    # Update cumulative state
+    try:
+        with open("mangle_enrichment_state.json", "r") as f:
+            current_state = json.load(f)
+        update_cumulative_state(current_state)
+        logger.info("Cumulative state updated successfully")
+    except Exception as e:
+        logger.error(f"Failed to update cumulative state: {e}")
     
     # Summary
     logger.info(f"Processing complete!")

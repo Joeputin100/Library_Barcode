@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-09-02T17:20:43.354969",
+  "project_name": "barcode_enrichment_engine",
+  "current_state": {
+    "enrichment_status": "PAUSED_FOR_RESTART",
+    "total_records_processed": 369,
+    "target_records": 809,
+    "overall_completion_percentage": 45.6,
+    "runs_completed": 4,
+    "current_worker_count": 1,
+    "memory_monitoring_active": true,
+    "api_rate_limiting_configured": true
+  },
+  "enrichment_sources": {
+    "LIBRARY_OF_CONGRESS": {
+      "cumulative_count": 3803,
+      "current_run_count": 3663,
+      "rate_limit_configured": true,
+      "rate_limit_remaining": "tracked_via_headers",
+      "min_interval_ms": 500
+    },
+    "GOOGLE_BOOKS": {
+      "cumulative_count": 7666,
+      "current_run_count": 7366,
+      "rate_limit_configured": false
+    },
+    "VERTEX_AI": {
+      "cumulative_count": 0,
+      "current_run_count": 0,
+      "rate_limit_configured": false
+    },
+    "OPEN_LIBRARY": {
+      "cumulative_count": 0,
+      "current_run_count": 0,
+      "rate_limit_configured": false
+    }
+  },
+  "system_configuration": {
+    "parallel_workers": 1,
+    "memory_monitor_active": true,
+    "tmux_session_isolated": true,
+    "visualizer_active": true,
+    "state_persistence_enabled": true
+  },
+  "recent_issues_resolved": [
+    "SIGKILL_from_high_memory_usage",
+    "Visualizer_zero_display_fixed",
+    "Unicode_character_rendering_issues",
+    "Cumulative_data_overwrite_bug",
+    "Bar_chart_misalignment",
+    "LOC_API_rate_limiting_implemented"
+  ],
+  "pending_tasks": [
+    "Convert_bar_chart_to_horizontal_orientation",
+    "Fix_total_calculation_logic",
+    "Implement_Google_Cloud_migration",
+    "Continue_memory_monitoring"
+  ],
+  "key_files": {
+    "main_processor": "parallel_mangle_processor.py",
+    "api_integration": "api_calls.py",
+    "visualizer": "mangle_persistent_visualizer.py",
+    "state_tracker": "cumulative_tracker.py",
+    "memory_monitor": "memory_monitor.py",
+    "enriched_data": "enriched_data_combined_mangle.json",
+    "loc_cache": "loc_cache.json"
+  },
+  "git_status": "TO_BE_COMMITTED",
+  "restart_instructions": "Run 'python parallel_mangle_processor.py' to resume processing with current state"
+}
