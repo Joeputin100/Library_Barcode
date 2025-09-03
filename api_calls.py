@@ -314,9 +314,14 @@ def get_vertex_ai_classification_batch(batch_books, cache):
             )
 
         full_prompt = (
-            "For each book in the following list, provide a classification (genre or Dewey Decimal):\n"
-            "Books:\n" + "\n".join(batch_prompts) +
-            "Provide the output as a JSON array of objects with this field: classification"
+            "Perform DEEP RESEARCH analysis for each book. Provide:"
+            "1. Primary classification (genre or Dewey Decimal)"
+            "2. Quality score (1-10 based on information completeness and accuracy)"
+            "3. Confidence level (high/medium/low)"
+            "4. Alternative classifications (if any)"
+            "\nBooks:\n" + "\n".join(batch_prompts) +
+            "\nProvide the output as a JSON array of objects with these fields: "
+            "classification, quality_score, confidence_level, alternative_classifications"
         )
 
         cache_key = f"vertex_{full_prompt}".lower()
@@ -521,8 +526,8 @@ def get_book_metadata_initial_pass(
     vertex_ai_cached = False
     vertex_ai_success = False
     
-    # Only call Vertex AI if we have basic metadata to work with
-    if (title or author or isbn) and not metadata.get("error"):
+    # Call Vertex AI for ALL records for cross-checking and better enrichment
+    if True:  # Always call Vertex AI for comprehensive enrichment
         try:
             # Prepare book data for Vertex AI batch processing
             book_data = [{
@@ -538,7 +543,10 @@ def get_book_metadata_initial_pass(
             if vertex_results and not vertex_ai_cached:
                 vertex_result = vertex_results[0]  # Get first result from batch
                 vertex_ai_meta.update({
-                    "vertex_ai_classification": vertex_result.get("classification", "")
+                    "vertex_ai_classification": vertex_result.get("classification", ""),
+                    "vertex_ai_quality_score": vertex_result.get("quality_score", 0),
+                    "vertex_ai_confidence": vertex_result.get("confidence_level", "low"),
+                    "vertex_ai_alternative_classifications": vertex_result.get("alternative_classifications", [])
                 })
                 vertex_ai_success = True
                 
