@@ -2,10 +2,12 @@
   "timestamp": "2025-09-02T17:20:43.354969",
   "project_name": "barcode_enrichment_engine",
   "current_state": {
-    "enrichment_status": "PAUSED_FOR_RESTART",
+    "enrichment_status": "VISUALIZER_FIXED_READY",
     "total_records_processed": 369,
     "target_records": 809,
     "overall_completion_percentage": 45.6,
+    "complete_enrichments": 0,
+    "complete_enrichment_percentage": 0.0,
     "runs_completed": 4,
     "current_worker_count": 1,
     "memory_monitoring_active": true,
