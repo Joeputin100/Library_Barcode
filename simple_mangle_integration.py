@@ -7,27 +7,64 @@ import tempfile
 import os
 from pathlib import Path
 
-def run_mangle_enrichment(marc_data: dict, google_data: dict, vertex_data: dict):
-    """Run Mangle enrichment with provided data"""
+def parse_mangle_output(content):
+    """Parse Mangle output format with proper quote handling"""
+    parts = []
+    current_part = ""
+    in_quotes = False
+    
+    for char in content:
+        if char == '"':
+            in_quotes = not in_quotes
+            current_part += char
+        elif char == ',' and not in_quotes:
+            parts.append(current_part.strip())
+            current_part = ""
+        else:
+            current_part += char
+    
+    # Add the last part
+    if current_part:
+        parts.append(current_part.strip())
+    
+    # Remove quotes from parts
+    parts = [part.strip('"') for part in parts]
+    
+    return parts
+
+def run_mangle_enrichment(mangle_inputs: list):
+    """Run Mangle enrichment with provided data from multiple sources"""
     
     # Create temporary data files
     with tempfile.NamedTemporaryFile(mode='w', suffix='.mg', delete=False) as f:
-        f.write(f'marc_record(/{marc_data["barcode"]}, "{marc_data["title"]}", "{marc_data["author"]}", "{marc_data["call_number"]}", "{marc_data["lccn"]}", "{marc_data["isbn"]}").\n')
-        f.write(f'google_books_data(/{google_data["barcode"]}, "{google_data["title"]}", "{google_data["author"]}", "{google_data["genres"]}", "{google_data["classification"]}", "{google_data["series"]}", "{google_data["volume"]}", "{google_data["year"]}", "{google_data["description"]}").\n')
-        f.write(f'vertex_ai_data(/{vertex_data["barcode"]}, "{vertex_data["classification"]}", {vertex_data["confidence"]}, "{vertex_data["source_urls"]}", "{vertex_data["reviews"]}", "{vertex_data["genres"]}", "{vertex_data["series_info"]}", "{vertex_data["years"]}").\n')
+        for input_data in mangle_inputs:
+            data_type = input_data['type']
+            data = input_data['data']
+            
+            if data_type == 'marc_record':
+                f.write(f'marc_record(/{data["barcode"]}, "{data["title"]}", "{data["author"]}", "{data["call_number"]}", "{data["lccn"]}", "{data["isbn"]}").\n')
+            elif data_type == 'google_books_data':
+                f.write(f'google_books_data(/{data["barcode"]}, "{data["title"]}", "{data["author"]}", "{data.get(\"publisher\", \"\")}", "{data.get(\"publication_date\", \"\")}", {data.get(\"page_count\", 0)}, "{data["genres"]}", "{data["classification"]}", "{data["series"]}", "{data["volume"]}", "{data["description"]}").\n')
+            elif data_type == 'vertex_ai_data':
+                f.write(f'vertex_ai_data(/{data["barcode"]}, "{data["classification"]}", {data["confidence"]}, "{data["source_urls"]}", "{data["reviews"]}", "{data["genres"]}", "{data["series_info"]}", "{data["years"]}").\n')
+            elif data_type == 'loc_data':
+                f.write(f'loc_data(/{data["barcode"]}, "{data["title"]}", "{data["author"]}", "{data["classification"]}", "{data["subjects"]}", "{data["publisher"]}", "{data["year"]}", "{data["description"]}").\n')
+            elif data_type == 'open_library_data':
+                f.write(f'open_library_data(/{data["barcode"]}, "{data["title"]}", "{data["author"]}", "{data["classification"]}", "{data["subjects"]}", "{data["publisher"]}", "{data["year"]}", "{data["description"]}").\n')
+        
         data_file = f.name
     
     try:
-        # Run Mangle
+        # Run Mangle - use the comprehensive MLE-STAR rules with all fields
         cmd = [
             'go', 'run', 'interpreter/mg/mg.go',
-            '-exec', 'enriched_book(Barcode, Title, Author, Classification)',
+            '-exec', 'enriched_book_comprehensive(Barcode, Title, Author, Classification, Publisher, Year, Subjects, SeriesName, SeriesVolume, Description, Awards)',
             '-load', 'mangle_final_rules.mg,' + data_file
         ]
         
         result = subprocess.run(
             cmd,
-            cwd='mangle',
+            cwd='./mangle',
             capture_output=True,
             text=True
         )
@@ -38,12 +75,46 @@ def run_mangle_enrichment(marc_data: dict, google_data: dict, vertex_data: dict)
         
         # Parse results
         results = []
+        
         for line in result.stdout.strip().split('\n'):
-            if line.startswith('enriched_book(') and line.endswith(')'):
-                content = line[len('enriched_book('):-1]
-                parts = [part.strip('"') for part in content.split(', ')]
+            # Parse comprehensive output with all fields
+            if line.startswith('enriched_book_comprehensive(') and line.endswith(')'):
+                content = line[len('enriched_book_comprehensive('):-1]
+                parts = parse_mangle_output(content)
                 
-                if len(parts) >= 4:
+                if len(parts) >= 11:
+                    barcode = parts[0].lstrip('/')
+                    results.append({
+                        'barcode': barcode,
+                        'final_title': parts[1],
+                        'final_author': parts[2],
+                        'final_classification': parts[3],
+                        'final_publisher': parts[4],
+                        'final_publication_year': parts[5],
+                        'final_subjects': parts[6],
+                        'final_series_name': parts[7],
+                        'final_series_volume': parts[8],
+                        'final_description': parts[9],
+                        'final_awards': parts[10]
+                    })
+            # Parse standard output
+            elif line.startswith('enriched_book(') and line.endswith(')'):
+                content = line[len('enriched_book('):-1]
+                parts = parse_mangle_output(content)
+                
+                if len(parts) >= 7:
+                    barcode = parts[0].lstrip('/')
+                    results.append({
+                        'barcode': barcode,
+                        'final_title': parts[1],
+                        'final_author': parts[2],
+                        'final_classification': parts[3],
+                        'final_publisher': parts[4],
+                        'final_publication_year': parts[5],
+                        'final_subjects': parts[6]
+                    })
+                elif len(parts) >= 4:
+                    # Fallback for simplified output
                     barcode = parts[0].lstrip('/')
                     results.append({
                         'barcode': barcode,
@@ -61,47 +132,65 @@ def run_mangle_enrichment(marc_data: dict, google_data: dict, vertex_data: dict)
 def test_simple_integration():
     """Test the simple integration"""
     
-    marc_data = {
-        "barcode": "B12345",
-        "title": "Sample Book", 
-        "author": "John Doe",
-        "call_number": "FIC DOE",
-        "lccn": "123456",
-        "isbn": "9781234567890"
-    }
+    mangle_inputs = [
+        {
+            'type': 'marc_record',
+            'data': {
+                "barcode": "B12345",
+                "title": "Sample Book", 
+                "author": "John Doe",
+                "call_number": "FIC DOE",
+                "lccn": "123456",
+                "isbn": "9781234567890"
+            },
+            'source': 'MARC'
+        },
+        {
+            'type': 'google_books_data',
+            'data': {
+                "barcode": "B12345",
+                "title": "Sample Book Enhanced",
+                "author": "Johnathan Doe", 
+                "genres": "Fiction,Mystery",
+                "classification": "FIC",
+                "series": "Sample Series",
+                "volume": "1",
+                "year": "2023",
+                "description": "Enhanced description"
+            },
+            'source': 'GOOGLE_BOOKS'
+        },
+        {
+            'type': 'vertex_ai_data',
+            'data': {
+                "barcode": "B12345", 
+                "classification": "Mystery",
+                "confidence": 0.85,
+                "source_urls": "https://cloud.google.com/vertex-ai",
+                "reviews": "AI-generated classification",
+                "genres": "Mystery,Thriller",
+                "series_info": "Sample Series Info",
+                "years": "2023"
+            },
+            'source': 'VERTEX_AI'
+        }
+    ]
     
-    google_data = {
-        "barcode": "B12345",
-        "title": "Sample Book Enhanced",
-        "author": "Johnathan Doe", 
-        "genres": "Fiction,Mystery",
-        "classification": "FIC",
-        "series": "Sample Series",
-        "volume": "1",
-        "year": "2023",
-        "description": "Enhanced description"
-    }
-    
-    vertex_data = {
-        "barcode": "B12345", 
-        "classification": "Mystery",
-        "confidence": 0.85,
-        "source_urls": "https://example.com",
-        "reviews": "Good reviews",
-        "genres": "Mystery,Thriller",
-        "series_info": "Sample Series Info",
-        "years": "2023"
-    }
-    
-    results = run_mangle_enrichment(marc_data, google_data, vertex_data)
+    results = run_mangle_enrichment(mangle_inputs)
     
     print("Mangle Enrichment Results:")
-    for result in results:
-        print(f"Barcode: {result['barcode']}")
-        print(f"Title: {result['final_title']}")
-        print(f"Author: {result['final_author']}")
-        print(f"Classification: {result['final_classification']}")
-        print("---")
+    if results:
+        print(f"Found {len(results)} enrichment results:")
+        for i, result in enumerate(results, 1):
+            print(f"Result {i}:")
+            print(f"  Barcode: {result['barcode']}")
+            print(f"  Title: {result['final_title']}")
+            print(f"  Author: {result['final_author']}")
+            print(f"  Classification: {result['final_classification']}")
+            print("  ---")
+    else:
+        print("No results returned from Mangle")
+        print("Debug: Check Mangle rules and input format")
     
     return results
 

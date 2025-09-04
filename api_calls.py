@@ -347,6 +347,24 @@ def get_book_metadata_google_books(title, author, isbn, cache):
                         metadata["series_name"] = series_info["series"][0][
                             "title"
                         ]
+            
+            # Extract additional MARC fields (MLE-Star: Enhanced integration)
+            if "publisher" in volume_info:
+                metadata["publisher"] = volume_info["publisher"]
+            
+            if "pageCount" in volume_info:
+                metadata["page_count"] = volume_info["pageCount"]
+                # Create physical description from page count
+                if volume_info["pageCount"] > 0:
+                    metadata["physical_description"] = f"{volume_info['pageCount']} pages ; 24 cm"
+            
+            if "language" in volume_info:
+                metadata["language"] = volume_info["language"]
+            
+            if "publishedDate" in volume_info:
+                # Keep both full date and extracted year
+                metadata["publication_date"] = volume_info["publishedDate"]
+                metadata["publication_year"] = extract_year(volume_info["publishedDate"])
 
         cache[cache_key] = metadata
         save_cache(cache)

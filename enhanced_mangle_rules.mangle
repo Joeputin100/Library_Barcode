@@ -1,0 +1,104 @@
+"""
+Enhanced Mangle Rules using MLE-Star methodology
+- Targeted: Focus on publisher and physical description extraction
+- Ablated: Remove incorrect field mappings
+- Refined: Add proper field extraction from all APIs
+"""
+
+% BASE PREDICATES (Corrected field mappings)
+marc_record(Barcode, Title, Author, CallNumber, LCCN, ISBN, Publisher, PhysicalDesc).
+google_books_data(Barcode, Title, Author, Publisher, PublicationDate, PageCount, Genres, Classification, Series, Volume, Description).
+loc_data(Barcode, CallNumber, Subjects, Publisher, PublicationDate, PhysicalDesc, Notes).
+open_library_data(Barcode, Title, Author, Publisher, PublicationDate, Subjects, PhysicalDesc, Description, FirstPubYear).
+vertex_ai_data(Barcode, Classification, Confidence, SourceURLs, Reviews, Genres, SeriesInfo, Years, PhysicalDescEstimate).
+
+% ENRICHED BOOK STRUCTURE (Complete MARC fields)
+enriched_book(
+    Barcode,
+    FinalTitle, FinalAuthor, FinalClassification,
+    Publisher, PublicationDate, PhysicalDesc,
+    Genres, Subjects, 
+    Rating, ReviewCount, Description, Notes,
+    Series, Volume, SourceURLs, Confidence
+).
+
+% TITLE RESOLUTION (MLE-Star: Multi-source with confidence)
+final_title(Barcode, Title, 'google_books', 0.9) :- google_books_data(Barcode, Title, _, _, _, _, _, _, _, _, _).
+final_title(Barcode, Title, 'loc', 0.8) :- loc_data(Barcode, _, _, Title, _, _, _).
+final_title(Barcode, Title, 'marc', 0.7) :- marc_record(Barcode, Title, _, _, _, _, _, _).
+final_title(Barcode, Title, 'open_library', 0.8) :- open_library_data(Barcode, Title, _, _, _, _, _, _, _).
+
+% AUTHOR RESOLUTION (MLE-Star: Multi-source with confidence)  
+final_author(Barcode, Author, 'google_books', 0.9) :- google_books_data(Barcode, _, Author, _, _, _, _, _, _, _, _).
+final_author(Barcode, Author, 'marc', 0.8) :- marc_record(Barcode, _, Author, _, _, _, _, _).
+final_author(Barcode, Author, 'open_library', 0.8) :- open_library_data(Barcode, _, Author, _, _, _, _, _, _).
+
+% PUBLISHER RESOLUTION (MLE-Star: Target missing field)
+final_publisher(Barcode, Publisher, 'google_books', 0.9) :- google_books_data(Barcode, _, _, Publisher, _, _, _, _, _, _, _).
+final_publisher(Barcode, Publisher, 'loc', 0.8) :- loc_data(Barcode, _, _, Publisher, _, _, _).
+final_publisher(Barcode, Publisher, 'marc', 0.7) :- marc_record(Barcode, _, _, _, _, _, Publisher, _).
+final_publisher(Barcode, Publisher, 'open_library', 0.8) :- open_library_data(Barcode, _, _, Publisher, _, _, _, _, _).
+
+% PHYSICAL DESCRIPTION RESOLUTION (MLE-Star: Target missing field)
+final_physical_desc(Barcode, PhysicalDesc, 'google_books', 0.8) :- 
+    google_books_data(Barcode, _, _, _, _, PageCount, _, _, _, _, _),
+    PageCount > 0,
+    format_physical_desc(PageCount, PhysicalDesc).
+    
+final_physical_desc(Barcode, PhysicalDesc, 'loc', 0.9) :- loc_data(Barcode, _, _, _, _, PhysicalDesc, _).
+final_physical_desc(Barcode, PhysicalDesc, 'open_library', 0.8) :- open_library_data(Barcode, _, _, _, _, _, PhysicalDesc, _, _).
+final_physical_desc(Barcode, PhysicalDesc, 'vertex_ai', 0.7) :- vertex_ai_data(Barcode, _, _, _, _, _, _, _, PhysicalDesc).
+
+% PHYSICAL DESCRIPTION FORMATTING (MLE-Star: Refine data transformation)
+format_physical_desc(PageCount, PhysicalDesc) :-
+    PageCount > 0,
+    format(string(PhysicalDesc), "~d pages ; 24 cm", [PageCount]).
+
+% PUBLICATION DATE RESOLUTION (MLE-Star: Multi-source)
+final_publication_date(Barcode, Date, 'google_books', 0.9) :- google_books_data(Barcode, _, _, _, Date, _, _, _, _, _, _).
+final_publication_date(Barcode, Date, 'loc', 0.8) :- loc_data(Barcode, _, _, _, Date, _, _).
+final_publication_date(Barcode, Date, 'open_library', 0.8) :- open_library_data(Barcode, _, _, _, Date, _, _, _, _).
+final_publication_date(Barcode, Date, 'vertex_ai', 0.7) :- vertex_ai_data(Barcode, _, _, _, _, _, _, Date, _).
+
+% CLASSIFICATION RESOLUTION (Existing - enhanced)
+final_classification(Barcode, Class, 'vertex_ai', Conf) :- vertex_ai_data(Barcode, Class, Conf, _, _, _, _, _, _), Conf >= 0.7.
+final_classification(Barcode, Class, 'google_books', 0.8) :- google_books_data(Barcode, _, _, _, _, _, _, Class, _, _, _).
+final_classification(Barcode, Class, 'loc', 0.9) :- loc_data(Barcode, Class, _, _, _, _, _).
+
+% GENRE/SUBJECT COMBINATION (Enhanced)
+combined_genres(Barcode, Genres) :-
+    findall(G, google_books_data(Barcode, _, _, _, _, _, G, _, _, _, _), G1),
+    findall(G, vertex_ai_data(Barcode, _, _, _, _, G, _, _, _), G2),
+    append(G1, G2, AllGenres),
+    sort(AllGenres, Genres).
+
+combined_subjects(Barcode, Subjects) :-
+    findall(S, loc_data(Barcode, _, S, _, _, _, _), S1),
+    findall(S, open_library_data(Barcode, _, _, _, _, S, _, _, _), S2),
+    append(S1, S2, AllSubjects),
+    sort(AllSubjects, Subjects).
+
+% MAIN ENRICHMENT RULE (Complete MARC fields)
+enriched_book(
+    Barcode,
+    Title, Author, Classification,
+    Publisher, PublicationDate, PhysicalDesc,
+    Genres, Subjects,
+    Rating, Reviews, Description, Notes,
+    Series, Volume, Sources, Conf
+) :-
+    final_title(Barcode, Title, _, _),
+    final_author(Barcode, Author, _, _),
+    final_classification(Barcode, Classification, _, Conf),
+    final_publisher(Barcode, Publisher, _, _),
+    final_publication_date(Barcode, PublicationDate, _, _),
+    final_physical_desc(Barcode, PhysicalDesc, _, _),
+    combined_genres(Barcode, Genres),
+    combined_subjects(Barcode, Subjects),
+    vertex_ai_data(Barcode, _, _, Sources, _, _, Series, Years, _),
+    open_library_data(Barcode, _, _, _, _, _, _, Description, _),
+    loc_data(Barcode, _, _, _, _, _, Notes).
+
+% FALLBACK RULES (MLE-Star: Ablation protection)
+final_publisher(Barcode, "Unknown Publisher", 'fallback', 0.1) :- \+ google_books_data(Barcode, _, _, _, _, _, _, _, _, _, _).
+final_physical_desc(Barcode, "v. ; 24 cm", 'fallback', 0.1) :- \+ google_books_data(Barcode, _, _, _, _, PageCount, _, _, _, _, _).

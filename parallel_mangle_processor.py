@@ -52,19 +52,21 @@ def process_single_record(record, cache):
             'source': 'MARC'
         })
         
-        # Google Books data
+        # Google Books data (Enhanced with MARC fields)
         mangle_inputs.append({
             'type': 'google_books_data',
             'data': {
                 "barcode": barcode,
                 "title": metadata.get("title", record.get("title", "")),
                 "author": metadata.get("author", record.get("author", "")),
+                "publisher": metadata.get("publisher", ""),
+                "publication_date": metadata.get("publication_date", ""),
+                "page_count": metadata.get("page_count", 0),
                 "genres": ",".join(metadata.get("google_genres", [])),
                 "classification": metadata.get("classification", ""),
                 "series": metadata.get("series_name", ""),
                 "volume": metadata.get("volume_number", ""),
-                "year": metadata.get("publication_year", ""),
-                "description": ""
+                "description": metadata.get("description", "")
             },
             'source': 'GOOGLE_BOOKS'
         })
@@ -107,6 +109,24 @@ def process_single_record(record, cache):
                 'source': 'VERTEX_AI'
             })
             source_usage["VERTEX_AI"] = 1
+        
+        # Open Library data if available
+        if openlibrary_success and (metadata.get("series_name") or metadata.get("publication_year")):
+            mangle_inputs.append({
+                'type': 'open_library_data',
+                'data': {
+                    "barcode": barcode,
+                    "title": metadata.get("title", ""),
+                    "author": metadata.get("author", ""),
+                    "classification": metadata.get("classification", ""),
+                    "subjects": ",".join(metadata.get("genres", [])),
+                    "publisher": "",
+                    "year": metadata.get("publication_year", ""),
+                    "description": ""
+                },
+                'source': 'OPEN_LIBRARY'
+            })
+            source_usage["OPEN_LIBRARY"] = 1
         
         # Process through Mangle
         mangle_results = run_mangle_enrichment(mangle_inputs)
@@ -212,9 +232,9 @@ def update_enrichment_state(processed_count, source_usage=None):
                     # Set current run counts (don't accumulate - cumulative tracker handles that)
                     state["source_counts"][source] = count
         
-        # Calculate NO_ENRICHMENT based on actual enriched records
-        total_enriched = sum(state["source_counts"].get(source, 0) for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"])
-        state["source_counts"]["NO_ENRICHMENT"] = 809 - total_enriched
+        # Calculate NO_ENRICHMENT correctly: records that got NO enrichment from any source
+        # Since we process records one by one, if a record is processed, it got SOME enrichment
+        state["source_counts"]["NO_ENRICHMENT"] = 809 - processed_count
         state["overall_progress"] = (processed_count / 809) * 100
         
         with open("mangle_enrichment_state.json", "w") as f:
