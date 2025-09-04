@@ -42,6 +42,49 @@ open_library_rate_limit_state = {
     "min_request_interval": 0.2,       # Minimum 200ms between requests
 }
 
+# Global state for tracking successful API enrichments
+successful_enrichment_timestamps = {
+    "LIBRARY_OF_CONGRESS": 0,
+    "GOOGLE_BOOKS": 0, 
+    "VERTEX_AI": 0,
+    "OPEN_LIBRARY": 0
+}
+
+def record_successful_enrichment(source_name):
+    """Record a successful enrichment from an API source"""
+    successful_enrichment_timestamps[source_name] = time.time()
+    # Save timestamps to file for persistence across processes
+    try:
+        with open("api_enrichment_timestamps.json", "w") as f:
+            json.dump(successful_enrichment_timestamps, f)
+    except Exception as e:
+        print(f"Warning: Could not save enrichment timestamps: {e}")
+
+def get_time_since_last_enrichment(source_name):
+    """Get time in minutes since last successful enrichment"""
+    # Try to load from persistent file first
+    try:
+        with open("api_enrichment_timestamps.json", "r") as f:
+            persistent_timestamps = json.load(f)
+            last_time = persistent_timestamps.get(source_name, 0)
+    except (FileNotFoundError, json.JSONDecodeError):
+        # Fallback to in-memory state
+        last_time = successful_enrichment_timestamps.get(source_name, 0)
+    
+    if last_time == 0:
+        return "Never"
+    
+    seconds_ago = time.time() - last_time
+    minutes_ago = seconds_ago / 60
+    
+    if minutes_ago < 1:
+        return "<1m"
+    elif minutes_ago < 60:
+        return f"{int(minutes_ago)}m"
+    else:
+        hours_ago = minutes_ago / 60
+        return f"{int(hours_ago)}h"
+
 def check_loc_rate_limit():
     """Check if we can make a request to LOC API based on rate limits"""
     current_time = time.time()
@@ -220,6 +263,8 @@ def get_book_metadata_google_books(title, author, isbn, cache):
     safe_author = re.sub(r"[^a-zA-Z0-9\s, ]", "", author)
     cache_key = f"google_{safe_title}|{safe_author}|{isbn}".lower()
     if cache_key in cache:
+        # Record successful enrichment for cached data too
+        record_successful_enrichment("GOOGLE_BOOKS")
         return cache[cache_key], True, True
 
     metadata = {
@@ -248,6 +293,7 @@ def get_book_metadata_google_books(title, author, isbn, cache):
         
         # Record successful request for rate limiting
         record_google_books_request()
+        record_successful_enrichment("GOOGLE_BOOKS")
         
         data = response.json()
         print(f"Google Books API response: {data}")
@@ -257,9 +303,21 @@ def get_book_metadata_google_books(title, author, isbn, cache):
             volume_info = item.get("volumeInfo", {})
 
             if "title" in volume_info:
-                metadata["title"] = volume_info["title"]
+                # Combine title and subtitle if available
+                title = volume_info["title"]
+                if "subtitle" in volume_info:
+                    title = f"{title}: {volume_info['subtitle']}"
+                metadata["title"] = title
             if "authors" in volume_info:
-                metadata["author"] = ", ".join(volume_info["authors"])
+                # Format authors with "and" instead of commas for better readability
+                authors = volume_info["authors"]
+                if len(authors) == 1:
+                    metadata["author"] = authors[0]
+                elif len(authors) == 2:
+                    metadata["author"] = f"{authors[0]} and {authors[1]}"
+                else:
+                    # For 3+ authors, use Oxford comma format
+                    metadata["author"] = ", ".join(authors[:-1]) + f", and {authors[-1]}"
 
             if "categories" in volume_info:
                 metadata["google_genres"].extend(volume_info["categories"])
@@ -326,6 +384,8 @@ def get_book_metadata_open_library(title, author, isbn, cache):
     safe_author = re.sub(r"[^a-zA-Z0-9\s, ]", "", author)
     cache_key = f"openlibrary_{safe_title}|{safe_author}|{isbn}".lower()
     if cache_key in cache:
+        # Record successful enrichment for cached data too
+        record_successful_enrichment("OPEN_LIBRARY")
         return cache[cache_key], True, True
 
     metadata = {
@@ -351,13 +411,21 @@ def get_book_metadata_open_library(title, author, isbn, cache):
             data = response.json()
         else:
             query = f'{safe_title} {safe_author}'.strip()
-            url = f"http://openlibrary.org/search.json?q={query}"
+            url = f"https://openlibrary.org/search.json?q={query}"
             response = requests.get(url, timeout=15)
             response.raise_for_status()
             search_data = response.json()
         
         # Record successful request for rate limiting
         record_open_library_request()
+        record_successful_enrichment("OPEN_LIBRARY")
+        
+        # Debug: Print API response info
+        print(f"Open Library API response - ISBN mode: {isbn}")
+        if isbn:
+            print(f"ISBN API response keys: {list(data.keys()) if isinstance(data, dict) else 'Not dict'}")
+        else:
+            print(f"Search API docs count: {len(search_data.get('docs', [])) if 'docs' in search_data else 'No docs key'}")
         
         if not isbn:
             if "docs" in search_data and search_data["docs"]:
@@ -443,6 +511,8 @@ def get_vertex_ai_classification_batch(batch_books, cache):
 
         cache_key = f"vertex_{full_prompt}".lower()
         if cache_key in cache:
+            # Record successful enrichment for cached data too
+            record_successful_enrichment("VERTEX_AI")
             return cache[cache_key], True
 
         for i in range(len(retry_delays) + 1):
@@ -484,15 +554,17 @@ def get_book_metadata_initial_pass(
         "error": None,
     }
 
+    print(f"Processing record - Title: '{title}', Author: '{author}', ISBN: '{isbn}', LCCN: '{lccn}'")
     print(f"Before google call: title='{title}', author='{author}'")
     google_meta, google_cached, google_success = get_book_metadata_google_books(
         title, author, isbn, cache
     )
     print(f"After google call: google_meta={google_meta}")
     metadata.update(google_meta)
-    if not title and metadata.get("title"):
+    # Update title/author if they are unknown/placeholder values or empty
+    if (not title or title.lower() in ['unknown title', 'unknown', 'untitled', '']) and metadata.get("title"):
         title = metadata.get("title")
-    if not author and metadata.get("author"):
+    if (not author or author.lower() in ['unknown author', 'unknown', 'anonymous', '']) and metadata.get("author"):
         author = metadata.get("author")
 
     openlibrary_meta, openlibrary_cached, openlibrary_success = get_book_metadata_open_library(
@@ -508,6 +580,9 @@ def get_book_metadata_initial_pass(
         metadata.update(cached_loc_meta)
         loc_cached = True
         loc_success = cached_loc_meta.get("error") is None
+        # Record successful enrichment for cached data too
+        if loc_success:
+            record_successful_enrichment("LIBRARY_OF_CONGRESS")
     else:
         # Check if we should switch to alternative APIs due to LOC rate limiting
         should_switch, wait_time = should_switch_to_alternative_api()
@@ -625,6 +700,7 @@ def get_book_metadata_initial_pass(
                             cache[loc_cache_key] = metadata
                             save_cache(cache)
                             record_loc_request()  # Record successful request for rate limiting
+                            record_successful_enrichment("LIBRARY_OF_CONGRESS")
                     loc_success = metadata["error"] is None
                     break
                 except requests.exceptions.RequestException as e:
@@ -659,6 +735,7 @@ def get_book_metadata_initial_pass(
             
             if vertex_results:
                 vertex_result = vertex_results[0]  # Get first result from batch
+                record_successful_enrichment("VERTEX_AI")
                 vertex_ai_meta.update({
                     "vertex_ai_classification": vertex_result.get("classification", ""),
                     "vertex_ai_quality_score": vertex_result.get("quality_score", 0),
@@ -673,5 +750,9 @@ def get_book_metadata_initial_pass(
         except Exception as e:
             print(f"Vertex AI Deep Research failed: {e}")
             vertex_ai_meta["vertex_ai_error"] = str(e)
+    
+    # Add corrected title and author to metadata
+    metadata["title"] = title
+    metadata["author"] = author
     
     return metadata, google_cached, loc_cached, openlibrary_success, loc_success, vertex_ai_success
