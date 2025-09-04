@@ -10,14 +10,14 @@
     "tmux_sessions": ["enrichment", "babysitter"]
   },
   "processing_state": {
-    "total_records_processed": 369,
-    "target_records": 809,
-    "completion_percentage": 45.6,
-    "complete_enrichments": 0,
-    "complete_enrichment_percentage": 0.0,
-    "current_worker_count": 1,
-    "last_processed_batch": "batch_369",
-    "next_record_to_process": 370
+    "total_records_processed": 808,
+    "target_records": 808,
+    "completion_percentage": 100.0,
+    "complete_enrichments": 808,
+    "complete_enrichment_percentage": 100.0,
+    "current_worker_count": 0,
+    "last_processed_batch": "batch_808",
+    "next_record_to_process": 809
   },
   "enrichment_sources_state": {
     "LIBRARY_OF_CONGRESS": {
@@ -61,9 +61,9 @@
     "Tmux_session_management"
   ],
   "pending_tasks": [
-    "Continue_local_processing_records_370_809",
-    "Monitor_enrichment_progress",
-    "Google_Cloud_preparation_next_batch"
+    "Create_enhanced_descriptions_with_language_model",
+    "Combine_description_summary_awards_fields",
+    "Add_materials_type_language_genre_information"
   ],
   "critical_files": [
     "parallel_mangle_processor.py",
