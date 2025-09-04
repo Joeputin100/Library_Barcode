@@ -21,25 +21,25 @@
   },
   "enrichment_sources_state": {
     "LIBRARY_OF_CONGRESS": {
-      "cumulative_count": 3803,
-      "current_run_count": 3663,
+      "cumulative_count": 3758,
+      "current_run_count": 3758,
       "rate_limiting_active": true,
       "min_interval_ms": 500,
       "max_requests_per_hour": 125
     },
     "GOOGLE_BOOKS": {
-      "cumulative_count": 7666,
-      "current_run_count": 7366,
+      "cumulative_count": 8100,
+      "current_run_count": 8100,
       "rate_limiting_active": false
     },
     "VERTEX_AI": {
-      "cumulative_count": 0,
-      "current_run_count": 0,
+      "cumulative_count": 8078,
+      "current_run_count": 8078,
       "rate_limiting_active": false
     },
     "OPEN_LIBRARY": {
-      "cumulative_count": 0,
-      "current_run_count": 0,
+      "cumulative_count": 5534,
+      "current_run_count": 5534,
       "rate_limiting_active": false
     }
   },
@@ -58,12 +58,14 @@
     "Open_Library_polite_usage_compliance",
     "Google_Books_API_guidelines_compliance",
     "State_corruption_fixes",
-    "Tmux_session_management"
+    "Tmux_session_management",
+    "Enhanced_description_generation",
+    "Field_integration_completion"
   ],
   "pending_tasks": [
-    "Create_enhanced_descriptions_with_language_model",
-    "Combine_description_summary_awards_fields",
-    "Add_materials_type_language_genre_information"
+    "Load_enhanced_records_into_flask_app",
+    "Update_flask_app_for_enhanced_descriptions",
+    "Manual_human_review_completion"
   ],
   "critical_files": [
     "parallel_mangle_processor.py",
