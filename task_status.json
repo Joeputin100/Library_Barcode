@@ -3,11 +3,13 @@
     {
       "id": "vertex_batch_processing",
       "name": "Vertex AI Batch Processing",
-      "status": "pending",
+      "status": "paused",
       "priority": "high",
       "description": "Process all 808 records through Vertex AI Grounded Deep Research",
-      "estimated_time": "2-4 hours",
-      "dependencies": ["google_books_fixed"]
+      "estimated_time": "3-5 hours remaining",
+      "dependencies": ["google_books_fixed"],
+      "progress": "20+ records processed, publisher: 0.5% → 2.7%",
+      "pause_reason": "SD card maintenance"
     },
     {
       "id": "fallback_apis",
@@ -23,9 +25,10 @@
       "name": "Complete Critical Fields",
       "status": "in_progress",
       "priority": "high",
-      "description": "Focus on series_volume (0%), description (0.2%), publisher (0.5%)",
+      "description": "Focus on series_volume (0%), description (0.2%), publisher (2.7%)",
       "estimated_time": "3-5 hours",
-      "dependencies": ["vertex_batch_processing", "fallback_apis"]
+      "dependencies": ["vertex_batch_processing", "fallback_apis"],
+      "progress": "Publisher: 0.5% → 2.7% improvement"
     }
   ],
   "completed_tasks": [
@@ -49,6 +52,13 @@
       "status": "completed",
       "completion_time": "2025-01-02T00:00:00Z", 
       "description": "Analyzed all 12 MARC fields across 808 records"
+    },
+    {
+      "id": "vertex_batch_progress",
+      "name": "Vertex AI Batch Initial Progress",
+      "status": "completed",
+      "completion_time": "2025-01-02T00:00:00Z",
+      "description": "Processed 20+ records, improved publisher completion from 0.5% to 2.7%"
     }
   ],
   "blockers": [
