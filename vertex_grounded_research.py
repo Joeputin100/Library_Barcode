@@ -12,6 +12,46 @@ from caching import load_cache, save_cache
 
 # Import existing Vertex AI function
 from api_calls import get_vertex_ai_classification_batch
+from price_extraction import extract_price_from_research
+
+def extract_volume_number(text):
+    """Extract volume number from text using various patterns, handling decimal volumes"""
+    if not text:
+        return None
+    
+    # Common volume patterns in manga/LN titles - including decimal volumes
+    patterns = [
+        r'[Vv]ol\.?\s*([\d\.]+)',          # Vol. 25, Vol 16, Vol. 3.5
+        r'[Vv]olume\s*([\d\.]+)',          # Volume 1, Volume 3.5
+        r'[Vv]\.?\s*([\d\.]+)',            # v. 1, v1, v. 3.5
+        r'[Bb]ook\s*([\d\.]+)',            # Book 16, Book 3.5
+        r'#([\d\.]+)',                     # #1, #3.5
+        r'\b([\d\.]+)\s*(?:st|nd|rd|th)?\s*[Vv]olume',  # 1st Volume, 16th Volume, 3.5th Volume
+    ]
+    
+    for pattern in patterns:
+        match = re.search(pattern, text)
+        if match:
+            volume_str = match.group(1)
+            # Handle decimal volumes by converting to mixed numbers where appropriate
+            if '.' in volume_str:
+                try:
+                    volume_float = float(volume_str)
+                    # Convert common decimal fractions to mixed numbers
+                    if volume_float == 0.5:
+                        return "½"
+                    elif volume_float % 1 == 0.5:
+                        whole = int(volume_float)
+                        return f"{whole}½"
+                    else:
+                        # For other decimals, return as is
+                        return volume_str
+                except ValueError:
+                    return volume_str
+            else:
+                return volume_str
+    
+    return None
 
 def create_grounded_research_prompt(record_data):
     """Create a comprehensive grounded research prompt with proper attribution"""
@@ -19,20 +59,60 @@ def create_grounded_research_prompt(record_data):
     title = record_data.get('title', '')
     author = record_data.get('author', '')
     isbn = record_data.get('isbn', '')
+    lccn = record_data.get('lccn', '')
     publisher = record_data.get('publisher', '')
     publication_date = record_data.get('publication_date', '')
     description = record_data.get('description', '')
     
+    # Determine primary search key - prioritize ISBN and LCCN over title/author
+    primary_search_key = None
+    search_method = "title/author"
+    
+    if isbn and isbn not in ['', 'None', 'Unable to verify']:
+        primary_search_key = f"ISBN {isbn}"
+        search_method = "ISBN"
+    elif lccn and lccn not in ['', 'None', 'Unable to verify']:
+        primary_search_key = f"LCCN {lccn}"
+        search_method = "LCCN"
+    elif title != "Unknown Title" and title not in ['', 'None']:
+        primary_search_key = f"'{title}'"
+        if author and author not in ['', 'None']:
+            primary_search_key += f" by {author}"
+    else:
+        primary_search_key = "available bibliographic information"
+    
     prompt = f"""
-Perform GROUNDED DEEP RESEARCH for this book with proper attribution to reliable sources.
+Perform GROUNDED DEEP RESEARCH for the book identified by {primary_search_key} with proper attribution to reliable sources.
 
 BOOK INFORMATION:
 Title: {title}
 Author: {author}
 ISBN: {isbn}
+LCCN: {lccn}
 Publisher: {publisher}
 Publication Date: {publication_date}
 Description: {description[:500]}{'...' if description and len(description) > 500 else ''}
+
+SEARCH PRIORITY (MOST TO LEAST RELIABLE):
+1. ISBN {isbn if isbn and isbn not in ['', 'None', 'Unable to verify'] else 'Not available'}
+2. LCCN {lccn if lccn and lccn not in ['', 'None', 'Unable to verify'] else 'Not available'}
+3. Title/Author: "{title}" by {author if author and author not in ['', 'None'] else 'Unknown author'}
+
+SPECIAL INSTRUCTIONS:
+- ALWAYS prioritize ISBN search first when available (most reliable identifier)
+- If ISBN unavailable, use LCCN search (second most reliable)
+- Only use title/author search as fallback when no standard identifiers exist
+- Research all editions and variations that match the available information
+- Include bibliographic data from different editions as fallback information
+- Even partial matches are valuable for enrichment purposes
+
+PRICING SPECIFIC INSTRUCTIONS:
+- For market pricing, provide the TYPICAL RETAIL PRICE for a common, readily available copy
+- Focus on NEW or VERY GOOD condition copies from mainstream retailers
+- EXCLUDE collector prices, signed editions, first editions, and rare/limited editions
+- EXCLUDE auction prices and exceptional/special case pricing
+- Provide a single representative price range (e.g., \$15-\$25) for typical retail availability
+- If unavailable new, provide typical used book market price from reputable sellers
 
 RESEARCH TASKS:
 1. VERIFICATION: Verify the bibliographic details against authoritative sources
@@ -74,8 +154,8 @@ OUTPUT FORMAT (JSON):
     "similar_works": ["similar book1 with source", "similar book2 with source"]
   }},
   "market_data": {{
-    "current_value": "market value with source",
-    "availability": "availability information with source",
+    "current_value": "typical retail price range for common copy (e.g., \$15-\$25) with source",
+    "availability": "availability information for typical retail copies with source",
     "editions": ["edition1 details with source", "edition2 details with source"]
   }},
   "source_attributions": [
@@ -192,6 +272,29 @@ def apply_research_to_record(record_id, research_results, db_conn):
     if verified.get('language'):
         updates.append("language = ?")
         params.append(verified['language'])
+    if verified.get('description'):
+        updates.append("description = ?")
+        params.append(verified['description'])
+    
+    # Extract contextual data for description
+    contextual = research_results.get('contextual_data', {})
+    if contextual:
+        # Create description from contextual data if no explicit description exists
+        description_parts = []
+        if contextual.get('critical_reception') and 'Unable to determine' not in contextual['critical_reception']:
+            description_parts.append(contextual['critical_reception'])
+        if contextual.get('historical_significance') and 'Unable to determine' not in contextual['historical_significance']:
+            description_parts.append(contextual['historical_significance'])
+        if contextual.get('cultural_impact') and 'Unable to determine' not in contextual['cultural_impact']:
+            description_parts.append(contextual['cultural_impact'])
+        
+        if description_parts and not verified.get('description'):
+            description = " ".join(description_parts)
+            # Truncate to reasonable length if needed
+            if len(description) > 1000:
+                description = description[:997] + "..."
+            updates.append("description = ?")
+            params.append(description)
     
     # Extract enriched data
     enriched = research_results.get('enriched_data', {})
@@ -210,13 +313,49 @@ def apply_research_to_record(record_id, research_results, db_conn):
     
     # Handle genres and subjects
     if enriched.get('genres'):
-        genres = ", ".join([g.split(' with source')[0] for g in enriched['genres'] if ' with source' in g])
+        # Extract just the genre names (remove any source attribution if present)
+        genres_list = []
+        for g in enriched['genres']:
+            if ' with source' in g:
+                genres_list.append(g.split(' with source')[0])
+            else:
+                genres_list.append(g)
+        genres = ", ".join(genres_list)
         updates.append("genre = ?")
         params.append(genres)
     if enriched.get('subjects'):
-        subjects = ", ".join([s.split(' with source')[0] for s in enriched['subjects'] if ' with source' in s])
+        # Extract just the subject names (remove any source attribution if present)
+        subjects_list = []
+        for s in enriched['subjects']:
+            if ' with source' in s:
+                subjects_list.append(s.split(' with source')[0])
+            else:
+                subjects_list.append(s)
+        subjects = ", ".join(subjects_list)
         updates.append("subjects = ?")
         params.append(subjects)
+    
+    # Extract series volume information from series_info or title
+    if enriched.get('series_info'):
+        series_info = enriched['series_info']
+        # Extract volume number from series_info
+        volume_match = extract_volume_number(series_info)
+        if volume_match:
+            updates.append("series_volume = ?")
+            params.append(volume_match)
+    
+    # Also check title for volume information if not found in series_info
+    if verified.get('title') and 'series_volume = ?' not in updates:
+        volume_match = extract_volume_number(verified['title'])
+        if volume_match:
+            updates.append("series_volume = ?")
+            params.append(volume_match)
+    
+    # Extract and set price from market data
+    market_data = research_results.get('market_data', {})
+    price = extract_price_from_research(market_data)
+    updates.append("price = ?")
+    params.append(price)
     
     # Store research data in enhanced_description field instead of research_data
     research_json = json.dumps(research_results)

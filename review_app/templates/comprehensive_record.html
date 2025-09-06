@@ -274,7 +274,7 @@
                     {% if record.author %}{{ record.author }} • {% endif %}
                     Record #{{ record.record_number }} • 
                     {% if record.data_quality_score %}
-                    Overall Quality: {% if record.data_quality_score >= 0.9 %}Excellent{% elif record.data_quality_score >= 0.8 %}Very High{% elif record.data_quality_score >= 0.7 %}High{% elif record.data_quality_score >= 0.6 %}Good{% elif record.data_quality_score >= 0.5 %}Moderate{% elif record.data_quality_score >= 0.4 %}Fair{% elif record.data_quality_score >= 0.3 %}Low{% else %}Very Low{% endif %}
+                    Overall Quality: {% if record.data_quality_score >= 0.9 %}Excellent ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.8 %}Very High ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.7 %}High ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.6 %}Good ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.5 %}Moderate ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.4 %}Fair ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.3 %}Low ({{ (record.data_quality_score * 100)|int }}%){% else %}Very Low ({{ (record.data_quality_score * 100)|int }}%){% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -286,7 +286,7 @@
                     <div class="field-value">{{ field_info.value }}</div>
                     <div class="field-meta">
                         <span class="confidence {% if field_info.confidence >= 0.8 %}high{% elif field_info.confidence >= 0.5 %}medium{% else %}low{% endif %}">
-                            Reliability: {% if field_info.confidence >= 0.9 %}Excellent{% elif field_info.confidence >= 0.8 %}Very High{% elif field_info.confidence >= 0.7 %}High{% elif field_info.confidence >= 0.6 %}Good{% elif field_info.confidence >= 0.5 %}Moderate{% elif field_info.confidence >= 0.4 %}Fair{% elif field_info.confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
+                            Reliability: {% if field_info.confidence >= 0.9 %}Excellent ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.8 %}Very High ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.7 %}High ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.6 %}Good ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.5 %}Moderate ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.4 %}Fair ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.3 %}Low ({{ (field_info.confidence * 100)|int }}%){% else %}Very Low ({{ (field_info.confidence * 100)|int }}%){% endif %}
                         </span>
                         {% if field_info.sources %}
                         <span>
@@ -308,7 +308,7 @@
                         name="notes" 
                         class="notes-area" 
                         placeholder="Add review notes here..."
-                    >{{ record.notes or '' }}</textarea>
+                    ></textarea>
                     
                     <div class="action-buttons">
                         <button type="submit" name="action" value="accept" class="action-button accept-btn">
