@@ -1,0 +1,12 @@
+{
+  "high_priority": {
+    "processed": 808,
+    "cached": 22,
+    "new_research": 786,
+    "errors": 0,
+    "updates_applied": 10477,
+    "start_time": "2025-09-05T06:43:43.287833",
+    "end_time": "2025-09-05T14:45:56.797985",
+    "success_rate": 100.0
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "current_status": "price_research_completed",
+  "current_record": 1,
+  "records_completed": [
+    {
+      "record_number": 1,
+      "title": "Treasures",
+      "author": "Plain, Belva",
+      "isbn": "038530603X",
+      "status": "bibliographic_complete",
+      "price_research": "completed",
+      "insurance_value": "$60.00",
+      "market_range": "$15-45",
+      "condition": "Very Good to Like New",
+      "marc_fields_verified": true,
+      "library_specific_fields_added": true,
+      "call_number": "FIC PLAIN",
+      "notes": "GENRE: Domestic fiction, Family saga; LANGUAGE: English; MATERIAL: Standard print; INSURANCE_VALUE: $60.00"
+    }
+  ],
+  "records_pending": [
+    {
+      "record_number": 2,
+      "title": "Random Winds",
+      "author": "Plain, Beva",
+      "original_input": "NO ISBN: Random Winds by Plain, Beva",
+      "needs_correction": "author: Beva -> Belva",
+      "isbn": "0440038549",
+      "status": "pending_review"
+    },
+    {
+      "record_number": 3,
+      "title": "Mindfulness The Path to the Deathless",
+      "author": "Sumedho, Ajahn",
+      "isbn": "094667223X",
+      "status": "pending_review",
+      "special_handling": "Buddhist religious text"
+    },
+    {
+      "record_number": 4,
+      "title": "Guard of Honor",
+      "author": "James Gould Cozzens",
+      "isbn": "0156375301",
+      "status": "pending_review",
+      "special_handling": "Pulitzer Prize winner"
+    },
+    {
+      "record_number": 5,
+      "title": "Hustle Guide Book One",
+      "author": "Hustle 2.0",
+      "status": "pending_verification",
+      "issues": "Cannot verify existence in standard databases"
+    },
+    {
+      "record_number": 6,
+      "title": "California Veterans Resource Book 8th Edition",
+      "author": "California Department of Veterans Affairs",
+      "status": "pending_review",
+      "special_handling": "Government document"
+    },
+    {
+      "record_number": 7,
+      "title": "The Great American Baseball Card Flipping, Trading and Bubble Gum Book",
+      "author": "Boyd, Brendan C. and Harris, Fred C.",
+      "isbn": "091664202X",
+      "status": "pending_review"
+    },
+    {
+      "record_number": 8,
+      "isbn": "979-8-8098-6961-4",
+      "status": "cannot_verify",
+      "issues": "ISBN not found in any databases"
+    },
+    {
+      "record_number": 9,
+      "isbn": "979-8-6368-2161-8",
+      "status": "cannot_verify",
+      "issues": "ISBN not found in any databases"
+    },
+    {
+      "record_number": 10,
+      "isbn": "979-8-5225-1008-4",
+      "status": "cannot_verify",
+      "issues": "ISBN not found in any databases"
+    }
+  ],
+  "current_task": "researching_high_estimate_prices",
+  "price_research_status": "completed",
+  "next_steps": [
+    "Complete price research for all records",
+    "Review Record 2 with author correction",
+    "Apply library-specific MARC fields to all records",
+    "Create final verified MARC export",
+    "Generate updated barcode labels with pricing"
+  ],
+  "last_updated": "2025-08-25T16:45:00Z",
+  "version": 1
+}

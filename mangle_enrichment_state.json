@@ -1,12 +1,12 @@
 {
-  "timestamp": "2025-09-03T00:20:43.353971",
-  "total_records": 369,
+  "timestamp": "2025-09-04T05:25:23.736549",
+  "total_records": 620,
   "source_counts": {
-    "LIBRARY_OF_CONGRESS": 140,
-    "GOOGLE_BOOKS": 300,
-    "VERTEX_AI": 10,
-    "OPEN_LIBRARY": 10,
-    "NO_ENRICHMENT": 369
+    "LIBRARY_OF_CONGRESS": 87,
+    "GOOGLE_BOOKS": 181,
+    "VERTEX_AI": 180,
+    "OPEN_LIBRARY": 166,
+    "NO_ENRICHMENT": 189
   },
-  "overall_progress": 45.611866501854145
+  "overall_progress": 76.63782447466008
 }

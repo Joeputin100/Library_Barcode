@@ -1,0 +1,2216 @@
+[
+  {
+    "barcode": "B000555",
+    "title": "Holy Ghost",
+    "author": "Sandford, John",
+    "call_number": null
+  },
+  {
+    "barcode": "B000491",
+    "title": "Sojourn",
+    "author": "Salvatore, R. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000298",
+    "title": "Crown of Midnight",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000297",
+    "title": "Heir of Fire",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000195",
+    "title": "Choppy Water",
+    "author": "Woods, Stuart",
+    "call_number": null
+  },
+  {
+    "barcode": "B000482",
+    "title": "Sword of Destiny",
+    "author": "Sapkowski, Andrzej",
+    "call_number": null
+  },
+  {
+    "barcode": "B000495",
+    "title": "Miss Peregrine's Home for Peculiar Children",
+    "author": "Riggs, Ransom",
+    "call_number": null
+  },
+  {
+    "barcode": "B000514",
+    "title": "Songs in ordinary time Mary McGarry Morris.",
+    "author": "Morris, Mary McGarry",
+    "call_number": null
+  },
+  {
+    "barcode": "B000341",
+    "title": "Schindler's list Thomas Keneally.",
+    "author": "Keneally, Thomas",
+    "call_number": null
+  },
+  {
+    "barcode": "B000488",
+    "title": "Nemesis Games",
+    "author": "Corey, James S. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000018",
+    "title": "A polar bear in love, Vol. 1 Koromo ; translation: Taylor Engel ; lettering: Lys Blakeslee",
+    "author": "Koromo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000015",
+    "title": "A polar bear in love Koromo ; translation: Taylor Engel ; lettering: Lys Blakeslee",
+    "author": "Koromo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000005",
+    "title": "Homunculus (Omnibus) Vol. 5-6",
+    "author": "Yamamoto, Hideo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000006",
+    "title": "Heavenly Delusion, Volume 1",
+    "author": "Ishiguro, Masakazu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000007",
+    "title": "Heavenly Delusion, Volume 2",
+    "author": "Ishiguro, Masakazu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000008",
+    "title": "My Hero Academia, Vol. 34",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000009",
+    "title": "My Hero Academia, Vol. 35",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000010",
+    "title": "My Hero Academia, Vol. 36",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000012",
+    "title": "My Hero Academia, Vol. 38",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000011",
+    "title": "My Hero Academia, Vol. 37",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000014",
+    "title": "My Hero Academia, Vol. 40",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000013",
+    "title": "My Hero Academia, Vol. 39",
+    "author": "Horikoshi, Kohei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000017",
+    "title": "Show-Ha Shoten!, Vol. 7",
+    "author": "Asakura, Akinari",
+    "call_number": null
+  },
+  {
+    "barcode": "B000016",
+    "title": "Homunculus (Omnibus) Vol. 7-8",
+    "author": "Yamamoto, Hideo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000019",
+    "title": "Magus of the Library, Vol. 1 (Magus of the Library #1)",
+    "author": "Izumi, Mitsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000020",
+    "title": "Magus of the Library, Vol. 2 (Magus of the Library #2)",
+    "author": "Izumi, Mitsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000023",
+    "title": "Magus of the Library 7",
+    "author": "Izumi, Mitsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000024",
+    "title": "Golden kamuy Vol. 1 story and art by Satoru Noda ; translation, Eiji Yasuda ; touch-up art & lettering, Steve Dutra",
+    "author": "Noda, Satoru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000026",
+    "title": "Golden kamuy, Vol. 3 story and art by Satoru Noda ; translation, Eiji Yasuda ; touch-up art & lettering, Steve Dutro ; editor, Mike Montesa",
+    "author": "Noda, Satoru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000027",
+    "title": "Golden Kamuy vol.4",
+    "author": "Noda, Satoru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000028",
+    "title": "Golden Kamuy vol.5",
+    "author": "Noda, Satoru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000029",
+    "title": "One-Punch Man, Vol. 28",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000030",
+    "title": "Mob Psycho 100 Volume 11",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000031",
+    "title": "Mob Psycho 100 Volume 12",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000033",
+    "title": "Mob Psycho 100 Volume 13",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000034",
+    "title": "Mob Psycho 100 Volume 14",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000035",
+    "title": "My Room is a Dungeon Rest Stop  Vol. 1",
+    "author": "Hudou, Tougoku",
+    "call_number": null
+  },
+  {
+    "barcode": "B000032",
+    "title": "One-Punch Man, Vol. 29",
+    "author": "ONE",
+    "call_number": null
+  },
+  {
+    "barcode": "B000036",
+    "title": "My Room is a Dungeon Rest Stop  Vol. 2",
+    "author": "Hudou, Tougoku",
+    "call_number": null
+  },
+  {
+    "barcode": "B000037",
+    "title": "My Room is a Dungeon Rest Stop  Vol. 3",
+    "author": "Hudou, Tougoku",
+    "call_number": null
+  },
+  {
+    "barcode": "B000039",
+    "title": "My Room Is a Dungeon Rest Stop (Manga) Vol. 5",
+    "author": "Hudou, Tougoku",
+    "call_number": null
+  },
+  {
+    "barcode": "B000041",
+    "title": "Death Note How to Read 13",
+    "author": "Ohba, Tsugumi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000042",
+    "title": "Spy x Family, Vol. 2",
+    "author": "Endo, Tatsuya",
+    "call_number": null
+  },
+  {
+    "barcode": "B000043",
+    "title": "Nijigahara Holograph",
+    "author": "Asano, Inio",
+    "call_number": null
+  },
+  {
+    "barcode": "B000045",
+    "title": "Mujina into the Deep, Vol. 1",
+    "author": "Asano, Inio",
+    "call_number": null
+  },
+  {
+    "barcode": "B000046",
+    "title": "Platinum end Vol. 1 story, Tsugumi Ohba ; art, Takeshi Obata ; translation, Stephen Paul ; touch-up and lettering, James Gaubatz",
+    "author": "Ohba, Tsugumi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000050",
+    "title": "Barefoot Gen Vol. 5: The Never-Ending War Keiji Nakazawa ; translated by Project Gen.",
+    "author": "Nakazawa, Keiji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000049",
+    "title": "Barefoot Gen, Volume 6: Writing the Truth. Keiji Nakazawa ; translated by Project Gen.",
+    "author": "Nakazawa, Keiji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000054",
+    "title": "Homunculus (Omnibus) Vol. 9-10",
+    "author": "Yamamoto, Hideo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000060",
+    "title": "Attack on Titan, Vol. 3",
+    "author": "Isayama, Hajime",
+    "call_number": null
+  },
+  {
+    "barcode": "B000059",
+    "title": "Haikyu!! (3-in-1 Edition), Vol. 2 (Paperback) 4-5-6",
+    "author": "Furudate, Haruichi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000061",
+    "title": "Haikyu!! (3-in-1 Edition), Vol. 3 (Paperback) 7-8-9",
+    "author": "Furudate, Haruichi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000064",
+    "title": "To Your Eternity 3 Yoshitoki Oima ; translation, Steven LeCroy ; lettering, Darren Smith",
+    "author": "Oima, Yoshitoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000065",
+    "title": "To Your Eternity 4 Yoshitoki Oima ; translation, Steven LeCroy ; lettering, Darren Smith",
+    "author": "Oima, Yoshitoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000066",
+    "title": "To Your Eternity 2 Yoshitoki Oima ; translation, Steven LeCroy ; lettering, Darren Smith",
+    "author": "Oima, Yoshitoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000067",
+    "title": "To Your Eternity 5 Yoshitoki Oima ; translation, Steven LeCroy ; lettering, Darren Smith",
+    "author": "Oima, Yoshitoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000068",
+    "title": "Centaurs Vol 1",
+    "author": "Sumiyoshi, Ryo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000069",
+    "title": "Centaurs Vol 3",
+    "author": "Sumiyoshi, Ryo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000070",
+    "title": "Solanin",
+    "author": "Asano, Inio",
+    "call_number": null
+  },
+  {
+    "barcode": "B000072",
+    "title": "Again! vol. 1 Mitsurou Kubo ; translator, Rose Padgett ; lettering, E.K. Weaver ; lettering assistance, James Dashiell",
+    "author": "Kubo, Mitsurou",
+    "call_number": null
+  },
+  {
+    "barcode": "B000073",
+    "title": "Farming Life in Another World Volume 01",
+    "author": "Naito, Kinosuke",
+    "call_number": null
+  },
+  {
+    "barcode": "B000075",
+    "title": "Tokyo Alien Bros., Vol. 2",
+    "author": "Shinzo, Keigo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000082",
+    "title": "Welcome Back, Alice 4",
+    "author": "Shuzo, Oshimi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000087",
+    "title": "For the Kid I Saw in My Dreams, Vol. 1",
+    "author": "Sanbe, Kei",
+    "call_number": null
+  },
+  {
+    "barcode": "B000088",
+    "title": "Blood on the Tracks 17",
+    "author": "Oshimi, Shuzo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000091",
+    "title": "High-Rise Invasion Vol. 19-21",
+    "author": "Miura, Tsuina",
+    "call_number": null
+  },
+  {
+    "barcode": "B000092",
+    "title": "So I'm a Spider, So What?, Vol. 7",
+    "author": "Baba, Okina; Kiryu, Tsukasa; McKeon, Jenny",
+    "call_number": null
+  },
+  {
+    "barcode": "B000093",
+    "title": "Final Fantasy Lost Stranger, Vol. 10",
+    "author": "Minase, Hazuki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000095",
+    "title": "I Cannot Reach You, Vol. 1",
+    "author": "Mika",
+    "call_number": null
+  },
+  {
+    "barcode": "B000096",
+    "title": "Bakuman, Volume 2",
+    "author": "Ohba, Tsugumi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000098",
+    "title": "Bakuman, Volume 3",
+    "author": "Ohba, Tsugumi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000097",
+    "title": "Beastars volume 2",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000099",
+    "title": "BEASTARS, Vol. 3",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000100",
+    "title": "BEASTARS, Vol. 4",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000101",
+    "title": "Beastars. Volume 5",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000102",
+    "title": "BEASTARS, Vol. 6",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000108",
+    "title": "BEASTARS, Vol. 10",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000109",
+    "title": "BEASTARS, Vol. 11",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000110",
+    "title": "BEASTARS, Vol. 12",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000111",
+    "title": "BEASTARS, Vol. 13",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000112",
+    "title": "BEASTARS, Vol. 14",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000114",
+    "title": "BEASTARS, Vol. 16",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000115",
+    "title": "BEASTARS, Vol. 17",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000116",
+    "title": "BEASTARS, Vol. 18",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000118",
+    "title": "BEASTARS, Vol. 20",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000119",
+    "title": "BEASTARS, Vol. 21",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000120",
+    "title": "BEASTARS, Vol. 22",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000121",
+    "title": "Beast Complex, Vol. 2",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000124",
+    "title": "Erased, Vol. 3 Kei Sanbe ; translation, Sheldon Drzka ; lettering, Abigail Blackman",
+    "author": "Sanbe, Kei; Drzka, Sheldon; Blackman, Abigail",
+    "call_number": null
+  },
+  {
+    "barcode": "B000125",
+    "title": "Erased, Vol. 3",
+    "author": "Sanbe, Kei; Drzka, Sheldon; Blackman, Abigail",
+    "call_number": null
+  },
+  {
+    "barcode": "B000126",
+    "title": "Erased, Vol. 4",
+    "author": "Sanbe, Kei; Drzka, Sheldon; Blackman, Abigail",
+    "call_number": null
+  },
+  {
+    "barcode": "B000128",
+    "title": "Grimgar of Fantasy and Ash, Vol. 3 original story, Ao Jyumonji ; art, Mutsumi Okubashi ; character design, Eiri Shirai ; translation: Caleb Cook",
+    "author": "Jyumonji, Ao",
+    "call_number": null
+  },
+  {
+    "barcode": "B000142",
+    "title": "To Your Eternity, Vol. 1 Yoshitoki Oima ; translation, Steven LeCroy ; lettering, Darren Smith",
+    "author": "Oima, Yoshitoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000150",
+    "title": "Boys Run the Riot 1",
+    "author": "Gaku, Keito",
+    "call_number": null
+  },
+  {
+    "barcode": "B000152",
+    "title": "Beast Complex, Vol. 1",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000154",
+    "title": "Haikyu!! (3-In-1 Edition), Vol. 1-2-3",
+    "author": "Furudate, Haruichi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000539",
+    "title": "Keeping It Real (Quantum Gravity, Book 1) Justina Robson.",
+    "author": "Robson, Justina",
+    "call_number": null
+  },
+  {
+    "barcode": "B000159",
+    "title": "Keeping It Real (Quantum Gravity, Book 1) Justina Robson.",
+    "author": "Robson, Justina",
+    "call_number": null
+  },
+  {
+    "barcode": "B000158",
+    "title": "Imager's Intrigue",
+    "author": "Jr., L. E. Modesitt,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000176",
+    "title": "In the Deep",
+    "author": "White, Loreth Anne",
+    "call_number": null
+  },
+  {
+    "barcode": "B000180",
+    "title": "Slow Bullets Alastair Reynolds",
+    "author": "Reynolds, Alastair",
+    "call_number": null
+  },
+  {
+    "barcode": "B000188",
+    "title": "Marked",
+    "author": "Cast, P. C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000192",
+    "title": "Untamed P.C. Cast and Kristin Cast",
+    "author": "Cast, P. C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000193",
+    "title": "Tempted",
+    "author": "Cast, P. C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000202",
+    "title": "The Sorceress (The Secrets of the Immortal Nicholas Flamel)",
+    "author": "Scott, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000203",
+    "title": "Nicholas Flamel 4 Necromancer",
+    "author": "Scott, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000208",
+    "title": "Defiance of eagles William W. Johnstone with J.A. Johnstone",
+    "author": "Johnstone, William W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000239",
+    "title": "The Titan's Curse",
+    "author": "Riordan, Rick",
+    "call_number": null
+  },
+  {
+    "barcode": "B000241",
+    "title": "The Last Olympian",
+    "author": "Riordan, Rick",
+    "call_number": null
+  },
+  {
+    "barcode": "B000259",
+    "title": "American Blood",
+    "author": "Ben Sanders",
+    "call_number": null
+  },
+  {
+    "barcode": "B000260",
+    "title": "Not Till We Are Lost",
+    "author": "Taylor, Dennis E.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000266",
+    "title": "Vegetarian times complete cookbook by the editors of Vegetarian times and Lucy Moll.",
+    "author": "Moll, Lucy",
+    "call_number": null
+  },
+  {
+    "barcode": "B000264",
+    "title": "Introductory foods Marion Bennion.",
+    "author": "Bennion, Marion",
+    "call_number": null
+  },
+  {
+    "barcode": "B000265",
+    "title": "The Throne of the Five Winds",
+    "author": "Emmett, S. C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000267",
+    "title": "The Kiss",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000269",
+    "title": "Expert System's Champion",
+    "author": "Tchaikovsky, Adrian",
+    "call_number": null
+  },
+  {
+    "barcode": "B000270",
+    "title": "Beast Complex, Vol. 3",
+    "author": "Itagaki, Paru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000272",
+    "title": "Crooked Kingdom",
+    "author": "Bardugo, Leigh",
+    "call_number": null
+  },
+  {
+    "barcode": "B000284",
+    "title": "Sanctuary with Kings (Tempting Monsters, Band 3)",
+    "author": "Moon, Kathryn",
+    "call_number": null
+  },
+  {
+    "barcode": "B000294",
+    "title": "The Coast-to-Coast Murders",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000296",
+    "title": "Everything you need to know but have never been told David Icke",
+    "author": "Icke, David",
+    "call_number": null
+  },
+  {
+    "barcode": "B000295",
+    "title": "Prague Cemetery",
+    "author": "Eco, Umberto",
+    "call_number": null
+  },
+  {
+    "barcode": "B000299",
+    "title": "Kingdom of Ash",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000302",
+    "title": "Unsolved",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000304",
+    "title": "The Lone Ranger and Tonto Fistfight in Heaven (20th Anniversary Edition)",
+    "author": "Alexie, Sherman",
+    "call_number": null
+  },
+  {
+    "barcode": "B000303",
+    "title": "The Assassin's Blade: The Throne of Glass Prequel Novellas",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000305",
+    "title": "Theory of Semiotics (Advances in Semiotics)",
+    "author": "Eco, Umberto",
+    "call_number": null
+  },
+  {
+    "barcode": "B000306",
+    "title": "Semiotics and the philosophy of language Umberto Eco.",
+    "author": "Eco, Umberto",
+    "call_number": null
+  },
+  {
+    "barcode": "B000313",
+    "title": "House of Sky and Breath",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000366",
+    "title": "House of Sky and Breath",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000314",
+    "title": "The Prefect",
+    "author": "Reynolds, Alastair",
+    "call_number": null
+  },
+  {
+    "barcode": "B000315",
+    "title": "Rides a dread legion Raymond E. Feist.",
+    "author": "Feist, Raymond E.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000316",
+    "title": "Rage of a demon king Raymond E. feist.",
+    "author": "Feist, Raymond E.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000319",
+    "title": "The Mercy of Gods",
+    "author": "Corey, James S. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000320",
+    "title": "Change order Tana Reiff",
+    "author": "Reiff, Tana",
+    "call_number": null
+  },
+  {
+    "barcode": "B000321",
+    "title": "Eruption",
+    "author": "Crichton, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000322",
+    "title": "Salvation Lost",
+    "author": "Hamilton, Peter F.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000324",
+    "title": "Clive Cussler's the Devil's Sea",
+    "author": "Cussler, Clive",
+    "call_number": null
+  },
+  {
+    "barcode": "B000325",
+    "title": "Maybe you should talk to someone : a therapist, her therapist, and our lives revealed",
+    "author": "Gottlieb, Lori",
+    "call_number": null
+  },
+  {
+    "barcode": "B000327",
+    "title": "A Dictionary Of Human Geography",
+    "author": "Rogers, Alisdair",
+    "call_number": null
+  },
+  {
+    "barcode": "B000330",
+    "title": "La magia y tu",
+    "author": "Gonzalez-Wippler, Migene",
+    "call_number": null
+  },
+  {
+    "barcode": "B000333",
+    "title": "Tommyland",
+    "author": "Bozza, Anthony",
+    "call_number": null
+  },
+  {
+    "barcode": "B000332",
+    "title": "Rain of Gold",
+    "author": "Villasenor, Victor",
+    "call_number": null
+  },
+  {
+    "barcode": "B000336",
+    "title": "Hispanics in the American West Jorge Iber and Arnoldo De Leon.",
+    "author": "Iber, Jorge",
+    "call_number": null
+  },
+  {
+    "barcode": "B000339",
+    "title": "Mexican Art and Architecture (Mexico: Our Southern Neighbor)",
+    "author": "Carew-Miller, Anna",
+    "call_number": null
+  },
+  {
+    "barcode": "B000338",
+    "title": "Occupational Outlook Handbook, 2020-2021",
+    "author": "Statistics, Bureau of Labor",
+    "call_number": null
+  },
+  {
+    "barcode": "B000342",
+    "title": "The Tattooist of Auschwitz: A Novel",
+    "author": "Morris, Heather",
+    "call_number": null
+  },
+  {
+    "barcode": "B000343",
+    "title": "Haircutting for dummies by J. Elaine Spear.",
+    "author": "Spear, J. Elaine",
+    "call_number": null
+  },
+  {
+    "barcode": "B000344",
+    "title": "Woodworking for dummies by Jeff Strong.",
+    "author": "Strong, Jeff",
+    "call_number": null
+  },
+  {
+    "barcode": "B000347",
+    "title": "Shadowcroft Academy For Dungeons (Paperback)",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000351",
+    "title": "College Algebra",
+    "author": "OpenStax",
+    "call_number": null
+  },
+  {
+    "barcode": "B000352",
+    "title": "Frommer's South America",
+    "author": "Blore, Shawn",
+    "call_number": null
+  },
+  {
+    "barcode": "B000349",
+    "title": "Shadowcroft Academy For Dungeons",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000361",
+    "title": "Survive",
+    "author": "Nazarian, Vera",
+    "call_number": null
+  },
+  {
+    "barcode": "B000358",
+    "title": "Love, Pamela (SIGNED FIRST PRINTING)",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000364",
+    "title": "The New Encyclopedia Of Aquatic Life [Two Volume Set] (Facts on File Natural Science Library)",
+    "author": "John, Dawes,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000369",
+    "title": "Introduction to Sociology",
+    "author": "Ritzer, George",
+    "call_number": null
+  },
+  {
+    "barcode": "B000424",
+    "title": "Introduction to Sociology",
+    "author": "Ritzer, George",
+    "call_number": null
+  },
+  {
+    "barcode": "B000372",
+    "title": "The Mexican Americans Julie Catalano.",
+    "author": "Catalano, Julie",
+    "call_number": null
+  },
+  {
+    "barcode": "B000374",
+    "title": "Summer House",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000376",
+    "title": "23 1/2 Lies",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000377",
+    "title": "Bored Gay Werewolf",
+    "author": "Santorella, Tony",
+    "call_number": null
+  },
+  {
+    "barcode": "B000379",
+    "title": "Faith of the Fallen (Sword of Truth, Book 6)",
+    "author": "Goodkind, Terry",
+    "call_number": null
+  },
+  {
+    "barcode": "B000380",
+    "title": "4th of July",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000381",
+    "title": "The 6th Target - Womens Murder Club 6",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000385",
+    "title": "Portrait of an Unknown Woman",
+    "author": "Silva, Daniel",
+    "call_number": null
+  },
+  {
+    "barcode": "B000384",
+    "title": "3rd Degree",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000387",
+    "title": "Chasm City Alastair Reynolds",
+    "author": "Reynolds, Alastair",
+    "call_number": null
+  },
+  {
+    "barcode": "B000388",
+    "title": "The Legacy",
+    "author": "Salvatore, R. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000390",
+    "title": "The 5th Horseman - Womens Murder Club 5",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000556",
+    "title": "The 5th Horseman - Womens Murder Club 5",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000391",
+    "title": "A small death in Lisbon.",
+    "author": "Wilson, Robert",
+    "call_number": null
+  },
+  {
+    "barcode": "B000393",
+    "title": "Starplex Robert J. Sawyer.",
+    "author": "Sawyer, Robert J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000392",
+    "title": "2nd Chance",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000394",
+    "title": "Tom Clancy Commander in Chief",
+    "author": "Greaney, Mark",
+    "call_number": null
+  },
+  {
+    "barcode": "B000395",
+    "title": "Forbidden                            Books of Mortals",
+    "author": "Dekker, Ted",
+    "call_number": null
+  },
+  {
+    "barcode": "B000398",
+    "title": "Summit",
+    "author": "Taylor, Charles",
+    "call_number": null
+  },
+  {
+    "barcode": "B000399",
+    "title": "Finding Audrey Sophie Kinsella",
+    "author": "Kinsella, Sophie",
+    "call_number": null
+  },
+  {
+    "barcode": "B000401",
+    "title": "NW",
+    "author": "Smith, Zadie",
+    "call_number": null
+  },
+  {
+    "barcode": "B000403",
+    "title": "We were the Mulvaneys Joyce Carol Oates.",
+    "author": "Oates, Joyce Carol",
+    "call_number": null
+  },
+  {
+    "barcode": "B000407",
+    "title": "My Soul to Keep Tananarive Due.",
+    "author": "Due, Tananarive",
+    "call_number": null
+  },
+  {
+    "barcode": "B000408",
+    "title": "Arena",
+    "author": "Forstchen, William R.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000413",
+    "title": "Mentor The Kid  the CEO",
+    "author": "Jenkins, Walter",
+    "call_number": null
+  },
+  {
+    "barcode": "B000416",
+    "title": "Windows PowerShell Step by Step",
+    "author": "Wilson, Ed",
+    "call_number": null
+  },
+  {
+    "barcode": "B000417",
+    "title": "Beginner's Step-By-Step Coding Course: Learn Computer Programming the Easy Way",
+    "author": "Publishing, DK",
+    "call_number": null
+  },
+  {
+    "barcode": "B000418",
+    "title": "Auto Body Repair Technology",
+    "author": "Duffy, James E.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000423",
+    "title": "Understanding the Linux Kernel",
+    "author": "Bovet, Daniel P.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000429",
+    "title": "Contemporary Business Mathematics for Colleges",
+    "author": "Deitz, James E.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000430",
+    "title": "The Developing Person Through the Life Span",
+    "author": "Berger, Kathleen Stassen",
+    "call_number": null
+  },
+  {
+    "barcode": "B000431",
+    "title": "My wicked, wicked ways Sandra Cisneros.",
+    "author": "Cisneros, Sandra",
+    "call_number": null
+  },
+  {
+    "barcode": "B000433",
+    "title": "The Great Core's Paradox (Paperback)",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000437",
+    "title": "Chicana falsa, and other stories of death, identity, and Oxnard Michele M. Serros.",
+    "author": "Serros, Michele M.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000439",
+    "title": "Complete short fiction Oscar Wilde ; edited by Ian Small.",
+    "author": "Wilde, Oscar",
+    "call_number": null
+  },
+  {
+    "barcode": "B000442",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 8",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000443",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 7",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000444",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 6",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000445",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 5",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000446",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 4",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000447",
+    "title": "I've Been Killing Slimes for 300 Years and Maxed Out My Level, Vol. 3",
+    "author": "Morita, Kisetsu",
+    "call_number": null
+  },
+  {
+    "barcode": "B000456",
+    "title": "If It's for My Daughter, I'd Even Defeat a demon lord",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000457",
+    "title": "Chiwaukee Nights",
+    "author": "Plamann, Cale",
+    "call_number": null
+  },
+  {
+    "barcode": "B000458",
+    "title": "How a Realist Hero Rebuilt the Kingdom (Light Novel) Vol. 13",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000459",
+    "title": "How a Realist Hero Rebuilt the Kingdom (Light Novel) Vol. 12",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000460",
+    "title": "How a Realist Hero Rebuilt the Kingdom  Vol. 4",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000461",
+    "title": "How a Realist Hero Rebuilt the Kingdom Vol. 10",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000462",
+    "title": "How a Realist Hero Rebuilt the Kingdom  Vol. 11",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000463",
+    "title": "How a Realist Hero Rebuilt the Kingdom  Vol. 3",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000464",
+    "title": "How a Realist Hero Rebuilt the Kingdom  Vol. 1",
+    "author": "Dojyomaru",
+    "call_number": null
+  },
+  {
+    "barcode": "B000468",
+    "title": "Death March to the Parallel World Rhapsody 10",
+    "author": "Ainana, Hiro",
+    "call_number": null
+  },
+  {
+    "barcode": "B000469",
+    "title": "Death March to the Parallel World Rhapsody 9",
+    "author": "Ainana, Hiro",
+    "call_number": null
+  },
+  {
+    "barcode": "B000470",
+    "title": "Death March to the Parallel World Rhapsody 7",
+    "author": "Ainana, Hiro",
+    "call_number": null
+  },
+  {
+    "barcode": "B000471",
+    "title": "Death March to the Parallel World Rhapsody 6",
+    "author": "Ainana, Hiro",
+    "call_number": null
+  },
+  {
+    "barcode": "B000475",
+    "title": "Coping with difficult people Robert M. Bramson.",
+    "author": "Bramson, Robert M.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000481",
+    "title": "The magician's nephew C.S. Lewis ; illustrated by Pauline Baynes.",
+    "author": "Lewis, C.S.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000485",
+    "title": "Dr. Atkins' age-defying diet Robert C. Atkins with Sheila Buff.",
+    "author": "C., Atkins, Robert",
+    "call_number": null
+  },
+  {
+    "barcode": "B000486",
+    "title": "Protein power Michael R. Eades & Mary Dan Eades",
+    "author": "Eades, Michael R",
+    "call_number": null
+  },
+  {
+    "barcode": "B000487",
+    "title": "Cibola Burn (The Expanse)",
+    "author": "Corey, James S. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000489",
+    "title": "Babylon's Ashes (The Expanse)",
+    "author": "Corey, James S. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000490",
+    "title": "Red Rising",
+    "author": "Brown, Pierce",
+    "call_number": null
+  },
+  {
+    "barcode": "B000492",
+    "title": "61 hours",
+    "author": "Child, Lee",
+    "call_number": null
+  },
+  {
+    "barcode": "B000494",
+    "title": "Mary Coin Marisa Silver",
+    "author": "Silver, Marisa",
+    "call_number": null
+  },
+  {
+    "barcode": "B000505",
+    "title": "Comanche moon Larry McMurtry",
+    "author": "McMurtry, Larry",
+    "call_number": null
+  },
+  {
+    "barcode": "B000507",
+    "title": "Rescue William W. Johnstone.",
+    "author": "Johnstone, William W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000509",
+    "title": "Death Rides Alone (Luke Jensen: Bounty Hunter #5)",
+    "author": "Johnstone, William W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000508",
+    "title": "Trumpet on the land.",
+    "author": "Johnston, Terry C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000517",
+    "title": "The Dansing star Kirby Jonas.",
+    "author": "Jonas, Kirby",
+    "call_number": null
+  },
+  {
+    "barcode": "B000513",
+    "title": "Hamilton Robb",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000515",
+    "title": "Terry of The Double C",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000520",
+    "title": "Rough Road to Redemption",
+    "author": "Quist, Reg",
+    "call_number": null
+  },
+  {
+    "barcode": "B000521",
+    "title": "Annals of the Heechee (Heechee Saga, Book 4)",
+    "author": "Pohl, Frederik",
+    "call_number": null
+  },
+  {
+    "barcode": "B000522",
+    "title": "He Did This Just for You",
+    "author": "Group, W Publishing",
+    "call_number": null
+  },
+  {
+    "barcode": "B000523",
+    "title": "The Memory of Souls",
+    "author": "Lyons, Jenn",
+    "call_number": null
+  },
+  {
+    "barcode": "B000524",
+    "title": "City of Glass",
+    "author": "Clare, Cassandra",
+    "call_number": null
+  },
+  {
+    "barcode": "B000527",
+    "title": "The Crossing",
+    "author": "Connelly, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000528",
+    "title": "Peace Talks",
+    "author": "Butcher, Jim",
+    "call_number": null
+  },
+  {
+    "barcode": "B000530",
+    "title": "The Lords of the North (Alfred the Great 3)",
+    "author": "Cornwell, Bernard",
+    "call_number": null
+  },
+  {
+    "barcode": "B000529",
+    "title": "Pale Horseman",
+    "author": "Cornwell, Bernard",
+    "call_number": null
+  },
+  {
+    "barcode": "B000532",
+    "title": "The Last Kindom",
+    "author": "Cornwell, Bernard",
+    "call_number": null
+  },
+  {
+    "barcode": "B000533",
+    "title": "Deal Breaker",
+    "author": "Coben, Harlan",
+    "call_number": null
+  },
+  {
+    "barcode": "B000535",
+    "title": "Morning Star",
+    "author": "Brown, Pierce",
+    "call_number": null
+  },
+  {
+    "barcode": "B000534",
+    "title": "American Assassin Vince Flynn",
+    "author": "Flynn, Vince",
+    "call_number": null
+  },
+  {
+    "barcode": "B000543",
+    "title": "The Dark Tower (The Dark Tower, Book 7)",
+    "author": "King, Stephen",
+    "call_number": null
+  },
+  {
+    "barcode": "B000557",
+    "title": "The Facts on File Marine Science Handbook (The Facts on File Science Handbooks)",
+    "author": "McCutcheon, Scott",
+    "call_number": null
+  },
+  {
+    "barcode": "B000558",
+    "title": "Dolphins and whales texts and drawings by Maurizio Wurtz and Nadia Repetto.",
+    "author": "Wurtz, Maurizio",
+    "call_number": null
+  },
+  {
+    "barcode": "B000559",
+    "title": "Fish World Book.",
+    "author": "Inc, World Book,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000560",
+    "title": "Mollusks and similar sea creatures.",
+    "author": "Inc, World Book,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000561",
+    "title": "The life we bury by Allen Eskens",
+    "author": "Eskens, Allen",
+    "call_number": null
+  },
+  {
+    "barcode": "B000562",
+    "title": "Prison Saved My Life",
+    "author": "Dooley, Louis",
+    "call_number": null
+  },
+  {
+    "barcode": "B000564",
+    "title": "The Red Bandanna (Young Readers Adaptation)",
+    "author": "Rinaldi, Tom",
+    "call_number": null
+  },
+  {
+    "barcode": "B000569",
+    "title": "The Road",
+    "author": "McCarthy, Cormac",
+    "call_number": null
+  },
+  {
+    "barcode": "B000044",
+    "title": "Toxic Daughter : Chi-Chan",
+    "author": "Oshimi, Shuzo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000047",
+    "title": "Noragami : stray god, Vol. 4 Adachitoka ; translator: Alethea Nibley & Athena Nibley",
+    "author": "Adachi, Toka",
+    "call_number": null
+  },
+  {
+    "barcode": "B000048",
+    "title": "Barefoot Gen Volume 4 : Hardcover Edition",
+    "author": "Nakazawa, Keiji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000051",
+    "title": "Barefoot Gen Vol. 7 : Bones into Dust",
+    "author": "Gen, Project",
+    "call_number": null
+  },
+  {
+    "barcode": "B000052",
+    "title": "Boruto : Naruto Next Generations, Vol. 20",
+    "author": "Kodachi, Ukyo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000053",
+    "title": "Boruto : Naruto Next Generations, Vol. 19",
+    "author": "Kodachi, Ukyo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000055",
+    "title": "Boruto : Naruto Next Generations, Vol. 18",
+    "author": "Kodachi, Ukyo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000058",
+    "title": "Haikyu!! , Vol. 4 : Includes Vols. 10, 11 And 12",
+    "author": "Furudate, Haruichi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000062",
+    "title": "Noragami : stray god, Vol. 2 Adachitoka ; translator: Alethea Nibley & Athena Nibley",
+    "author": "Adachitoka",
+    "call_number": null
+  },
+  {
+    "barcode": "B000063",
+    "title": "Noragami : stray god, Vol. 3 Adachitoka ; [translator, Alethea Nibley & Athena Nibley ; lettering, Lys Blakeslee]",
+    "author": "Adachitoka",
+    "call_number": null
+  },
+  {
+    "barcode": "B000071",
+    "title": "Orange : the complete collection 1-2-3 story and art by Ichigo Takano ; translation, Amber Tamosaitis ; adaptation, Shannon Fay ; lettering and layout, Lys Blakeslee",
+    "author": "Takano, Ichigo",
+    "call_number": null
+  },
+  {
+    "barcode": "B000084",
+    "title": "Trinity Seven, Vol. 2 : The Seven Magicians - manga",
+    "author": "Saitou, Kenji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000085",
+    "title": "Trinity Seven, Vol. 3 : The Seven Magicians - manga",
+    "author": "Saitou, Kenji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000086",
+    "title": "Trinity Seven, Vol. 4 : The Seven Magicians",
+    "author": "Saitou, Kenji",
+    "call_number": null
+  },
+  {
+    "barcode": "B000089",
+    "title": "Nura : rise of the Yokai clan : vol. 25 story and art by Hiroshi Shiibashi",
+    "author": "Shiibashi, Hiroshi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000122",
+    "title": "20th Century Boys : The Perfect Edition, Vol. 1 story & art by Naoki Urasawa ; story coproduced with Takashi Nagasaki ; translation and English adaptation, Akemi Wegmuller ; additional translation, Lillian Diaz-Przybyl",
+    "author": "Urasawa, Naoki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000157",
+    "title": "Dungeon Slayer : A LitRPG Level-Up Adventure",
+    "author": "Ryan, Konrad",
+    "call_number": null
+  },
+  {
+    "barcode": "B000189",
+    "title": "Betrayed : A House of Night Novel (Book 2)",
+    "author": "Cast, P. C.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000199",
+    "title": "Watchmaker's Daughter : The True Story of World War II Heroine Corrie Ten Boom",
+    "author": "Loftis, Larry",
+    "call_number": null
+  },
+  {
+    "barcode": "B000204",
+    "title": "On the Edge of the Dark Sea of Darkness : The Wingfeather Saga Book 1",
+    "author": "Peterson, Andrew",
+    "call_number": null
+  },
+  {
+    "barcode": "B000231",
+    "title": "The era of uncertainty : global investment strategies for inflation, deflation, and the middle ground Francois Trahan and Katherine Krantz",
+    "author": "Trahan, Francois",
+    "call_number": null
+  },
+  {
+    "barcode": "B000253",
+    "title": "The Girl Who Lived Twice : A Lisbeth Salander novel, continuing Stieg Larsson's Millennium Series",
+    "author": "Lagercrantz, David",
+    "call_number": null
+  },
+  {
+    "barcode": "B000263",
+    "title": "Patterns for College Writing : A Rhetorical Reader and Guide",
+    "author": "Kirszner, Laurie G.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000273",
+    "title": "Tom Clancy's Op-Center : Dark Zone",
+    "author": "Rovin, Jeff",
+    "call_number": null
+  },
+  {
+    "barcode": "B000274",
+    "title": "A little book of cherished poems : beautiful poetry to treasure compiled by Kay Anne Carson.",
+    "author": "Carson, Kay Anne",
+    "call_number": null
+  },
+  {
+    "barcode": "B000286",
+    "title": "The Extraterrestrial Species Almanac : The Ultimate Guide to Greys, Reptilians, Hybrids, and Nordics",
+    "author": "Campobasso, Craig",
+    "call_number": null
+  },
+  {
+    "barcode": "B000300",
+    "title": "Passage to Dawn : Dungeons and Dragons : Book 4 of the Legacy of the Drow Series",
+    "author": "Salvatore, R. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000301",
+    "title": "Siege of Darkness : Dungeons and Dragons : Book 3 of the Legacy of the Drow Series",
+    "author": "Salvatore, R. A.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000308",
+    "title": "The House of the Spirits : A Novel",
+    "author": "Allende, Isabel",
+    "call_number": null
+  },
+  {
+    "barcode": "B000310",
+    "title": "The Cellist : A Novel",
+    "author": "Silva, Daniel",
+    "call_number": null
+  },
+  {
+    "barcode": "B000311",
+    "title": "Orient express : an entertainment Graham Greene ; introduction by Christopher Hitchens.",
+    "author": "Greene, Graham",
+    "call_number": null
+  },
+  {
+    "barcode": "B000317",
+    "title": "6 : 20 Man : A Thriller",
+    "author": "Baldacci, David",
+    "call_number": null
+  },
+  {
+    "barcode": "B000318",
+    "title": "Never home alone : from microbes to millipedes, camel crickets, and honeybees, the natural history of where we live Rob Dunn",
+    "author": "Dunn, Rob R.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000326",
+    "title": "Unseen Forces : A Guide for the Truly Attentive - the Search for a New Approach to Observing and Interpreting the World of Physical Phenomena",
+    "author": "B01, Kenyon",
+    "call_number": null
+  },
+  {
+    "barcode": "B000328",
+    "title": "Don Benito Wilson : from mountain man to mayor, Los Angeles, 1841 to 1878 by Nat B. Read.",
+    "author": "Read, Nat B.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000331",
+    "title": "Chicano art inside/outside the master's house : cultural politics and the CARA exhibition by Alicia Gaspar de Alba.",
+    "author": "Alba, Alicia Gaspar de",
+    "call_number": null
+  },
+  {
+    "barcode": "B000335",
+    "title": "In the heart of the sea : The tragedy of the whaleship Essex.",
+    "author": "Philbrick, Nathaniel",
+    "call_number": null
+  },
+  {
+    "barcode": "B000337",
+    "title": "Vietnam Veteranos : Chicanos Recall the War",
+    "author": "Ybarra, Lea",
+    "call_number": null
+  },
+  {
+    "barcode": "B000345",
+    "title": "Tattoos and Tequila : To Hell and Back with One of Rock's Most Notorious Frontmen",
+    "author": "Vince, Neil",
+    "call_number": null
+  },
+  {
+    "barcode": "B000346",
+    "title": "Magic User : Reborn in Another World as a Max Level Wizard  Vol. 3 )",
+    "author": "Souhei, Mikawa",
+    "call_number": null
+  },
+  {
+    "barcode": "B000348",
+    "title": "Ise Business Foundations : a Changing World",
+    "author": "C., FerrellO.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000353",
+    "title": "Science of evil : on empathy and the origins of cruelty Simon Baron-Cohen",
+    "author": "Baron-Cohen, Simon",
+    "call_number": null
+  },
+  {
+    "barcode": "B000354",
+    "title": "Service Dog Training Guide : A Step-By-Step Training Program for You and Your Dog",
+    "author": "Hack, Jennifer",
+    "call_number": null
+  },
+  {
+    "barcode": "B000355",
+    "title": "Ultimate Service Dog Training Manual : A Complete Reference to Choosing, Raising, Socializing, Equipping, and Retiring Your Dog",
+    "author": "Grace, Keagen J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000356",
+    "title": "Hidden in Plain Sight : Beyond the X-Files",
+    "author": "Sauder, Richard",
+    "call_number": null
+  },
+  {
+    "barcode": "B000357",
+    "title": "The secret language of dogs : the body language of furry bodies Heather Dunphy",
+    "author": "Dunphy, Heather",
+    "call_number": null
+  },
+  {
+    "barcode": "B000359",
+    "title": "Don't shoot the dog! : the new art of teaching and training Karen Pryor.",
+    "author": "Pryor, Karen",
+    "call_number": null
+  },
+  {
+    "barcode": "B000362",
+    "title": "Autonomous : A Novel",
+    "author": "Newitz, Annalee",
+    "call_number": null
+  },
+  {
+    "barcode": "B000363",
+    "title": "Nothin' but a Good Time : The Uncensored History of the '80s Hard Rock Explosion",
+    "author": "Beaujour, Tom",
+    "call_number": null
+  },
+  {
+    "barcode": "B000365",
+    "title": "Construction Technology : trainee guide",
+    "author": "(U.S.), National Center for Construction Education and Research (NCCER)",
+    "call_number": null
+  },
+  {
+    "barcode": "B000367",
+    "title": "Put Your Best Face Forward : The Ultimate Guide to Skincare from Acne to Anti-Aging",
+    "author": "Lee, Sandra",
+    "call_number": null
+  },
+  {
+    "barcode": "B000370",
+    "title": "Let It Shine : Stories of Black Women Freedom Fighters",
+    "author": "Pinkney, Andrea Davis",
+    "call_number": null
+  },
+  {
+    "barcode": "B000371",
+    "title": "Restless Spirit : The Life and Work of Dorothea Lange",
+    "author": "Partridge, Elizabeth",
+    "call_number": null
+  },
+  {
+    "barcode": "B000373",
+    "title": "The food of Mexico : our southern neighbor Mexico Jan McDaniel.",
+    "author": "McDaniel, Jan",
+    "call_number": null
+  },
+  {
+    "barcode": "B000375",
+    "title": "Obsessed : A Psychological Thriller",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000378",
+    "title": "Lies He Told Me : The Most Surprising Suspense Novel since Gone Girl",
+    "author": "Patterson, James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000382",
+    "title": "The Purpose Driven Life : What on Earth am I Here for?",
+    "author": "Warren, Rick",
+    "call_number": null
+  },
+  {
+    "barcode": "B000383",
+    "title": "State of Fear : A Novel Michael Crichton",
+    "author": "Crichton, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000386",
+    "title": "Grief One Day at a Time : 365 Meditations to Help You Heal After Loss",
+    "author": "Ph.D, Alan D. Wolfelt",
+    "call_number": null
+  },
+  {
+    "barcode": "B000396",
+    "title": "The strategy of Satan : how to detect and defeat him Warren W. Wiersbe.",
+    "author": "Wiersbe, Warren W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000400",
+    "title": "The sixties : years of hope, days of rage Todd Gitlin.",
+    "author": "Gitlin, Todd",
+    "call_number": null
+  },
+  {
+    "barcode": "B000402",
+    "title": "The blessing Stone",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000404",
+    "title": "Edge 2014 a : Student Edition",
+    "author": "Moore, David W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000406",
+    "title": "Magic the Gathering : Advanced Strategy Guide : For Advanced and Expert Magic Players",
+    "author": "Tim, Moursund, Beth/ Justice, Mark/ Dedopulos,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000409",
+    "title": "Machine Learning For Absolute Beginners : A Plain English Introduction",
+    "author": "Theobald, Oliver",
+    "call_number": null
+  },
+  {
+    "barcode": "B000410",
+    "title": "Performance Pilot : Skills, Techniques, and Strategies to Maximize Your Flying Performance",
+    "author": "Bentley, Ross",
+    "call_number": null
+  },
+  {
+    "barcode": "B000415",
+    "title": "The art of network architecture : business-driven design Russ White, Denise Donohye",
+    "author": "White, Russ",
+    "call_number": null
+  },
+  {
+    "barcode": "B000419",
+    "title": "Represent yourself in court : how to prepare and try a winning case by Paul Bergman & Sara J. Berman-Barrett ; edited by Lisa Guerin.",
+    "author": "Bergman, Paul",
+    "call_number": null
+  },
+  {
+    "barcode": "B000420",
+    "title": "Warlock : The Egyptian Series 3",
+    "author": "Smith, Wilbur",
+    "call_number": null
+  },
+  {
+    "barcode": "B000422",
+    "title": "Fantastic Four : Island of Death",
+    "author": "Beland, Tom",
+    "call_number": null
+  },
+  {
+    "barcode": "B000425",
+    "title": "LooseLeaf for College Accounting : a Contemporary Approach",
+    "author": "Farina, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000426",
+    "title": "Small Business Management : Creating a Sustainable Competitive Advantage",
+    "author": "Hatten, Timothy S.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000427",
+    "title": "Beautiful Redemption : A Novel",
+    "author": "McGuire, Jamie",
+    "call_number": null
+  },
+  {
+    "barcode": "B000428",
+    "title": "The dynamics of mass communication : media in transition Joseph R. Dominick",
+    "author": "Dominick, Joseph R.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000432",
+    "title": "It's all in the frijoles : 100 famous Latinos share real-life stories, time-tested dichos, favorite folktales, and inspiring words of wisdom [edited by] Yolanda Nava",
+    "author": "Nava, Yolanda",
+    "call_number": null
+  },
+  {
+    "barcode": "B000434",
+    "title": "Oscar Wilde's wit and wisdom : a book of quotations Oscar Wilde.",
+    "author": "Wilde, Oscar",
+    "call_number": null
+  },
+  {
+    "barcode": "B000436",
+    "title": "The 22 non-negotiable laws of wellness : feel, think, and live better than you ever thought possible Greg Anderson.",
+    "author": "Greg, Anderson,",
+    "call_number": null
+  },
+  {
+    "barcode": "B000438",
+    "title": "Loose Woman : Poems",
+    "author": "Cisneros, Sandra",
+    "call_number": null
+  },
+  {
+    "barcode": "B000441",
+    "title": "Good and evil : the ultimate comic book action Bible Michael Pearl ; [artist, Danny Bulanadi]",
+    "author": "Pearl, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000448",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 9",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000449",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 8 : Volume 8",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000450",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 7",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000451",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 6 : Volume 6",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000452",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 5",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000453",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 4",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000454",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 3",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000455",
+    "title": "If It's for My Daughter, I'd Even Defeat a Demon Lord : Volume 2",
+    "author": "CHIROLU",
+    "call_number": null
+  },
+  {
+    "barcode": "B000465",
+    "title": "Sword Art Online 24 : Unital Ring III",
+    "author": "Kawahara, Reki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000466",
+    "title": "Sword Art Online 23 : Unital Ring II",
+    "author": "Kawahara, Reki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000467",
+    "title": "Sword Art Online 22 : Kiss and Fly",
+    "author": "Kawahara, Reki",
+    "call_number": null
+  },
+  {
+    "barcode": "B000473",
+    "title": "The man in the mirror : solving the 24 problems men face Patrick M. Morley ; foreword by R.C. Sproul",
+    "author": "Morley, Patrick M.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000474",
+    "title": "Eat safe : the truth about food additives from aspartame to xanthan gum Bill Statham.",
+    "author": "Statham, Bill",
+    "call_number": null
+  },
+  {
+    "barcode": "B000476",
+    "title": "XXX A new Breed of secret Agent",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000479",
+    "title": "XXX A new Breed of secret Agent",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000483",
+    "title": "Kingdom Man : Every Man's Destiny, Every Woman's Dream",
+    "author": "Evans, Tony",
+    "call_number": null
+  },
+  {
+    "barcode": "B000484",
+    "title": "The fifth witness : a novel Michael Connelly",
+    "author": "Connelly, Michael",
+    "call_number": null
+  },
+  {
+    "barcode": "B000497",
+    "title": "Perfect Family : A Novel",
+    "author": "Lewis, Pam",
+    "call_number": null
+  },
+  {
+    "barcode": "B000498",
+    "title": "Beauty for ashes : receiving emotional healing Joyce Meyer.",
+    "author": "Meyer, Joyce",
+    "call_number": null
+  },
+  {
+    "barcode": "B000499",
+    "title": "The Forgotten Man : A New History of the Great Depression",
+    "author": "Shlaes, Amity",
+    "call_number": null
+  },
+  {
+    "barcode": "B000500",
+    "title": "Blood Bond #4 : Gunsmoke and Gold (Blood Bond)",
+    "author": "Johnstone, William W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000501",
+    "title": "Imagine Heaven : Near-Death Experiences, God's Promises, and the Exhilarating Future That Awaits You",
+    "author": "Wright, Tristan",
+    "call_number": null
+  },
+  {
+    "barcode": "B000502",
+    "title": "Land of Wolves : A Longmire Mystery",
+    "author": "Johnson, Craig",
+    "call_number": null
+  },
+  {
+    "barcode": "B000503",
+    "title": "Who I Am : A Memoir",
+    "author": "Townshend, Pete",
+    "call_number": null
+  },
+  {
+    "barcode": "B000504",
+    "title": "Thousand pieces of gold : a biographical novel by Ruthanne Lum McCunn.",
+    "author": "McCunn, Ruthanne Lum",
+    "call_number": null
+  },
+  {
+    "barcode": "B000506",
+    "title": "Sixkiller, U.S. Marshal : day of rage William W. Johnstone with J. A. Johnstone",
+    "author": "Johnstone, William W.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000511",
+    "title": "Zane Grey Box Set : Four Western Classics Mass Merch Only",
+    "author": "Grey, Zane",
+    "call_number": null
+  },
+  {
+    "barcode": "B000512",
+    "title": "Mac's Land : A Sequel to Mac's Way",
+    "author": "Quist, Reg",
+    "call_number": null
+  },
+  {
+    "barcode": "B000516",
+    "title": "Season of the Vigilante, Book One : The Bloody Season (Season of the Vigilante)",
+    "author": null,
+    "call_number": null
+  },
+  {
+    "barcode": "B000518",
+    "title": "Swords Around the Throne : Twilight of Empire : Book Two",
+    "author": "Ross, Ian James",
+    "call_number": null
+  },
+  {
+    "barcode": "B000519",
+    "title": "Streets Of Laredo : A Novel",
+    "author": "McMurtry, Larry",
+    "call_number": null
+  },
+  {
+    "barcode": "B000526",
+    "title": "Furies of Calderon (Codex Alera) : Book one of the Codex Alera.",
+    "author": "Butcher, Jim",
+    "call_number": null
+  },
+  {
+    "barcode": "B000531",
+    "title": "The Empty Throne : A Novel",
+    "author": "Cornwell, Bernard",
+    "call_number": null
+  },
+  {
+    "barcode": "B000536",
+    "title": "Winter's Heart : Book Nine of The Wheel of Time",
+    "author": "Jordan, Robert",
+    "call_number": null
+  },
+  {
+    "barcode": "B000538",
+    "title": "Look Alive Twenty-Five : A Stephanie Plum Novel",
+    "author": "Evanovich, Janet",
+    "call_number": null
+  },
+  {
+    "barcode": "B000550",
+    "title": "Assassin's Blade : The Throne of Glass Novellas",
+    "author": "Maas, Sarah J.",
+    "call_number": null
+  },
+  {
+    "barcode": "B000552",
+    "title": "Expert Card Technique : Close-Up Table Magic",
+    "author": "Hugard, Jean",
+    "call_number": null
+  },
+  {
+    "barcode": "B000554",
+    "title": "Writing my wrongs : life, death, and redemption in an American prison Shaka Senghor",
+    "author": "Senghor, Shaka",
+    "call_number": null
+  },
+  {
+    "barcode": "B000563",
+    "title": "Water Dancer : A Novel",
+    "author": "Coates, Ta-Nehisi",
+    "call_number": null
+  },
+  {
+    "barcode": "B000567",
+    "title": "Glorious appearing : the end of days Tim LaHaye, Jerry B. Jenkins.",
+    "author": "LaHaye, Tim F.",
+    "call_number": null
+  }
+]

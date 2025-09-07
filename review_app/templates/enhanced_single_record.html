@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Project - Enhanced Record Review</title>
+    <style>
+        /* CSS styles from previous template */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* ... rest of the CSS styles ... */
+        
+        /* Enhanced Description Styles */
+        .enhanced-description-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .enhanced-description-section h3 {
+            margin: 0 0 15px 0;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .description-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .description-content p {
+            margin: 0 0 10px 0;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        
+        .description-source {
+            opacity: 0.8;
+            font-size: 0.9em;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 8px;
+            margin-top: 10px;
+        }
+        
+        .description-source small {
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-title">
+            <h2 style="margin: 0;">📚 Enhanced Record Review</h2>
+        </div>
+        <div class="progress-stats">
+            <div class="stat-item">
+                <span class="stat-count" id="total-count">{{ total_records }}</span>
+                <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count" id="pending-count">{{ pending_count }}</span>
+                <span class="stat-label">Pending</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count" id="approved-count">{{ approved_count }}</span>
+                <span class="stat-label">Approved</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count" id="rejected-count">{{ rejected_count }}</span>
+                <span class="stat-label">Rejected</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-count" id="progress-percent">{{ progress_percent }}%</span>
+                <span class="stat-label">Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Current Record with Quality Scoring -->
+        <div class="record-header">
+            <div class="record-info">
+                <h1 class="record-title">
+                    {{ record.title }}
+                </h1>
+                <p class="record-author">by {{ record.author }}</p>
+                
+                <!-- Data Quality Assessment -->
+                {% if record.data_quality_score is not none %}
+                <div class="quality-section">
+                    <h3 style="margin-top: 0; color: white;">📊 Data Quality Assessment</h3>
+                    <div class="quality-score" style="color: {{ get_quality_color(record.data_quality_score) }}">
+                        {{ "%.0f"|format(record.data_quality_score * 100) }}%
+                    </div>
+                    <div class="quality-bar">
+                        <div class="quality-fill" 
+                             style="width: {{ record.data_quality_score * 100 }}%; 
+                                    background: {{ get_quality_color(record.data_quality_score) }}"></div>
+                    </div>
+                    <div class="quality-labels">
+                        <span>Low Confidence</span>
+                        <span>High Confidence</span>
+                    </div>
+                    <p style="text-align: center; margin: 10px 0 0 0; opacity: 0.9; font-size: 0.9em;">
+                        Based on cross-checking across {{ record.data_sources_used|length }} data sources
+                    </p>
+                </div>
+                {% endif %}
+                
+                <!-- Record Details -->
+                <div class="record-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Record #</div>
+                        {{ record.record_number }} / {{ total_records }}
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">ISBN</div>
+                        {{ record.isbn or 'No ISBN' }}
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Price</div>
+                        {% if record.price is not none %}${{ "%.2f"|format(record.price) }}{% else %}No price{% endif %}
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Call Number</div>
+                        {{ record.call_number or 'Not assigned' }}
+                    </div>
+                </div>
+                
+                <!-- Data Sources Used -->
+                {% if record.data_sources_used %}
+                <div class="sources-section">
+                    <h3>📡 Data Sources Used</h3>
+                    <div class="sources-grid">
+                        {% for source in record.data_sources_used %}
+                        <div class="source-item">
+                            <div class="source-icon">{{ get_source_icon(source.source) }}</div>
+                            <div class="source-name">{{ source.source.replace('_', ' ') }}</div>
+                            <div class="source-confidence">
+                                {{ "%.0f"|format(source.confidence * 100) }}% confidence
+                                {% if source.cached %}(cached){% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Field Confidence Scores -->
+                {% if record.data_confidence_scores %}
+                <div class="confidence-section">
+                    <h3>🎯 Field Confidence Scores</h3>
+                    <div class="confidence-grid">
+                        {% for field, confidence in record.data_confidence_scores.items() %}
+                        <div class="confidence-item">
+                            <div class="confidence-field">{{ field|replace('_', ' ')|title }}</div>
+                            <div class="confidence-value">
+                                {{ "%.0f"|format(confidence * 100) }}% confidence
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Enhanced Description -->
+                {% if record.enhanced_description %}
+                <div class="enhanced-description-section">
+                    <h3>📝 Enhanced Description</h3>
+                    <div class="description-content">
+                        <p>{{ record.enhanced_description }}</p>
+                        {% if record.description_source %}
+                        <div class="description-source">
+                            <small>Source: {{ record.description_source|replace('_', ' ')|title }}</small>
+                            {% if record.description_timestamp %}
+                            <small> | Generated: {{ record.description_timestamp }}</small>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if record.cover_url %}
+            <img src="{{ url_for('serve_cover', filename=record.cover_url) }}" 
+                 alt="Cover image" class="record-cover"
+                 onerror="this.style.display='none'">
+            {% endif %}
+        </div>
+        
+        <!-- Review Section -->
+        <div class="review-section">
+            <h2 style="margin-top: 0;">Review Decision</h2>
+            
+            {% if record.decision %}
+            <div class="current-decision">
+                <div class="detail-label">Current Decision</div>
+                <span class="decision-text">{{ record.decision|upper }}</span>
+                {% if record.review_notes %}
+                <br><br><strong>Notes:</strong> {{ record.review_notes }}
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="decision-buttons">
+                <button class="btn btn-approve" onclick="setDecision('approve')">
+                    ✅ Approve
+                </button>
+                <button class="btn btn-reject-skip" onclick="setDecision('reject')">
+                    ❌ Reject/Skip
+                </button>
+                <button class="btn btn-info" onclick="setDecision('info')">
+                    ❓ Need Info
+                </button>
+                <button class="btn btn-save-next" onclick="submitReview()">
+                    💾 Save & Next Record
+                </button>
+            </div>
+            
+            <textarea id="review-notes" 
+                      placeholder="Add review notes or specific instructions...">{{ record.review_notes or '' }}</textarea>
+            
+            <div class="navigation-info">
+                Press "Save & Next Record" to save your decision and move to the next record
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript from previous template
+        let currentDecision = '';
+        
+        function setDecision(decision) {
+            currentDecision = decision;
+            // ... rest of the JavaScript ...
+        }
+        
+        function submitReview() {
+            // ... submit logic ...
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === '1') {
+                setDecision('approve');
+            } else if (event.key === '2') {
+                setDecision('reject');
+            } else if (event.key === '3') {
+                setDecision('info');
+            } else if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+                submitReview();
+            }
+        });
+    </script>
+</body>
+</html>

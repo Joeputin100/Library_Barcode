@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode Project - Record Review</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .record {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .record-info {
+            flex: 1;
+        }
+        .record-cover {
+            width: 120px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-left: 20px;
+        }
+        .record-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+        }
+        .record-author {
+            color: #7f8c8d;
+            margin: 0 0 10px 0;
+        }
+        .record-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .detail-item {
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+        .review-section {
+            border-top: 2px solid #eee;
+            padding-top: 15px;
+        }
+        .decision-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-approve {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-reject {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+        .btn-skip {
+            background: #95a5a6;
+            color: white;
+        }
+        .btn-selected {
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-problematic {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Barcode Project - Record Review</h1>
+        
+        <div id="records">
+            {% for record in records %}
+            <div class="record" id="record-{{ record.id }}">
+                <div class="record-header">
+                    <div class="record-info">
+                        <h2 class="record-title">
+                            {{ record.title }}
+                            <span class="status-badge status-{{ record.status }}">
+                                {{ record.status|upper }}
+                            </span>
+                        </h2>
+                        <p class="record-author">by {{ record.author }}</p>
+                        
+                        <div class="record-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Record #</div>
+                                {{ record.record_number }}
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">ISBN</div>
+                                {{ record.isbn or 'No ISBN' }}
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Price</div>
+                                {% if record.price is not none %}${{ "%.2f"|format(record.price) }}{% else %}No price{% endif %}
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Call Number</div>
+                                {{ record.call_number or 'Not assigned' }}
+                            </div>
+                        </div>
+                        
+                        {% if record.description %}
+                        <div class="detail-item">
+                            <div class="detail-label">Description</div>
+                            {{ record.description }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if record.notes %}
+                        <div class="detail-item">
+                            <div class="detail-label">Notes</div>
+                            {{ record.notes }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if record.cover_url %}
+                    <img src="{{ url_for('serve_cover', filename=record.cover_url) }}" 
+                         alt="Cover image" class="record-cover"
+                         onerror="this.style.display='none'">
+                    {% endif %}
+                </div>
+                
+                <div class="review-section">
+                    <h3>Review Decision</h3>
+                    
+                    {% if record.decision %}
+                    <div class="detail-item">
+                        <div class="detail-label">Current Decision</div>
+                        <strong>{{ record.decision|upper }}</strong>
+                        {% if record.review_notes %}
+                        <br>Notes: {{ record.review_notes }}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="decision-buttons">
+                        <button class="btn btn-approve" onclick="setDecision({{ record.id }}, 'approve')">
+                            ✅ Approve
+                        </button>
+                        <button class="btn btn-reject" onclick="setDecision({{ record.id }}, 'reject')">
+                            ❌ Reject
+                        </button>
+                        <button class="btn btn-info" onclick="setDecision({{ record.id }}, 'info')">
+                            ❓ Need Info
+                        </button>
+                        <button class="btn btn-skip" onclick="setDecision({{ record.id }}, 'skip')">
+                            ⏭️ Skip
+                        </button>
+                    </div>
+                    
+                    <textarea id="notes-{{ record.id }}" 
+                              placeholder="Add notes or specific instructions...">{{ record.review_notes or '' }}</textarea>
+                    
+                    <button class="btn" onclick="submitReview({{ record.id }})" 
+                            style="background: #2c3e50; color: white; margin-top: 10px;">
+                        💾 Save Decision
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="export-section">
+            <h2>Export Decisions</h2>
+            <p>When you've finished reviewing all records, export the decisions for CLI processing.</p>
+            <button class="btn" onclick="exportDecisions()" 
+                    style="background: #9b59b6; color: white; padding: 15px 30px;">
+                📤 Export All Decisions
+            </button>
+            <div id="export-result" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentDecisions = {};
+        
+        function setDecision(recordId, decision) {
+            currentDecisions[recordId] = decision;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll(`#record-${recordId} .decision-buttons .btn`);
+            buttons.forEach(btn => btn.classList.remove('btn-selected'));
+            
+            const decisionBtn = Array.from(buttons).find(btn => 
+                btn.textContent.toLowerCase().includes(decision)
+            );
+            if (decisionBtn) {
+                decisionBtn.classList.add('btn-selected');
+            }
+        }
+        
+        function submitReview(recordId) {
+            const decision = currentDecisions[recordId];
+            const notes = document.getElementById(`notes-${recordId}`).value;
+            
+            if (!decision) {
+                alert('Please select a decision first');
+                return;
+            }
+            
+            fetch('/api/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    record_id: recordId,
+                    decision: decision,
+                    notes: notes
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Decision saved successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving decision');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving decision');
+            });
+        }
+        
+        function exportDecisions() {
+            fetch('/api/export')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('export-result').innerHTML = 
+                            `<div style="color: green; font-weight: bold;">
+                                ✅ Decisions exported to: ${data.export_path}
+                            </div>`;
+                    } else {
+                        document.getElementById('export-result').innerHTML = 
+                            `<div style="color: red;">Error exporting decisions</div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('export-result').innerHTML = 
+                        `<div style="color: red;">Error exporting decisions</div>`;
+                });
+        }
+        
+        // Initialize button states from existing decisions
+        document.addEventListener('DOMContentLoaded', function() {
+            {% for record in records %}
+                {% if record.decision %}
+                    setDecision({{ record.id }}, '{{ record.decision }}');
+                {% endif %}
+            {% endfor %}
+        });
+    </script>
+</body>
+</html>

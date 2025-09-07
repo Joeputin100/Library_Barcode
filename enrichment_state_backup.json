@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-08-31T11:47:02.068731",
+  "total_cache_entries": 1023,
+  "source_counts": {
+    "GOOGLE_BOOKS": 458,
+    "LIBRARY_OF_CONGRESS": 451,
+    "OPEN_LIBRARY": 1,
+    "GOODREADS": 5,
+    "LIBRARY_THING": 0,
+    "WIKIPEDIA": 0,
+    "ISBNDB": 0,
+    "VERTEX_AI": 87
+  },
+  "active_sources": 5,
+  "inactive_sources": 3,
+  "overall_progress": 15.826113861386137
+}

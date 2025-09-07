@@ -1,0 +1,2612 @@
+{
+  "enriched_records": [
+    {
+      "record_number": 2,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: Treasures A Novel by Plain, Belva",
+      "title": "Treasures A Novel",
+      "author": "Plain, Belva",
+      "google_genres": [
+        "Ambition"
+      ],
+      "publication_year": "1992",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Treasures+A+Novel+Plain,+Belva&apikey=test",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 3,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: Random Winds by Plain, Beva",
+      "title": "Random Winds",
+      "author": "Plain, Beva",
+      "publication_year": "1980",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Random+Winds+Plain,+Beva&apikey=test",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 4,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: Mindfulness The Path to the Deathless by Sumedho, Ajahn",
+      "title": "Mindfulness The Path to the Deathless",
+      "author": "Sumedho, Ajahn",
+      "publication_year": "2012",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Mindfulness+The+Path+to+the+Deathless+Sumedho,+Ajahn&apikey=test",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 5,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: James Gould Cozzens - Guard of Honor",
+      "title": "James Gould Cozzens - Guard of Honor",
+      "author": "Unknown Author",
+      "google_genres": [
+        "World War, 1939-1945"
+      ],
+      "publication_year": "1948",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=James+Gould+Cozzens++Guard+of+Honor+Unknown+Author&apikey=test",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 6,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: Hustle Guide Book One by Hustle 2.0",
+      "title": "Hustle Guide Book One",
+      "author": "Hustle 2.0",
+      "publication_year": "2021",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Hustle+Guide+Book+One+Hustle+20&apikey=test",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 7,
+      "source": "isbn_file",
+      "original_input": "NO ISBN: California Veterans Resource Book 8th Edition",
+      "title": "California Veterans Resource Book 8th Edition",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Veterans"
+      ],
+      "publication_year": "2014",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=California+Veterans+Resource+Book+8th+Edition+Unknown+Author&apikey=test",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 8,
+      "source": "isbn_file",
+      "original_input": "091664202X",
+      "title": "091664202X",
+      "author": "Unknown Author",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=091664202X+Unknown+Author&apikey=test",
+      "data_quality": {
+        "score": 0.4000000000000001,
+        "confidence_scores": {
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 9,
+      "source": "isbn_file",
+      "original_input": "979-8-8098-6961-4",
+      "isbn": "979-8-8098-6961-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "error": "Permanent Open Library API request failed: 404 Client Error: Not Found for url: https://openlibrary.org/isbn/979-8-8098-6961-4.json",
+      "data_quality": {
+        "score": 0.8000000000000002,
+        "confidence_scores": {
+          "error": 0.8
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 10,
+      "source": "isbn_file",
+      "original_input": "979-8-6368-2161-8",
+      "isbn": "979-8-6368-2161-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/979-8-6368-2161-8",
+      "data_quality": {
+        "score": 0.4000000000000001,
+        "confidence_scores": {
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 11,
+      "source": "isbn_file",
+      "original_input": "979-8-5225-1008-4",
+      "isbn": "979-8-5225-1008-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "error": "Permanent Open Library API request failed: 404 Client Error: Not Found for url: https://openlibrary.org/isbn/979-8-5225-1008-4.json",
+      "data_quality": {
+        "score": 0.8000000000000002,
+        "confidence_scores": {
+          "error": 0.8
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 11,
+      "source": "isbn_file",
+      "original_input": "979-8-5225-1008-4",
+      "isbn": "979-8-5225-1008-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "processing_error": "name 'state' is not defined"
+    },
+    {
+      "record_number": 12,
+      "source": "isbn_file",
+      "original_input": "978-1-9757-5130-2",
+      "isbn": "978-1-9757-5130-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Atlanta (Ga.)"
+      ],
+      "publication_year": "2017",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9757-5130-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 13,
+      "source": "isbn_file",
+      "original_input": "978-1-9505-6582-5",
+      "isbn": "978-1-9505-6582-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "publication_year": "2019",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9505-6582-5",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 14,
+      "source": "isbn_file",
+      "original_input": "978-1-9420-1668-7",
+      "isbn": "978-1-9420-1668-7",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2022",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9420-1668-7",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 15,
+      "source": "isbn_file",
+      "original_input": "978-1-9370-0768-3",
+      "isbn": "978-1-9370-0768-3",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2012",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9370-0768-3",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 16,
+      "source": "isbn_file",
+      "original_input": "978-1-9363-9929-1",
+      "isbn": "978-1-9363-9929-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2013",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9363-9929-1",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 17,
+      "source": "isbn_file",
+      "original_input": "978-1-9345-7249-8",
+      "isbn": "978-1-9345-7249-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "History"
+      ],
+      "publication_year": "2010",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9345-7249-8",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 18,
+      "source": "isbn_file",
+      "original_input": "978-1-9136-9542-2",
+      "isbn": "978-1-9136-9542-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Danger"
+      ],
+      "publication_year": "2022",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9136-9542-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 19,
+      "source": "isbn_file",
+      "original_input": "978-1-9064-2779-5",
+      "isbn": "978-1-9064-2779-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Labyrinths"
+      ],
+      "publication_year": "2011",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-9064-2779-5",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 20,
+      "source": "isbn_file",
+      "original_input": "978-1-8920-0860-2",
+      "isbn": "978-1-8920-0860-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Business & Economics"
+      ],
+      "publication_year": "1999",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-8920-0860-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 21,
+      "source": "isbn_file",
+      "original_input": "978-1-8493-1162-5",
+      "isbn": "978-1-8493-1162-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Asia"
+      ],
+      "publication_year": "2019",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-8493-1162-5",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 21,
+      "source": "isbn_file",
+      "original_input": "978-1-8493-1162-5",
+      "isbn": "978-1-8493-1162-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "processing_error": "name 'state' is not defined"
+    },
+    {
+      "record_number": 22,
+      "source": "isbn_file",
+      "original_input": "978-1-8402-2624-9",
+      "isbn": "978-1-8402-2624-9",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2010",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-8402-2624-9",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 23,
+      "source": "isbn_file",
+      "original_input": "978-1-7896-6308-2",
+      "isbn": "978-1-7896-6308-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Computers"
+      ],
+      "publication_year": "2020",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-7896-6308-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 24,
+      "source": "isbn_file",
+      "original_input": "978-1-7351-8750-1",
+      "isbn": "978-1-7351-8750-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "publication_year": "2020",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-7351-8750-1",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 25,
+      "source": "isbn_file",
+      "original_input": "978-1-6951-8719-1",
+      "isbn": "978-1-6951-8719-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "publication_year": "2019",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6951-8719-1",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 26,
+      "source": "isbn_file",
+      "original_input": "978-1-6473-4630-0",
+      "isbn": "978-1-6473-4630-0",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "publication_year": "2021",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6473-4630-0",
+      "data_quality": {
+        "score": 0.8499999999999999,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 27,
+      "source": "isbn_file",
+      "original_input": "978-1-6447-3038-6",
+      "isbn": "978-1-6447-3038-6",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "True Crime"
+      ],
+      "publication_year": "2019",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6447-3038-6",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 28,
+      "source": "isbn_file",
+      "original_input": "978-1-6420-1110-4",
+      "isbn": "978-1-6420-1110-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Business & Economics"
+      ],
+      "publication_year": "2020",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6420-1110-4",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 29,
+      "source": "isbn_file",
+      "original_input": "978-1-6353-0692-7",
+      "isbn": "978-1-6353-0692-7",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Study Aids"
+      ],
+      "publication_year": "2020",
+      "error": "Permanent Open Library API request failed: 404 Client Error: Not Found for url: https://openlibrary.org/isbn/978-1-6353-0692-7.json",
+      "data_quality": {
+        "score": 0.9400000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.8
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 30,
+      "source": "isbn_file",
+      "original_input": "978-1-6314-9222-8",
+      "isbn": "978-1-6314-9222-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "History"
+      ],
+      "publication_year": "2016",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6314-9222-8",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 31,
+      "source": "isbn_file",
+      "original_input": "978-1-6196-3606-4",
+      "isbn": "978-1-6196-3606-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Young Adult Fiction"
+      ],
+      "publication_year": "2016",
+      "series_name": "Throne of Glass",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6196-3606-4",
+      "data_quality": {
+        "score": 0.8500000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "series_name": 0.8,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 31,
+      "source": "isbn_file",
+      "original_input": "978-1-6196-3606-4",
+      "isbn": "978-1-6196-3606-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "processing_error": "name 'state' is not defined"
+    },
+    {
+      "record_number": 32,
+      "source": "isbn_file",
+      "original_input": "978-1-6162-3839-1",
+      "isbn": "978-1-6162-3839-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Mind and body"
+      ],
+      "publication_year": "2011",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6162-3839-1",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 33,
+      "source": "isbn_file",
+      "original_input": "978-1-6151-9591-6",
+      "isbn": "978-1-6151-9591-6",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Nature"
+      ],
+      "publication_year": "2019",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6151-9591-6",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 34,
+      "source": "isbn_file",
+      "original_input": "978-1-6126-8019-4",
+      "isbn": "978-1-6126-8019-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Business & Economics"
+      ],
+      "publication_year": "2017",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6126-8019-4",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 35,
+      "source": "isbn_file",
+      "original_input": "978-1-6103-6192-7",
+      "isbn": "978-1-6103-6192-7",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Biography & Autobiography"
+      ],
+      "publication_year": "2017",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6103-6192-7",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 36,
+      "source": "isbn_file",
+      "original_input": "978-1-6016-2643-1",
+      "isbn": "978-1-6016-2643-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2015",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-6016-2643-1",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 37,
+      "source": "isbn_file",
+      "original_input": "978-1-5969-1227-4",
+      "isbn": "978-1-5969-1227-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2008",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5969-1227-4",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 38,
+      "source": "isbn_file",
+      "original_input": "978-1-5948-6400-1",
+      "isbn": "978-1-5948-6400-1",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Health & Fitness"
+      ],
+      "publication_year": "2006",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5948-6400-1",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 39,
+      "source": "isbn_file",
+      "original_input": "978-1-5946-3238-9",
+      "isbn": "978-1-5946-3238-9",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2014",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5946-3238-9",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 40,
+      "source": "isbn_file",
+      "original_input": "978-1-5918-5609-2",
+      "isbn": "978-1-5918-5609-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Religion"
+      ],
+      "publication_year": "2004",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5918-5609-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 41,
+      "source": "isbn_file",
+      "original_input": "978-1-5914-3171-8",
+      "isbn": "978-1-5914-3171-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Body, Mind & Spirit"
+      ],
+      "publication_year": "2014",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5914-3171-8",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 41,
+      "source": "isbn_file",
+      "original_input": "978-1-5914-3171-8",
+      "isbn": "978-1-5914-3171-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "processing_error": "name 'state' is not defined"
+    },
+    {
+      "record_number": 42,
+      "source": "isbn_file",
+      "original_input": "978-1-5901-7351-0",
+      "isbn": "978-1-5901-7351-0",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2010",
+      "series_name": "New York Review Books classics",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5901-7351-0",
+      "data_quality": {
+        "score": 0.8500000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "series_name": 0.8,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 43,
+      "source": "isbn_file",
+      "original_input": "978-1-5866-3844-3",
+      "isbn": "978-1-5866-3844-3",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "publication_year": "2003",
+      "series_name": "No fear Shakespeare",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5866-3844-3",
+      "data_quality": {
+        "score": 0.8400000000000001,
+        "confidence_scores": {
+          "publication_year": 1.0,
+          "series_name": 0.8,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 44,
+      "source": "isbn_file",
+      "original_input": "978-1-5851-6046-4",
+      "isbn": "978-1-5851-6046-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Bibles"
+      ],
+      "publication_year": "1999",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5851-6046-4",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 45,
+      "source": "isbn_file",
+      "original_input": "978-1-5697-5622-5",
+      "isbn": "978-1-5697-5622-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Humor"
+      ],
+      "publication_year": "2007",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5697-5622-5",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 46,
+      "source": "isbn_file",
+      "original_input": "978-1-5694-7542-3",
+      "isbn": "978-1-5694-7542-3",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2009",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5694-7542-3",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 47,
+      "source": "isbn_file",
+      "original_input": "978-1-5658-4656-2",
+      "isbn": "978-1-5658-4656-2",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "History"
+      ],
+      "publication_year": "2005",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5658-4656-2",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 48,
+      "source": "isbn_file",
+      "original_input": "978-1-5651-2560-5",
+      "isbn": "978-1-5651-2560-5",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "2007",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5651-2560-5",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 49,
+      "source": "isbn_file",
+      "original_input": "978-1-5636-3813-8",
+      "isbn": "978-1-5636-3813-8",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Biological products"
+      ],
+      "publication_year": "2012",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5636-3813-8",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 50,
+      "source": "isbn_file",
+      "original_input": "978-1-5627-9071-4",
+      "isbn": "978-1-5627-9071-4",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "Fiction"
+      ],
+      "publication_year": "1994",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5627-9071-4",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 51,
+      "source": "isbn_file",
+      "original_input": "978-1-5615-8113-9",
+      "isbn": "978-1-5615-8113-9",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "google_genres": [
+        "House & Home"
+      ],
+      "publication_year": "1996",
+      "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/api/thingISBN/978-1-5615-8113-9",
+      "data_quality": {
+        "score": 0.8600000000000001,
+        "confidence_scores": {
+          "google_genres": 0.9,
+          "publication_year": 1.0,
+          "error": 0.4
+        },
+        "sources_used": [
+          {
+            "source": "GOOGLE_BOOKS",
+            "cached": true,
+            "confidence": 0.9
+          },
+          {
+            "source": "OPEN_LIBRARY",
+            "cached": true,
+            "confidence": 0.8
+          },
+          {
+            "source": "GOODREADS",
+            "cached": true,
+            "confidence": 0.85
+          },
+          {
+            "source": "LIBRARY_THING",
+            "cached": false,
+            "confidence": 0.4
+          },
+          {
+            "source": "WIKIPEDIA",
+            "cached": false,
+            "confidence": 0.3
+          },
+          {
+            "source": "ISBNDB",
+            "cached": true,
+            "confidence": 0.9
+          }
+        ]
+      }
+    },
+    {
+      "record_number": 51,
+      "source": "isbn_file",
+      "original_input": "978-1-5615-8113-9",
+      "isbn": "978-1-5615-8113-9",
+      "title": "Unknown Title",
+      "author": "Unknown Author",
+      "processing_error": "name 'state' is not defined"
+    }
+  ],
+  "total_processed": 55,
+  "completion_time": "2025-08-30T22:14:38.809046",
+  "cache_stats": {
+    "size": 487
+  }
+}

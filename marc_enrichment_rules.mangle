@@ -1,0 +1,59 @@
+% MARC Book Enrichment Rules
+% Comprehensive data combination with conflict resolution
+
+% MARC Record Base Facts
+marc_record(Barcode, Title, Author, CallNumber, LCCN, ISBN).
+
+% Enriched Data Sources
+google_books_data(Barcode, Title, Author, Genres, Classification, Series, Volume, Year, Description).
+loc_data(Barcode, CallNumber, Subjects, PubInfo, PhysicalDesc, Notes).
+open_library_data(Barcode, Title, Author, Rating, Reviews, Subjects, Desc, FirstPubYear).
+vertex_ai_data(Barcode, Classification, Confidence, SourceURLs, Reviews, Genres, SeriesInfo, Years).
+
+% Combined Results with all enrichment fields
+enriched_book(
+    Barcode, 
+    FinalTitle, FinalAuthor, FinalClassification,
+    PubYear, Genres, Subjects, PhysicalDesc,
+    Rating, ReviewCount, Description, Notes,
+    Series, Volume, SourceURLs, Confidence
+).
+
+% Conflict Resolution Rules
+final_title(Barcode, Title, 'google_books', 0.9) :- google_books_data(Barcode, Title, _, _, _, _, _, _, _).
+final_title(Barcode, Title, 'loc', 0.8) :- loc_data(Barcode, _, _, Title, _, _).
+final_title(Barcode, Title, 'marc', 0.7) :- marc_record(Barcode, Title, _, _, _, _).
+
+final_author(Barcode, Author, 'google_books', 0.9) :- google_books_data(Barcode, _, Author, _, _, _, _, _, _).
+final_author(Barcode, Author, 'marc', 0.8) :- marc_record(Barcode, _, Author, _, _, _).
+
+final_classification(Barcode, Class, 'vertex_ai', Conf) :- vertex_ai_data(Barcode, Class, Conf, _, _, _, _, _), Conf >= 0.7.
+final_classification(Barcode, Class, 'google_books', 0.8) :- google_books_data(Barcode, _, _, _, Class, _, _, _, _).
+
+% Field aggregation
+combined_genres(Barcode, Genres) :-
+    findall(G, google_books_data(Barcode, _, _, G, _, _, _, _, _), G1),
+    findall(G, vertex_ai_data(Barcode, _, _, _, _, G, _, _), G2),
+    append(G1, G2, AllGenres),
+    sort(AllGenres, Genres).
+
+combined_subjects(Barcode, Subjects) :-
+    findall(S, loc_data(Barcode, _, S, _, _, _), S1),
+    findall(S, open_library_data(Barcode, _, _, _, _, S, _, _), S2),
+    append(S1, S2, AllSubjects),
+    sort(AllSubjects, Subjects).
+
+% Main enrichment rule
+enriched_book(
+    Barcode,
+    Title, Author, Classification,
+    Year, Genres, Subjects, PhysicalDesc,
+    Rating, Reviews, Description, Notes,
+    Series, Volume, Sources, Conf
+) :-
+    final_title(Barcode, Title, _, _),
+    final_author(Barcode, Author, _, _),
+    final_classification(Barcode, Classification, _, Conf),
+    combined_genres(Barcode, Genres),
+    combined_subjects(Barcode, Subjects),
+    vertex_ai_data(Barcode, _, _, Sources, _, _, Series, Year).

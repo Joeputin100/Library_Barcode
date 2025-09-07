@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-09-03T08:30:37.722710",
+  "total_records_processed": 369,
+  "source_counts_cumulative": {
+    "LIBRARY_OF_CONGRESS": 171,
+    "GOOGLE_BOOKS": 369,
+    "VERTEX_AI": 368,
+    "OPEN_LIBRARY": 0,
+    "NO_ENRICHMENT": -99
+  },
+  "runs_completed": 28,
+  "overall_completion_percentage": 45.611866501854145
+}

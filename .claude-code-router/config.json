@@ -1,0 +1,27 @@
+{
+  "LOG": false,
+  "LOG_LEVEL": "error",
+  "CLAUDE_PATH": "/data/data/com.termux/files/usr/bin/claude",
+  "HOST": "127.0.0.1",
+  "PORT": 3457,
+  "APIKEY": "sk-fde67183b1ce44c8a8aeeae9c4716e89",
+  "API_TIMEOUT_MS": 600000,
+  "transformers": [],
+  "Providers": [
+    {
+      "name": "deepseek",
+      "api_base_url": "http://localhost:8081",
+      "api_key": "sk-fde67183b1ce44c8a8aeeae9c4716e89",
+      "models": ["deepseek-chat"],
+      "max_tokens": 1024,
+      "max_context_tokens": 8192,
+      "temperature": 0.1
+    }
+  ],
+  "Router": {
+    "default": "deepseek,deepseek-chat",
+    "max_context_tokens": 8192,
+    "auto_compact": true,
+    "compact_threshold": 0.7
+  }
+}

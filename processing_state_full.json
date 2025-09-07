@@ -1,0 +1,29 @@
+{
+  "start_time": "2025-08-30T23:22:33.730153",
+  "total_records": 808,
+  "records_processed": 808,
+  "quality_scores": [
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8600000000000001,
+    0.8500000000000001
+  ],
+  "batches_completed": 17,
+  "status": "completed",
+  "source_counts": {
+    "isbn_file": 439,
+    "marc_file": 369
+  },
+  "last_updated": "2025-08-30T23:53:04.014791",
+  "current_batch": 17,
+  "completion_time": "2025-08-30T23:53:04.014462",
+  "final_record_count": 808,
+  "quality_stats": {
+    "average_score": 0.8514686468646865,
+    "total_records": 808
+  }
+}

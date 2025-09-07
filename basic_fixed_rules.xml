@@ -1,0 +1,78 @@
+<RuleSet RuleSetName="Basic Fixed Rules - Simple Fixes Only" ImportOrExport="import" version="2" StaticText="" StaticFieldSubfield="" >
+
+	<!-- Keep existing working rules -->
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="1"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="2"/>
+	</Rule>
+	<!-- ... include all other existing working rules ... -->
+
+	<!-- BASIC FIXED FIELD MAPPINGS - SIMPLE OPERATIONS ONLY -->
+	
+	<!-- 1. Publisher from 260a -->
+	<Rule RuleName="Publisher from 260a" FieldName="Bibliographic.Publisher" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="260a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 2. Publication Place from 260b -->
+	<Rule RuleName="PubPlace from 260b" FieldName="Bibliographic.PubPlace" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="260b"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 3. Copyright Date from 260c -->
+	<Rule RuleName="CopyrightDate from 260c" FieldName="Bibliographic.CopyrightDate" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="260c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 4. Barcode with B prefix - simple static text + field -->
+	<Rule RuleName="Barcode with B prefix" FieldName="Holdings.Barcode" Precedence="100" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="BarcodeStatic"/>
+		<Variable Name="rule2" Value="BarcodeNumber"/>
+		<Variable Name="boolean" Value="and"/>
+		<Variable Name="separator" Value=""/>
+	</Rule>
+	
+	<Rule RuleName="BarcodeStatic" FieldName="Holdings.Barcode" Precedence="101" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="B"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value=""/>
+	</Rule>
+	
+	<Rule RuleName="BarcodeNumber" FieldName="Holdings.Barcode" Precedence="102" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:001"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="001"/>
+	</Rule>
+	
+	<!-- 5. Basic fields -->
+	<Rule RuleName="ISBN from 020a" FieldName="Bibliographic.ISBN" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<Rule RuleName="Title from 245a" FieldName="Bibliographic.Title" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="245a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<Rule RuleName="Author from 100a" FieldName="Bibliographic.Author" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="100a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+</RuleSet>

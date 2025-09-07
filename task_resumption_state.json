@@ -78,9 +78,9 @@
     "mangle_enrichment_state.json"
   ],
   "git_status": {
-    "last_commit": "updating",
+    "last_commit": "7241507",
     "branch": "master",
     "remote": "origin",
-    "push_required": true
+    "push_required": false
   }
 }

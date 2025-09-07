@@ -1,0 +1,27 @@
+# Records requiring manual processing with book in hand
+# These 16 records failed during automated enrichment with error: "expected string or bytes-like object, got 'NoneType'"
+# Date: 2025-08-28
+
+B000303
+B000347
+B000349
+B000358
+B000381
+B000384
+B000390
+B000392
+B000402
+B000433
+B000476
+B000479
+B000513
+B000515
+B000516
+B000556
+
+# Instructions:
+# 1. Locate each physical book using the barcode
+# 2. Manually verify and record: ISBN, title, author, publisher, publication year
+# 3. Check for additional metadata: page count, dimensions, subject headings
+# 4. Update the books.csv file with complete information
+# 5. Re-run enrichment for these specific records

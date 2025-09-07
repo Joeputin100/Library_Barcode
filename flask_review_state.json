@@ -1,0 +1,99 @@
+{
+  "project": "Barcode Project Record Review System",
+  "status": "flask_app_initialized",
+  "app_port": 31337,
+  "app_url": "http://localhost:31337",
+  "start_time": "2025-08-25T17:30:00Z",
+  "last_updated": "2025-08-25T17:30:00Z",
+  
+  "flask_app": {
+    "location": "/data/data/com.termux/files/home/projects/barcode/review_app",
+    "main_file": "app.py",
+    "templates": "templates/index.html",
+    "database": "data/reviews.db",
+    "covers_directory": "static/covers",
+    "requirements": ["Flask==2.3.3", "requests==2.31.0", "python-dotenv==1.0.0"]
+  },
+  
+  "current_records_status": {
+    "total_records": 10,
+    "completed_review": 7,
+    "pending_review": 3,
+    "problematic_records": [5, 8, 9, 10],
+    "export_file": "../test_batch_export.marc",
+    "review_decisions_file": "../review_decisions.json"
+  },
+  
+  "review_workflow": {
+    "decisions_available": ["approve", "reject", "info", "skip"],
+    "approve": "Include in final MARC export with current data",
+    "reject": "Exclude from final export (problematic data)",
+    "info": "Request more information from user before decision",
+    "skip": "Skip for now, handle manually later"
+  },
+  
+  "problematic_records_details": {
+    "5": {
+      "title": "Hustle Guide Book One",
+      "author": "Hustle 2.0",
+      "issues": ["Cannot verify existence", "No ISBN", "Not in any databases"],
+      "recommendation": "Skip - requires manual verification",
+      "insurance_value": "$55.00 (placeholder)"
+    },
+    "8": {
+      "isbn": "979-8-8098-6961-4",
+      "issues": ["ISBN not found in registries", "No bibliographic data", "Possibly new/self-published"],
+      "recommendation": "Skip - unverifiable ISBN"
+    },
+    "9": {
+      "isbn": "979-8-6368-2161-8", 
+      "issues": ["ISBN not found in registries", "No bibliographic data", "Possibly new/self-published"],
+      "recommendation": "Skip - unverifiable ISBN"
+    },
+    "10": {
+      "isbn": "979-8-5225-1008-4",
+      "issues": ["ISBN not found in registries", "No bibliographic data", "Possibly new/self-published"],
+      "recommendation": "Skip - unverifiable ISBN"
+    }
+  },
+  
+  "next_actions": {
+    "immediate": [
+      "Start Flask app: cd review_app && python app.py",
+      "Access web interface at http://localhost:31337",
+      "Review all records and make decisions",
+      "Export decisions when complete"
+    ],
+    "after_review": [
+      "Process exported decisions in CLI",
+      "Update MARC export based on approvals",
+      "Handle 'need info' requests",
+      "Generate final report"
+    ]
+  },
+  
+  "state_persistence": {
+    "database": "SQLite with records and reviews tables",
+    "export_file": "review_decisions.json for CLI processing",
+    "backup_files": ["current_review_state.json", "flask_review_state.json"],
+    "recovery_instructions": "If Flask app crashes, restart and data will persist in database"
+  },
+  
+  "api_integrations": {
+    "google_books": {
+      "purpose": "Fetch cover images",
+      "status": "Integrated",
+      "caching": "Local cover images stored in static/covers",
+      "fallback": "No cover shown if not available"
+    }
+  },
+  
+  "cli_resumption_instructions": {
+    "after_flask_review": [
+      "Check review_decisions.json for exported decisions",
+      "Process each record based on decision",
+      "Update MARC export file accordingly",
+      "Handle any 'need info' requests from user notes"
+    ]
+  }
+}

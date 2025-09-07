@@ -1,0 +1,211 @@
+<RuleSet RuleSetName="Enhanced Import Rules with Custom Mappings" ImportOrExport="import" version="2"  StaticText="" StaticFieldSubfield="" >
+	<!-- Existing call number rules -->
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="1"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="2"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="2"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="3"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="3"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="4"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="4"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="5"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="5"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="6"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="6"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="7"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="7"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="8"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="8"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="9"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="9"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="10"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="F"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="12"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="E"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="13"/>
+	</Rule>
+	<Rule RuleName="Holdings.FundingSource" FieldName="Holdings.FundingSource" Precedence="5" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="8527"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	<Rule RuleName="Holdings.PurchaseDate" FieldName="Holdings.PurchaseDate" Precedence="5" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="format" Value="yyyymmdd"/>
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="8528"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- CUSTOM RULES ADDED FOR MARC ENRICHMENT -->
+	
+	<!-- 1. Publisher mapping from 264a -->
+	<Rule RuleName="Bibliographic.Publisher" FieldName="Bibliographic.Publisher" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 2. Publication place mapping from 264b -->
+	<Rule RuleName="Bibliographic.PublicationPlace" FieldName="Bibliographic.PublicationPlace" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264b"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 3. LCCN mapping from 010a -->
+	<Rule RuleName="Bibliographic.LCCN" FieldName="Bibliographic.LCCN" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="010a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 4. Cost mapping from 020c to Holdings.Cost -->
+	<Rule RuleName="Holdings.Cost" FieldName="Holdings.Cost" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 5. Date cleaning rule - remove 'c' prefix and trailing periods -->
+	<Rule RuleName="Bibliographic.CopyrightDate.Clean" FieldName="Bibliographic.CopyrightDate" Precedence="15" BooleanOperator="or" OperatorMethod="regexreplace">
+		<Variable Name="marcfield" Value="264c"/>
+		<Variable Name="pattern" Value="^c|\.$"/>
+		<Variable Name="replacement" Value=""/>
+	</Rule>
+	
+	<!-- 6. Call number construction from 852 subfields -->
+	<Rule RuleName="Holdings.CallNumber.Construction" FieldName="Holdings.CallNumber" Precedence="20" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="Holdings.CallNumber.852h"/>
+		<Variable Name="rule2" Value="Holdings.CallNumber.852i"/>
+		<Variable Name="rule3" Value="Holdings.CallNumber.852j"/>
+		<Variable Name="boolean" Value="and"/>
+		<Variable Name="separator" Value="&#10;"/>
+	</Rule>
+	
+	<Rule RuleName="Holdings.CallNumber.852h" FieldName="Holdings.CallNumber" Precedence="21" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852h"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852h"/>
+	</Rule>
+	
+	<Rule RuleName="Holdings.CallNumber.852i" FieldName="Holdings.CallNumber" Precedence="22" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852i"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852i"/>
+	</Rule>
+	
+	<Rule RuleName="Holdings.CallNumber.852j" FieldName="Holdings.CallNumber" Precedence="23" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852j"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852j"/>
+	</Rule>
+	
+	<!-- 7. Notes field simplification - only use 500a for simple genre -->
+	<Rule RuleName="Bibliographic.Notes.Simple" FieldName="Bibliographic.Notes" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="500a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- Existing rules continue... -->
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberMiddle" Precedence="11" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="Holdings.CallNumberMiddle.852h"/>
+		<Variable Name="rule2" Value="Holdings.CallNumberMiddle.852i"/>
+		<Variable Name="boolean" Value="or"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.852h" FieldName="Holdings.CallNumberMiddle" Precedence="12" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852h"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852h"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.852i" FieldName="Holdings.CallNumberMiddle" Precedence="13" BooleanOperator="and" OperatorMethod="concatenaterepeatablesubfield">
+		<Variable Name="marcfield" Value="852i"/>
+		<Variable Name="seperator" Value="&#10;"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberPrefix" Precedence="21" BooleanOperator="or" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852k"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852k"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberSuffix" Precedence="31" BooleanOperator="or" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852m"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852m"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberMiddle" Precedence="41" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="Holdings.CallNumberMiddle.082a"/>
+		<Variable Name="rule2" Value="Holdings.CallNumberMiddle.082b"/>
+		<Variable Name="boolean" Value="and"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.082a" FieldName="Holdings.CallNumberMiddle" Precedence="42" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setrepeatableto" Value="marc:082a"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="082a"/>
+		<Variable Name="delimiter" Value="&#10;"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.082b" FieldName="Holdings.CallNumberMiddle" Precedence="43" BooleanOperator="and" OperatorMethod="concatenaterepeatablesubfield">
+		<Variable Name="marcfield" Value="082b"/>
+		<Variable Name="seperator" Value="&#10;"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberMiddle" Precedence="51" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="Holdings.CallNumberMiddle.050a"/>
+		<Variable Name="rule2" Value="Holdings.CallNumberMiddle.050b"/>
+		<Variable Name="boolean" Value="and"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.050a" FieldName="Holdings.CallNumberMiddle" Precedence="52" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setrepeatableto" Value="marc:050a"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="050a"/>
+		<Variable Name="delimiter" Value="&#10;"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.050b" FieldName="Holdings.CallNumberMiddle" Precedence="53" BooleanOperator="and" OperatorMethod="concatenaterepeatablesubfield">
+		<Variable Name="marcfield" Value="050b"/>
+		<Variable Name="seperator" Value="&#10;"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle" FieldName="Holdings.CallNumberMiddle" Precedence="61" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="Holdings.CallNumberMiddle.051a"/>
+		<Variable Name="rule2" Value="Holdings.CallNumberMiddle.051b"/>
+		<Variable Name="boolean" Value="and"/>
+	</Rule>
+	<Rule RuleName="Holdings.CallNumberMiddle.051a" FieldName="Holdings.CallNumberMiddle" Precedence="62" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:051a"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="051a"/>
+	</Rule>
+</RuleSet>

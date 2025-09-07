@@ -51,11 +51,8 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
     output_lines.append("🔍 MANGLE ENRICHMENT MONITOR".center(separator_width))
     output_lines.append("=" * separator_width)
 
-    # Overall Progress
+    # Header only - removed progress metrics that were misleading
     TARGET_RECORDS = 809
-    overall_progress = (total_records / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
-    output_lines.append(f"📊 Overall Progress: {create_progress_bar(overall_progress, progress_bar_width)}")
-    output_lines.append(f"📦 Total Records Enriched: {total_records} / {TARGET_RECORDS}")
     output_lines.append("-" * separator_width)
 
     # Source Usage with proper percentages
@@ -89,9 +86,9 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
         # Add source utilization table (replaces bar chart)
         output_lines.append("\n   📊 SOURCE UTILIZATION TABLE:")
         
-        # Create a clean table format
-        table_header = "   Source              Records    % of Target"
-        table_separator = "   ------------------ ---------- ------------"
+        # Create a clean table format with enhanced records and API usage
+        table_header = "   Source              Enhanced   API Calls    Util %   Last Update"
+        table_separator = "   ------------------ ---------- ---------- -------- ------------"
         
         output_lines.append(table_header)
         output_lines.append(table_separator)
@@ -121,25 +118,63 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
                     completely_enriched_records += 1
                     
         except Exception as e:
-            # Fallback: use the difference method if we can't read the enriched file
-            completely_enriched_records = source_counts.get("total_records", 0) - source_counts.get("NO_ENRICHMENT", 0)
+            # Fallback: use the cumulative processed records minus NO_ENRICHMENT
+            # Read cumulative state to get the actual progress
+            try:
+                with open("cumulative_enrichment_state.json", "r") as f:
+                    cumulative = json.load(f)
+                completely_enriched_records = cumulative.get("total_records_processed", 0) - cumulative.get("source_counts_cumulative", {}).get("NO_ENRICHMENT", 0)
+            except:
+                # Ultimate fallback
+                completely_enriched_records = source_counts.get("total_records", 0) - source_counts.get("NO_ENRICHMENT", 0)
         
-        for source in sources_to_display:
-            count = source_counts.get(source, 0)
-            percentage = (count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
-            display_name = display_names.get(source, source.replace("_", " ").title())
-            output_lines.append(f"   {display_name:18} {count:7}     {percentage:6.1f}%")
+        # Get time since last enrichment for each source
+        try:
+            from api_calls import get_time_since_last_enrichment
+            
+            for source in sources_to_display:
+                api_calls = source_counts.get(source, 0)
+                # Calculate enhanced records (approximate - API calls with some logic)
+                if source == "GOOGLE_BOOKS" or source == "VERTEX_AI":
+                    # These are called for almost every record
+                    enhanced_records = min(api_calls, total_records)
+                else:
+                    # LOC and Open Library are called less frequently
+                    enhanced_records = min(api_calls, total_records)
+                
+                # Show API utilization percentage (calls per record)
+                api_utilization = (api_calls / total_records) * 100 if total_records > 0 else 0
+                display_name = display_names.get(source, source.replace("_", " ").title())
+                time_since = get_time_since_last_enrichment(source)
+                output_lines.append(f"   {display_name:18} {enhanced_records:7} {api_calls:9} {api_utilization:6.1f}%   {time_since:>6}")
+        except ImportError:
+            # Fallback if API calls module not available
+            current_time = datetime.now().strftime('%H:%M')
+            
+            for source in sources_to_display:
+                api_calls = source_counts.get(source, 0)
+                # Calculate enhanced records (approximate - API calls with some logic)
+                if source == "GOOGLE_BOOKS" or source == "VERTEX_AI":
+                    # These are called for almost every record
+                    enhanced_records = min(api_calls, total_records)
+                else:
+                    # LOC and Open Library are called less frequently
+                    enhanced_records = min(api_calls, total_records)
+                
+                # Show API utilization percentage (calls per record)
+                api_utilization = (api_calls / total_records) * 100 if total_records > 0 else 0
+                display_name = display_names.get(source, source.replace("_", " ").title())
+                output_lines.append(f"   {display_name:18} {enhanced_records:7} {api_calls:9} {api_utilization:6.1f}%   {current_time}")
         
-        # Display No Enrichment
+        # Display No Enrichment (without percentage)
         no_enrich_count = source_counts.get("NO_ENRICHMENT", 0)
-        no_enrich_percentage = (no_enrich_count / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
         output_lines.append(table_separator)
-        output_lines.append(f"   {'No Enrichment':18} {no_enrich_count:7}     {no_enrich_percentage:6.1f}%")
+        output_lines.append(f"   {'No Enrichment':18} {no_enrich_count:7}")
         
         # Total line - shows records with COMPLETE enrichment from ALL 4 sources
         output_lines.append(table_separator)
-        output_lines.append(f"   {'COMPLETE':18} {completely_enriched_records:7}     {(completely_enriched_records / TARGET_RECORDS) * 100:6.1f}%")
-        output_lines.append(f"   {'TARGET':18} {TARGET_RECORDS:7}     100.0%")
+        output_lines.append(f"   {'COMPLETE':18} {completely_enriched_records:7}")
+        output_lines.append(f"   {'TARGET':18} {TARGET_RECORDS:7}")
             
     else:
         output_lines.append("   No source data available yet.")
@@ -173,7 +208,14 @@ def display_mangle_dashboard(source_counts, total_records, previous_output_lines
 
     output_lines.append("-" * separator_width)
     
-    # Status and Timestamp
+    # Status and Timestamp - use cumulative progress for completion status
+    try:
+        with open("cumulative_enrichment_state.json", "r") as f:
+            cumulative = json.load(f)
+        overall_progress = cumulative.get("overall_completion_percentage", 0)
+    except:
+        overall_progress = (total_records / TARGET_RECORDS) * 100 if TARGET_RECORDS > 0 else 0
+    
     status = "✅ COMPLETE" if overall_progress >= 100 else "🔄 PROCESSING"
     output_lines.append(f"💡 STATUS: {status}")
     output_lines.append(f"🕒 Last Update: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -217,7 +259,7 @@ def main():
             
     except KeyboardInterrupt:
         print("\n\n🛑 Monitoring stopped by user")
-        print("📊 Final state saved to mangle_enrichment_state.json")
+        # Removed final state saved message
     except Exception as e:
         print(f"\n❌ Error in monitoring: {e}")
 

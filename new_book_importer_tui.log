@@ -1,5 +1,25 @@
-DEBUG: DEBUG: MainScreen.on_button_pressed called. Count: 1
-DEBUG: Selected file: /data/data/com.termux/files/home/projects/barcode/isbns_to_be_entered_2025088.txt
-DEBUG: DEBUG: MainScreen.on_button_pressed called. Count: 2
-DEBUG: Error loading data from BigQuery: Please install the 'db-dtypes' package to use this function.
-DEBUG: Error loading data from BigQuery: Please install the 'db-dtypes' package to use this function.
+2025-08-24 19:09:40,629 - DEBUG - Using selector: EpollSelector
+2025-08-24 19:09:40,795 - INFO - Initializing BigQuery client...
+2025-08-24 19:09:40,795 - INFO - Running in normal mode.
+2025-08-24 19:09:44,482 - INFO - Attempting to create BigQuery client...
+2025-08-24 19:09:44,485 - DEBUG - Checking None for explicit credentials as part of auth process...
+2025-08-24 19:09:44,486 - DEBUG - Checking Cloud SDK credentials as part of auth process...
+2025-08-24 19:09:48,764 - INFO - BigQuery client created successfully.
+2025-08-24 19:09:48,765 - INFO - Pushing MainScreen...
+2025-08-24 19:09:48,768 - INFO - MainScreen pushed.
+2025-08-24 19:09:52,242 - INFO - Loading data to table...
+2025-08-24 19:09:52,243 - DEBUG - This service is instrumented using OpenTelemetry. OpenTelemetry or one of its components could not be imported; please add compatible versions of opentelemetry-api and opentelemetry-instrumentation packages in order to get BigQuery Tracing data.
+2025-08-24 19:09:52,244 - DEBUG - Converted retries value: 3 -> Retry(total=3, connect=None, read=None, redirect=None, status=None)
+2025-08-24 19:09:52,249 - DEBUG - Starting new HTTPS connection (1): oauth2.googleapis.com:443
+2025-08-24 19:09:52,729 - DEBUG - https://oauth2.googleapis.com:443 "POST /token HTTP/1.1" 200 None
+2025-08-24 19:09:52,734 - DEBUG - Starting new HTTPS connection (1): bigquery.googleapis.com:443
+2025-08-24 19:09:53,856 - DEBUG - https://bigquery.googleapis.com:443 "POST /bigquery/v2/projects/static-webbing-461904-c4/jobs?prettyPrint=false HTTP/1.1" 200 None
+2025-08-24 19:09:54,150 - DEBUG - https://bigquery.googleapis.com:443 "GET /bigquery/v2/projects/static-webbing-461904-c4/queries/097a9174-25c6-4263-8ba7-4118c072f13c?maxResults=0&location=US&prettyPrint=false HTTP/1.1" 200 None
+2025-08-24 19:09:54,662 - DEBUG - https://bigquery.googleapis.com:443 "GET /bigquery/v2/projects/static-webbing-461904-c4/queries/097a9174-25c6-4263-8ba7-4118c072f13c?fields=jobReference%2CtotalRows%2CpageToken%2Crows&location=US&formatOptions.useInt64Timestamp=True&prettyPrint=false HTTP/1.1" 200 None
+2025-08-24 19:09:54,733 - ERROR - Error loading data from BigQuery: The row key <textual.widgets._data_table.RowKey object at 0x7467100ce0> already exists.
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/home/projects/barcode/new_book_importer_tui.py", line 258, in load_data_to_table
+    table.add_row(*row.values(), key=row[0])
+  File "/data/data/com.termux/files/usr/lib/python3.12/site-packages/textual/widgets/_data_table.py", line 1680, in add_row
+    raise DuplicateKey(f"The row key {row_key!r} already exists.")
+textual.widgets._data_table.DuplicateKey: The row key <textual.widgets._data_table.RowKey object at 0x7467100ce0> already exists.

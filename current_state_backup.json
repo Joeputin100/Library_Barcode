@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-09-06T22:15:00.000000",
+  "status": "manual_review_in_progress",
+  "active_sources": 4,
+  "inactive_sources": 4,
+  "total_records": 808,
+  "reviewed_records": 11,
+  "accepted_records": 3,
+  "needs_info_records": 8,
+  "flask_app_port": 31340,
+  "average_price": 24.38,
+  "price_range": "$10.00 - $100.00",
+  "data_quality_notes": "Systemic issues fixed: author names formatted, call number cutters corrected, notes field standardized",
+  "next_steps": ["continue_manual_review", "resolve_needs_info_records", "finalize_accept_reject_decisions", "marc_export_prep", "barcode_label_generation"]
+}

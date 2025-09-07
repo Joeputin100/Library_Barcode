@@ -1,0 +1,14 @@
+{
+  "start_time": "2025-08-30T21:11:27.552939",
+  "sources_processed": [],
+  "total_records": 50,
+  "records_processed": 55,
+  "quality_scores": [],
+  "validation_results": [],
+  "source_counts": {
+    "isbn_file": 50,
+    "marc_file": 0
+  },
+  "last_updated": "2025-08-30T22:14:38.808558",
+  "batches_completed": 5
+}

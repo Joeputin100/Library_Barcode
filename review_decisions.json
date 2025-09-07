@@ -1,0 +1,82 @@
+[
+  {
+    "record_number": 1,
+    "title": "Treasures",
+    "author": "Plain, Belva",
+    "isbn": "038530603X",
+    "decision": "approve",
+    "notes": ""
+  },
+  {
+    "record_number": 2,
+    "title": "Random Winds",
+    "author": "Plain, Beva",
+    "isbn": "0440038549",
+    "decision": "info",
+    "notes": "Needs a call number and price and genre information and description.  Use values from a different edition of the same book if you can't find the information for this particular edition. Apply that time globally."
+  },
+  {
+    "record_number": 3,
+    "title": "Mindfulness The Path to the Deathless",
+    "author": "Sumedho, Ajahn",
+    "isbn": "094667223X",
+    "decision": "info",
+    "notes": "Needs a call number and price and genre information and description.  Use values from a different edition of the same book if you can't find the information for this particular edition. Apply that time globally."
+  },
+  {
+    "record_number": 4,
+    "title": "Guard of Honor",
+    "author": "James Gould Cozzens",
+    "isbn": "0156375301",
+    "decision": "info",
+    "notes": "Needs a call number and price and genre information and description.  Use values from a different edition of the same book if you can't find the information for this particular edition. Apply that time globally."
+  },
+  {
+    "record_number": 5,
+    "title": "Hustle Guide Book One",
+    "author": "Hustle 2.0",
+    "isbn": "",
+    "decision": "reject",
+    "notes": "Remove from the list.  This will be a fully manual add."
+  },
+  {
+    "record_number": 6,
+    "title": "California Veterans Resource Book 8th Edition",
+    "author": "California Department of Veterans Affairs",
+    "isbn": "",
+    "decision": "info",
+    "notes": "Needs a call number and price and genre information and description.  Use values from a different edition of the same book if you can't find the information for this particular edition. Apply that time globally."
+  },
+  {
+    "record_number": 7,
+    "title": "The Great American Baseball Card Flipping, Trading and Bubble Gum Book",
+    "author": "Boyd, Brendan C. and Harris, Fred C.",
+    "isbn": "091664202X",
+    "decision": "info",
+    "notes": "Needs a call number and price and genre information and description.  Use values from a different edition of the same book if you can't find the information for this particular edition. Apply that rule globally."
+  },
+  {
+    "record_number": 8,
+    "title": "Unknown Title",
+    "author": "Unknown Author",
+    "isbn": "979-8-8098-6961-4",
+    "decision": "reject",
+    "notes": "This will be a fully manual add."
+  },
+  {
+    "record_number": 9,
+    "title": "Unknown Title",
+    "author": "Unknown Author",
+    "isbn": "979-8-6368-2161-8",
+    "decision": "reject",
+    "notes": "This will be a fully manual add."
+  },
+  {
+    "record_number": 10,
+    "title": "Unknown Title",
+    "author": "Unknown Author",
+    "isbn": "979-8-5225-1008-4",
+    "decision": "reject",
+    "notes": "This will be a fully manual add."
+  }
+]

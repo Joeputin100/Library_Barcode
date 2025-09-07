@@ -1,0 +1,77 @@
+<RuleSet RuleSetName="Simple Corrected Rules - Basic Operations Only" ImportOrExport="import" version="2" StaticText="" StaticFieldSubfield="" >
+
+	<!-- Keep existing working rules -->
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="1"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="2"/>
+	</Rule>
+	<!-- ... include all other existing working rules ... -->
+
+	<!-- SIMPLE CORRECTED FIELD MAPPINGS - BASIC OPERATIONS ONLY -->
+	
+	<!-- 1. Publisher from 264a (already working) -->
+	<Rule RuleName="Publisher from 264a" FieldName="Bibliographic.Publisher" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 2. Publication Place from 264b - SIMPLE MAPPING -->
+	<Rule RuleName="PubPlace from 264b" FieldName="Bibliographic.PubPlace" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264b"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 3. Copyright Date from 264c - simple trim (let Atriuum handle display) -->
+	<Rule RuleName="CopyrightDate from 264c" FieldName="Bibliographic.CopyrightDate" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 4. Cost from 020c - simple trim -->
+	<Rule RuleName="Cost from 020c" FieldName="Holdings.Cost" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 5. Call Number - use existing working call number rules -->
+	<!-- Let the existing call number rules handle this -->
+	
+	<!-- 6. Notes field -->
+	<Rule RuleName="Notes from 500a" FieldName="Bibliographic.Notes" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="500a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 7. Summary field -->
+	<Rule RuleName="Summary from 520a" FieldName="Bibliographic.Summary" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="520a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 8. Physical description -->
+	<Rule RuleName="PhysicalDesc from 300a" FieldName="Bibliographic.PhysicalDescription" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="300a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 9. ISBN -->
+	<Rule RuleName="ISBN from 020a" FieldName="Bibliographic.ISBN" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+</RuleSet>

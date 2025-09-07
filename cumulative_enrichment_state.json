@@ -1,13 +1,13 @@
 {
-  "timestamp": "2025-09-02T17:20:43.354969",
-  "total_records_processed": 369,
+  "timestamp": "2025-09-03T22:14:57.243131",
+  "total_records_processed": 790,
   "source_counts_cumulative": {
-    "LIBRARY_OF_CONGRESS": 140,
-    "GOOGLE_BOOKS": 300,
-    "VERTEX_AI": 10,
-    "OPEN_LIBRARY": 10,
-    "NO_ENRICHMENT": 369
+    "LIBRARY_OF_CONGRESS": 4613,
+    "GOOGLE_BOOKS": 9945,
+    "VERTEX_AI": 9918,
+    "OPEN_LIBRARY": 7269,
+    "NO_ENRICHMENT": 19
   },
-  "runs_completed": 4,
-  "overall_completion_percentage": 54.388133498145855
+  "runs_completed": 56,
+  "overall_completion_percentage": 97.6514215080346
 }

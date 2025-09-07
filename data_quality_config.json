@@ -1,0 +1,67 @@
+{
+  "validation_rules": {
+    "title": {
+      "required": true,
+      "max_length": 500,
+      "sources": ["google_books", "loc", "original", "vertex_ai"],
+      "conflict_resolution": "google_books"
+    },
+    "author": {
+      "required": true,
+      "max_length": 200,
+      "sources": ["google_books", "loc", "original", "vertex_ai"],
+      "conflict_resolution": "google_books"
+    },
+    "isbn": {
+      "required": false,
+      "pattern": "^[0-9X-]+$",
+      "sources": ["google_books", "loc", "original"],
+      "conflict_resolution": "google_books"
+    },
+    "publication_year": {
+      "required": false,
+      "min_value": 1400,
+      "max_value": 2025,
+      "sources": ["google_books", "loc", "original"],
+      "conflict_resolution": "most_recent"
+    },
+    "publisher": {
+      "required": false,
+      "max_length": 150,
+      "sources": ["google_books", "loc"],
+      "conflict_resolution": "google_books"
+    },
+    "page_count": {
+      "required": false,
+      "min_value": 1,
+      "max_value": 5000,
+      "sources": ["google_books"],
+      "conflict_resolution": "google_books"
+    },
+    "subjects": {
+      "required": false,
+      "sources": ["google_books", "loc", "vertex_ai"],
+      "conflict_resolution": "merge_all"
+    },
+    "description": {
+      "required": false,
+      "max_length": 2000,
+      "sources": ["google_books", "vertex_ai"],
+      "conflict_resolution": "longest"
+    }
+  },
+  "source_priority": ["google_books", "loc", "vertex_ai", "original"],
+  "validation_levels": {
+    "ERROR": ["missing_required_field", "invalid_format"],
+    "WARNING": ["length_violation", "value_out_of_range"],
+    "CONFLICT": ["source_disagreement"],
+    "INFO": ["validation_passed", "source_agreement"]
+  },
+  "output_options": {
+    "generate_report": true,
+    "export_validated_data": true,
+    "flag_conflicts": true,
+    "create_skip_list": true,
+    "report_format": "json"
+  }
+}

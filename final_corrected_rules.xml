@@ -1,0 +1,98 @@
+<RuleSet RuleSetName="Final Corrected Rules - All Issues Fixed" ImportOrExport="import" version="2" StaticText="" StaticFieldSubfield="" >
+
+	<!-- Keep existing working rules but with higher precedence for our rules -->
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="1"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="2"/>
+	</Rule>
+	<!-- ... include all other existing working rules ... -->
+
+	<!-- FINAL CORRECTED FIELD MAPPINGS - HIGH PRECEDENCE -->
+	
+	<!-- 1. Publisher from 260a - remove trailing comma -->
+	<Rule RuleName="Publisher from 260a" FieldName="Bibliographic.Publisher" Precedence="100" BooleanOperator="or" OperatorMethod="substring">
+		<Variable Name="marcfield" Value="260a"/>
+		<Variable Name="start" Value="1"/>
+		<Variable Name="length" Value="13"/>
+	</Rule>
+	
+	<!-- 2. Publication Place from 260b - remove trailing comma -->
+	<Rule RuleName="PubPlace from 260b" FieldName="Bibliographic.PubPlace" Precedence="100" BooleanOperator="or" OperatorMethod="substring">
+		<Variable Name="marcfield" Value="260b"/>
+		<Variable Name="start" Value="1"/>
+		<Variable Name="length" Value="9"/>
+	</Rule>
+	
+	<!-- 3. Clean Copyright Date from 260c - remove 'c' and comma -->
+	<Rule RuleName="CleanCopyrightDate" FieldName="Bibliographic.CopyrightDate" Precedence="100" BooleanOperator="or" OperatorMethod="substring">
+		<Variable Name="marcfield" Value="260c"/>
+		<Variable Name="start" Value="2"/>
+		<Variable Name="length" Value="4"/>
+	</Rule>
+	
+	<!-- 4. Barcode - ensure B prefix -->
+	<Rule RuleName="Barcode with Prefix" FieldName="Holdings.Barcode" Precedence="100" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="BarcodePrefix"/>
+		<Variable Name="rule2" Value="BarcodeNumber"/>
+		<Variable Name="boolean" Value="and"/>
+		<Variable Name="separator" Value=""/>
+	</Rule>
+	
+	<Rule RuleName="BarcodePrefix" FieldName="Holdings.Barcode" Precedence="101" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="B"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value=""/>
+	</Rule>
+	
+	<Rule RuleName="BarcodeNumber" FieldName="Holdings.Barcode" Precedence="102" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:001"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="001"/>
+	</Rule>
+	
+	<!-- 5. Complete Call Number with year -->
+	<Rule RuleName="CompleteCallNumber" FieldName="Holdings.CallNumber" Precedence="100" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="CallNumberBase"/>
+		<Variable Name="rule2" Value="CallNumberYear"/>
+		<Variable Name="boolean" Value="and"/>
+		<Variable Name="separator" Value=" "/>
+	</Rule>
+	
+	<Rule RuleName="CallNumberBase" FieldName="Holdings.CallNumber" Precedence="101" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852h marc:852i"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852h"/>
+	</Rule>
+	
+	<Rule RuleName="CallNumberYear" FieldName="Holdings.CallNumber" Precedence="102" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:260c"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="260c"/>
+	</Rule>
+	
+	<!-- 6. Basic fields with simple mapping -->
+	<Rule RuleName="ISBN from 020a" FieldName="Bibliographic.ISBN" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<Rule RuleName="Title from 245a" FieldName="Bibliographic.Title" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="245a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<Rule RuleName="Author from 100a" FieldName="Bibliographic.Author" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="100a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+</RuleSet>

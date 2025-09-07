@@ -1,0 +1,40 @@
+<RuleSet RuleSetName="Minimal Test Rules" ImportOrExport="import" version="2" StaticText="" StaticFieldSubfield="" >
+
+	<!-- Keep ONLY the most essential existing rules that were working -->
+	<Rule RuleName="Holdings.ReportClassCode.0" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	
+	<!-- SIMPLEST POSSIBLE CUSTOM RULES -->
+	
+	<!-- 1. Publisher - Most basic mapping -->
+	<Rule RuleName="PublisherBasic" FieldName="Bibliographic.Publisher" Precedence="100" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 2. Cost - Simple price mapping -->
+	<Rule RuleName="CostBasic" FieldName="Holdings.Cost" Precedence="101" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 3. Call Number - Simple construction -->
+	<Rule RuleName="CallNumberBasic" FieldName="Holdings.CallNumber" Precedence="102" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="852h"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 4. Notes - Direct mapping -->
+	<Rule RuleName="NotesBasic" FieldName="Bibliographic.Notes" Precedence="103" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="500a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+</RuleSet>

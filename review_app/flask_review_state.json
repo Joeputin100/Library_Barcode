@@ -1,0 +1,12 @@
+{
+  "last_updated": "2025-09-06T21:32:28.000000",
+  "total_records": 808,
+  "enhanced_records": 808,
+  "enhanced_description_coverage": 100.0,
+  "data_quality_avg": 0.92,
+  "reviewed_records": 11,
+  "accepted_records": 3,
+  "needs_info_records": 8,
+  "status": "review_in_progress",
+  "notes": "Enhanced descriptions loaded with clean field data. Source attributions separated from field values. Navigation enhanced with 'Go To' functionality."
+}

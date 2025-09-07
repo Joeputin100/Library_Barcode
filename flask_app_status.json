@@ -1,0 +1,34 @@
+{
+  "timestamp": "2025-01-18T00:00:00Z",
+  "flask_app_status": "RUNNING",
+  "app_name": "Comprehensive Enhanced Review Application",
+  "port": 31340,
+  "access_url": "http://localhost:31340",
+  "records_loaded": 808,
+  "data_source": "enriched_data_with_enhanced_descriptions.json",
+  "features": [
+    "MLE-Star rules integration",
+    "Reliability scoring system",
+    "Full MARC field display",
+    "Multi-source data quality assessment",
+    "Record review and approval system"
+  ],
+  "marc_fields_available": [
+    "title",
+    "author", 
+    "isbn",
+    "publisher",
+    "publication_date",
+    "physical_description",
+    "series",
+    "subjects",
+    "language",
+    "description"
+  ],
+  "deprecated_apps_archived": [
+    "app.py",
+    "enhanced_app.py"
+  ],
+  "archive_location": "archive/deprecated_flask_apps/",
+  "status": "READY_FOR_REVIEW"
+}

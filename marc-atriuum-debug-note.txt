@@ -1,0 +1,18 @@
+
+  Test files available for debugging:
+  1. copy_of_working.mrc - Exact copy of your working file
+  (baseline test)
+  2. minimal_020_test.mrc - Simple 020 field with just $a
+  subfield
+  3. test_020_only.mrc - 020 field with all subfields ($a,
+  $c, $z, $q)
+  4. careful_020_test.mrc - Extremely careful format
+  matching
+
+  To resume testing:
+  1. Import copy_of_working.mrc first to confirm basic
+  functionality works
+  2. Then test minimal_020_test.mrc to see if simple 020
+  field works
+  3. Finally test test_020_only.mrc to identify which
+  additional subfields cause issues

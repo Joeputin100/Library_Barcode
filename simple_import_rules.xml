@@ -1,0 +1,87 @@
+<RuleSet RuleSetName="Simple MARC Enrichment Rules" ImportOrExport="import" version="2" StaticText="" StaticFieldSubfield="" >
+
+	<!-- Keep existing working rules -->
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="0"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="1"/>
+	</Rule>
+	<Rule RuleName="Holdings.ReportClassCode" FieldName="Holdings.ReportClassCode" Precedence="5" BooleanOperator="or" OperatorMethod="beginswith">
+		<Variable Name="compareto" Value="1"/>
+		<Variable Name="marcfield" Value="CallNumber"/>
+		<Variable Name="setto" Value="2"/>
+	</Rule>
+	<!-- ... include all other existing rules that were working ... -->
+
+	<!-- SIMPLE CUSTOM RULES - Atriuum compatible field names -->
+	
+	<!-- 1. Publisher from 264a -->
+	<Rule RuleName="Publisher from 264a" FieldName="Bibliographic.Publisher" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 2. Publication Place from 264b -->
+	<Rule RuleName="PubPlace from 264b" FieldName="Bibliographic.PubPlace" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="264b"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 3. LCCN from 010a -->
+	<Rule RuleName="LCCN from 010a" FieldName="Bibliographic.LCCN" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="010a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 4. Cost from 020c - Use standard Atriuum cost field -->
+	<Rule RuleName="Cost from 020c" FieldName="Holdings.Cost" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="020c"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- 5. Simple call number construction -->
+	<Rule RuleName="CallNumber from 852" FieldName="Holdings.CallNumber" Precedence="20" BooleanOperator="or" OperatorMethod="compositeoperator">
+		<Variable Name="rule1" Value="CallNumberPart1"/>
+		<Variable Name="rule2" Value="CallNumberPart2"/>
+		<Variable Name="rule3" Value="CallNumberPart3"/>
+		<Variable Name="boolean" Value="and"/>
+		<Variable Name="separator" Value="&#10;"/>
+	</Rule>
+	
+	<Rule RuleName="CallNumberPart1" FieldName="Holdings.CallNumber" Precedence="21" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852h"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852h"/>
+	</Rule>
+	
+	<Rule RuleName="CallNumberPart2" FieldName="Holdings.CallNumber" Precedence="22" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852i"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852i"/>
+	</Rule>
+	
+	<Rule RuleName="CallNumberPart3" FieldName="Holdings.CallNumber" Precedence="23" BooleanOperator="and" OperatorMethod="notequals">
+		<Variable Name="setto" Value="marc:852j"/>
+		<Variable Name="compareto" Value=""/>
+		<Variable Name="marcfield" Value="852j"/>
+	</Rule>
+	
+	<!-- 6. Simple notes - just use 500a directly -->
+	<Rule RuleName="Notes from 500a" FieldName="Bibliographic.Notes" Precedence="10" BooleanOperator="or" OperatorMethod="trim">
+		<Variable Name="ltrim" Value="0"/>
+		<Variable Name="marcfield" Value="500a"/>
+		<Variable Name="rtrim" Value="0"/>
+	</Rule>
+	
+	<!-- Date cleaning using simpler method -->
+	<Rule RuleName="Clean Copyright Date" FieldName="Bibliographic.CopyrightDate" Precedence="15" BooleanOperator="or" OperatorMethod="substring">
+		<Variable Name="marcfield" Value="264c"/>
+		<Variable Name="start" Value="1"/>
+		<Variable Name="length" Value="4"/>
+	</Rule>
+	
+</RuleSet>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record 1 - Comprehensive Review</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 0;
+            font-size: 0.8em;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 6px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1em;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.7em;
+            opacity: 0.8;
+        }
+        
+        .accepted { color: #27ae60; }
+        .rejected { color: #e74c3c; }
+        .needs-info { color: #f39c12; }
+        .unreviewed { color: #95a5a6; }
+        
+        .navigation {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .nav-button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .record-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .record-header {
+            background: #ecf0f1;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .record-title {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        
+        .record-meta {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .fields-section {
+            padding: 20px;
+        }
+        
+        .field-group {
+            margin-bottom: 25px;
+        }
+        
+        .field-group-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .field-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .field-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .field-value {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .field-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85em;
+            color: #7f8c8d;
+        }
+        
+        .confidence {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #e8f4fd;
+            color: #2980b9;
+        }
+        
+        .confidence.high { background: #d4edda; color: #155724; }
+        .confidence.medium { background: #fff3cd; color: #856404; }
+        .confidence.low { background: #f8d7da; color: #721c24; }
+        
+        .review-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #ddd;
+        }
+        
+        .notes-area {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .action-button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .accept-btn { background: #27ae60; color: white; }
+        .accept-btn:hover { background: #219a52; }
+        
+        .reject-btn { background: #e74c3c; color: white; }
+        .reject-btn:hover { background: #d62c1a; }
+        
+        .needs-info-btn { background: #f39c12; color: white; }
+        .needs-info-btn:hover { background: #e67e22; }
+        
+        .source-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: #e8f4fd;
+            color: #2980b9;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sticky-header">
+        <div>
+            <h2>Record #1</h2>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">808</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number accepted">0</div>
+                <div class="stat-label">Accepted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number rejected">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number needs-info">0</div>
+                <div class="stat-label">Needs Info</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number unreviewed">808</div>
+                <div class="stat-label">Unreviewed</div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            
+            <button class="nav-button" disabled>← Previous</button>
+            
+            
+            
+            <button class="nav-button" onclick="window.location.href='/record/2'">
+                Next →
+            </button>
+            
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="record-card">
+            <div class="record-header">
+                <h1 class="record-title">Treasures A Novel</h1>
+                <div class="record-meta">
+                    Plain, Belva • 
+                    Record #1 • 
+                    
+                    Overall Quality: Very High
+                    
+                </div>
+            </div>
+            
+            <div class="fields-section">
+                
+                <div class="field-item">
+                    <div class="field-label">Title (245)</div>
+                    <div class="field-value">Treasures A Novel</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Author (100)</div>
+                    <div class="field-value">Plain, Belva</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Publication Date (264$c)</div>
+                    <div class="field-value">1992</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Subjects (650)</div>
+                    <div class="field-value">Ambition</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Genre (655)</div>
+                    <div class="field-value">Ambition</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Language (008/041)</div>
+                    <div class="field-value">en</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Overall Quality Score</div>
+                    <div class="field-value">0.8600000000000001</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Record Number</div>
+                    <div class="field-value">1</div>
+                    <div class="field-meta">
+                        <span class="confidence low">
+                            Reliability: Very Low
+                        </span>
+                        
+                    </div>
+                </div>
+                
+                <div class="field-item">
+                    <div class="field-label">Vertex AI Correction</div>
+                    <div class="field-value">This record was identified by Vertex AI as a likely misspelling of a well-known book. Suggested correction: &#34;Treasures: A Novel&#34; by Belva Plain.</div>
+                    <div class="field-meta">
+                        <span class="confidence high">
+                            Reliability: Excellent
+                        </span>
+                        
+                        <span>
+                            Sources: 
+                            
+                            <span class="source-badge">VERTEX_AI</span>
+                            
+                        </span>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="review-section">
+                <h3>Review Decision</h3>
+                <form method="POST" action="/record/1/action">
+                    <textarea 
+                        name="notes" 
+                        class="notes-area" 
+                        placeholder="Add review notes here..."
+                    ></textarea>
+                    
+                    <div class="action-buttons">
+                        <button type="submit" name="action" value="accept" class="action-button accept-btn">
+                            ✅ Accept
+                        </button>
+                        <button type="submit" name="action" value="reject" class="action-button reject-btn">
+                            ❌ Exclude
+                        </button>
+                        <button type="submit" name="action" value="needs_info" class="action-button needs-info-btn">
+                            ❓ Needs Info
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

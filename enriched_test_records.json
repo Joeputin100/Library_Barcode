@@ -1,0 +1,437 @@
+[
+  {
+    "id": "00002878",
+    "title": "God Of Land",
+    "author": "Grey, Phoenix",
+    "lccn": null,
+    "publication_year": "2021",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=God+Of+Land+Grey,+Phoenix&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002712",
+    "title": "Angel Of Death",
+    "author": "Higgins, Jack",
+    "lccn": null,
+    "publication_year": "2010",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Angel+Of+Death+Higgins,+Jack&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002943",
+    "google_genres": [
+      "Humor"
+    ],
+    "publication_year": "1991",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=+&apikey=test",
+    "data_quality": {
+      "score": 0.8600000000000001,
+      "confidence_scores": {
+        "google_genres": 0.9,
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002592",
+    "title": "Wildflower Hill",
+    "author": "Freeman, Kimberly",
+    "lccn": null,
+    "google_genres": [
+      "Fiction"
+    ],
+    "publication_year": "2014",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Wildflower+Hill+Freeman,+Kimberly&apikey=test",
+    "data_quality": {
+      "score": 0.8600000000000001,
+      "confidence_scores": {
+        "google_genres": 0.9,
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002499",
+    "title": "Honest Doubt",
+    "author": "Cross, Amanda",
+    "lccn": null,
+    "publication_year": "1880",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Honest+Doubt+Cross,+Amanda&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002354",
+    "title": "Smoke Screen",
+    "author": "Brown, Sandra",
+    "lccn": null,
+    "google_genres": [
+      "Fiction"
+    ],
+    "publication_year": "2022",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Smoke+Screen+Brown,+Sandra&apikey=test",
+    "data_quality": {
+      "score": 0.8600000000000001,
+      "confidence_scores": {
+        "google_genres": 0.9,
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002912",
+    "title": "Spellbound",
+    "author": "Correia, Larry",
+    "lccn": null,
+    "publication_year": "1994",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Spellbound+Correia,+Larry&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00023850",
+    "title": "Goblin Slayer Volume 7",
+    "author": "Kagyu, Kumo",
+    "lccn": null,
+    "google_genres": [
+      "Comics & Graphic Novels"
+    ],
+    "volume_number": "7",
+    "publication_year": "2019",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Goblin+Slayer+Volume+7+Kagyu,+Kumo&apikey=test",
+    "data_quality": {
+      "score": 0.8666666666666667,
+      "confidence_scores": {
+        "google_genres": 0.9,
+        "volume_number": 0.9,
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002808",
+    "title": "Seventh Scoll, The",
+    "author": "Smith, Wilbur",
+    "lccn": null,
+    "publication_year": "2003",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Seventh+Scoll+The+Smith,+Wilbur&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  },
+  {
+    "id": "00002767",
+    "title": "Fullmetal Alchemist:",
+    "author": "Arakawa, Hiromu",
+    "lccn": null,
+    "publication_year": "2002",
+    "error": "LibraryThing API request failed: 403 Client Error: Forbidden for url: https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&name=Fullmetal+Alchemist:+Arakawa,+Hiromu&apikey=test",
+    "data_quality": {
+      "score": 0.8499999999999999,
+      "confidence_scores": {
+        "publication_year": 1.0,
+        "error": 0.4
+      },
+      "sources_used": [
+        {
+          "source": "GOOGLE_BOOKS",
+          "cached": false,
+          "confidence": 0.9
+        },
+        {
+          "source": "OPEN_LIBRARY",
+          "cached": false,
+          "confidence": 0.8
+        },
+        {
+          "source": "GOODREADS",
+          "cached": false,
+          "confidence": 0.85
+        },
+        {
+          "source": "LIBRARY_THING",
+          "cached": false,
+          "confidence": 0.4
+        },
+        {
+          "source": "WIKIPEDIA",
+          "cached": false,
+          "confidence": 0.3
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "timestamp": "2025-08-31 18:10:51",
+  "success_rate": 100.0,
+  "records_processed": 2,
+  "results": [
+    {
+      "barcode": "B000001",
+      "final_title": "The Great Novel: Special Edition",
+      "final_author": "Jane A. Smith",
+      "final_classification": "Literary Fiction",
+      "classification_confidence": 0.92,
+      "genres": [
+        "Drama",
+        "Literary",
+        "Fiction",
+        "Literary Fiction"
+      ],
+      "source_data": {
+        "marc": {
+          "barcode": "B000001",
+          "title": "The Great Novel",
+          "author": "Jane Smith",
+          "call_number": "FIC SMI",
+          "lccn": "2023000001",
+          "isbn": "9781234567890"
+        },
+        "google_books": {
+          "barcode": "B000001",
+          "title": "The Great Novel: Special Edition",
+          "author": "Jane A. Smith",
+          "genres": [
+            "Fiction",
+            "Literary"
+          ],
+          "classification": "FIC",
+          "series": "Great Works",
+          "volume": "1",
+          "publication_year": "2023",
+          "description": "A masterpiece of modern literature"
+        },
+        "vertex_ai": {
+          "barcode": "B000001",
+          "classification": "Literary Fiction",
+          "confidence": 0.92,
+          "source_urls": [
+            "https://books.google.com/books?id=123",
+            "https://www.loc.gov/item/2023000001/"
+          ],
+          "review_snippets": [
+            "A profound exploration of human nature",
+            "Smith's best work to date"
+          ],
+          "genres": [
+            "Literary Fiction",
+            "Drama"
+          ],
+          "series_info": "Great Works Series",
+          "publication_years": {
+            "copyright": "2023",
+            "original": "2022"
+          }
+        },
+        "loc": {}
+      }
+    },
+    {
+      "barcode": "B000002",
+      "final_title": "Science Handbook: Revised Edition",
+      "final_author": "Dr. John Doe",
+      "final_classification": "500",
+      "classification_confidence": 0.8,
+      "genres": [
+        "Reference",
+        "Science"
+      ],
+      "source_data": {
+        "marc": {
+          "barcode": "B000002",
+          "title": "Science Handbook",
+          "author": "John Doe",
+          "call_number": "500 DOE",
+          "lccn": "2023000002",
+          "isbn": "9780987654321"
+        },
+        "google_books": {
+          "barcode": "B000002",
+          "title": "Science Handbook: Revised Edition",
+          "author": "Dr. John Doe",
+          "genres": [
+            "Science",
+            "Reference"
+          ],
+          "classification": "500",
+          "publication_year": "2022",
+          "description": "Comprehensive guide to modern science"
+        },
+        "vertex_ai": {},
+        "loc": {}
+      }
+    }
+  ]
+}

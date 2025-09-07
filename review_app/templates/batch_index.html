@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Record Review - Progress: {{ progress }}%</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .progress-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #4CAF50;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .record-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .record-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .record-cover {
+            width: 140px;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-left: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 3px solid #fff;
+        }
+        
+        .no-cover {
+            width: 140px;
+            height: 210px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 8px;
+            margin-left: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .record-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 8px 0;
+            line-height: 1.2;
+        }
+        
+        .record-author {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin: 0 0 20px 0;
+        }
+        
+        .record-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .review-section {
+            border-top: 3px solid #eee;
+            padding-top: 25px;
+            margin-top: 20px;
+        }
+        
+        .decision-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-approve {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-reject {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-skip {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-next {
+            background: #9b59b6;
+            color: white;
+            padding: 18px 30px;
+            font-size: 1.1em;
+            grid-column: span 2;
+        }
+        
+        .btn-selected {
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5) !important;
+            transform: scale(1.05);
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .completed-message {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .completed-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        .verification-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .verified {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .unverified {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .price-info {
+            background: #e8f4f8 !important;
+            border-left-color: #3498db !important;
+        }
+        
+        @media (max-width: 768px) {
+            .record-header {
+                flex-direction: column;
+            }
+            
+            .record-cover, .no-cover {
+                margin-left: 0;
+                margin-top: 20px;
+                align-self: center;
+            }
+            
+            .decision-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-next {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Header -->
+    <div class="progress-header">
+        <h2>📚 Batch Record Review</h2>
+        <div class="progress-info">
+            Processed: <strong>{{ processed }}</strong> of <strong>{{ total }}</strong> records
+            ({{ progress }}% complete)
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ progress }}%;">
+                {{ progress }}%
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if record %}
+        <!-- Current Record -->
+        <div class="record" id="record-{{ record.id }}">
+            <div class="record-header">
+                <div class="record-info">
+                    <h2 class="record-title">
+                        {{ record.title }}
+                        <span class="verification-badge {{ 'verified' if record.verified else 'unverified' }}">
+                            {{ 'Verified' if record.verified else 'Unverified' }}
+                        </span>
+                    </h2>
+                    <p class="record-author">by {{ record.author }}</p>
+                    
+                    <div class="record-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Record #</div>
+                            {{ record.record_number }}
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ISBN</div>
+                            {{ record.isbn or 'No ISBN' }}
+                        </div>
+                        <div class="detail-item price-info">
+                            <div class="detail-label">Price</div>
+                            ${{ "%.2f"|format(record.price) }}
+                            <small>(MSRP-aware pricing)</small>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Original Input</div>
+                            <code>{{ record.original_line|truncate(50) }}</code>
+                        </div>
+                    </div>
+                    
+                    {% if record.description %}
+                    <div class="detail-item">
+                        <div class="detail-label">Description</div>
+                        {{ record.description }}
+                    </div>
+                    {% endif %}
+                    
+                    {% if record.notes %}
+                    <div class="detail-item">
+                        <div class="detail-label">System Notes</div>
+                        {{ record.notes }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                {% if record.has_cover and record.cover_url %}
+                <img src="{{ url_for('serve_cover', filename=record.cover_url) }}" 
+                     alt="Cover image" class="record-cover"
+                     onerror="this.style.display='none'; document.getElementById('no-cover').style.display='flex';">
+                {% else %}
+                <div class="no-cover" id="no-cover">
+                    📚<br>No Cover<br>Available
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="review-section">
+                <h3>Review Decision</h3>
+                
+                {% if record.decision %}
+                <div class="detail-item">
+                    <div class="detail-label">Current Decision</div>
+                    <strong style="color: #27ae60;">{{ record.decision|upper }}</strong>
+                    {% if record.review_notes %}
+                    <br>Notes: {{ record.review_notes }}
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                <div class="decision-buttons">
+                    <button class="btn btn-approve" onclick="setDecision('approve')">
+                        ✅ Approve
+                    </button>
+                    <button class="btn btn-reject" onclick="setDecision('reject')">
+                        ❌ Reject
+                    </button>
+                    <button class="btn btn-info" onclick="setDecision('info')">
+                        ❓ Need Info
+                    </button>
+                    <button class="btn btn-skip" onclick="setDecision('skip')">
+                        ⏭️ Skip
+                    </button>
+                </div>
+                
+                <textarea id="review-notes" 
+                          placeholder="Add specific notes or instructions for this record...">{{ record.review_notes or '' }}</textarea>
+                
+                <button class="btn btn-next" onclick="submitAndNext()">
+                    💾 Save & Next Record →
+                </button>
+            </div>
+        </div>
+        
+        {% else %}
+        <!-- Completion Message -->
+        <div class="completed-message">
+            <h2 class="completed-title">🎉 Review Complete!</h2>
+            <p>You've successfully reviewed all {{ total }} records.</p>
+            <p>All decisions have been saved and are ready for export.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        let currentDecision = null;
+        
+        function setDecision(decision) {
+            currentDecision = decision;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.decision-buttons .btn');
+            buttons.forEach(btn => btn.classList.remove('btn-selected'));
+            
+            const decisionBtn = Array.from(buttons).find(btn => 
+                btn.textContent.toLowerCase().includes(decision)
+            );
+            if (decisionBtn) {
+                decisionBtn.classList.add('btn-selected');
+            }
+        }
+        
+        function submitAndNext() {
+            const notes = document.getElementById('review-notes').value;
+            
+            if (!currentDecision) {
+                alert('Please select a decision first');
+                return;
+            }
+            
+            fetch('/api/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    record_id: {{ record.id }},
+                    decision: currentDecision,
+                    notes: notes
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reload to get next record
+                    location.reload();
+                } else {
+                    alert('Error saving decision');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving decision');
+            });
+        }
+        
+        // Initialize button states from existing decisions
+        document.addEventListener('DOMContentLoaded', function() {
+            {% if record and record.decision %}
+                setDecision('{{ record.decision }}');
+            {% endif %}
+            
+            // Auto-focus on notes field
+            const notesField = document.getElementById('review-notes');
+            if (notesField) {
+                notesField.focus();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                switch(event.key) {
+                    case '1': event.preventDefault(); setDecision('approve'); break;
+                    case '2': event.preventDefault(); setDecision('reject'); break;
+                    case '3': event.preventDefault(); setDecision('info'); break;
+                    case '4': event.preventDefault(); setDecision('skip'); break;
+                    case 'Enter': event.preventDefault(); submitAndNext(); break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

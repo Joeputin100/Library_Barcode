@@ -1,0 +1,16 @@
+{
+  "task": "Replace button method with double-tap to open edit modal in Review & Edit tab",
+  "file": "new_book_importer_tui.py",
+  "progress": {
+    "buttons_removed": true,
+    "double_tap_not_implemented": true,
+    "current_state": "Buttons have been removed from the table but double-tap functionality not yet implemented"
+  },
+  "next_steps": [
+    "Implement double-tap detection in table widget",
+    "Add event handler for double-tap to open edit modal",
+    "Connect double-tap to existing edit functionality",
+    "Test double-tap behavior"
+  ],
+  "timestamp": "2025-08-24T05:50:00Z"
+}

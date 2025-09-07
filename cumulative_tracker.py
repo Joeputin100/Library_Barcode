@@ -32,22 +32,25 @@ def update_cumulative_state(current_run_state):
     """Update cumulative state with current run data"""
     cumulative = load_cumulative_state()
     
-    # Update cumulative counts - ACCUMULATE instead of overwrite
+    # Update cumulative counts - ACCUMULATE values from current run
     for source, count in current_run_state["source_counts"].items():
         if source in cumulative["source_counts_cumulative"]:
-            cumulative["source_counts_cumulative"][source] += count
+            # Only accumulate positive values (ignore negative NO_ENRICHMENT)
+            if count > 0:
+                cumulative["source_counts_cumulative"][source] += count
     
-    # Update totals
-    cumulative["total_records_processed"] = current_run_state["total_records"]
+    # Update totals - use maximum of current or cumulative
+    cumulative["total_records_processed"] = max(cumulative["total_records_processed"], current_run_state["total_records"])
     cumulative["runs_completed"] += 1
     
-    # Calculate overall completion
-    total_enriched = sum(
-        cumulative["source_counts_cumulative"].get(source, 0) 
-        for source in ["LIBRARY_OF_CONGRESS", "GOOGLE_BOOKS", "VERTEX_AI", "OPEN_LIBRARY"]
-    )
-    cumulative["overall_completion_percentage"] = (total_enriched / 809) * 100
+    # Calculate overall completion based on records processed, not source counts
+    # Each record can be enriched by multiple sources, so we use total_records_processed
+    cumulative["overall_completion_percentage"] = (cumulative["total_records_processed"] / 809) * 100
     cumulative["timestamp"] = datetime.now().isoformat()
+    
+    # Recalculate NO_ENRICHMENT properly for cumulative state
+    # Use the actual total records processed, not sum of source counts
+    cumulative["source_counts_cumulative"]["NO_ENRICHMENT"] = 809 - cumulative["total_records_processed"]
     
     # Save cumulative state
     with open("cumulative_enrichment_state.json", "w") as f:
