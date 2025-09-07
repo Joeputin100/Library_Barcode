@@ -3,13 +3,13 @@
     {
       "id": "manual_review",
       "name": "Manual Record Review",
-      "status": "ready",
+      "status": "completed",
       "priority": "high",
       "description": "Manual review and decision making for all 808 records",
       "estimated_time": "4-6 hours",
       "dependencies": [],
-      "progress": "0/808 records reviewed",
-      "next_steps": ["Approve/deny records", "Add enhancement notes", "Prepare for MARC export"]
+      "progress": "65/808 records reviewed (3 accepted, 0 needs info)",
+      "next_steps": ["Finalize accept/reject decisions"]
     },
     {
       "id": "marc_export",
@@ -87,6 +87,69 @@
       "status": "completed",
       "completion_time": "2025-01-02T00:00:00Z",
       "description": "Processed 20+ records, improved publisher completion from 0.5% to 2.7%"
+    },
+    {
+      "id": "source_attribution_cleanup",
+      "name": "Source Attribution Cleanup",
+      "status": "completed",
+      "completion_time": "2025-09-06T21:32:28Z",
+      "description": "Cleaned source attributions from 296 records, moved to separate field for display"
+    },
+    {
+      "id": "flask_app_enhancements",
+      "name": "Flask App Navigation Enhancements",
+      "status": "completed",
+      "completion_time": "2025-09-06T21:32:28Z",
+      "description": "Added 'Go To' record functionality and improved navigation"
+    },
+    {
+      "id": "isbn_correction_enrichment",
+      "name": "ISBN Correction & Re-enrichment",
+      "status": "completed",
+      "completion_time": "2025-09-06T21:32:28Z",
+      "description": "Fixed missing ISBNs for records 1-7 and re-enriched with Vertex AI"
+    },
+    {
+      "id": "author_format_fix",
+      "name": "Author Name Format Standardization",
+      "status": "completed",
+      "completion_time": "2025-09-06T22:15:00Z",
+      "description": "Converted author names from 'First Last' to 'Last, First' format across all records"
+    },
+    {
+      "id": "call_number_fix",
+      "name": "Call Number Cutter Correction",
+      "status": "completed",
+      "completion_time": "2025-09-06T22:15:00Z",
+      "description": "Fixed call number cutters to use author's last name instead of first name (108 records)"
+    },
+    {
+      "id": "notes_format_fix",
+      "name": "Notes Field Standardization",
+      "status": "completed",
+      "completion_time": "2025-09-06T22:15:00Z",
+      "description": "Standardized notes field format to: FIC/NF Genre(2 words max) Language(if not English) Format(if special) (788 records)"
+    },
+    {
+      "id": "needs_info_processing",
+      "name": "Needs Info Records Processing",
+      "status": "completed",
+      "completion_time": "2025-09-07T06:15:00Z",
+      "description": "Processed 54 Needs Info records with specific update instructions for call numbers, authors, titles, and notes"
+    },
+    {
+      "id": "complex_author_cleaning",
+      "name": "Complex Author Field Cleaning",
+      "status": "completed",
+      "completion_time": "2025-09-07T06:15:00Z",
+      "description": "Cleaned 282 complex author fields with source information, multiple authors, and organization names in records 151-808"
+    },
+    {
+      "id": "database_schema_update",
+      "name": "Database Schema Enhancement",
+      "status": "completed",
+      "completion_time": "2025-09-07T06:15:00Z",
+      "description": "Added user_instructions field to separate user review notes from MARC 500 notes, updated Flask app and UI"
     }
   ],
   "blockers": []
