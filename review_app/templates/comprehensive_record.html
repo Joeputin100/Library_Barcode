@@ -298,7 +298,108 @@
             </div>
             
             <div class="fields-section">
+                <!-- Primary Fields: Title and Author -->
+                {% for field_name in ['title', 'author'] %}
+                {% if field_data[field_name] %}
+                <div class="field-item">
+                    <div class="field-label">{{ field_labels[field_name] }}</div>
+                    <div class="field-value">{{ field_data[field_name].value }}</div>
+                    <div class="field-meta">
+                        <span class="confidence {% if field_data[field_name].confidence >= 0.8 %}high{% elif field_data[field_name].confidence >= 0.5 %}medium{% else %}low{% endif %}">
+                            Reliability: {% if field_data[field_name].confidence >= 0.9 %}Excellent{% elif field_data[field_name].confidence >= 0.8 %}Very High{% elif field_data[field_name].confidence >= 0.7 %}High{% elif field_data[field_name].confidence >= 0.6 %}Good{% elif field_data[field_name].confidence >= 0.5 %}Moderate{% elif field_data[field_name].confidence >= 0.4 %}Fair{% elif field_data[field_name].confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
+                        </span>
+                        {% if field_data[field_name].sources %}
+                        <span>
+                            Sources: 
+                            {% for source in field_data[field_name].sources %}
+                            <span class="source-badge">{{ source.source }}</span>
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                <!-- Descriptive Fields Cluster: Call Number, Notes, Genre, Subjects -->
+                <div class="field-group">
+                    <div class="field-group-title">Descriptive Information</div>
+                    {% for field_name in ['call_number', 'notes', 'genre', 'subjects'] %}
+                    {% if field_data[field_name] and field_data[field_name].value != 'Not Available' %}
+                    <div class="field-item">
+                        <div class="field-label">{{ field_labels[field_name] }}</div>
+                        <div class="field-value">{{ field_data[field_name].value }}</div>
+                        <div class="field-meta">
+                            <span class="confidence {% if field_data[field_name].confidence >= 0.8 %}high{% elif field_data[field_name].confidence >= 0.5 %}medium{% else %}low{% endif %}">
+                                Reliability: {% if field_data[field_name].confidence >= 0.9 %}Excellent{% elif field_data[field_name].confidence >= 0.8 %}Very High{% elif field_data[field_name].confidence >= 0.7 %}High{% elif field_data[field_name].confidence >= 0.6 %}Good{% elif field_data[field_name].confidence >= 0.5 %}Moderate{% elif field_data[field_name].confidence >= 0.4 %}Fair{% elif field_data[field_name].confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
+                            </span>
+                            {% if field_data[field_name].sources %}
+                            <span>
+                                Sources: 
+                                {% for source in field_data[field_name].sources %}
+                                <span class="source-badge">{{ source.source }}</span>
+                                {% endfor %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Publication Information -->
+                {% for field_name in ['publisher', 'publication_date', 'physical_description', 'series', 'series_volume', 'language', 'edition'] %}
+                {% if field_data[field_name] and field_data[field_name].value != 'Not Available' %}
+                <div class="field-item">
+                    <div class="field-label">{{ field_labels[field_name] }}</div>
+                    <div class="field-value">{{ field_data[field_name].value }}</div>
+                    <div class="field-meta">
+                        <span class="confidence {% if field_data[field_name].confidence >= 0.8 %}high{% elif field_data[field_name].confidence >= 0.5 %}medium{% else %}low{% endif %}">
+                            Reliability: {% if field_data[field_name].confidence >= 0.9 %}Excellent{% elif field_data[field_name].confidence >= 0.8 %}Very High{% elif field_data[field_name].confidence >= 0.7 %}High{% elif field_data[field_name].confidence >= 0.6 %}Good{% elif field_data[field_name].confidence >= 0.5 %}Moderate{% elif field_data[field_name].confidence >= 0.4 %}Fair{% elif field_data[field_name].confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
+                        </span>
+                        {% if field_data[field_name].sources %}
+                        <span>
+                            Sources: 
+                            {% for source in field_data[field_name].sources %}
+                            <span class="source-badge">{{ source.source }}</span>
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                <!-- Identifier Fields Cluster: ISBN and LCCN -->
+                <div class="field-group">
+                    <div class="field-group-title">Identifiers</div>
+                    {% for field_name in ['isbn', 'lccn'] %}
+                    {% if field_data[field_name] and field_data[field_name].value != 'Not Available' %}
+                    <div class="field-item">
+                        <div class="field-label">{{ field_labels[field_name] }}</div>
+                        <div class="field-value">{{ field_data[field_name].value }}</div>
+                        <div class="field-meta">
+                            <span class="confidence {% if field_data[field_name].confidence >= 0.8 %}high{% elif field_data[field_name].confidence >= 0.5 %}medium{% else %}low{% endif %}">
+                                Reliability: {% if field_data[field_name].confidence >= 0.9 %}Excellent{% elif field_data[field_name].confidence >= 0.8 %}Very High{% elif field_data[field_name].confidence >= 0.7 %}High{% elif field_data[field_name].confidence >= 0.6 %}Good{% elif field_data[field_name].confidence >= 0.5 %}Moderate{% elif field_data[field_name].confidence >= 0.4 %}Fair{% elif field_data[field_name].confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
+                            </span>
+                            {% if field_data[field_name].sources %}
+                            <span>
+                                Sources: 
+                                {% for source in field_data[field_name].sources %}
+                                <span class="source-badge">{{ source.source }}</span>
+                                {% endfor %}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Remaining Fields (excluding removed ones) -->
                 {% for field_name, field_info in field_data.items() %}
+                {% if field_name not in ['title', 'author', 'call_number', 'notes', 'genre', 'subjects', 'publisher', 'publication_date', 'physical_description', 'series', 'series_volume', 'language', 'edition', 'isbn', 'lccn', 'enhanced_description', 'data_quality_score', 'record_number'] %}
+                {% if field_info.value != 'Not Available' %}
                 <div class="field-item">
                     <div class="field-label">{{ field_labels[field_name] }}</div>
                     <div class="field-value">{{ field_info.value }}</div>
@@ -316,6 +417,8 @@
                         {% endif %}
                     </div>
                 </div>
+                {% endif %}
+                {% endif %}
                 {% endfor %}
             </div>
             
