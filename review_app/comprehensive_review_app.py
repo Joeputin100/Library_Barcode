@@ -27,7 +27,8 @@ MARC_FIELD_LABELS = {
     'publisher': 'Publisher (264$a)',
     'publication_date': 'Publication Date (264$c)',
     'physical_description': 'Physical Description (300)',
-    'series': 'Series (490)',
+    'series': 'Series (490$a)',
+    'series_volume': 'Series Number (490$v/830$v)',
     'subjects': 'Subjects (650)',
     'genre': 'Genre (655)',
     'language': 'Language (008/041)',
@@ -171,20 +172,124 @@ def enhance_record_with_notes(record):
     
     return record
 
+def estimate_dewey_decimal(record):
+    """Estimate Dewey Decimal number based on subjects and genre"""
+    subjects = record.get('subjects', '').lower()
+    genre = record.get('genre', '').lower()
+    title = record.get('title', '').lower()
+    
+    # Common subject to Dewey Decimal mappings
+    dewey_mappings = {
+        # Computer science, information, general works
+        'computer': '000', 'programming': '005', 'internet': '004',
+        'technology': '600', 'science': '500',
+        
+        # Philosophy & psychology
+        'philosophy': '100', 'psychology': '150', 'meditation': '158',
+        'mindfulness': '158', 'buddhism': '294',
+        
+        # Religion
+        'religion': '200', 'christian': '230', 'bible': '220',
+        
+        # Social sciences
+        'social': '300', 'economics': '330', 'law': '340', 'education': '370',
+        'military': '355', 'political': '320', 'family': '306', 'sociology': '301',
+        'veterans': '362', 'government': '350',
+        
+        # Language
+        'language': '400', 'english': '420',
+        
+        # Pure science
+        'mathematics': '510', 'physics': '530', 'chemistry': '540', 'biology': '570',
+        
+        # Technology
+        'medicine': '610', 'engineering': '620', 'agriculture': '630',
+        'business': '650', 'management': '658', 'marketing': '659',
+        
+        # Arts & recreation
+        'art': '700', 'music': '780', 'sports': '790',
+        
+        # Literature
+        'literature': '800', 'poetry': '811', 'drama': '812',
+        
+        # History & geography
+        'history': '900', 'geography': '910', 'biography': '920'
+    }
+    
+    # Check subjects first
+    for keyword, dewey in dewey_mappings.items():
+        if keyword in subjects:
+            return dewey
+    
+    # Then check genre
+    for keyword, dewey in dewey_mappings.items():
+        if keyword in genre:
+            return dewey
+    
+    # Finally check title
+    for keyword, dewey in dewey_mappings.items():
+        if keyword in title:
+            return dewey
+    
+    # Default for unknown non-fiction
+    return "000"
+
 def generate_library_call_number(record):
     """Generate special library call number with format: FIC/DDN AUTHOR YEAR"""
+    import re
+    
     # Determine Fiction/Non-Fiction
     genre = record.get('genre', '').lower()
     subjects = record.get('subjects', '').lower()
     title = record.get('title', '').lower()
     
     fiction_indicators = ['fiction', 'novel', 'story', 'tale', 'fantasy', 'sci-fi', 'mystery', 
-                         'romance', 'thriller', 'horror', 'adventure', 'historical fiction']
+                         'romance', 'thriller', 'horror', 'adventure']
     
-    is_fiction = any(indicator in genre or indicator in subjects or indicator in title for indicator in fiction_indicators)
+    nonfiction_indicators = ['nonfiction', 'non-fiction', 'history', 'science', 'biography', 'reference', 
+                           'textbook', 'guide', 'manual', 'directory', 'government', 'education', 
+                           'psychology', 'philosophy', 'religion', 'buddhism', 'meditation', 'mindfulness',
+                           'social', 'economics', 'political', 'military', 'law', 'technology', 'computer']
     
-    # Part 1: FIC for fiction, DDN for non-fiction
-    part1 = "FIC" if is_fiction else "DDN"
+    # Check for explicit fiction indicators
+    has_fiction = any(indicator in genre or indicator in subjects or indicator in title for indicator in fiction_indicators)
+    
+    # Check for explicit nonfiction indicators
+    has_nonfiction = any(indicator in genre or indicator in subjects or indicator in title for indicator in nonfiction_indicators)
+    
+    # Prioritize nonfiction when both fiction and nonfiction indicators are present
+    if has_nonfiction:
+        is_fiction = False  # Treat as nonfiction if any nonfiction indicators found
+    else:
+        # Default to fiction detection only if no nonfiction indicators
+        is_fiction = has_fiction
+    
+    # Part 1: FIC for fiction, Dewey Decimal for non-fiction
+    if is_fiction:
+        part1 = "FIC"
+    else:
+        # Use actual Dewey Decimal number if available, otherwise use best estimate
+        dewey_decimal = record.get('dewey_decimal', '')
+        if dewey_decimal and dewey_decimal not in ['', 'None', 'Not Available']:
+            # Extract just the numeric part if it includes text
+            dewey_match = re.search(r'(\d+(?:\.\d+)?)', str(dewey_decimal))
+            if dewey_match:
+                dewey_num = dewey_match.group(1)
+                # Truncate to 2 significant digits: xxx, xxx.x, or xxx.xx
+                if '.' in dewey_num:
+                    integer_part, decimal_part = dewey_num.split('.')
+                    # Keep up to 2 decimal places
+                    if len(decimal_part) > 2:
+                        decimal_part = decimal_part[:2]
+                    part1 = f"{integer_part}.{decimal_part}"
+                else:
+                    # No decimal part, use as is
+                    part1 = dewey_num
+            else:
+                part1 = "000"  # Default if no valid Dewey number
+        else:
+            # Make educated guess based on subjects/genre
+            part1 = estimate_dewey_decimal(record)
     
     # Part 2: First three letters of first author's last name
     author = record.get('author', '')
@@ -206,12 +311,22 @@ def generate_library_call_number(record):
     pub_date = record.get('publication_date', '')
     part3 = ""
     if pub_date:
-        # Extract 4-digit year
+        # Extract 4-digit year - handle various formats
         year_match = re.search(r'\b(\d{4})\b', pub_date)
         if year_match:
             part3 = year_match.group(1)
         else:
-            part3 = "0000"  # Default if no valid year
+            # Handle special formats like "c1994-present"
+            copyright_match = re.search(r'c(\d{4})', pub_date.lower())
+            if copyright_match:
+                part3 = copyright_match.group(1)
+            else:
+                # Look for any 4-digit number that might be a year
+                any_year_match = re.search(r'(19\d{2}|20\d{2})', pub_date)
+                if any_year_match:
+                    part3 = any_year_match.group(1)
+                else:
+                    part3 = "0000"  # Default if no valid year
     else:
         part3 = "0000"  # Default if no date
     
@@ -376,15 +491,19 @@ def record_detail(record_id):
 def record_action(record_id):
     """Handle review actions"""
     action = request.form.get('action')
-    notes = request.form.get('notes', '')
+    user_instructions = request.form.get('user_instructions', '')
     
     conn = get_db_connection()
     
     if action in ['accept', 'reject', 'needs_info']:
+        # Convert to consistent status values
+        status_map = {'accept': 'accepted', 'reject': 'rejected', 'needs_info': 'needs_info'}
+        db_status = status_map[action]
+        
         conn.execute('''
-            UPDATE records SET status = ?, notes = ?, reviewed_at = CURRENT_TIMESTAMP 
+            UPDATE records SET status = ?, user_instructions = ?, reviewed_at = CURRENT_TIMESTAMP 
             WHERE id = ?
-        ''', (action, notes, record_id))
+        ''', (db_status, user_instructions, record_id))
         conn.commit()
     
     conn.close()

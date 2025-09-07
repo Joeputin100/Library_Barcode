@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "python(*)",
+      "ls(*)",
+      "sed(*)",
+      "sqlite3(*)",
+      "grep(*)",
+      "Bash(*)",
+      "git(*)"
+    ]
+  }
+}

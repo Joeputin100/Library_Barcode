@@ -17,13 +17,25 @@
             top: 0;
             background: #2c3e50;
             color: white;
-            padding: 8px 12px;
+            padding: 6px 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 1000;
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .header-top-row {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .header-bottom-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             gap: 8px;
         }
         
@@ -45,11 +57,13 @@
         .stat-number {
             font-size: 1em;
             font-weight: bold;
+            color: white;
         }
         
         .stat-label {
             font-size: 0.7em;
-            opacity: 0.8;
+            opacity: 0.9;
+            color: white;
         }
         
         .accepted { color: #27ae60; }
@@ -220,49 +234,53 @@
 </head>
 <body>
     <div class="sticky-header">
-        <div>
-            <h2>Record #{{ record.record_number }}</h2>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">{{ stats.total }}</div>
-                <div class="stat-label">Total</div>
+        <div class="header-top-row">
+            <div>
+                <h2 style="margin: 0; font-size: 1.1em;">Record #{{ record.record_number }}</h2>
             </div>
-            <div class="stat-card">
-                <div class="stat-number accepted">{{ stats.accepted }}</div>
-                <div class="stat-label">Accepted</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number rejected">{{ stats.rejected }}</div>
-                <div class="stat-label">Rejected</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number needs-info">{{ stats.needs_info }}</div>
-                <div class="stat-label">Needs Info</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number unreviewed">{{ stats.unreviewed }}</div>
-                <div class="stat-label">Unreviewed</div>
-            </div>
-        </div>
-        
-        <div class="navigation">
-            {% if prev_record %}
-            <button class="nav-button" onclick="window.location.href='/record/{{ prev_record }}'">
-                ← Previous
-            </button>
-            {% else %}
-            <button class="nav-button" disabled>← Previous</button>
-            {% endif %}
             
-            {% if next_record %}
-            <button class="nav-button" onclick="window.location.href='/record/{{ next_record }}'">
-                Next →
-            </button>
-            {% else %}
-            <button class="nav-button" disabled>Next →</button>
-            {% endif %}
+            <div class="navigation">
+                {% if prev_record %}
+                <button class="nav-button" onclick="window.location.href='/record/{{ prev_record }}'">
+                    ← Previous
+                </button>
+                {% else %}
+                <button class="nav-button" disabled>← Previous</button>
+                {% endif %}
+                
+                {% if next_record %}
+                <button class="nav-button" onclick="window.location.href='/record/{{ next_record }}'">
+                    Next →
+                </button>
+                {% else %}
+                <button class="nav-button" disabled>Next →</button>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="header-bottom-row">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ stats.total }}</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number accepted">{{ stats.accepted }}</div>
+                    <div class="stat-label">Accepted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number rejected">{{ stats.rejected }}</div>
+                    <div class="stat-label">Rejected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number needs-info">{{ stats.needs_info }}</div>
+                    <div class="stat-label">Needs Info</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number unreviewed">{{ stats.unreviewed }}</div>
+                    <div class="stat-label">Unreviewed</div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -274,7 +292,7 @@
                     {% if record.author %}{{ record.author }} • {% endif %}
                     Record #{{ record.record_number }} • 
                     {% if record.data_quality_score %}
-                    Overall Quality: {% if record.data_quality_score >= 0.9 %}Excellent ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.8 %}Very High ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.7 %}High ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.6 %}Good ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.5 %}Moderate ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.4 %}Fair ({{ (record.data_quality_score * 100)|int }}%){% elif record.data_quality_score >= 0.3 %}Low ({{ (record.data_quality_score * 100)|int }}%){% else %}Very Low ({{ (record.data_quality_score * 100)|int }}%){% endif %}
+                    Overall Quality: {% if record.data_quality_score >= 0.9 %}Excellent{% elif record.data_quality_score >= 0.8 %}Very High{% elif record.data_quality_score >= 0.7 %}High{% elif record.data_quality_score >= 0.6 %}Good{% elif record.data_quality_score >= 0.5 %}Moderate{% elif record.data_quality_score >= 0.4 %}Fair{% elif record.data_quality_score >= 0.3 %}Low{% else %}Very Low{% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -286,7 +304,7 @@
                     <div class="field-value">{{ field_info.value }}</div>
                     <div class="field-meta">
                         <span class="confidence {% if field_info.confidence >= 0.8 %}high{% elif field_info.confidence >= 0.5 %}medium{% else %}low{% endif %}">
-                            Reliability: {% if field_info.confidence >= 0.9 %}Excellent ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.8 %}Very High ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.7 %}High ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.6 %}Good ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.5 %}Moderate ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.4 %}Fair ({{ (field_info.confidence * 100)|int }}%){% elif field_info.confidence >= 0.3 %}Low ({{ (field_info.confidence * 100)|int }}%){% else %}Very Low ({{ (field_info.confidence * 100)|int }}%){% endif %}
+                            Reliability: {% if field_info.confidence >= 0.9 %}Excellent{% elif field_info.confidence >= 0.8 %}Very High{% elif field_info.confidence >= 0.7 %}High{% elif field_info.confidence >= 0.6 %}Good{% elif field_info.confidence >= 0.5 %}Moderate{% elif field_info.confidence >= 0.4 %}Fair{% elif field_info.confidence >= 0.3 %}Low{% else %}Very Low{% endif %}
                         </span>
                         {% if field_info.sources %}
                         <span>
@@ -305,10 +323,10 @@
                 <h3>Review Decision</h3>
                 <form method="POST" action="/record/{{ record.id }}/action">
                     <textarea 
-                        name="notes" 
+                        name="user_instructions" 
                         class="notes-area" 
-                        placeholder="Add review notes here..."
-                    ></textarea>
+                        placeholder="Add review instructions here..."
+                    >{{ record.user_instructions or '' }}</textarea>
                     
                     <div class="action-buttons">
                         <button type="submit" name="action" value="accept" class="action-button accept-btn">
